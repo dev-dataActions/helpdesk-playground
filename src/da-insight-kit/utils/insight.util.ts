@@ -13,8 +13,7 @@ export interface InsightConfig {
   metrics: Metric[];
 }
 
-export const getInsightConfig = (id: string, workspaceId: string): InsightConfig => {
-  console.log(id, workspaceId);
+export const getInsightConfig = (insightId: string, workspaceId: string): InsightConfig => {
   return {
     title: "New users",
     description: "The contribution of new users in total revenue.",

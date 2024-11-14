@@ -6,6 +6,7 @@ export default {
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/da-insight-kit/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/module/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
     extend: {
