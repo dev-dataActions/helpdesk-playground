@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { TfiInfoAlt } from "react-icons/tfi";
 import { PiDotsThreeVerticalBold } from "react-icons/pi";
 import { ChartMap, ChartTypes } from "../constants/charts.contant";
@@ -6,6 +6,9 @@ import { TimeGrain } from "../constants/date.constant";
 import { Button } from "../common/Button";
 import { Item, PopUpMenu } from "../common/PopUpMenu";
 import { Entry } from "../dataResolvers/simple";
+import { ChartDataResolverMap } from "../dataResolvers/constants/dataResolvers.constant";
+import { Metric } from "../utils/insight.util";
+import { ChartConfigResolverMap } from "../chartConfigResolvers/constants/chartConfigResolvers.contant";
 
 export interface InsightMetricFilters {
   dimensionFilters?: {
@@ -41,18 +44,30 @@ export interface ChartsConfig {
   bars?: Config[];
 }
 
+export enum ValidSpanColumns {
+  ONE = "col-span-1",
+  TWO = "col-span-2",
+  THREE = "col-span-3",
+  FOUR = "col-span-4",
+  SIX = "col-span-6",
+  TWELVE = "col-span-12",
+}
+
 export interface InsightProps {
   id: string;
+  workspaceId: string;
   type: ChartTypes;
+  metrics: Metric[];
   title?: string;
   description?: string;
-  dataResolver: (filters: InsightFilters | null) => Promise<Entry[]>;
-  chartConfigResolver: (filters: InsightFilters | null) => Promise<ChartsConfig>;
+  dataResolver?: (filters: InsightFilters | null) => Promise<Entry[]>;
+  chartConfigResolver?: (filters: InsightFilters | null) => Promise<ChartsConfig>;
   filters?: InsightFilters | null | undefined;
   actions?: Item[];
   options?: InsightOptions;
   className?: string;
   hideCard?: boolean;
+  spanCols?: ValidSpanColumns;
 }
 
 const getDefaultFilters = (initialFilters: InsightFilters | null | undefined): InsightFilters => ({
@@ -64,7 +79,9 @@ const getDefaultFilters = (initialFilters: InsightFilters | null | undefined): I
 
 export const Insight: React.FC<InsightProps> = ({
   id,
+  workspaceId,
   type,
+  metrics,
   title = "Insight",
   description,
   dataResolver,
@@ -74,6 +91,7 @@ export const Insight: React.FC<InsightProps> = ({
   options = {},
   className,
   hideCard = false,
+  spanCols,
 }) => {
   const [showDescription, setShowDescription] = useState<boolean>(false);
   const [filters, setFilters] = useState<InsightFilters | null>(null);
@@ -81,33 +99,49 @@ export const Insight: React.FC<InsightProps> = ({
   const [data, setData] = useState<Entry[] | null>(null);
   const Chart = ChartMap[type];
 
+  const defaultDataResolver = useCallback(
+    (filters: InsightFilters | null): Promise<Entry[]> =>
+      ChartDataResolverMap[type]?.(metrics, filters, workspaceId),
+    [metrics, type, workspaceId]
+  );
+
+  const defaultChartConfigResolver = useCallback(
+    (filters: InsightFilters | null): Promise<ChartsConfig> =>
+      ChartConfigResolverMap[type]?.(metrics, filters),
+    [metrics, type]
+  );
+
   useEffect(() => setFilters(getDefaultFilters(_filters)), [_filters]);
 
   useEffect(() => {
     if (!filters) return;
-    chartConfigResolver?.(filters).then((config: ChartsConfig) => setChartsConfig(config));
-  }, [chartConfigResolver, filters]);
+    (chartConfigResolver ?? defaultChartConfigResolver)(filters).then((config: ChartsConfig) =>
+      setChartsConfig(config)
+    );
+  }, [chartConfigResolver, defaultChartConfigResolver, filters]);
 
   useEffect(() => {
     if (!filters) return;
-    dataResolver?.(filters).then((_data: Entry[]) => setData(_data));
-  }, [dataResolver, filters]);
+    (dataResolver ?? defaultDataResolver)(filters).then((_data: Entry[]) => setData(_data));
+  }, [dataResolver, defaultDataResolver, filters]);
 
   if (hideCard)
     return (
-      <Chart
-        chartsConfig={chartsConfig}
-        filters={filters}
-        data={data}
-        loading={!data || !chartsConfig}
-        options={options}
-      />
+      <div className={`${spanCols} ${className}`}>
+        <Chart
+          chartsConfig={chartsConfig}
+          filters={filters}
+          data={data}
+          loading={!data || !chartsConfig}
+          options={options}
+        />
+      </div>
     );
 
   return (
     <div
       key={id}
-      className={`w-full h-full flex flex-col justify-between relative border border-gray-200 bg-white rounded-xl ${className}`}
+      className={`w-full flex flex-col justify-between relative border border-gray-200 bg-white rounded-xl ${className} ${spanCols}`}
     >
       <div id="chart-header" className="py-2 px-3 border-b" onClick={(e) => e.stopPropagation()}>
         <div className="flex flex-wrap gap-2 justify-between items-center">

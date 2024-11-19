@@ -1,1 +1,2 @@
-export { InsightContainer as Insight } from "./components/InsightContainer";
+export { Dashboard } from "./components/Dashboard";
+export { Insight } from "./components/Insight";

@@ -14,11 +14,11 @@ export const List = ({ title, items, className }) => {
               <Link
                 href={item.href ?? "#"}
                 className={`block px-2 py-1.5 w-full ${
-                  item.current ? "bg-gray-200" : ""
-                } hover:bg-gray-200 rounded-md text-sm`}
+                  item.current ? "bg-gray-200 text-black" : "text-white"
+                } hover:bg-gray-200 hover:text-black rounded-md text-sm`}
                 shallow
               >
-                <Label icon={item.icon} text={item.label} />
+                <Label icon={item.icon} text={item.label} className={item.className} />
               </Link>
             )}
           </li>

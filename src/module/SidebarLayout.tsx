@@ -1,5 +1,4 @@
 import { FiBook } from "react-icons/fi";
-import { Label } from "./Label";
 import { List } from "./List";
 import { ReactNode } from "react";
 
@@ -7,20 +6,24 @@ export const SidebarLayout = ({ children }: { children: ReactNode }) => {
   const navItems = [
     {
       id: 1,
-      label: <Label icon={<FiBook size={16} />} text="Analytics" />,
+      icon: <FiBook size={16} />,
+      label: "Analytics",
       current: true,
     },
     {
       id: 2,
-      label: <Label icon={<FiBook size={16} />} text="Orders" className="!text-white" />,
+      icon: <FiBook size={16} />,
+      label: "Orders",
     },
     {
       id: 3,
-      label: <Label icon={<FiBook size={16} />} text="Bookings" className="!text-white" />,
+      icon: <FiBook size={16} />,
+      label: "Bookings",
     },
     {
       id: 4,
-      label: <Label icon={<FiBook size={16} />} text="Reviews" className="!text-white" />,
+      icon: <FiBook size={16} />,
+      label: "Reviews",
     },
   ];
   return (
