@@ -1,7 +1,7 @@
 import { InsightFilters, InsightMetricFilters } from "../components/Insight";
 import { TimeGrain, TimeGrainAPIKey, TimeGrainOffset } from "../constants/date.constant";
 import { getAllChartDataV1 } from "../services/query.svc";
-import { shortenDate } from "../utils/date.util";
+import { formatDate, generateDatePairs, shortenDate } from "../utils/date.util";
 import { Metric } from "../utils/insight.util";
 
 export interface Entry {
@@ -20,32 +20,130 @@ const getApiCalls = (metrics: Metric[], filters: InsightFilters | null, workspac
 
     if (typeof insightMetricFilters === "object") {
       const {
-        dimensionFilters = null,
-        showDimensionContributionIn,
+        // dimensionFilters = null,
+        //showDimensionContributionIn,
         showDimensionSplitIn,
-        compareWith,
+        // compareWith,
       } = insightMetricFilters;
 
-      apiCalls.push(
-        getAllChartDataV1({
-          workspaceId,
-          pageSize:
-            (timeRange / TimeGrainOffset[timeGrain as keyof typeof TimeGrainOffset]) *
-            (compareWith ? 2 : 1),
-          timeGrain: TimeGrainAPIKey[timeGrain],
-          metric: metric.metricKey,
-          insightType: "summary",
-          ...(dimensionFilters ? { filters: dimensionFilters } : {}),
-          ...(showDimensionContributionIn ? { dimensions: [showDimensionContributionIn] } : {}),
-          ...(showDimensionSplitIn
-            ? { dimensions: [showDimensionSplitIn], dimension_expand: true }
-            : {}),
-        })
-      );
+      // const pageSize =
+      //   (timeRange / TimeGrainOffset[timeGrain as keyof typeof TimeGrainOffset]) *
+      //   (compareWith ? 2 : 1);
+
+      // const d = generateDatePairs(pageSize, timeGrain);
+      // const fromtime = formatDate(d[d.length - 1].start, "yyyy-MM-dd");
+      // const totime = formatDate(d[0].end, "yyyy-MM-dd");
+
+      if (showDimensionSplitIn) {
+        apiCalls.push(
+          getAllChartDataV1({
+            workspaceId,
+            payload: {
+              fromtime: "2024-01-01",
+              totime: "2024-06-30",
+              metric_name: metric.metricKey,
+              timegrain: TimeGrainAPIKey[timeGrain],
+              dimensions: showDimensionSplitIn,
+            },
+            insightType: "contributor",
+          })
+        );
+      } else {
+        apiCalls.push(
+          getAllChartDataV1({
+            workspaceId,
+            payload: {
+              fromtime: "2024-01-01",
+              totime: "2024-06-30",
+              metric_name: metric.metricKey,
+              timegrain: TimeGrainAPIKey[timeGrain],
+            },
+            insightType: "trend",
+            // ...(dimensionFilters ? { filters: dimensionFilters } : {}),
+          })
+        );
+      }
     }
   });
 
   return apiCalls;
+};
+
+const transformData = (
+  data: Entry[] = [],
+  metrics: Metric[] = [],
+  filters: InsightFilters | null = {}
+) => {
+  let transformedData = [...data];
+
+  metrics.forEach((metric) => {
+    if (filters[metric.metricKey]?.compareWith) {
+      const numericValues = data
+        .map((item) => item[metric.metricKey])
+        .filter((value) => typeof value === "number" && !isNaN(value));
+      let value = null;
+      switch (filters[metric.metricKey]?.compareWith) {
+        case "Prev. period": {
+          const res = [];
+          const offset = Math.floor(filters?.timeRange / TimeGrainOffset[filters?.timeGrain]);
+          for (let i = data.length - 1; i - offset >= 0; i--) {
+            const curr = data[i];
+            const prev = data[i - offset];
+            res.push({
+              ...curr,
+              prevDateLabel: prev.date,
+              [`Prev. period ${metric.metricLabel}`]: prev[metric.metricKey],
+            });
+          }
+          transformedData = res.reverse();
+          break;
+        }
+        case "Max": {
+          value = Math.max(...numericValues);
+          transformedData = data.map((item) => ({
+            ...item,
+            [`Max ${metric.metricLabel}`]: value,
+          }));
+          break;
+        }
+        case "Min": {
+          value = Math.min(...numericValues);
+          transformedData = data.map((item) => ({
+            ...item,
+            [`Min ${metric.metricLabel}`]: value,
+          }));
+          break;
+        }
+        case "Median": {
+          const sortedValues = numericValues.sort((a, b) => a - b);
+          const middleIndex = Math.floor(sortedValues.length / 2);
+
+          if (sortedValues.length % 2 === 0) {
+            value = (sortedValues[middleIndex - 1] + sortedValues[middleIndex]) / 2;
+          } else {
+            value = sortedValues[middleIndex];
+          }
+          transformedData = data.map((item) => ({
+            ...item,
+            [`Median ${metric.metricLabel}`]: value,
+          }));
+          break;
+        }
+        case "Average": {
+          const avg = numericValues.reduce((acc, curr) => acc + curr) / numericValues.length;
+          value = avg;
+          transformedData = data.map((item) => ({
+            ...item,
+            [`Average ${metric.metricLabel}`]: value,
+          }));
+          break;
+        }
+        default:
+          transformedData = [...data];
+      }
+    }
+  });
+  return transformedData;
 };
 
 const transformResponses = (
@@ -71,11 +169,15 @@ const transformResponses = (
       });
     });
   });
-  return Object.values(data).sort((a: Entry, b: Entry) => {
-    if (new Date(a[sortKey]) < new Date(b[sortKey])) return -1;
-    if (new Date(a[sortKey]) > new Date(b[sortKey])) return 1;
-    return 0;
-  });
+  return transformData(
+    Object.values(data).sort((a: Entry, b: Entry) => {
+      if (new Date(a[sortKey]) < new Date(b[sortKey])) return -1;
+      if (new Date(a[sortKey]) > new Date(b[sortKey])) return 1;
+      return 0;
+    }),
+    metrics,
+    filters
+  );
 };
 
 export const simpleDataResolver = async (

@@ -5,7 +5,7 @@ export const List = ({ title, items, className }) => {
   return (
     <div className={className}>
       {title && <div className="text-xs font-medium p-1 flex items-center gap-x-1">{title}</div>}
-      <ul role="list" className="flex flex-col gap-y-1">
+      <ul role="list" className="flex flex-col gap-y-2">
         {items.map((item, index) => (
           <li key={item.id ?? index}>
             {item.component ? (
@@ -14,8 +14,8 @@ export const List = ({ title, items, className }) => {
               <Link
                 href={item.href ?? "#"}
                 className={`block px-2 py-1.5 w-full ${
-                  item.current ? "bg-gray-200 text-black" : "text-white"
-                } hover:bg-gray-200 hover:text-black rounded-md text-sm`}
+                  item.current ? "bg-gray-100 text-black" : ""
+                } hover:bg-gray-100 hover:text-black rounded-md text-sm`}
                 shallow
               >
                 <Label icon={item.icon} text={item.label} className={item.className} />

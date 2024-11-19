@@ -1,16 +1,10 @@
 import React, { memo } from "react";
-import {
-  ComposedChart,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-  Area,
-} from "recharts";
+import { ComposedChart, CartesianGrid, Tooltip, ResponsiveContainer, Area } from "recharts";
 import uniqid from "uniqid";
 import { Loader } from "../../common/Loader";
 import { getChange, getSum } from "../../utils/general.util";
 import { Stat } from "../BigNumber/components/Stat";
-import { PeriodAPIKey } from "../../constants/date.constant";
+import { TimeGrainAPIKey } from "../../constants/date.constant";
 import { customRechartTooltip } from "../../utils/customRechartTooltip";
 
 const BigNumberWithTrend = memo(function BigNumberWithTrend({
@@ -45,7 +39,7 @@ const BigNumberWithTrend = memo(function BigNumberWithTrend({
           value={getSum(data[data.length - 1], [metricLabel]).toFixed(3)}
           change={`${metricChange}%`}
           changeType={metricChange > 0 ? "positive" : "negative"}
-          interval={`last ${PeriodAPIKey[filters.periodRangeGap]}`}
+          interval={`last ${TimeGrainAPIKey[filters.timeGrain]}`}
           prevValue={getSum(data[data.length - 2], [metricLabel]).toFixed(3)}
         />
       </div>

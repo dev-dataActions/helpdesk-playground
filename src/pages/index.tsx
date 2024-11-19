@@ -1,50 +1,50 @@
-import { Insight } from "@/da-insight-kit";
-import { ChartConfigResolverMap } from "@/da-insight-kit/chartConfigResolvers/constants/chartConfigResolvers.contant";
-import {
-  DashboardLayout,
-  ValidDashboardColumns,
-} from "@/da-insight-kit/components/DashboardLayout";
-import { ValidSpanColumns } from "@/da-insight-kit/components/Insight";
-import { ChartTypes } from "@/da-insight-kit/constants/charts.contant";
-import { TimeGrain } from "@/da-insight-kit/constants/date.constant";
-import { ChartDataResolverMap } from "@/da-insight-kit/dataResolvers/constants/dataResolvers.constant";
+import { useRouter } from "next/router";
+import { GiAmericanFootballPlayer } from "react-icons/gi";
+import { PiGameControllerLight } from "react-icons/pi";
+import { TfiGame } from "react-icons/tfi";
 
 const AnalyticsPage = () => {
+  const router = useRouter();
   return (
-    <DashboardLayout cols={ValidDashboardColumns.SIX} title="KPI's summary">
-      <Insight
-        id="1"
-        workspaceId="42eed85d-b1d7-4b8e-8621-1dfa79e72cf1"
-        type={ChartTypes.BIGNUMBERWITHTREND}
-        title="Active users"
-        metrics={[
-          {
-            metricKey: "active_users",
-            metricLabel: "Active users",
-          },
-        ]}
-        description={"This is a Chart"}
-        chartConfigResolver={() =>
-          ChartConfigResolverMap[ChartTypes.BIGNUMBERWITHTREND]?.([
-            { chartType:"AREA",
-              metricKey: "active_users",
-              metricLabel: "Active users",
-            },
-          ])
-        }
-        dataResolver={(_filters) =>
-          ChartDataResolverMap[ChartTypes.BIGNUMBERWITHTREND]?.([
-            {
-              metricKey: "active_users",
-              metricLabel: "Active users",
-            },
-          ], _filters)
-        }
-        filters={{periodRangeGap : TimeGrain.MONTHLY}}
-        spanCols={ValidSpanColumns.TWO}
-        className="h-60"
-      />
-    </DashboardLayout>
+    <div className="p-5">
+      <div className="mb-3">
+        <p className="font-medium text-3xl">Insights</p>
+        <p className="text-gray-600 text-sm">View player insights across your tournaments</p>
+      </div>
+
+      <div className="flex justify-start items-center gap-3">
+        <div
+          className="bg-white rounded-md w-[25%] p-4 h-32 border cursor-pointer"
+          onClick={() => router.push("/tournament")}
+        >
+          <div className="flex justify-between items-center mb-1">
+            <p className="text-lg">Tournaments</p>
+            <TfiGame size={18} />
+          </div>
+          <div className="text-sm text-gray-600">View insights of tournaments across regions</div>
+        </div>
+
+        <div className="bg-white rounded-md w-[25%] p-4 h-32 border cursor-pointer">
+          <div className="flex justify-between items-center mb-1">
+            <p className="text-lg">Players</p>
+            <GiAmericanFootballPlayer size={18} />
+          </div>
+          <div className="text-sm text-gray-600">
+            View insights of player engagement of tournaments
+          </div>
+        </div>
+
+        <div className="bg-white rounded-md w-[25%] p-4 h-32 border cursor-pointer">
+          <div className="flex justify-between items-center mb-1">
+            <p className="text-lg">Participation</p>
+            <PiGameControllerLight size={18} />
+          </div>
+          <div className="text-sm text-gray-600">
+            View insights of tournaments participations across regions
+          </div>
+        </div>
+      </div>
+    </div>
   );
 };
 

@@ -1,15 +1,13 @@
+const NEXT_PUBLIC_BACKEND_URL = "https://backend.dataactions.ai";
 export const getDimensionOptions = async (params) => {
   try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/dimension`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(params),
-      }
-    );
+    const response = await fetch(`${NEXT_PUBLIC_BACKEND_URL}/dimension`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(params),
+    });
 
     if (!response.ok) {
       throw new Error("Network response was not ok");

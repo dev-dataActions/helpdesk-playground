@@ -54,7 +54,6 @@ export enum ValidSpanColumns {
 }
 
 export interface InsightProps {
-  id: string;
   workspaceId: string;
   type: ChartTypes;
   metrics: Metric[];
@@ -74,11 +73,11 @@ const getDefaultFilters = (initialFilters: InsightFilters | null | undefined): I
   index: initialFilters?.index ?? "date",
   timeRange: initialFilters?.timeRange ?? 90,
   cadence: initialFilters?.cadence ?? TimeGrain.MONTHLY,
-  timeGrain: initialFilters?.cadence ?? TimeGrain.MONTHLY,
+  timeGrain: initialFilters?.timeGrain ?? TimeGrain.MONTHLY,
+  ...initialFilters,
 });
 
 export const Insight: React.FC<InsightProps> = ({
-  id,
   workspaceId,
   type,
   metrics,
@@ -140,7 +139,6 @@ export const Insight: React.FC<InsightProps> = ({
 
   return (
     <div
-      key={id}
       className={`w-full flex flex-col justify-between relative border border-gray-200 bg-white rounded-xl ${className} ${spanCols}`}
     >
       <div id="chart-header" className="py-2 px-3 border-b" onClick={(e) => e.stopPropagation()}>

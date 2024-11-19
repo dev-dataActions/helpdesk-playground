@@ -1,37 +1,57 @@
 import { FiBook } from "react-icons/fi";
 import { List } from "./List";
 import { ReactNode } from "react";
+import { IoIosArrowDown } from "react-icons/io";
+import { IoHomeOutline } from "react-icons/io5";
+import { CiGlobe } from "react-icons/ci";
+import { FaRegMessage } from "react-icons/fa6";
+import { BiMessageRounded } from "react-icons/bi";
+import { GiMoneyStack } from "react-icons/gi";
+import { TbDatabaseExport } from "react-icons/tb";
+import { CgInsights } from "react-icons/cg";
 
 export const SidebarLayout = ({ children }: { children: ReactNode }) => {
   const navItems = [
     {
       id: 1,
-      icon: <FiBook size={16} />,
-      label: "Analytics",
-      current: true,
+      icon: <IoHomeOutline size={16} />,
+      label: "Home",
     },
     {
       id: 2,
-      icon: <FiBook size={16} />,
-      label: "Orders",
+      icon: <CiGlobe size={16} />,
+      label: "Geography",
     },
     {
       id: 3,
-      icon: <FiBook size={16} />,
-      label: "Bookings",
+      icon: <BiMessageRounded size={16} />,
+      label: "Tournament",
     },
     {
       id: 4,
-      icon: <FiBook size={16} />,
-      label: "Reviews",
+      icon: <GiMoneyStack size={16} />,
+      label: "Sponsers",
+    },
+    {
+      id: 5,
+      icon: <TbDatabaseExport size={16} />,
+      label: "Export",
+    },
+    {
+      id: 6,
+      icon: <CgInsights size={16} />,
+      href: "/",
+      label: "Insights",
+      current: true,
     },
   ];
   return (
     <div className="relative bg-gray-100">
-      <div className="fixed top-0 left-0 z-30 w-56">
-        <div className="flex flex-col h-screen bg-gray-800 border-r">
-          <div className="flex justify-between items-center border-b h-12 px-3">
-            <p className="text-white">UberEats</p>
+      <div className="fixed top-0 left-0 z-30 w-64">
+        <div className="flex flex-col h-screen bg-white border-r">
+          <div className="flex items-center border-b h-12 px-3 gap-2">
+            <p className="text-sm">Organiser</p>
+            <IoIosArrowDown size={12} />
           </div>
 
           <nav className="flex flex-col justify-between flex-grow p-4">
@@ -41,13 +61,13 @@ export const SidebarLayout = ({ children }: { children: ReactNode }) => {
       </div>
 
       <div
-        className={`transition-all h-12 w-full md:pl-56 px-4 fixed top-0 left-0 z-10 border-b border-gray-400`}
+        className={`transition-all h-12 w-full md:pl-64 px-4 fixed top-0 left-0 z-10 bg-white border border-b`}
       >
-        <div className="px-5 h-full flex items-center">
-          <p>Analytics</p>
+        <div className="px-5 h-full flex items-center text-sm">
+          <p>Insights</p>
         </div>
       </div>
-      <div className="min-h-screen md:pl-56 pt-12">{children}</div>
+      <div className="min-h-screen md:pl-64 pt-12">{children}</div>
     </div>
   );
 };

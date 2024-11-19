@@ -2,17 +2,15 @@ import { ChartTypes } from "../constants/charts.contant";
 import { getDimensionOptions } from "../services/dimensions.svc";
 import { shuffle } from "../utils/general.util";
 import { ColorPalette } from "../constants/colors.constants";
-export const getDimensionValues = async (
-  metric,
-  dimension,
-  timegrain = "weekly"
-) => {
+import { TimeGrainAPIKey } from "../constants/date.constant";
+
+export const getDimensionValues = async (metric, dimension, timegrain = "weekly") => {
   const data = await getDimensionOptions({
     timegrain: TimeGrainAPIKey[timegrain],
     metric: metric,
     dimensions: [dimension],
   });
-  return data?.dimensions?.[dimension] ?? [];
+  return data?.dimensions?.[dimension].filter((_, i) => i < 5) ?? [];
 };
 
 const colors = shuffle(Object.values(ColorPalette));
@@ -49,6 +47,7 @@ const getLineConfig = (metric, index, splitDimensionValues) => {
     },
   ];
 };
+
 const getAreaConfig = (metric, index, splitDimensionValues) => {
   if (splitDimensionValues) {
     return splitDimensionValues.map((dimensionValue, i) => ({
@@ -63,6 +62,7 @@ const getAreaConfig = (metric, index, splitDimensionValues) => {
     },
   ];
 };
+
 export const simpleChartConfigResolver = async (metrics = [], filters) => {
   const chartsConfig = {
     bars: [],
@@ -74,8 +74,8 @@ export const simpleChartConfigResolver = async (metrics = [], filters) => {
     (metric) =>
       (metric.filters = {
         ...(filters?.[metric.metricKey] ?? {}),
-        periodRangeGap: filters?.periodRangeGap,
-        timeRangeGap: filters?.timeRangeGap,
+        timeGrain: filters?.timeGrain,
+        timeRange: filters?.timeRange,
       })
   );
 
@@ -85,27 +85,21 @@ export const simpleChartConfigResolver = async (metrics = [], filters) => {
       splitDimensionValues = await getDimensionValues(
         metric.metricKey,
         metric?.filters?.showDimensionSplitIn,
-        metric.filters.periodRangeGap
+        metric.filters.timeGrain
       );
     }
 
     switch (metric.chartType) {
       case ChartTypes.BAR: {
-        chartsConfig.bars.push(
-          ...getBarConfig(metric, index, splitDimensionValues)
-        );
+        chartsConfig.bars.push(...getBarConfig(metric, index, splitDimensionValues));
         break;
       }
       case ChartTypes.LINE: {
-        chartsConfig.lines.push(
-          ...getLineConfig(metric, index, splitDimensionValues)
-        );
+        chartsConfig.lines.push(...getLineConfig(metric, index, splitDimensionValues));
         break;
       }
       case ChartTypes.AREA: {
-        chartsConfig.areas.push(
-          ...getAreaConfig(metric, index, splitDimensionValues)
-        );
+        chartsConfig.areas.push(...getAreaConfig(metric, index, splitDimensionValues));
         break;
       }
       default: {

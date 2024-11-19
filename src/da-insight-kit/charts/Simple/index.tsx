@@ -15,7 +15,6 @@ import {
   Area,
 } from "recharts";
 
-
 interface ChartElementConfig {
   dataKey: string;
   color: string;
@@ -52,7 +51,7 @@ const SimpleChart: React.FC<SimpleChartProps> = ({
 }) => {
   const { compactMode = false } = options;
 
-  const { filters = {} } = {} as any; 
+  const { filters = {} } = {} as any;
   const { index = "date" } = filters;
 
   if (loading) {
@@ -61,7 +60,7 @@ const SimpleChart: React.FC<SimpleChartProps> = ({
 
   if (!data || data.length === 0) {
     return (
-      <div className="w-full h-48 flex flex-col">
+      <div className="w-full h-full flex flex-col">
         <div className="flex w-full grow justify-center items-center border border-gray-300 border-dashed rounded-md">
           <p className="text-gray-500 text-sm">No data</p>
         </div>
@@ -70,7 +69,7 @@ const SimpleChart: React.FC<SimpleChartProps> = ({
   }
 
   return (
-    <div className="flex flex-col justify-between h-48">
+    <div className="flex flex-col justify-between h-full">
       <ResponsiveContainer width={width} height={height} minHeight={140}>
         <ComposedChart data={data}>
           {!compactMode && (
