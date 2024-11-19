@@ -50,7 +50,6 @@ const SimpleChart: React.FC<SimpleChartProps> = ({
   chartsConfig = {},
   options = {},
 }) => {
-    console.log(data,chartsConfig)
   const { compactMode = false } = options;
 
   const { filters = {} } = {} as any; 

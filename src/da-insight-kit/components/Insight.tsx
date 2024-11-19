@@ -122,7 +122,7 @@ export const Insight: React.FC<InsightProps> = ({
 
   useEffect(() => {
     if (!filters) return;
-    (dataResolver ?? defaultDataResolver)(filters).then((_data: Entry[]) => setData(_data));
+    (dataResolver ?? defaultDataResolver)(filters)?.then((_data: Entry[]) => setData(_data));
   }, [dataResolver, defaultDataResolver, filters]);
 
   if (hideCard)
