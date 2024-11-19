@@ -6,6 +6,7 @@ import {
 } from "@/da-insight-kit/components/DashboardLayout";
 import { ValidSpanColumns } from "@/da-insight-kit/components/Insight";
 import { ChartTypes } from "@/da-insight-kit/constants/charts.contant";
+import { TimeGrain } from "@/da-insight-kit/constants/date.constant";
 import { ChartDataResolverMap } from "@/da-insight-kit/dataResolvers/constants/dataResolvers.constant";
 
 const AnalyticsPage = () => {
@@ -14,7 +15,7 @@ const AnalyticsPage = () => {
       <Insight
         id="1"
         workspaceId="42eed85d-b1d7-4b8e-8621-1dfa79e72cf1"
-        type={ChartTypes.SIMPLE_CHART}
+        type={ChartTypes.BIGNUMBERWITHTREND}
         title="Active users"
         metrics={[
           {
@@ -24,7 +25,7 @@ const AnalyticsPage = () => {
         ]}
         description={"This is a Chart"}
         chartConfigResolver={() =>
-          ChartConfigResolverMap[ChartTypes.SIMPLE_CHART]?.([
+          ChartConfigResolverMap[ChartTypes.BIGNUMBERWITHTREND]?.([
             { chartType:"AREA",
               metricKey: "active_users",
               metricLabel: "Active users",
@@ -32,13 +33,14 @@ const AnalyticsPage = () => {
           ])
         }
         dataResolver={(_filters) =>
-          ChartDataResolverMap[ChartTypes.SIMPLE_CHART]?.([
+          ChartDataResolverMap[ChartTypes.BIGNUMBERWITHTREND]?.([
             {
               metricKey: "active_users",
               metricLabel: "Active users",
             },
           ], _filters)
         }
+        filters={{periodRangeGap : TimeGrain.MONTHLY}}
         spanCols={ValidSpanColumns.TWO}
         className="h-60"
       />

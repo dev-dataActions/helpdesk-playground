@@ -21,3 +21,8 @@ export enum TimeGrainPrefix {
   WEEKLY = "W",
   MONTHLY = "M",
 }
+export const PeriodAPIKey = {
+  [TimeGrain.DAILY]: "day",
+  [TimeGrain.WEEKLY]: "week",
+  [TimeGrain.MONTHLY]: "month",
+};
