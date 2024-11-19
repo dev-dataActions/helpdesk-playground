@@ -21,7 +21,6 @@ const CustomTooltipContent = ({ item, chartConfig }) => (
 );
 
 const Pivot = ({ data = [], chartsConfig }) => {
-  console.log(chartsConfig);
   const colValues = useMemo(() => {
     if (!chartsConfig?.column) return [];
     return [...new Set(data?.map((item) => item[chartsConfig.column]))];
