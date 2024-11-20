@@ -8,12 +8,30 @@ import {
   ResponsiveContainer,
   Tooltip,
 } from "recharts";
-const data = [
-  { segment: "NU Revenue", value: 800 },
-  { segment: "Churn Revenue", value: 300 },
-  { segment: "RU Revenue", value: 500 },
-  { segment: "AU Revenue", value: 700 },
-];
+
+
+ const data2 = [
+      {
+          "fromtime": "2024-01-01",
+          "totime": "2024-06-01",
+          "LOL": "234",
+          "Dota": "436",
+          "Pubg": "769",
+      },
+  ]
+
+  const newObj=(data)=>{
+    const arr=[];
+    for(let key in data[0]){
+      if(key !== "fromtime" && key !== "totime"){
+        const obj ={}
+        obj["segment"] = key;
+        obj["value"] = data[0][key];
+        arr.push(obj);
+      }
+    }
+    return arr;
+  }
 
 
 const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
@@ -52,10 +70,10 @@ const PieChart = ({ loading, filters }) => {
   return (
     <div className="flex justify-center items-center h-full">
       <ResponsiveContainer width="100%" height="100%" minHeight={240}>
-        <PChart width={730} height={250}>
+        <PChart width={730} height={}>
           <Tooltip content={customRechartTooltip} />
           <Pie
-            data={data}
+            data={newObj(data2)}
             cx="50%"
             cy="50%"
             labelLine={false}
