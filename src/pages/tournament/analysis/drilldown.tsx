@@ -29,7 +29,7 @@ const AnalyticsPage = () => {
             },
           }}
           spanCols={ValidSpanColumns.THREE}
-          className="h-60"
+          className="h-80"
         />
         <Insight
           workspaceId={WORKSPACE_ID}
@@ -48,7 +48,7 @@ const AnalyticsPage = () => {
             },
           }}
           spanCols={ValidSpanColumns.THREE}
-          className="h-60"
+          className="h-80"
         />
       </DashboardLayout>
     </>
