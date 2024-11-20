@@ -106,30 +106,34 @@ export const simpleChartConfigResolver = async (metrics = [], filters) => {
       }
     }
 
-    if (metric.filters.compareWith === "Prev. period") {
+    if (metric.filters.compareWith?.indexOf("Prev. period") > -1) {
       chartsConfig.lines.push({
         dataKey: `Prev. period ${metric.metricLabel}`,
         color: colors[(index + 1) % colors.length],
       });
-    } else if (metric.filters.compareWith === "Max") {
+    }
+    if (metric.filters.compareWith?.indexOf("Max") > -1) {
       chartsConfig.lines.push({
         dataKey: `Max ${metric.metricLabel}`,
-        color: colors[(index + 1) % colors.length],
+        color: colors[(index + 2) % colors.length],
       });
-    } else if (metric.filters.compareWith === "Min") {
+    }
+    if (metric.filters.compareWith?.indexOf("Min") > -1) {
       chartsConfig.lines.push({
         dataKey: `Min ${metric.metricLabel}`,
-        color: colors[(index + 1) % colors.length],
+        color: colors[(index + 3) % colors.length],
       });
-    } else if (metric.filters.compareWith === "Median") {
+    }
+    if (metric.filters.compareWith?.indexOf("Median") > -1) {
       chartsConfig.lines.push({
         dataKey: `Median ${metric.metricLabel}`,
-        color: colors[(index + 1) % colors.length],
+        color: colors[(index + 4) % colors.length],
       });
-    } else if (metric.filters.compareWith === "Average") {
+    }
+    if (metric.filters.compareWith?.indexOf("Average") > -1) {
       chartsConfig.lines.push({
         dataKey: `Average ${metric.metricLabel}`,
-        color: colors[(index + 1) % colors.length],
+        color: colors[(index + 5) % colors.length],
       });
     }
   });

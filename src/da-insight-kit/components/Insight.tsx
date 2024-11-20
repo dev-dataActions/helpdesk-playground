@@ -17,7 +17,7 @@ export interface InsightMetricFilters {
   }[];
   showDimensionContributionIn?: string;
   showDimensionSplitIn?: string;
-  compareWith?: string;
+  compareWith?: string[];
 }
 
 export interface InsightFilters {

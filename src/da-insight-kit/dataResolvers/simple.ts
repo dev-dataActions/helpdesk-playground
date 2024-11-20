@@ -96,65 +96,67 @@ const transformData = (
         .map((item) => item[metric.metricKey])
         .filter((value) => typeof value === "number" && !isNaN(value));
       let value = null;
-      switch (filters[metric.metricKey]?.compareWith) {
-        case "Prev. period": {
-          const res = [];
-          const offset = Math.floor(filters?.timeRange / TimeGrainOffset[filters?.timeGrain]);
-          for (let i = data.length - 1; i - offset >= 0; i--) {
-            const curr = data[i];
-            const prev = data[i - offset];
-            res.push({
-              ...curr,
-              prevDateLabel: prev.date,
-              [`Prev. period ${metric.metricLabel}`]: prev[metric.metricKey],
-            });
+      filters[metric.metricKey]?.compareWith?.forEach((cw) => {
+        switch (cw) {
+          case "Prev. period": {
+            const res = [];
+            const offset = Math.floor(filters?.timeRange / TimeGrainOffset[filters?.timeGrain]);
+            for (let i = data.length - 1; i - offset >= 0; i--) {
+              const curr = data[i];
+              const prev = data[i - offset];
+              res.push({
+                ...curr,
+                prevDateLabel: prev.date,
+                [`Prev. period ${metric.metricLabel}`]: prev[metric.metricKey],
+              });
+            }
+            transformedData = res.reverse();
+            break;
           }
-          transformedData = res.reverse();
-          break;
-        }
-        case "Max": {
-          value = Math.max(...numericValues);
-          transformedData = data.map((item) => ({
-            ...item,
-            [`Max ${metric.metricLabel}`]: value,
-          }));
-          break;
-        }
-        case "Min": {
-          value = Math.min(...numericValues);
-          transformedData = data.map((item) => ({
-            ...item,
-            [`Min ${metric.metricLabel}`]: value,
-          }));
-          break;
-        }
-        case "Median": {
-          const sortedValues = numericValues.sort((a, b) => a - b);
-          const middleIndex = Math.floor(sortedValues.length / 2);
+          case "Max": {
+            value = Math.max(...numericValues);
+            transformedData = transformedData.map((item) => ({
+              ...item,
+              [`Max ${metric.metricLabel}`]: value,
+            }));
+            break;
+          }
+          case "Min": {
+            value = Math.min(...numericValues);
+            transformedData = transformedData.map((item) => ({
+              ...item,
+              [`Min ${metric.metricLabel}`]: value,
+            }));
+            break;
+          }
+          case "Median": {
+            const sortedValues = numericValues.sort((a, b) => a - b);
+            const middleIndex = Math.floor(sortedValues.length / 2);
 
-          if (sortedValues.length % 2 === 0) {
-            value = (sortedValues[middleIndex - 1] + sortedValues[middleIndex]) / 2;
-          } else {
-            value = sortedValues[middleIndex];
+            if (sortedValues.length % 2 === 0) {
+              value = (sortedValues[middleIndex - 1] + sortedValues[middleIndex]) / 2;
+            } else {
+              value = sortedValues[middleIndex];
+            }
+            transformedData = transformedData.map((item) => ({
+              ...item,
+              [`Median ${metric.metricLabel}`]: value,
+            }));
+            break;
           }
-          transformedData = data.map((item) => ({
-            ...item,
-            [`Median ${metric.metricLabel}`]: value,
-          }));
-          break;
+          case "Average": {
+            const avg = numericValues.reduce((acc, curr) => acc + curr) / numericValues.length;
+            value = avg;
+            transformedData = transformedData.map((item) => ({
+              ...item,
+              [`Average ${metric.metricLabel}`]: value,
+            }));
+            break;
+          }
+          default:
+            transformedData = [...data];
         }
-        case "Average": {
-          const avg = numericValues.reduce((acc, curr) => acc + curr) / numericValues.length;
-          value = avg;
-          transformedData = data.map((item) => ({
-            ...item,
-            [`Average ${metric.metricLabel}`]: value,
-          }));
-          break;
-        }
-        default:
-          transformedData = [...data];
-      }
+      });
     }
   });
   return transformedData;
