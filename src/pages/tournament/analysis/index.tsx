@@ -57,11 +57,14 @@ const AnalyticsPage = () => {
               metricKey: "active_users",
               metricLabel: "Active Players",
               chartType: ChartTypes.LINE,
+              // yAxisId:"2"
+ 
             },
             {
               metricKey: "participation_rate",
               metricLabel: "Participation Rate",
               chartType: ChartTypes.LINE,
+              // yAxisId:'1'
             },
           ]}
           spanCols={ValidSpanColumns.THREE}
