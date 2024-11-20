@@ -39,7 +39,7 @@ const AnalyticsPage = () => {
           ]}
           spanCols={ValidSpanColumns.TWO}
           onClick={() => {
-            router.push("/tournament/analysis");
+            router.push("/insights/tournament/analysis");
           }}
           className="h-60"
         />

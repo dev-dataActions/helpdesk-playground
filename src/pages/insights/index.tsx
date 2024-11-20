@@ -15,7 +15,7 @@ const AnalyticsPage = () => {
       <div className="flex justify-start items-center gap-3">
         <div
           className="bg-white rounded-md w-[25%] p-4 h-32 border cursor-pointer"
-          onClick={() => router.push("/tournament")}
+          onClick={() => router.push("/insights/tournament")}
         >
           <div className="flex justify-between items-center mb-1">
             <p className="text-lg">Tournaments</p>

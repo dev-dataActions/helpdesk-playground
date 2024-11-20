@@ -4,6 +4,7 @@ export interface Metric {
   metricKey: string;
   metricLabel: string;
   chartType?: ChartTypes;
+  yAxisId?: string;
 }
 
 export interface InsightConfig {

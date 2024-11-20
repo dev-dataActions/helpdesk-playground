@@ -25,7 +25,7 @@ const AnalyticsPage = () => {
           ]}
           filters={{
             participation_rate: {
-              showDimensionSplitIn: "user__platform",
+              showDimensionSplitIn: "event__game__game_type",
             },
           }}
           spanCols={ValidSpanColumns.THREE}

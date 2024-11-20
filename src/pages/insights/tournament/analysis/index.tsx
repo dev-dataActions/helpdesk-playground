@@ -6,6 +6,7 @@ import {
 import { ValidSpanColumns } from "@/da-insight-kit/components/Insight";
 import { ChartTypes } from "@/da-insight-kit/constants/charts.contant";
 import { useRouter } from "next/router";
+import { FaChevronRight } from "react-icons/fa";
 
 const WORKSPACE_ID = "42eed85d-b1d7-4b8e-8621-1dfa79e72cf1";
 
@@ -18,14 +19,6 @@ const AnalyticsPage = () => {
         title={
           <div className="pb-2">
             <p>Analysis</p>
-            <p
-              className="underline cursor-pointer text-xs text-gray-600 font-normal"
-              onClick={() => {
-                router.push("/tournament/analysis/drilldown");
-              }}
-            >
-              Explore
-            </p>
           </div>
         }
       >
@@ -69,6 +62,15 @@ const AnalyticsPage = () => {
           className="h-80"
         />
       </DashboardLayout>
+      <p
+        className="p-5 underline cursor-pointer text-sm text-center text-gray-600 font-normal flex items-center gap-1 justify-center"
+        onClick={() => {
+          router.push("/insights/tournament/analysis/drilldown");
+        }}
+      >
+        Explore
+        <FaChevronRight size={12} />
+      </p>
     </>
   );
 };
