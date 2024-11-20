@@ -17,7 +17,7 @@ export interface InsightMetricFilters {
   }[];
   showDimensionContributionIn?: string;
   showDimensionSplitIn?: string;
-  compareWith?: string;
+  compareWith?: string[];
 }
 
 export interface InsightFilters {
@@ -146,7 +146,7 @@ export const Insight: React.FC<InsightProps> = ({
       <div id="chart-header" className="py-2 px-3 border-b">
         <div className="flex flex-wrap gap-2 justify-between items-center">
           <p
-            className="text-sm text-left text-nowrap overflow-x-scroll no-scrollbar max-w-[70%] hover:underline cursor-pointer"
+            className="text-sm text-left text-nowrap overflow-x-auto no-scrollbar max-w-[70%] hover:underline cursor-pointer"
             onClick={onClick}
           >
             {title}

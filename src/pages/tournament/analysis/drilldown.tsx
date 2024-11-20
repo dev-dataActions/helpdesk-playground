@@ -24,7 +24,7 @@ const AnalyticsPage = () => {
             },
           ]}
           filters={{
-            revenue: {
+            participation_rate: {
               showDimensionSplitIn: "user__platform",
             },
           }}
@@ -33,7 +33,7 @@ const AnalyticsPage = () => {
         />
         <Insight
           workspaceId={WORKSPACE_ID}
-          title="Player participation by game type"
+          title="Player participation by Frequency"
           type={ChartTypes.SIMPLE_CHART}
           metrics={[
             {
@@ -43,7 +43,7 @@ const AnalyticsPage = () => {
             },
           ]}
           filters={{
-            revenue: {
+            participation_rate: {
               showDimensionSplitIn: "user__platform",
             },
           }}

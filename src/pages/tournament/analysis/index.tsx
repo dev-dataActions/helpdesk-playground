@@ -31,18 +31,18 @@ const AnalyticsPage = () => {
       >
         <Insight
           workspaceId={WORKSPACE_ID}
-          title="Active users"
+          title="Active players"
           type={ChartTypes.SIMPLE_CHART}
           metrics={[
             {
-              metricKey: "revenue",
-              metricLabel: "Active users",
+              metricKey: "active_users",
+              metricLabel: "Active players",
               chartType: ChartTypes.AREA,
             },
           ]}
           filters={{
-            revenue: {
-              compareWith: "Max",
+            active_users: {
+              compareWith: ["Min", "Max", "Average"],
             },
           }}
           spanCols={ValidSpanColumns.THREE}
@@ -59,7 +59,7 @@ const AnalyticsPage = () => {
               chartType: ChartTypes.LINE,
             },
             {
-              metricKey: "revenue",
+              metricKey: "participation_rate",
               metricLabel: "Participation Rate",
               chartType: ChartTypes.LINE,
             },
