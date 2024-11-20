@@ -8,7 +8,7 @@ import { BiMessageRounded } from "react-icons/bi";
 import { GiMoneyStack } from "react-icons/gi";
 import { TbDatabaseExport } from "react-icons/tb";
 import { CgInsights } from "react-icons/cg";
-import {Breadcrumbs} from '../da-insight-kit/common/Breadcrumbs'
+import { Breadcrumbs } from "../da-insight-kit/common/Breadcrumbs";
 import { useRouter } from "next/router";
 import { usePathname } from "next/navigation";
 
@@ -48,18 +48,16 @@ export const SidebarLayout = ({ children }: { children: ReactNode }) => {
     },
   ];
   const router = useRouter();
-  const pathname = usePathname()
+  const pathname = usePathname();
   const createPathArray = () => {
-    const pathname = usePathname();
-  
     if (!pathname) return [];
-  
+
     return pathname
-      .split('/') 
-      .filter(Boolean) 
+      .split("/")
+      .filter(Boolean)
       .map((segment, index) => ({
         label: segment,
-        id: index + 1, 
+        id: index + 1,
       }));
   };
   return (
@@ -81,10 +79,11 @@ export const SidebarLayout = ({ children }: { children: ReactNode }) => {
         className={`transition-all h-12 w-full md:pl-64 px-4 fixed top-0 left-0 z-10 bg-white border border-b`}
       >
         <div className="px-5 h-full flex items-center text-sm">
-          <p>Insights</p><Breadcrumbs onBack={() => router.back()} breadcrumbs={createPathArray()} />
+          <Breadcrumbs
+            onBack={() => router.back()}
+            breadcrumbs={[{ label: "Insight", id: 0 }, ...createPathArray()]}
+          />
         </div>
-      
-
       </div>
       <div className="min-h-screen md:pl-64 pt-12">{children}</div>
     </div>
