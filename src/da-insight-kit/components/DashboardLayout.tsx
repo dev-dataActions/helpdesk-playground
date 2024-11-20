@@ -9,7 +9,7 @@ export enum ValidDashboardColumns {
 }
 
 interface DashboardLayoutProps {
-  title: string;
+  title: string | ReactElement;
   children: ReactElement | ReactElement[];
   cols: ValidDashboardColumns;
 }

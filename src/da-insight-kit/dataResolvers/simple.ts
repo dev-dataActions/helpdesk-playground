@@ -21,7 +21,7 @@ const getApiCalls = (metrics: Metric[], filters: InsightFilters | null, workspac
     if (typeof insightMetricFilters === "object") {
       const {
         // dimensionFilters = null,
-        //showDimensionContributionIn,
+        showDimensionContributionIn,
         showDimensionSplitIn,
         // compareWith,
       } = insightMetricFilters;
@@ -34,7 +34,21 @@ const getApiCalls = (metrics: Metric[], filters: InsightFilters | null, workspac
       // const fromtime = formatDate(d[d.length - 1].start, "yyyy-MM-dd");
       // const totime = formatDate(d[0].end, "yyyy-MM-dd");
 
-      if (showDimensionSplitIn) {
+      if (showDimensionContributionIn) {
+        apiCalls.push(
+          getAllChartDataV1({
+            workspaceId,
+            payload: {
+              fromtime: "2024-01-01",
+              totime: "2024-01-31",
+              metric_name: metric.metricKey,
+              timegrain: TimeGrainAPIKey[timeGrain],
+              dimensions: showDimensionContributionIn,
+            },
+            insightType: "contributor",
+          })
+        );
+      } else if (showDimensionSplitIn) {
         apiCalls.push(
           getAllChartDataV1({
             workspaceId,

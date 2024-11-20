@@ -67,6 +67,7 @@ export interface InsightProps {
   className?: string;
   hideCard?: boolean;
   spanCols?: ValidSpanColumns;
+  onClick?: () => void;
 }
 
 const getDefaultFilters = (initialFilters: InsightFilters | null | undefined): InsightFilters => ({
@@ -91,6 +92,7 @@ export const Insight: React.FC<InsightProps> = ({
   className,
   hideCard = false,
   spanCols,
+  onClick,
 }) => {
   const [showDescription, setShowDescription] = useState<boolean>(false);
   const [filters, setFilters] = useState<InsightFilters | null>(null);
@@ -141,9 +143,12 @@ export const Insight: React.FC<InsightProps> = ({
     <div
       className={`w-full flex flex-col justify-between relative border border-gray-200 bg-white rounded-xl ${className} ${spanCols}`}
     >
-      <div id="chart-header" className="py-2 px-3 border-b" onClick={(e) => e.stopPropagation()}>
+      <div id="chart-header" className="py-2 px-3 border-b">
         <div className="flex flex-wrap gap-2 justify-between items-center">
-          <p className="text-sm text-left text-nowrap overflow-x-scroll no-scrollbar max-w-[70%]">
+          <p
+            className="text-sm text-left text-nowrap overflow-x-scroll no-scrollbar max-w-[70%] hover:underline cursor-pointer"
+            onClick={onClick}
+          >
             {title}
           </p>
           <div className="flex-grow flex items-center justify-end gap-x-2">
