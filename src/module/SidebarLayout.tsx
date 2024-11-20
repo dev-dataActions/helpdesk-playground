@@ -1,14 +1,16 @@
 import { FiBook } from "react-icons/fi";
 import { List } from "./List";
-import { ReactNode } from "react";
+import { ReactNode, useEffect } from "react";
 import { IoIosArrowDown } from "react-icons/io";
 import { IoHomeOutline } from "react-icons/io5";
 import { CiGlobe } from "react-icons/ci";
-import { FaRegMessage } from "react-icons/fa6";
 import { BiMessageRounded } from "react-icons/bi";
 import { GiMoneyStack } from "react-icons/gi";
 import { TbDatabaseExport } from "react-icons/tb";
 import { CgInsights } from "react-icons/cg";
+import {Breadcrumbs} from '../da-insight-kit/common/Breadcrumbs'
+import { useRouter } from "next/router";
+import { usePathname } from "next/navigation";
 
 export const SidebarLayout = ({ children }: { children: ReactNode }) => {
   const navItems = [
@@ -45,6 +47,21 @@ export const SidebarLayout = ({ children }: { children: ReactNode }) => {
       current: true,
     },
   ];
+  const router = useRouter();
+  const pathname = usePathname()
+  const createPathArray = () => {
+    const pathname = usePathname();
+  
+    if (!pathname) return [];
+  
+    return pathname
+      .split('/') 
+      .filter(Boolean) 
+      .map((segment, index) => ({
+        label: segment,
+        id: index + 1, 
+      }));
+  };
   return (
     <div className="relative bg-gray-100">
       <div className="fixed top-0 left-0 z-30 w-64">
@@ -64,8 +81,10 @@ export const SidebarLayout = ({ children }: { children: ReactNode }) => {
         className={`transition-all h-12 w-full md:pl-64 px-4 fixed top-0 left-0 z-10 bg-white border border-b`}
       >
         <div className="px-5 h-full flex items-center text-sm">
-          <p>Insights</p>
+          <p>Insights</p><Breadcrumbs onBack={() => router.back()} breadcrumbs={createPathArray()} />
         </div>
+      
+
       </div>
       <div className="min-h-screen md:pl-64 pt-12">{children}</div>
     </div>
