@@ -14,18 +14,18 @@ const AnalyticsPage = () => {
       <DashboardLayout cols={ValidDashboardColumns.SIX} title="Drilldown along with contributors">
         <Insight
           workspaceId={WORKSPACE_ID}
-          title="Player participation by frequency"
+          title="Player participation by game type"
           type={ChartTypes.SIMPLE_CHART}
           metrics={[
             {
               metricKey: "participation_rate",
-              metricLabel: "Player participation frequency",
+              metricLabel: "Player participation",
               chartType: ChartTypes.BAR,
             },
           ]}
           filters={{
             revenue: {
-              showDimensionSplitIn: "customer__location",
+              showDimensionSplitIn: "user__platform",
             },
           }}
           spanCols={ValidSpanColumns.THREE}
@@ -33,18 +33,18 @@ const AnalyticsPage = () => {
         />
         <Insight
           workspaceId={WORKSPACE_ID}
-          title="Player participation by frequency"
+          title="Player participation by game type"
           type={ChartTypes.SIMPLE_CHART}
           metrics={[
             {
-              metricKey: "revenue",
-              metricLabel: "Player participation frequency",
+              metricKey: "participation_rate",
+              metricLabel: "Player participation",
               chartType: ChartTypes.BAR,
             },
           ]}
           filters={{
             revenue: {
-              showDimensionSplitIn: "customer__location",
+              showDimensionSplitIn: "user__platform",
             },
           }}
           spanCols={ValidSpanColumns.THREE}
