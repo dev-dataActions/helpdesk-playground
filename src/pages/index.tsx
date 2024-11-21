@@ -1,80 +1,11 @@
-import { Loader } from "@/da-insight-kit/common/Loader";
-import { customRechartTooltip } from "@/da-insight-kit/utils/customRechartTooltip";
-import React from "react";
-import {
-  PieChart as PChart,
-  Pie,
-  Cell,
-  ResponsiveContainer,
-  Tooltip,
-} from "recharts";
-const data = [
-  { segment: "NU Revenue", value: 800 },
-  { segment: "Churn Revenue", value: 300 },
-  { segment: "RU Revenue", value: 500 },
-  { segment: "AU Revenue", value: 700 },
-];
-
-
-const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
-
-const RADIAN = Math.PI / 180;
-const renderCustomizedLabel = ({
-  cx,
-  cy,
-  midAngle,
-  innerRadius,
-  outerRadius,
-  index,
-}) => {
-  const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
-  const x = cx + radius * Math.cos(-midAngle * RADIAN);
-  const y = cy + radius * Math.sin(-midAngle * RADIAN);
-
+const AnalyticsPage = () => {
   return (
-    <text
-      x={x}
-      y={y}
-      fill="white"
-      textAnchor={x > cx ? "start" : "end"}
-      dominantBaseline="central"
-      fontSize={6}
-    >
-      {data[index].segment}
-    </text>
-  );
-};
-
-const PieChart = ({ loading, filters }) => {
-  if (loading) {
-    return <Loader className={"min-h-60"} />;
-  }
-  return (
-    <div className="flex justify-center items-center h-full">
-      <ResponsiveContainer width="100%" height="100%" minHeight={240}>
-        <PChart width={730} height={250}>
-          <Tooltip content={customRechartTooltip} />
-          <Pie
-            data={data}
-            cx="50%"
-            cy="50%"
-            labelLine={false}
-            label={renderCustomizedLabel}
-            outerRadius={80}
-            fill="#8884d8"
-            dataKey="value"
-          >
-            {data.map((entry, index) => (
-              <Cell
-                key={`cell-${index}`}
-                fill={COLORS[index % COLORS.length]}
-              />
-            ))}
-          </Pie>
-        </PChart>
-      </ResponsiveContainer>
+    <div className="h-screen w-full flex justify-between items-center">
+      <div className="p-16 rounded-md bg-white w-[50%] text-center">
+        <p className="text-3xl font-medium">Get started...</p>
+      </div>
     </div>
   );
 };
 
-export default PieChart;
+export default AnalyticsPage;

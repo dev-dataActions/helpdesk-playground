@@ -20,7 +20,7 @@ export const customRechartTooltip = (params:any) => {
               <div className="w-3 h-3 p-[1.5px] shadow-md rounded-full">
                 <div
                   style={{
-                    backgroundColor: category.color ?? category?.payload?.color,
+                    backgroundColor: category.color ?? category?.payload?.fill,
                   }}
                   className="w-2 h-2 flex flex-col rounded-full"
                 />

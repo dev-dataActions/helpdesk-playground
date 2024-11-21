@@ -56,6 +56,19 @@ const AnalyticsPage = () => {
           spanCols={ValidSpanColumns.TWO}
           className="h-60"
         />
+         <Insight
+          workspaceId={WORKSPACE_ID}
+          title="Participation rate"
+          type={ChartTypes.PIE}
+          metrics={[
+            { chartType:ChartTypes.PIE,
+              metricKey: "participation_rate",
+              metricLabel: "Participation rate",
+            },
+          ]}
+          spanCols={ValidSpanColumns.TWO}
+          className="h-60"
+        />
       </DashboardLayout>
     </>
   );
