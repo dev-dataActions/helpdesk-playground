@@ -5,10 +5,11 @@ import { ChartMap, ChartTypes } from "../constants/charts.contant";
 import { TimeGrain } from "../constants/date.constant";
 import { Button } from "../common/Button";
 import { Item, PopUpMenu } from "../common/PopUpMenu";
-import { Entry } from "../dataResolvers/simple";
-import { ChartDataResolverMap } from "../dataResolvers/constants/dataResolvers.constant";
 import { Metric } from "../utils/insight.util";
-import { ChartConfigResolverMap } from "../chartConfigResolvers/constants/chartConfigResolvers.contant";
+import { Entry } from "../resolvers/dataResolvers/simple";
+import { ChartDataResolverMap } from "../resolvers/dataResolvers/constants/dataResolvers.constant";
+import { ChartConfigResolverMap } from "../resolvers/chartConfigResolvers/constants/chartConfigResolvers.contant";
+import { SegmentEntry } from "../resolvers/dataResolvers/pieDataResolver";
 
 export interface InsightMetricFilters {
   dimensionFilters?: {
@@ -18,6 +19,10 @@ export interface InsightMetricFilters {
   showDimensionContributionIn?: string;
   showDimensionSplitIn?: string;
   compareWith?: string[];
+  showPivotIn?: {
+    row: string;
+    column: string;
+  };
 }
 
 export interface InsightFilters {
@@ -42,6 +47,8 @@ export interface ChartsConfig {
   lines?: Config[];
   areas?: Config[];
   bars?: Config[];
+  pie?: Config;
+  pivot?: Config;
 }
 
 export enum ValidSpanColumns {
@@ -97,11 +104,11 @@ export const Insight: React.FC<InsightProps> = ({
   const [showDescription, setShowDescription] = useState<boolean>(false);
   const [filters, setFilters] = useState<InsightFilters | null>(null);
   const [chartsConfig, setChartsConfig] = useState<ChartsConfig | null>(null);
-  const [data, setData] = useState<Entry[] | null>(null);
+  const [data, setData] = useState<Entry[] | SegmentEntry[] | null>(null);
   const Chart = ChartMap[type];
 
   const defaultDataResolver = useCallback(
-    (filters: InsightFilters | null): Promise<Entry[]> =>
+    (filters: InsightFilters | null): Promise<Entry[] | SegmentEntry[]> =>
       ChartDataResolverMap[type]?.(metrics, filters, workspaceId),
     [metrics, type, workspaceId]
   );
@@ -123,7 +130,9 @@ export const Insight: React.FC<InsightProps> = ({
 
   useEffect(() => {
     if (!filters) return;
-    (dataResolver ?? defaultDataResolver)(filters)?.then((_data: Entry[]) => setData(_data));
+    (dataResolver ?? defaultDataResolver)(filters)?.then((_data: Entry[] | SegmentEntry[]) =>
+      setData(_data)
+    );
   }, [dataResolver, defaultDataResolver, filters]);
 
   if (hideCard)

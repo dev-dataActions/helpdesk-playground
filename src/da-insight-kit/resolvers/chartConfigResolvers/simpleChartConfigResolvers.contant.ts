@@ -3,6 +3,7 @@ import { getDimensionOptions } from "../services/dimensions.svc";
 import { shuffle } from "../utils/general.util";
 import { ColorPalette } from "../constants/colors.constants";
 import { TimeGrainAPIKey } from "../constants/date.constant";
+import { Metric } from "@/da-insight-kit/utils/insight.util";
 
 export const getDimensionValues = async (metric, dimension, timegrain = "weekly") => {
   const data = await getDimensionOptions({
@@ -63,7 +64,7 @@ const getAreaConfig = (metric, index, splitDimensionValues) => {
   ];
 };
 
-export const simpleChartConfigResolver = async (metrics = [], filters) => {
+export const simpleChartConfigResolver = async (metrics: Metric[], filters) => {
   const chartsConfig = {
     bars: [],
     lines: [],

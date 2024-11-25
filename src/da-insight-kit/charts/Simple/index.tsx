@@ -31,12 +31,12 @@ interface ChartsConfig {
 }
 
 export interface SimpleChartProps {
-  data: any[];
+  data: any;
   loading: boolean;
   height?: string;
   width?: string;
   fontSize?: number;
-  chartsConfig: ChartsConfig;
+  chartsConfig: ChartsConfig | null;
   options?: { compactMode?: boolean };
 }
 

@@ -1,5 +1,6 @@
-import { ColorPalette } from "../constants/colors.constants";
-export const bigNumWithTrendChartConfigResolver = async (metrics = []) => {
+import { ColorPalette } from "@/da-insight-kit/constants/colors.constants";
+import { Metric } from "@/da-insight-kit/utils/insight.util";
+export const bigNumWithTrendChartConfigResolver = async (metrics: Metric[]) => {
   const chartsConfig = {
     stats: [
       {

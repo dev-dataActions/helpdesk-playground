@@ -5,7 +5,7 @@ import { formatDate, generateDatePairs, shortenDate } from "../utils/date.util";
 import { Metric } from "../utils/insight.util";
 
 export interface Entry {
-  date: string;
+  date?: string;
   fromtime: string;
   totime: string;
   [key: string]: string | number;

@@ -1,4 +1,4 @@
-import { Entry } from "../dataResolvers/simple";
+import { Entry } from "../resolvers/dataResolvers/simple";
 
 const NEXT_PUBLIC_BACKEND_URL = "https://backend.dataactions.ai";
 
