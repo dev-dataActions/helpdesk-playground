@@ -1,6 +1,6 @@
 import React from "react";
 import { valueFormatter } from "../../../utils/general.util";
-import { Change } from "./Change";
+import { Change } from "../../BigNumber/components/Change";
 
 export type StatProps = {
   value: number;

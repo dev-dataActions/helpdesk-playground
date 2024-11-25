@@ -3,9 +3,9 @@ import { ComposedChart, CartesianGrid, Tooltip, ResponsiveContainer, Area } from
 import uniqid from "uniqid";
 import { Loader } from "../../common/Loader";
 import { getChange, getSum } from "../../utils/general.util";
-import { Stat } from "../BigNumber/components/Stat";
 import { TimeGrainAPIKey } from "../../constants/date.constant";
 import { customRechartTooltip } from "../../utils/customRechartTooltip";
+import { Stat } from "./components/Stat";
 
 const BigNumberWithTrend = memo(function BigNumberWithTrend({
   data,

@@ -50,7 +50,7 @@ const BigNumber: React.FC<BigNumberProps> = ({
       <CompactBigNumber
         number={valueFormatter(metricCurrValue)}
         label={metricLabel}
-        hideTitle={options?.hideTitle}
+        hideLabel={options?.hideTitle}
       />
     );
 
