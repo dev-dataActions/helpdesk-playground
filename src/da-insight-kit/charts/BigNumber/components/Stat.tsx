@@ -1,9 +1,16 @@
-import { IconContext } from "react-icons";
-import { IoMdArrowDropdown, IoMdArrowDropup } from "react-icons/io";
+import React from "react";
 import { valueFormatter } from "../../../utils/general.util";
 import { Change } from "./Change";
 
-export const Stat = ({ value, change, changeType, interval, prevValue }) => {
+export type StatProps = {
+  value: number;
+  prevValue: number;
+  change: number;
+  changeType: string;
+  interval: string;
+};
+
+export const Stat: React.FC<StatProps> = ({ value, change, changeType, interval, prevValue }) => {
   return (
     <div className="p-2">
       <p className="text-3xl font-medium text-gray-700"> {valueFormatter(value)}</p>

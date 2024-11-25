@@ -1,44 +1,28 @@
-export function getSum(entry: any, keys: string[] = []): number | null {
-  if (!entry) return null;
+export function getSum(entry: { [key: string]: number | string }, keys: string[] = []): number {
+  if (!entry || keys.length == 0) return 0;
   const sum = keys.reduce((total, key) => {
+    if (typeof entry[key] === "string") return total;
     return total + (entry[key] ?? 0);
   }, 0);
   return sum;
 }
 
-export function getChange(entries: any[], keys: string[] = []): number {
-  const a = getSum(entries[entries.length - 1], keys) ?? 0;
-  const b = Math.max(1, getSum(entries[entries.length - 2], keys) ?? 0);
+export const getChangeInPercent = (a: number, b: number): string => {
+  return (((a - b) / b) * 100).toFixed(2);
+};
 
-  return parseInt((((a - b) / b) * 100).toFixed(1));
+export function getChange(
+  entries: { [key: string]: number | string }[],
+  keys: string[] = []
+): number {
+  const a = getSum(entries?.[entries.length - 1], keys) ?? 0;
+  const b = Math.max(1, getSum(entries?.[entries.length - 2], keys) ?? 0);
+
+  return parseFloat(getChangeInPercent(a, b));
 }
 
 export const sleep = (ms: number): Promise<void> =>
   new Promise((resolve) => setTimeout(resolve, ms));
-
-export const groupArraysOfObjectsByIndex = (arr1: any[] = [], arr2: any[] = []): any[] => {
-  const len = Math.max(arr1.length, arr2.length);
-  const groupedArr: any[] = [];
-  for (let i = 0; i < len; i++) {
-    groupedArr.push({
-      ...(arr1[i] ?? {}),
-      ...(arr2[i] ?? {}),
-    });
-  }
-  return groupedArr;
-};
-
-export const groupObjectsByKeys = (arr: any[] = [], keys: string[] = []): any[] => {
-  const res: { [key: string]: any } = {};
-  arr.forEach((e) => {
-    const uniqueKey = keys.map((key) => e[key]).join("-");
-    res[uniqueKey] = {
-      ...(res[uniqueKey] ?? {}),
-      ...e,
-    };
-  });
-  return Object.values(res);
-};
 
 export function shuffle<T>(array: T[]): T[] {
   let currentIndex = array.length,
@@ -57,28 +41,12 @@ export function shuffle<T>(array: T[]): T[] {
 export const classNames = (...classes: (string | undefined | null | false)[]): string =>
   classes.filter(Boolean).join(" ");
 
-export const getChangeInPercent = (a: number, b: number): string => {
-  return (((a - b) / b) * 100).toFixed(2);
-};
-
-export const capitalize = (str: string): string => {
-  return str.charAt(0).toUpperCase() + str.slice(1);
-};
-
-export const filterUndefinedKeys = (obj: any): any => {
-  const newObj = {};
-  Object.keys(obj).forEach((key) => {
-    if (obj[key] !== undefined) newObj[key] = obj[key];
-  });
-  return newObj;
-};
-
-export const valueFormatter = (number: number) => {
+export const valueFormatter = (number: number): string => {
   if (isNaN(number) || number === null || number === undefined) {
     return "N/A";
   }
 
-  if (number === 0) return 0;
+  if (number === 0) return "0";
   if (number < 1) return parseFloat(number + "")?.toFixed(3);
 
   // Define the scale suffixes and their corresponding multipliers
@@ -100,4 +68,6 @@ export const valueFormatter = (number: number) => {
       return `${formattedNumber} ${scale.suffix}`;
     }
   }
+
+  return "N/A";
 };

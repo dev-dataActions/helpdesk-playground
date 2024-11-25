@@ -6,18 +6,20 @@ import { Loader } from "../../common/Loader";
 import { ExpandedBigNumber } from "./components/ExpandedBigNumber";
 import { TimeGrainAPIKey } from "../../constants/date.constant";
 import { Change } from "./components/Change";
+import { Entry } from "@/da-insight-kit/resolvers/dataResolvers/simple";
+import { ChartsConfig, InsightFilters, InsightOptions } from "@/da-insight-kit/components/Insight";
 
 export interface BigNumberProps {
-  data: any;
-  loading: boolean;
-  filters?: any;
-  chartsConfig: any;
-  options?: any;
+  data: Entry[];
+  loading?: boolean;
+  filters?: InsightFilters | null;
+  chartsConfig?: ChartsConfig;
+  options?: InsightOptions;
 }
 
 const BigNumber: React.FC<BigNumberProps> = ({
   data,
-  loading,
+  loading = false,
   filters = {},
   chartsConfig = {},
   options = {},
@@ -29,7 +31,7 @@ const BigNumber: React.FC<BigNumberProps> = ({
     return <Loader className="h-full" />;
   }
 
-  if (data?.length === 0) {
+  if (!timeGrain || !chartsConfig?.stats?.[0] || data?.length === 0) {
     return (
       <div className="w-full h-full flex justify-center items-center">
         <p className="text-gray-500 text-sm">No data</p>
@@ -37,7 +39,7 @@ const BigNumber: React.FC<BigNumberProps> = ({
     );
   }
 
-  const metricLabel = chartsConfig?.stats?.[0]?.name;
+  const metricLabel = chartsConfig.stats[0].name;
   const metricCurrValue = getSum(data[data.length - 1], [metricLabel]);
   const metricPrevValue = getSum(data[data.length - 2], [metricLabel]);
   const metricChange = getChange(data, [metricLabel]);

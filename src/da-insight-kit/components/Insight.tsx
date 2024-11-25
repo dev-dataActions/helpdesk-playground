@@ -36,6 +36,7 @@ export interface InsightFilters {
 export interface InsightOptions {
   compact?: boolean;
   expanded?: boolean;
+  hideTitle?: boolean;
 }
 
 export interface Config {
