@@ -2,6 +2,7 @@ import { simpleDataResolver } from "../simple";
 import { pivotDataResolver } from "../pivotDataResolver";
 import { pieDataResolver } from "../pieDataResolver";
 import { ChartTypes } from "@/da-insight-kit/constants/charts.contant";
+import { geoDataResolver } from "../geoDataResolver";
 
 export const ChartDataResolverMap = {
   [ChartTypes.BIGNUMBER]: simpleDataResolver,
@@ -12,4 +13,5 @@ export const ChartDataResolverMap = {
   [ChartTypes.LINE]: simpleDataResolver,
   [ChartTypes.PIVOT]: pivotDataResolver,
   [ChartTypes.PIE]: pieDataResolver,
+  [ChartTypes.GEO]: geoDataResolver
 };

@@ -1,9 +1,10 @@
-import { ChartTypes } from "../constants/charts.contant";
-import { getDimensionOptions } from "../services/dimensions.svc";
-import { shuffle } from "../utils/general.util";
-import { ColorPalette } from "../constants/colors.constants";
-import { TimeGrainAPIKey } from "../constants/date.constant";
+
 import { Metric } from "@/da-insight-kit/utils/insight.util";
+import { ChartTypes } from "@/da-insight-kit/constants/charts.contant";
+import {getDimensionOptions} from '@/da-insight-kit/services/dimensions.svc'
+import { shuffle } from "@/da-insight-kit/utils/general.util";
+import { ColorPalette } from "@/da-insight-kit/constants/colors.constants";
+import { TimeGrainAPIKey } from "@/da-insight-kit/constants/date.constant";
 
 export const getDimensionValues = async (metric, dimension, timegrain = "weekly") => {
   const data = await getDimensionOptions({

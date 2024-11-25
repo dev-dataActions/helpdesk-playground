@@ -4,6 +4,7 @@ import { pivotChartConfigResolver } from "../pivotChartConfigResolver";
 import { bigNumWithTrendChartConfigResolver } from "../bigNumberWithTrendConfigResolver";
 import { pieChartConfigResolver } from "../pieChartConfigResolver";
 import { ChartTypes } from "@/da-insight-kit/constants/charts.contant";
+import { geoChartConfigResolver } from "../geoChartConfigResolver";
 
 export const ChartConfigResolverMap = {
   [ChartTypes.BIGNUMBER]: bigNumberChartConfigResolver,
@@ -14,4 +15,5 @@ export const ChartConfigResolverMap = {
   [ChartTypes.LINE]: simpleChartConfigResolver,
   [ChartTypes.PIVOT]: pivotChartConfigResolver,
   [ChartTypes.PIE]: pieChartConfigResolver,
+  [ChartTypes.GEO] : geoChartConfigResolver
 };

@@ -69,6 +69,19 @@ const AnalyticsPage = () => {
           spanCols={ValidSpanColumns.TWO}
           className="h-60"
         />
+         <Insight
+          workspaceId={WORKSPACE_ID}
+          title="Participation rate"
+          type={ChartTypes.GEO}
+          metrics={[
+            { chartType:ChartTypes.GEO,
+              metricKey: "participation_rate",
+              metricLabel: "Participation rate",
+            },
+          ]}
+          spanCols={ValidSpanColumns.TWO}
+          className="h-60"
+        />
       </DashboardLayout>
     </>
   );
