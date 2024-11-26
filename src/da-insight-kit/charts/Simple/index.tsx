@@ -1,4 +1,6 @@
 import { Loader } from "@/da-insight-kit/common/Loader";
+import { ChartsConfig, InsightFilters, InsightOptions } from "@/da-insight-kit/components/Insight";
+import { Entry } from "@/da-insight-kit/resolvers/dataResolvers/simple";
 import { customRechartTooltip } from "@/da-insight-kit/utils/customRechartTooltip";
 import { valueFormatter } from "@/da-insight-kit/utils/general.util";
 import React from "react";
@@ -15,50 +17,33 @@ import {
   Area,
 } from "recharts";
 
-interface ChartElementConfig {
-  dataKey: string;
-  color: string;
-  size?: number;
-  stackId?: string;
-  strokeWidth?: number;
-  yAxisId?: string;
-}
-
-interface ChartsConfig {
-  bars?: ChartElementConfig[];
-  lines?: ChartElementConfig[];
-  areas?: ChartElementConfig[];
-}
-
 export interface SimpleChartProps {
-  data: any;
-  loading: boolean;
+  data: Entry[];
+  loading?: boolean;
+  filters?: InsightFilters | null;
   height?: string;
   width?: string;
-  fontSize?: number;
-  chartsConfig: ChartsConfig | null;
-  options?: { compactMode?: boolean };
+  chartsConfig?: ChartsConfig;
+  options?: InsightOptions;
 }
 
 const SimpleChart: React.FC<SimpleChartProps> = ({
   data = [],
   loading,
+  filters,
   height = "100%",
   width = "100%",
-  fontSize = 12,
   chartsConfig = {},
   options = {},
 }) => {
-  const { compactMode = false } = options;
-
-  const { filters = {} } = {} as any;
-  const { index = "date" } = filters;
+  const { compact = false } = options;
+  const { index = "date" } = filters ?? {};
 
   if (loading) {
     return <Loader className={"h-full"} />;
   }
 
-  if (!data || data.length === 0) {
+  if (!chartsConfig || !data || data.length === 0) {
     return (
       <div className="w-full h-full flex flex-col">
         <div className="flex w-full grow justify-center items-center border border-gray-300 border-dashed rounded-md">
@@ -72,28 +57,20 @@ const SimpleChart: React.FC<SimpleChartProps> = ({
     <div className="flex flex-col justify-between h-full">
       <ResponsiveContainer width={width} height={height} minHeight={140}>
         <ComposedChart data={data}>
-          {!compactMode && (
+          {!compact && (
             <>
               <CartesianGrid stroke="#e7e7e7" vertical={false} horizontal={true} />
-              <XAxis
-                dataKey={index}
-                axisLine={false}
-                tickLine={false}
-                fontFamily="sans-serif"
-                fontSize={fontSize}
-              />
+              <XAxis dataKey={index} axisLine={false} tickLine={false} fontFamily="sans-serif" />
               <YAxis
                 axisLine={false}
                 tickLine={false}
                 fontFamily="sans-serif"
-                fontSize={fontSize}
                 tickFormatter={valueFormatter}
               />
               <YAxis
                 axisLine={false}
                 tickLine={false}
                 fontFamily="sans-serif"
-                fontSize={fontSize}
                 yAxisId="right"
                 orientation="right"
                 tickFormatter={valueFormatter}
