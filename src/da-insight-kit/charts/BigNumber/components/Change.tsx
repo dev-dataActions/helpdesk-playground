@@ -17,7 +17,7 @@ export const Change: React.FC<ChangeProps> = ({ change, changeType }) => {
       ) : (
         <IoMdArrowDown color="red" size={12} />
       )}
-      {`${change}`}
+      {`${change}%`}
     </span>
   );
 };

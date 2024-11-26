@@ -1,25 +1,38 @@
-import React, { memo } from "react";
-import { ComposedChart, CartesianGrid, Tooltip, ResponsiveContainer, Area } from "recharts";
+import React from "react";
 import uniqid from "uniqid";
+import { Stat } from "./components/Stat";
 import { Loader } from "../../common/Loader";
 import { getChange, getSum } from "../../utils/general.util";
-import { Stat } from "../BigNumber/components/Stat";
 import { TimeGrainAPIKey } from "../../constants/date.constant";
 import { customRechartTooltip } from "../../utils/customRechartTooltip";
+import { Entry } from "@/da-insight-kit/resolvers/dataResolvers/simple";
+import { ChartsConfig, InsightFilters } from "@/da-insight-kit/components/Insight";
+import { ComposedChart, CartesianGrid, Tooltip, ResponsiveContainer, Area } from "recharts";
 
-const BigNumberWithTrend = memo(function BigNumberWithTrend({
+interface BigNumberWithTrendProps {
+  data: Entry[];
+  loading?: boolean;
+  filters?: InsightFilters | null;
+  height?: string;
+  width?: string;
+  chartsConfig?: ChartsConfig;
+}
+
+const BigNumberWithTrend: React.FC<BigNumberWithTrendProps> = ({
   data,
   loading,
-  filters,
+  filters = {},
   height = "100%",
   width = "100%",
   chartsConfig = {},
-}) {
+}) => {
+  const { timeGrain } = filters ?? {};
+
   if (loading) {
     return <Loader className="min-h-32 h-full" />;
   }
 
-  if (data?.length === 0) {
+  if (!timeGrain || !chartsConfig?.stats?.[0] || data?.length === 0) {
     return (
       <div className="w-full flex-grow min-h-32 h-full p-2">
         <div className="flex w-full h-full justify-center items-center border border-gray-300 border-2 border-dashed rounded-md">
@@ -29,18 +42,18 @@ const BigNumberWithTrend = memo(function BigNumberWithTrend({
     );
   }
 
-  const metricLabel = chartsConfig?.stats?.[0]?.name;
+  const metricLabel = chartsConfig.stats[0].name;
   const metricChange = getChange(data, [metricLabel]);
 
   return (
     <div className="h-32 flex flex-col justify-between h-full">
       <div className="p-3 text-left">
         <Stat
-          value={getSum(data[data.length - 1], [metricLabel]).toFixed(3)}
-          change={`${metricChange}%`}
+          value={getSum(data[data.length - 1], [metricLabel])}
+          change={metricChange}
           changeType={metricChange > 0 ? "positive" : "negative"}
-          interval={`last ${TimeGrainAPIKey[filters.timeGrain]}`}
-          prevValue={getSum(data[data.length - 2], [metricLabel]).toFixed(3)}
+          interval={`last ${TimeGrainAPIKey[timeGrain]}`}
+          prevValue={getSum(data[data.length - 2], [metricLabel])}
         />
       </div>
 
@@ -79,6 +92,6 @@ const BigNumberWithTrend = memo(function BigNumberWithTrend({
       </ResponsiveContainer>
     </div>
   );
-});
+};
 
 export default BigNumberWithTrend;
