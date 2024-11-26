@@ -4,6 +4,7 @@ import Pivot from "../charts/Pivot";
 import BigNumberWithTrend from "../charts/BigNumberWithTrend";
 import PieChart from "../charts/Pie";
 import GeoChart from "../charts/Geo";
+import { Ranking } from "../charts/Ranking";
 
 export enum ChartTypes {
   BIGNUMBER = "BIGNUMBER",
@@ -14,7 +15,8 @@ export enum ChartTypes {
   LINE = "LINE",
   PIVOT = "PIVOT",
   PIE = "PIE",
-  GEO = "GEO"
+  GEO = "GEO",
+  RANKING = "RANKING"
 }
 
 export const ChartMap = {
@@ -26,5 +28,6 @@ export const ChartMap = {
   [ChartTypes.LINE]: SimpleChart,
   [ChartTypes.PIVOT]: Pivot,
   [ChartTypes.PIE]: PieChart,
-  [ChartTypes.GEO] : GeoChart
+  [ChartTypes.GEO] : GeoChart,
+  [ChartTypes.RANKING] : Ranking
 };

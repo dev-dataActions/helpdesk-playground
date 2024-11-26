@@ -1,4 +1,5 @@
 import { Insight } from "@/da-insight-kit";
+import { Ranking } from "@/da-insight-kit/charts/Ranking";
 import {
   DashboardLayout,
   ValidDashboardColumns,
@@ -75,6 +76,19 @@ const AnalyticsPage = () => {
           type={ChartTypes.GEO}
           metrics={[
             { chartType:ChartTypes.GEO,
+              metricKey: "participation_rate",
+              metricLabel: "Participation rate",
+            },
+          ]}
+          spanCols={ValidSpanColumns.TWO}
+          className="h-60"
+        />
+          <Insight
+          workspaceId={WORKSPACE_ID}
+          title="Participation rate"
+          type={ChartTypes.RANKING}
+          metrics={[
+            { chartType:ChartTypes.RANKING,
               metricKey: "participation_rate",
               metricLabel: "Participation rate",
             },

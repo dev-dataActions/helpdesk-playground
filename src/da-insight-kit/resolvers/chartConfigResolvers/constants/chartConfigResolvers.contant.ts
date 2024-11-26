@@ -15,5 +15,6 @@ export const ChartConfigResolverMap = {
   [ChartTypes.LINE]: simpleChartConfigResolver,
   [ChartTypes.PIVOT]: pivotChartConfigResolver,
   [ChartTypes.PIE]: pieChartConfigResolver,
-  [ChartTypes.GEO] : geoChartConfigResolver
+  [ChartTypes.GEO] : geoChartConfigResolver,
+  [ChartTypes.RANKING]: pieChartConfigResolver
 };

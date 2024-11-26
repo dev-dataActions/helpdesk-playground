@@ -1,6 +1,7 @@
 import { Metric } from "@/da-insight-kit/utils/insight.util";
 import { InsightFilters } from "./pivotDataResolver";
 import { Entry } from "./simple";
+import { SegmentEntry } from "./pieDataResolver";
 
 const getApiCall = async (
   metric: Metric,
@@ -22,36 +23,36 @@ const getApiCall = async (
     {
       fromtime: "2024-01-01",
       totime: "2024-06-01",
-      LOL: 234,
-      Dota: 436,
-      Pubg: 769,
+      Canada: 234,
+      RU: 436,
+      India: 769,
     },
   ];
 };
 
-export type SegmentEntry = {
-  segment: string;
-  value:  number;
-  percentage? :  number
-};
+
 
 const transformData = (data: Entry[]): SegmentEntry[] => {
   const arr = [];
+  let sum = 0
+  for(let key in data[0]) if(key != 'fromtime' && key != 'totime') sum += parseInt(data[0][key] + "")
   for (const key in data[0]) {
     const obj: SegmentEntry = {
       segment: "",
       value: 0,
+      percentage:0
     };
     if (key !== "fromtime" && key !== "totime") {
       obj.segment = key;
       obj.value = parseInt(data[0][key] + "");
+      obj.percentage = (obj.value/sum) * 100;
       arr.push(obj);
     }
   }
   return arr;
 };
 
-export const pieDataResolver = async (
+export const rankingDataResolver = async (
   [metric]: Metric[],
   filters: InsightFilters | null,
   workspaceId: string
