@@ -1,9 +1,15 @@
 import { Loader } from "@/da-insight-kit/common/Loader";
 import React from "react";
 import { Chart } from "react-google-charts";
- 
-export default function GeoChart({data,loading}) {
-  if (loading) return <Loader className={"min-h-60"} />;
+
+interface GeoChartProps {
+  data: [string, string | number][];
+  loading: boolean;
+}
+
+const GeoChart: React.FC<GeoChartProps> = ({ data, loading }) => {
+  if (loading) return <Loader className="min-h-60" />;
+
   return (
     <Chart
       chartEvents={[
@@ -22,4 +28,6 @@ export default function GeoChart({data,loading}) {
       data={data}
     />
   );
-}
+};
+
+export default GeoChart;

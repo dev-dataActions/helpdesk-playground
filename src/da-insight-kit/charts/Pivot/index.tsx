@@ -1,8 +1,27 @@
-import { valueFormatter } from "../../utils/general.util";
 import React, { useMemo } from "react";
 import { Tooltip } from "react-tippy";
+import { valueFormatter } from "../../utils/general.util";
 
-const CustomTooltipContent = ({ item, chartConfig }) => (
+interface ChartConfig {
+  row: string;
+  column: string;
+  dataKey: string;
+}
+
+interface DataItem {
+  [key: string]: any; 
+  revenue?: number | any;
+}
+
+interface CustomTooltipContentProps {
+  item?: DataItem;
+  chartConfig: ChartConfig;
+}
+
+const CustomTooltipContent: React.FC<CustomTooltipContentProps> = ({
+  item,
+  chartConfig,
+}) => (
   <div className="w-48 bg-white text-black rounded-lg shadow-sm text-xs border border-gray-200">
     <div className="text-lg font-medium mb-2 border-b border-gray-200 p-2">
       {valueFormatter(item?.revenue) || "—"}
@@ -20,7 +39,12 @@ const CustomTooltipContent = ({ item, chartConfig }) => (
   </div>
 );
 
-const Pivot = ({ data = [], chartsConfig }) => {
+interface PivotProps {
+  data?: DataItem[];
+  chartsConfig: ChartConfig;
+}
+
+const Pivot: React.FC<PivotProps> = ({ data = [], chartsConfig }) => {
   const colValues = useMemo(() => {
     if (!chartsConfig?.column) return [];
     return [...new Set(data?.map((item) => item[chartsConfig.column]))];
