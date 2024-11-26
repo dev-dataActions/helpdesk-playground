@@ -31,7 +31,7 @@ const BigNumber: React.FC<BigNumberProps> = ({
     return <Loader className="h-full" />;
   }
 
-  if (!timeGrain || !chartsConfig?.stats?.[0] || data?.length === 0) {
+  if (!timeGrain || !chartsConfig?.stats?.[0] || !data || data.length === 0) {
     return (
       <div className="w-full h-full flex justify-center items-center">
         <p className="text-gray-500 text-sm">No data</p>
