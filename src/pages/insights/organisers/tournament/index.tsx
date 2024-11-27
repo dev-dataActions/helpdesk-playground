@@ -40,7 +40,7 @@ const AnalyticsPage = () => {
           ]}
           spanCols={ValidSpanColumns.TWO}
           onClick={() => {
-            router.push("/insights/organisers/tournament/analysis");
+            router.push(`/insights/organisers/tournament/active_users/analysis`);
           }}
           className="h-60"
         />
@@ -68,7 +68,7 @@ const AnalyticsPage = () => {
             },
           ]}
           onClick={() => {
-            router.push("/insights/organisers/tournament/analysis");
+            router.push("/insights/organisers/tournament/revenue/analysis");
           }}
           spanCols={ValidSpanColumns.TWO}
           className="h-60"
