@@ -14,19 +14,17 @@ const config = {
   active_users: [
     {
       id: 1,
-      metricKey: "revenue",
-      metricLabel: "Revenue",
-      title: "Revenue",
+      title: "Active players",
       chartType: ChartTypes.SIMPLE_CHART,
       metrics: [
         {
-          metricKey: "revenue",
-          metricLabel: "Revenue",
+          metricKey: "active_users",
+          metricLabel: "Active players",
           chartType: ChartTypes.AREA,
         },
       ],
       filters: {
-        revenue: {
+        active_users: {
           compareWith: ["Min", "Max", "Average"],
         },
       },
