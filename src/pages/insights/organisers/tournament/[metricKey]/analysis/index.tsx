@@ -10,21 +10,45 @@ import { FaChevronRight } from "react-icons/fa";
 
 const WORKSPACE_ID = "42eed85d-b1d7-4b8e-8621-1dfa79e72cf1";
 
-const config = 
-  {
-  revenue:[{
-    id: 1,
-    metricKey : "revenue",
-    metricLabel : "Revenue",
-    title:"Revenue",
-  },{
-    id:2,
-    metricKey : "revenueVsReg",
-    metricLabel : "Revenue Vs Registrations",
-    title:"Revenue Vs Registrations",
-  }],
-
-}
+const config = {
+  revenue: [
+    {
+      id: 1,
+      title: "Revenue",
+      chartType: ChartTypes.SIMPLE_CHART,
+      metrics: [
+        {
+          metricKey: "revenue",
+          metricLabel: "Revenue",
+          chartType: ChartTypes.AREA,
+        },
+      ],
+      filters: {
+        revenue: {
+          compareWith: ["Min", "Max", "Average"],
+        },
+      },
+    },
+    {
+      id: 1,
+      title: "Registrations Vs Revenue",
+      chartType: ChartTypes.SIMPLE_CHART,
+      metrics: [
+        {
+          metricKey: "revenue",
+          metricLabel: "Revenue",
+          chartType: ChartTypes.AREA,
+        },
+        {
+          metricKey: "registrations",
+          metricLabel: "Registrations",
+          chartType: ChartTypes.AREA,
+          yAxisId:"right"
+        },
+      ],
+    },
+  ],
+};
 
 const AnalyticsPage = () => {
   const router = useRouter();
@@ -44,13 +68,7 @@ const AnalyticsPage = () => {
             title={insight.title}
             key={insight?.id}
             type={ChartTypes.SIMPLE_CHART}
-            metrics={[
-              {
-                metricKey:insight?.metricKey,
-                metricLabel: insight?.metricLabel,
-                chartType: ChartTypes.AREA,
-              },
-            ]}
+            metrics={insight?.metrics}
             filters={{
               active_users: {
                 compareWith: ["Min", "Max", "Average"],
@@ -64,7 +82,7 @@ const AnalyticsPage = () => {
       <p
         className="p-5 underline cursor-pointer text-sm text-center text-gray-600 font-normal flex items-center gap-1 justify-center"
         onClick={() => {
-          router.push("/insights/organisers/tournament/active_users/analysis/drilldown");
+          router.push(`/insights/organisers/tournament/${router?.query?.metricKey}/analysis/drilldown`);
         }}
       >
         Explore
