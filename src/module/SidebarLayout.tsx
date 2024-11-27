@@ -36,14 +36,14 @@ export const SidebarLayout = ({ children }: { children: ReactNode }) => {
       icon: <LuUsers size={16} />,
       href: "/insights/organisers",
       label: "Organisers",
-      current: pathname.includes("/organisers"),
+      current: pathname?.includes("/organisers"),
     },
     {
       id: 8,
       icon: <MdDragIndicator size={16} />,
       href: "/insights/sponsers",
       label: "Sponsers",
-      current: pathname.includes("/sponsers"),
+      current: pathname?.includes("/sponsers"),
     },
   ];
 
@@ -72,7 +72,7 @@ export const SidebarLayout = ({ children }: { children: ReactNode }) => {
         icon: <IoHomeOutline size={16} />,
         href: "/",
         label: "Home",
-        current: pathname.length === 1,
+        current: pathname?.length === 1,
       },
       {
         id: 2,

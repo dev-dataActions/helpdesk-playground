@@ -10,69 +10,51 @@ import { useRouter } from "next/router";
 
 const WORKSPACE_ID = "42eed85d-b1d7-4b8e-8621-1dfa79e72cf1";
 
+const metrics=[
+  {
+    id:1,
+    metricKey:"registrations",
+    metricLabel:"Registrations"
+  },
+  {
+    id:2,
+    metricKey:"tournaments_organised",
+    metricLabel:"Tournaments Organised"
+  },
+  {
+    id:3,
+    metricKey:"avg_tourney_fill_rate",
+    metricLabel:"Avg Tourney Fill Rate"
+  },
+  {
+    id:4,
+    metricKey:"revenue",
+    metricLabel:"Revenue"
+  },
+]
+
 const AnalyticsPage = () => {
   const router = useRouter();
   return (
     <>
       <DashboardLayout cols={ValidDashboardColumns.SIX} title="Reporting">
-        <Insight
+         {metrics.map((metric)=><Insight
+         key={metric?.id}
           workspaceId={WORKSPACE_ID}
-          title="Registrations"
+          title={metric?.metricLabel}
           type={ChartTypes.BIGNUMBERWITHTREND}
           metrics={[
             {
-              metricKey: "registrations",
-              metricLabel: "Registrations",
-            },
-          ]}
-          spanCols={ValidSpanColumns.TWO}
-          className="h-60"
-        />
-        <Insight
-          workspaceId={WORKSPACE_ID}
-          title="Active players"
-          type={ChartTypes.BIGNUMBERWITHTREND}
-          metrics={[
-            {
-              metricKey: "active_users",
-              metricLabel: "Active players",
-            },
-          ]}
-          spanCols={ValidSpanColumns.TWO}
-          onClick={() => {
-            router.push(`/insights/organisers/tournament/active_users/analysis`);
-          }}
-          className="h-60"
-        />
-        <Insight
-          workspaceId={WORKSPACE_ID}
-          title="Participation rate"
-          type={ChartTypes.BIGNUMBERWITHTREND}
-          metrics={[
-            {
-              metricKey: "participation_rate",
-              metricLabel: "Participation rate",
-            },
-          ]}
-          spanCols={ValidSpanColumns.TWO}
-          className="h-60"
-        />
-          <Insight
-          workspaceId={WORKSPACE_ID}
-          title="Revenue"
-          type={ChartTypes.BIGNUMBERWITHTREND}
-          metrics={[
-            {
-              metricKey: "revenue",
-              metricLabel: "Revenue",
+              metricKey: metric?.metricKey,
+              metricLabel:metric?.metricLabel,
             },
           ]}
           onClick={() => {
-            router.push("/insights/organisers/tournament/revenue/analysis");
+            router.push(`/insights/organisers/tournament/${metric?.metricKey}/analysis`);
           }}
           spanCols={ValidSpanColumns.TWO}
           className="h-60"
-        />
+        />) }
       </DashboardLayout>
     </>
   );
