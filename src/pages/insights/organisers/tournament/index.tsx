@@ -40,7 +40,7 @@ const AnalyticsPage = () => {
           ]}
           spanCols={ValidSpanColumns.TWO}
           onClick={() => {
-            router.push("/insights/tournament/analysis");
+            router.push("/insights/organisers/tournament/analysis");
           }}
           className="h-60"
         />
@@ -57,42 +57,19 @@ const AnalyticsPage = () => {
           spanCols={ValidSpanColumns.TWO}
           className="h-60"
         />
-         <Insight
-          workspaceId={WORKSPACE_ID}
-          title="Participation rate"
-          type={ChartTypes.PIE}
-          metrics={[
-            { chartType:ChartTypes.PIE,
-              metricKey: "participation_rate",
-              metricLabel: "Participation rate",
-            },
-          ]}
-          spanCols={ValidSpanColumns.TWO}
-          className="h-60"
-        />
-         <Insight
-          workspaceId={WORKSPACE_ID}
-          title="Participation rate"
-          type={ChartTypes.GEO}
-          metrics={[
-            { chartType:ChartTypes.GEO,
-              metricKey: "participation_rate",
-              metricLabel: "Participation rate",
-            },
-          ]}
-          spanCols={ValidSpanColumns.TWO}
-          className="h-60"
-        />
           <Insight
           workspaceId={WORKSPACE_ID}
-          title="Participation rate"
-          type={ChartTypes.RANKING}
+          title="Revenue"
+          type={ChartTypes.BIGNUMBERWITHTREND}
           metrics={[
-            { chartType:ChartTypes.RANKING,
-              metricKey: "participation_rate",
-              metricLabel: "Participation rate",
+            {
+              metricKey: "revenue",
+              metricLabel: "Revenue",
             },
           ]}
+          onClick={() => {
+            router.push("/insights/organisers/tournament/analysis");
+          }}
           spanCols={ValidSpanColumns.TWO}
           className="h-60"
         />

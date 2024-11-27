@@ -65,7 +65,7 @@ const AnalyticsPage = () => {
       <p
         className="p-5 underline cursor-pointer text-sm text-center text-gray-600 font-normal flex items-center gap-1 justify-center"
         onClick={() => {
-          router.push("/insights/tournament/analysis/drilldown");
+          router.push("/insights/organisers/tournament/analysis/drilldown");
         }}
       >
         Explore
