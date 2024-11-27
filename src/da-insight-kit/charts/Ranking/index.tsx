@@ -1,6 +1,7 @@
-import 'react-tippy/dist/tippy.css';
-import { Tooltip } from 'react-tippy';
-import { Loader } from '@/da-insight-kit/common/Loader';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import "react-tippy/dist/tippy.css";
+import { Tooltip } from "react-tippy";
+import { Loader } from "@/da-insight-kit/common/Loader";
 
 interface RankingData {
   segment: string;
@@ -31,6 +32,7 @@ export const Ranking: React.FC<RankingProps> = ({ data, loading }) => {
             arrow={true}
             arrowSize="small"
             size="small"
+            {...(Tooltip as any)}
           >
             <div className="flex p-2 flex-row justify-between border-b border-gray-200 gap-x-2">
               <p className="w-12">{d.segment}</p>

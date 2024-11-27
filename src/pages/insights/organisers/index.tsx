@@ -24,7 +24,10 @@ const AnalyticsPage = () => {
           <div className="text-sm text-gray-600">View insights of tournaments across regions</div>
         </div>
 
-        <div className="bg-white rounded-md w-[25%] p-4 h-32 border cursor-pointer">
+        <div
+          className="bg-white rounded-md w-[25%] p-4 h-32 border cursor-pointer"
+          onClick={() => router.push("/insights/organisers/players")}
+        >
           <div className="flex justify-between items-center mb-1">
             <p className="text-lg">Players</p>
             <GiAmericanFootballPlayer size={18} />

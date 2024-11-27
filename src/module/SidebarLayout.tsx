@@ -50,11 +50,13 @@ export const SidebarLayout = ({ children }: { children: ReactNode }) => {
   const Insight = () => {
     return (
       <div
-        className="flex justify-around text-sm w-[60%] items-center cursor-pointer"
+        className="flex justify-between text-sm w-full items-center cursor-pointer mt-2"
         onClick={() => setShowSubItems((prev) => !prev)}
       >
-        <CgInsights size={16} />
-        <p>Insights</p>
+        <div className="flex gap-3 pl-2">
+          <CgInsights size={16} />
+          <p>Insights</p>
+        </div>
         <IoIosArrowDown
           size={15}
           className={`transition-transform duration-300 ease-in-out ${
@@ -121,16 +123,10 @@ export const SidebarLayout = ({ children }: { children: ReactNode }) => {
         className={`transition-all h-12 w-full md:pl-64 px-4 fixed top-0 left-0 z-10 bg-white border border-b`}
       >
         <div className="px-5 h-full flex items-center text-sm">
-          <Breadcrumbs
-            onBack={() => router.back()}
-            breadcrumbs={createPathArray()}
-          />
+          <Breadcrumbs onBack={() => router.back()} breadcrumbs={createPathArray()} />
         </div>
       </div>
       <div className="min-h-screen md:pl-64 pt-12">{children}</div>
     </div>
   );
 };
-
-
-
