@@ -48,6 +48,6 @@ export const pivotDataResolver = async (
   workspaceId: string
 ): Promise<Entry[]> => {
   return getApiCall(metric, filters, workspaceId)
-    .then((res) => res.data)
+    .then((res) => {console.log("hi",res.data); return res.data})
     .catch(() => []);
 };

@@ -7,7 +7,6 @@ const getApiCall = async (
   filters: InsightFilters | null,
   workspaceId: string
 ): Promise<Entry[]> => {
-  console.log(metric, filters, workspaceId);
   // return getAllChartDataV1({
   //   workspaceId,
   //   payload: {

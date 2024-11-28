@@ -8,13 +8,34 @@ import { ChartTypes } from "@/da-insight-kit/constants/charts.contant";
 import { useRouter } from "next/router";
 
 const WORKSPACE_ID = "42eed85d-b1d7-4b8e-8621-1dfa79e72cf1";
-const config = {
+
+export type Metric = {
+  metricKey: string;
+  metricLabel: string;
+  chartType: ChartTypes;
+};
+
+export type Filter = {
+  showDimensionSplitIn: string;
+};
+
+export type InsightConfig = {
+  id: number;
+  title: string;
+  chartType: ChartTypes;
+  metrics: Metric[];
+  filters: Record<string, Filter>;
+};
+
+export type ConfigType = Record<string, InsightConfig[]>;
+
+const config: ConfigType = {
   revenue: [
     {
       id: 1,
       title: "Revenue",
       chartType: ChartTypes.RANKING,
-      metrics:[
+      metrics: [
         {
           metricKey: "participation_rate",
           metricLabel: "Player participation",
@@ -28,7 +49,7 @@ const config = {
       },
     },
     {
-      id: 1,
+      id: 2,
       title: "Registrations Vs Revenue",
       chartType: ChartTypes.PIVOT,
       metrics: [
@@ -38,30 +59,37 @@ const config = {
           chartType: ChartTypes.PIVOT,
         },
       ],
-      filters:{
+      filters: {
         participation_rate: {
           showDimensionSplitIn: "user__platform",
         },
-      }
+      },
     },
   ],
 };
-const AnalyticsPage = () => {
+
+const AnalyticsPage: React.FC = () => {
   const router = useRouter();
+  const metricKey = router?.query?.metricKey as keyof ConfigType;
+
   return (
-    <>
-      <DashboardLayout cols={ValidDashboardColumns.SIX} title="Drilldown along with contributors">
-      {config[router?.query?.metricKey]?.map((insight)=><Insight
+    <DashboardLayout
+      cols={ValidDashboardColumns.SIX}
+      title="Drilldown along with contributors"
+    >
+      {config[metricKey]?.map((insight) => (
+        <Insight
+          key={insight.id}
           workspaceId={WORKSPACE_ID}
-          title="Player participation by game type"
-          type={insight?.chartType}
-          metrics={insight?.metrics}
-          filters={insight?.filters}
+          title={insight.title}
+          type={insight.chartType}
+          metrics={insight.metrics}
+          filters={insight.filters}
           spanCols={ValidSpanColumns.THREE}
           className="h-80"
-        />)}
-      </DashboardLayout>
-    </>
+        />
+      ))}
+    </DashboardLayout>
   );
 };
 

@@ -7,10 +7,11 @@ import { ValidSpanColumns } from "@/da-insight-kit/components/Insight";
 import { ChartTypes } from "@/da-insight-kit/constants/charts.contant";
 import { useRouter } from "next/router";
 import { FaChevronRight } from "react-icons/fa";
+import { ConfigType } from "./drilldown"; 
 
 const WORKSPACE_ID = "42eed85d-b1d7-4b8e-8621-1dfa79e72cf1";
 
-const config = {
+const config: ConfigType = {
   revenue: [
     {
       id: 1,
@@ -30,7 +31,7 @@ const config = {
       },
     },
     {
-      id: 1,
+      id: 2,
       title: "Registrations Vs Revenue",
       chartType: ChartTypes.SIMPLE_CHART,
       metrics: [
@@ -43,15 +44,17 @@ const config = {
           metricKey: "registrations",
           metricLabel: "Registrations",
           chartType: ChartTypes.AREA,
-          yAxisId:"right"
+          yAxisId: "right",
         },
       ],
     },
   ],
 };
 
-const AnalyticsPage = () => {
+const AnalyticsPage: React.FC = () => {
   const router = useRouter();
+  const metricKey = router?.query?.metricKey as keyof ConfigType;
+
   return (
     <>
       <DashboardLayout
@@ -62,13 +65,13 @@ const AnalyticsPage = () => {
           </div>
         }
       >
-       {config[router?.query?.metricKey]?.map((insight)=>
-         <Insight
+        {config[metricKey]?.map((insight) => (
+          <Insight
+            key={insight.id}
             workspaceId={WORKSPACE_ID}
             title={insight.title}
-            key={insight?.id}
             type={ChartTypes.SIMPLE_CHART}
-            metrics={insight?.metrics}
+            metrics={insight.metrics}
             filters={{
               active_users: {
                 compareWith: ["Min", "Max", "Average"],
@@ -77,13 +80,16 @@ const AnalyticsPage = () => {
             spanCols={ValidSpanColumns.TWO}
             className="h-80"
           />
-        )}
+        ))}
       </DashboardLayout>
+
       <p
         className="p-5 underline cursor-pointer text-sm text-center text-gray-600 font-normal flex items-center gap-1 justify-center"
-        onClick={() => {
-          router.push(`/insights/organisers/tournament/${router?.query?.metricKey}/analysis/drilldown`);
-        }}
+        onClick={() =>
+          router.push(
+            `/insights/organisers/tournament/${router?.query?.metricKey}/analysis/drilldown`
+          )
+        }
       >
         Explore
         <FaChevronRight size={12} />
