@@ -23,6 +23,7 @@ export interface SimpleChartProps {
   filters?: InsightFilters | null;
   height?: string;
   width?: string;
+  fontSize:number,
   chartsConfig?: ChartsConfig;
   options?: InsightOptions;
 }
@@ -33,6 +34,7 @@ const SimpleChart: React.FC<SimpleChartProps> = ({
   filters,
   height = "100%",
   width = "100%",
+  fontSize = 12,
   chartsConfig = {},
   options = {},
 }) => {
@@ -60,12 +62,13 @@ const SimpleChart: React.FC<SimpleChartProps> = ({
           {!compact && (
             <>
               <CartesianGrid stroke="#e7e7e7" vertical={false} horizontal={true} />
-              <XAxis dataKey={index} axisLine={false} tickLine={false} fontFamily="sans-serif" />
+              <XAxis dataKey={index} axisLine={false} tickLine={false} fontFamily="sans-serif" fontSize={fontSize}/>
               <YAxis
                 axisLine={false}
                 tickLine={false}
                 fontFamily="sans-serif"
                 tickFormatter={valueFormatter}
+                fontSize={fontSize}
               />
               <YAxis
                 axisLine={false}
@@ -74,6 +77,7 @@ const SimpleChart: React.FC<SimpleChartProps> = ({
                 yAxisId="right"
                 orientation="right"
                 tickFormatter={valueFormatter}
+                fontSize={fontSize}
               />
               <Legend verticalAlign="top" align="right" iconSize={7} iconType="circle" />
             </>
