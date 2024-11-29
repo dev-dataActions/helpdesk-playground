@@ -18,7 +18,7 @@ export default function WorkflowPage() {
   const workflow = workflows?.find((w) => w.id === parseInt(workflowId));
   const workflowNode = findNode(workflowsTree[0], workflowId);
   return (
-    <div>
+    <div className="pt-12">
       <p>{workflow?.name}</p>
       {workflowNode?.children?.length > 0 && (
         <div>
