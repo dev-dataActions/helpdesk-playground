@@ -12,7 +12,8 @@ const findNode = (treeNode, id) => {
 };
 
 export default function WorkflowPage() {
-  const { query } = useRouter();
+  const router = useRouter();
+  const { query, asPath } = router;
   const workflowIds = query?.workflowIds?.split("-");
   const workflowId = workflowIds?.[workflowIds?.length - 1];
   const workflow = workflows?.find((w) => w.id === parseInt(workflowId));
@@ -20,6 +21,12 @@ export default function WorkflowPage() {
   return (
     <div className="pt-12">
       <p>{workflow?.name}</p>
+      <br />
+      <p>Analysis</p>
+      <p onClick={() => router.push(`${asPath}/reporting`)}>Reporting</p>
+      <p>RCA</p>
+      <p>Forecasting</p>
+      <br />
       {workflowNode?.children?.length > 0 && (
         <div>
           <p>Related workflows</p>
