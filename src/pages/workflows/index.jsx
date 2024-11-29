@@ -89,19 +89,29 @@ export const workflows = [
 
 export const workflowsTree = [
   {
-    id: 1,
-    children: [],
-  },
-  {
-    id: 2,
-    children: [3],
+    id: 0,
+    children: [
+      {
+        id: 1,
+        children: [],
+      },
+      {
+        id: 2,
+        children: [
+          {
+            id: 3,
+            children: [],
+          },
+        ],
+      },
+    ],
   },
 ];
 
 export default function InsightPage() {
   return (
     <div>
-      {workflowsTree.map((workflowNode) => {
+      {workflowsTree[0].children.map((workflowNode) => {
         const workflow = workflows.find((w) => w.id === workflowNode.id);
         return (
           <div key={workflowNode.id}>

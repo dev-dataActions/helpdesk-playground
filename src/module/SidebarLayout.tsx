@@ -13,6 +13,7 @@ import { CgInsights } from "react-icons/cg";
 import { Breadcrumbs } from "../da-insight-kit/common/Breadcrumbs";
 import { useRouter } from "next/router";
 import { usePathname } from "next/navigation";
+import { workflows } from "../pages/workflows";
 
 export const SidebarLayout = ({ children }: { children: ReactNode }) => {
   const router = useRouter();
@@ -21,13 +22,34 @@ export const SidebarLayout = ({ children }: { children: ReactNode }) => {
 
   const createPathArray = () => {
     if (!pathname) return [];
-    return pathname
+    const pathArray = [];
+    // pathname
+    //   .split("/")
+    //   .filter(Boolean)
+    //   .map((segment, index) => ({
+    //     label: segment,
+    //     id: index + 1,
+    //   }));
+    pathname
       .split("/")
       .filter(Boolean)
-      .map((segment, index) => ({
-        label: segment,
-        id: index + 1,
-      }));
+      .forEach((path) => {
+        if (isNaN(parseInt(path))) {
+          pathArray.push({
+            label: path,
+            id: path,
+          });
+        } else {
+          console.log(path);
+          path.split("-").forEach((wid) => {
+            pathArray.push({
+              label: workflows.find((w) => w.id === parseInt(wid))?.name,
+              id: wid,
+            });
+          });
+        }
+      });
+    return pathArray;
   };
 
   const subNavItems = [
