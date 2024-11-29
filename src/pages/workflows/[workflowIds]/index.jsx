@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import { workflows, workflowsTree } from "../index";
 
-const findNode = (treeNode, id) => {
+export const findNode = (treeNode, id) => {
   if (!treeNode) return null;
   if (treeNode.id == id) return treeNode;
   for (let i = 0; i < treeNode.children.length; i++) {

@@ -1,5 +1,10 @@
 import { IoIosArrowBack } from "react-icons/io";
-import { MdKeyboardDoubleArrowRight } from "react-icons/md";
+
+function solve(str) {
+  if (!str) return "";
+  str = str.trim(); // Remove leading and trailing whitespace
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
 
 export const Breadcrumbs = ({ breadcrumbs = [], onBack }) => {
   return (
@@ -10,9 +15,9 @@ export const Breadcrumbs = ({ breadcrumbs = [], onBack }) => {
         </div>
       )}
       {breadcrumbs.map((bc, index) => (
-        <div className="flex flex-row items-center gap-x-1">
+        <div key={index} className="flex flex-row items-center gap-x-1">
           <p className="mt-0 text-gray-400">{index > 0 ? "/" : ""}</p>
-          <p>{bc.label}</p>
+          <p>{solve(bc.label)}</p>
         </div>
       ))}
     </div>
