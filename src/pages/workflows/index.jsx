@@ -1,4 +1,7 @@
 import { ChartTypes } from "@/da-insight-kit/constants/charts.contant";
+import { useState } from "react";
+import { GoHistory } from "react-icons/go";
+import { SlBulb } from "react-icons/sl";
 
 export const workflows = [
   {
@@ -28,6 +31,7 @@ export const workflows = [
         ],
       },
     ],
+    icon: <SlBulb />,
   },
   {
     id: 2,
@@ -56,6 +60,7 @@ export const workflows = [
         ],
       },
     ],
+    icon: <GoHistory />,
   },
   {
     id: 3,
@@ -109,16 +114,36 @@ export const workflowsTree = [
 ];
 
 export default function InsightPage() {
+  const [workflowName, setWorkflowName] = useState("");
   return (
-    <div>
-      {workflowsTree[0].children.map((workflowNode) => {
-        const workflow = workflows.find((w) => w.id === workflowNode.id);
-        return (
-          <div key={workflowNode.id}>
-            <a href={`/workflows/${workflowNode.id}`}>{workflow.name}</a>
-          </div>
-        );
-      })}
+    <div className="flex flex-col justify-center items-center p-5 gap-y-4 h-screen">
+      <p className="text-3xl font-sans">Which workflow you want to analyse?</p>
+      <input
+        placeholder="Search Workflows"
+        name="workflows"
+        value={workflowName}
+        className="p-3 bg-transparent border border-gray-400 rounded-lg w-[60%] mt-2 "
+        onChange={(e) => setWorkflowName(e.target.value)}
+      />
+      <div className="flex items-center gap-x-2">
+        {workflowsTree[0].children.map((workflowNode) => {
+          const workflow = workflows.find((w) => w.id === workflowNode.id);
+          return (
+            <div
+              key={workflow.id}
+              className="bg-white p-3 rounded-lg border border-gray-300 text-xs text-gray-800"
+            >
+              <a
+                href={`/workflows/${workflow.id}`}
+                className="flex justify-around items-center gap-x-2"
+              >
+                {workflow.icon}
+                {workflow.name}
+              </a>
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 }

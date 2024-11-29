@@ -1,14 +1,11 @@
-import { FiBook } from "react-icons/fi";
 import { List } from "./List";
-import { ReactNode, useEffect, useMemo, useState } from "react";
+import { ReactNode, useMemo } from "react";
 import { IoIosArrowDown } from "react-icons/io";
 import { IoHomeOutline } from "react-icons/io5";
 import { CiGlobe } from "react-icons/ci";
 import { BiMessageRounded } from "react-icons/bi";
 import { GiMoneyStack } from "react-icons/gi";
 import { TbDatabaseExport } from "react-icons/tb";
-import { LuUsers } from "react-icons/lu";
-import { MdDragIndicator } from "react-icons/md";
 import { CgInsights } from "react-icons/cg";
 import { Breadcrumbs } from "../da-insight-kit/common/Breadcrumbs";
 import { useRouter } from "next/router";
@@ -18,7 +15,6 @@ import { workflows } from "../pages/workflows";
 export const SidebarLayout = ({ children }: { children: ReactNode }) => {
   const router = useRouter();
   const pathname = usePathname();
-  const [showSubItems, setShowSubItems] = useState(false);
 
   const createPathArray = () => {
     if (!pathname) return [];
@@ -52,42 +48,6 @@ export const SidebarLayout = ({ children }: { children: ReactNode }) => {
     return pathArray;
   };
 
-  const subNavItems = [
-    {
-      id: 7,
-      icon: <LuUsers size={16} />,
-      href: "/insights/organisers",
-      label: "Organisers",
-      current: pathname?.includes("/organisers"),
-    },
-    {
-      id: 8,
-      icon: <MdDragIndicator size={16} />,
-      href: "/insights/sponsers",
-      label: "Sponsers",
-      current: pathname?.includes("/sponsers"),
-    },
-  ];
-
-  const Insight = () => {
-    return (
-      <div
-        className="flex justify-between text-sm w-full items-center cursor-pointer mt-2"
-        onClick={() => setShowSubItems((prev) => !prev)}
-      >
-        <div className="flex gap-3 pl-2">
-          <CgInsights size={16} />
-          <p>Insights</p>
-        </div>
-        <IoIosArrowDown
-          size={15}
-          className={`transition-transform duration-300 ease-in-out ${
-            showSubItems ? "rotate-180" : "rotate-0"
-          }`}
-        />
-      </div>
-    );
-  };
 
   const navItems = useMemo(
     () => [
@@ -115,10 +75,12 @@ export const SidebarLayout = ({ children }: { children: ReactNode }) => {
       },
       {
         id: 6,
-        component: <Insight />,
+        icon: <CgInsights size={16} />,
+        label: "Insights",
+        href:"/workflows"
       },
     ],
-    [pathname, showSubItems]
+    [pathname]
   );
 
   return (
@@ -132,11 +94,6 @@ export const SidebarLayout = ({ children }: { children: ReactNode }) => {
 
           <nav className="flex flex-col justify-between flex-grow p-4">
             <List items={navItems} />
-            {showSubItems && (
-              <nav className="flex flex-col justify-between flex-grow p-4">
-                <List items={subNavItems} />
-              </nav>
-            )}
           </nav>
         </div>
       </div>
@@ -148,7 +105,7 @@ export const SidebarLayout = ({ children }: { children: ReactNode }) => {
           <Breadcrumbs onBack={() => router.back()} breadcrumbs={createPathArray()} />
         </div>
       </div>
-      <div className="min-h-screen md:pl-64 pt-12">{children}</div>
+      <div className="min-h-screen md:pl-64">{children}</div>
     </div>
   );
 };
