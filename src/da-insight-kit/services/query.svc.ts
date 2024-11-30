@@ -1,6 +1,6 @@
 import { Entry } from "../resolvers/dataResolvers/simple";
 
-const NEXT_PUBLIC_BACKEND_URL = "http://65.1.163.15:8008";
+const NEXT_PUBLIC_BACKEND_URL = "https://backend.dataactions.ai";
 
 export interface GetAllChartDataV1Props {
   workspaceId: string;
@@ -9,7 +9,7 @@ export interface GetAllChartDataV1Props {
 }
 
 const fetchData = async (params: unknown) => {
-  const data = await fetch(`${NEXT_PUBLIC_BACKEND_URL}/cubeinsight`, {
+  const data = await fetch(`${NEXT_PUBLIC_BACKEND_URL}/insight`, {
     method: "POST",
     body: JSON.stringify(params),
     headers: {

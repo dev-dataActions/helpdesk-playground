@@ -1,7 +1,15 @@
+import { Insight } from "@/da-insight-kit";
+import {
+  DashboardLayout,
+  ValidDashboardColumns,
+} from "@/da-insight-kit/components/DashboardLayout";
+import { ValidSpanColumns } from "@/da-insight-kit/components/Insight";
 import { ChartTypes } from "@/da-insight-kit/constants/charts.contant";
 import { useState } from "react";
 import { GoHistory } from "react-icons/go";
 import { SlBulb } from "react-icons/sl";
+
+const WORKSPACE_ID = "42eed85d-b1d7-4b8e-8621-1dfa79e72cf1";
 
 export const workflows = [
   {
@@ -45,6 +53,37 @@ export const workflows = [
           {
             metricKey: "revenue",
             metricLabel: "Revenue",
+          },
+        ],
+        analysis: [
+          {
+            id: "ria_1",
+            title: "Active players",
+            chartType: ChartTypes.SIMPLE_CHART,
+            metrics: [
+              {
+                metricKey: "active_users",
+                metricLabel: "Active players",
+                chartType: ChartTypes.AREA,
+              },
+            ],
+          },
+          {
+            id: "ria_2",
+            title: "Active players vs Revenue",
+            chartType: ChartTypes.SIMPLE_CHART,
+            metrics: [
+              {
+                metricKey: "active_users",
+                metricLabel: "Active players",
+                chartType: ChartTypes.LINE,
+              },
+              {
+                metricKey: "revenue",
+                metricLabel: "Revenue",
+                chartType: ChartTypes.LINE,
+              },
+            ],
           },
         ],
       },
@@ -113,6 +152,53 @@ export const workflowsTree = [
   },
 ];
 
+const pins = [
+  {
+    id: "ri_1",
+    title: "Active players",
+    chartType: ChartTypes.BIGNUMBERWITHTREND,
+    metrics: [
+      {
+        metricKey: "active_users",
+        metricLabel: "Active players",
+      },
+    ],
+  },
+  {
+    id: "ri_1",
+    title: "Active players",
+    chartType: ChartTypes.BIGNUMBERWITHTREND,
+    metrics: [
+      {
+        metricKey: "active_users",
+        metricLabel: "Active players",
+      },
+    ],
+  },
+  {
+    id: "ri_1",
+    title: "Active players",
+    chartType: ChartTypes.BIGNUMBERWITHTREND,
+    metrics: [
+      {
+        metricKey: "active_users",
+        metricLabel: "Active players",
+      },
+    ],
+  },
+  {
+    id: "ri_1",
+    title: "Active players",
+    chartType: ChartTypes.BIGNUMBERWITHTREND,
+    metrics: [
+      {
+        metricKey: "active_users",
+        metricLabel: "Active players",
+      },
+    ],
+  },
+];
+
 export default function InsightPage() {
   const [workflowName, setWorkflowName] = useState("");
   return (
@@ -143,6 +229,26 @@ export default function InsightPage() {
             </div>
           );
         })}
+      </div>
+      <div>
+        {pins && (
+          <DashboardLayout cols={ValidDashboardColumns.TWELVE} title={`My pins`}>
+            {pins?.map((insight) => {
+              return (
+                <Insight
+                  key={insight.id}
+                  workspaceId={WORKSPACE_ID}
+                  title={insight.title}
+                  type={insight.chartType}
+                  metrics={insight.metrics}
+                  spanCols={ValidSpanColumns.THREE}
+                  className="h-60"
+                  onClick={() => router.push(`${asPath}/${insight.id}`)}
+                />
+              );
+            })}
+          </DashboardLayout>
+        )}
       </div>
     </div>
   );

@@ -14,6 +14,7 @@ import { workflows } from "../pages/workflows";
 
 export const SidebarLayout = ({ children }: { children: ReactNode }) => {
   const router = useRouter();
+  const { query } = router;
   const pathname = usePathname();
 
   const createPathArray = () => {
@@ -30,7 +31,20 @@ export const SidebarLayout = ({ children }: { children: ReactNode }) => {
       .split("/")
       .filter(Boolean)
       .forEach((path) => {
-        if (isNaN(parseInt(path))) {
+        if (path.indexOf("_") != -1) {
+          const workflowIds = query?.workflowIds?.split("-");
+
+          const workflowId = workflowIds?.[workflowIds?.length - 1];
+          const insightId = query?.insightId;
+
+          const workflow = workflows?.find((w) => w.id === parseInt(workflowId));
+          const insight = workflow?.reportingInsights?.find((i) => i.id == insightId);
+
+          pathArray.push({
+            label: insight?.title,
+            id: insight?.id,
+          });
+        } else if (isNaN(parseInt(path))) {
           pathArray.push({
             label: path,
             id: path,
@@ -47,7 +61,6 @@ export const SidebarLayout = ({ children }: { children: ReactNode }) => {
       });
     return pathArray;
   };
-
 
   const navItems = useMemo(
     () => [
@@ -77,7 +90,7 @@ export const SidebarLayout = ({ children }: { children: ReactNode }) => {
         id: 6,
         icon: <CgInsights size={16} />,
         label: "Insights",
-        href:"/workflows"
+        href: "/workflows",
       },
     ],
     [pathname]
