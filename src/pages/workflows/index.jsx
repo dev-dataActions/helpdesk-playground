@@ -58,25 +58,26 @@ export const workflows = [
         analysis: [
           {
             id: "ria_1",
-            title: "Active players",
+            title: "Revenue",
             chartType: ChartTypes.SIMPLE_CHART,
             metrics: [
               {
-                metricKey: "active_users",
-                metricLabel: "Active players",
+                metricKey: "revenue",
+                metricLabel: "Revenue",
                 chartType: ChartTypes.AREA,
               },
             ],
           },
           {
             id: "ria_2",
-            title: "Active players vs Revenue",
+            title: "Revenue vs Registrations",
             chartType: ChartTypes.SIMPLE_CHART,
             metrics: [
               {
-                metricKey: "active_users",
-                metricLabel: "Active players",
+                metricKey: "registrations",
+                metricLabel: "Registrations",
                 chartType: ChartTypes.LINE,
+                yAxisId: "right",
               },
               {
                 metricKey: "revenue",
@@ -89,12 +90,23 @@ export const workflows = [
       },
       {
         id: "ri_2",
-        title: "Revenue",
+        title: "Participation rate",
         chartType: ChartTypes.BIGNUMBERWITHTREND,
         metrics: [
           {
-            metricKey: "revenue",
-            metricLabel: "Revenue",
+            metricKey: "participation_rate",
+            metricLabel: "Participation rate",
+          },
+        ],
+      },
+      {
+        id: "ri_3",
+        title: "Registrations",
+        chartType: ChartTypes.BIGNUMBERWITHTREND,
+        metrics: [
+          {
+            metricKey: "registrations",
+            metricLabel: "Registrations",
           },
         ],
       },
@@ -166,34 +178,34 @@ const pins = [
   },
   {
     id: "ri_1",
-    title: "Active players",
+    title: "Revenue",
     chartType: ChartTypes.BIGNUMBERWITHTREND,
     metrics: [
       {
-        metricKey: "active_users",
-        metricLabel: "Active players",
+        metricKey: "revenue",
+        metricLabel: "Revenue",
       },
     ],
   },
   {
     id: "ri_1",
-    title: "Active players",
+    title: "Participation rate",
     chartType: ChartTypes.BIGNUMBERWITHTREND,
     metrics: [
       {
-        metricKey: "active_users",
-        metricLabel: "Active players",
+        metricKey: "participation_rate",
+        metricLabel: "Participation rate",
       },
     ],
   },
   {
     id: "ri_1",
-    title: "Active players",
+    title: "Registrations",
     chartType: ChartTypes.BIGNUMBERWITHTREND,
     metrics: [
       {
-        metricKey: "active_users",
-        metricLabel: "Active players",
+        metricKey: "registrations",
+        metricLabel: "Registrations",
       },
     ],
   },
@@ -217,7 +229,7 @@ export default function InsightPage() {
           return (
             <div
               key={workflow.id}
-              className="bg-white p-3 rounded-lg border border-gray-300 text-xs text-gray-800"
+              className="bg-white p-3 rounded-lg border border-gray-300 text-xs text-gray-800 hover:underline hover:cursor-pointer"
             >
               <a
                 href={`/workflows/${workflow.id}`}
@@ -230,7 +242,7 @@ export default function InsightPage() {
           );
         })}
       </div>
-      <div>
+      <div className="w-full">
         {pins && (
           <DashboardLayout cols={ValidDashboardColumns.TWELVE} title={`My pins`}>
             {pins?.map((insight) => {

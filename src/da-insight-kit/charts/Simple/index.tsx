@@ -23,7 +23,7 @@ export interface SimpleChartProps {
   filters?: InsightFilters | null;
   height?: string;
   width?: string;
-  fontSize:number,
+  fontSize: number;
   chartsConfig?: ChartsConfig;
   options?: InsightOptions;
 }
@@ -42,7 +42,7 @@ const SimpleChart: React.FC<SimpleChartProps> = ({
   const { index = "date" } = filters ?? {};
 
   if (loading) {
-    return <Loader className={"h-full"} />;
+    return <Loader className={"h-full w-full"} />;
   }
 
   if (!chartsConfig || !data || data.length === 0) {
@@ -62,7 +62,13 @@ const SimpleChart: React.FC<SimpleChartProps> = ({
           {!compact && (
             <>
               <CartesianGrid stroke="#e7e7e7" vertical={false} horizontal={true} />
-              <XAxis dataKey={index} axisLine={false} tickLine={false} fontFamily="sans-serif" fontSize={fontSize}/>
+              <XAxis
+                dataKey={index}
+                axisLine={false}
+                tickLine={false}
+                fontFamily="sans-serif"
+                fontSize={fontSize}
+              />
               <YAxis
                 axisLine={false}
                 tickLine={false}

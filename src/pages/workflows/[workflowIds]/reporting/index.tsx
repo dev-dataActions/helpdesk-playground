@@ -22,7 +22,7 @@ export default function ReportingPage() {
   console.log(workflowNode);
 
   return (
-    <div className="pt-12">
+    <div className="pt-20 px-32">
       {workflow?.reportingInsights && (
         <DashboardLayout cols={ValidDashboardColumns.SIX} title={`${workflow?.name} reporting`}>
           {workflow?.reportingInsights?.map((insight) => {
@@ -42,8 +42,8 @@ export default function ReportingPage() {
         </DashboardLayout>
       )}
       {workflowNode?.children?.length > 0 && (
-        <div className="flex flex-col gap-y-4 items-start w-[60%]">
-          <p className="text-sm font-semibold">Related workflows</p>
+        <div className="p-5 flex flex-col items-start w-[60%]">
+          <p className="text-sm font-light mb-2">Related workflows</p>
           {workflowNode?.children?.map((wn) => {
             const cworkflow = workflows?.find((w) => w.id === wn.id);
             return (

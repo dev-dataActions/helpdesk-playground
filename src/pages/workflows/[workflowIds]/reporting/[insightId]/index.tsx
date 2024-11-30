@@ -31,7 +31,7 @@ export default function InsightPage() {
   console.log(insight, insight?.analysis);
 
   return (
-    <div className="pt-12">
+    <div className="pt-20 px-32">
       {insight?.analysis && (
         <DashboardLayout cols={ValidDashboardColumns.SIX} title={`${insight?.title} analysis`}>
           {insight?.analysis?.map((insight) => {
@@ -42,7 +42,7 @@ export default function InsightPage() {
                 title={insight.title}
                 type={insight.chartType}
                 metrics={insight.metrics}
-                spanCols={ValidSpanColumns.TWO}
+                spanCols={ValidSpanColumns.THREE}
                 className="h-60"
                 onClick={() => router.push(`${asPath}/${insight.id}`)}
               />
@@ -51,8 +51,8 @@ export default function InsightPage() {
         </DashboardLayout>
       )}
       {workflowNode?.children?.length > 0 && (
-        <div className="flex flex-col gap-y-4 items-start w-[60%]">
-          <p className="text-sm font-semibold">Related workflows</p>
+        <div className="flex flex-col items-start w-[60%] p-5">
+          <p className="text-sm mb-2 font-light">Related workflows</p>
           {workflowNode?.children?.map((wn) => {
             const cworkflow = workflows?.find((w) => w.id === wn.id);
             return (
