@@ -52,7 +52,7 @@ export const PopUpMenu: React.FC<PopUpMenuProps> = ({
                       onClick={item.onClick}
                       className={`${classNames(
                         active ? "bg-gray-100" : "",
-                        `w-full px-3 py-2 text-xxs ${
+                        `w-full px-3 py-2 text-xs ${
                           index < menuItems.length - 1 ? "border-b" : ""
                         } hover:bg-gray-100`
                       )} ${className}`}

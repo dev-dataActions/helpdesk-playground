@@ -11,7 +11,8 @@ import { deletePin } from "@/services/pins.svc";
 import { useState } from "react";
 import { GoHistory } from "react-icons/go";
 import { SlBulb } from "react-icons/sl";
-
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 const WORKSPACE_ID = "42eed85d-b1d7-4b8e-8621-1dfa79e72cf1";
 
 export const workflows = [
@@ -173,6 +174,7 @@ export default function InsightPage() {
   if (loading) return <Loader />;
   return (
     <div className="flex flex-col justify-center items-center p-5 gap-y-4 h-screen">
+      <ToastContainer />
       <p className="text-3xl font-sans">Which workflow you want to analyse?</p>
       <input
         placeholder="Search Workflows"
@@ -219,7 +221,10 @@ export default function InsightPage() {
                   actions={[
                     {
                       name: "Remove from pins",
-                      onClick: () => deletePin(WORKSPACE_ID, insight?.pin_id),
+                      onClick: () => {
+                        deletePin(WORKSPACE_ID, insight?.pin_id);
+                        toast("Removed from pins");
+                      },
                     },
                   ]}
                   onClick={() => router.push(`${asPath}/${insight.id}`)}

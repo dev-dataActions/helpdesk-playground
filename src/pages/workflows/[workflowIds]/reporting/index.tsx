@@ -8,6 +8,7 @@ import {
   ValidDashboardColumns,
 } from "@/da-insight-kit/components/DashboardLayout";
 import { IoIosArrowForward } from "react-icons/io";
+import { toast, ToastContainer } from "react-toastify";
 
 export default function ReportingPage() {
   const router = useRouter();
@@ -51,6 +52,7 @@ export default function ReportingPage() {
 
   return (
     <div className="pt-20 px-32">
+            <ToastContainer />
       {workflow?.reportingInsights && (
         <DashboardLayout cols={ValidDashboardColumns.SIX} title={`${workflow?.name} reporting`}>
           {workflow?.reportingInsights?.map((insight) => {
@@ -63,7 +65,9 @@ export default function ReportingPage() {
                 metrics={insight.metrics}
                 spanCols={ValidSpanColumns.TWO}
                 className="h-60"
-                actions={[{name:"Add to pins",onClick: () => handleAction(insight)}]}
+                actions={[{name:"Add to pins",onClick: () => {handleAction(insight);
+                  toast("Added to pins");
+                }}]}
                 onClick={() => router.push(`${asPath}/${insight.id}`)}
               />
             );
@@ -82,7 +86,6 @@ export default function ReportingPage() {
                   className="flex items-center bg-white p-3 gap-x-2 rounded-lg w-auto text-xs border border-gray-300 justify-between"
                 >
                   <p>{cworkflow.name}</p>
-
                   <IoIosArrowForward />
                 </a>
               </div>
