@@ -1,10 +1,13 @@
 import { Insight } from "@/da-insight-kit";
+import { Loader } from "@/da-insight-kit/common/Loader";
 import {
   DashboardLayout,
   ValidDashboardColumns,
 } from "@/da-insight-kit/components/DashboardLayout";
 import { ValidSpanColumns } from "@/da-insight-kit/components/Insight";
 import { ChartTypes } from "@/da-insight-kit/constants/charts.contant";
+import { usePins } from "@/hooks/usePins";
+import { deletePin } from "@/services/pins.svc";
 import { useState } from "react";
 import { GoHistory } from "react-icons/go";
 import { SlBulb } from "react-icons/sl";
@@ -164,55 +167,10 @@ export const workflowsTree = [
   },
 ];
 
-const pins = [
-  {
-    id: "ri_1",
-    title: "Active players",
-    chartType: ChartTypes.BIGNUMBERWITHTREND,
-    metrics: [
-      {
-        metricKey: "active_users",
-        metricLabel: "Active players",
-      },
-    ],
-  },
-  {
-    id: "ri_1",
-    title: "Revenue",
-    chartType: ChartTypes.BIGNUMBERWITHTREND,
-    metrics: [
-      {
-        metricKey: "revenue",
-        metricLabel: "Revenue",
-      },
-    ],
-  },
-  {
-    id: "ri_1",
-    title: "Participation rate",
-    chartType: ChartTypes.BIGNUMBERWITHTREND,
-    metrics: [
-      {
-        metricKey: "participation_rate",
-        metricLabel: "Participation rate",
-      },
-    ],
-  },
-  {
-    id: "ri_1",
-    title: "Registrations",
-    chartType: ChartTypes.BIGNUMBERWITHTREND,
-    metrics: [
-      {
-        metricKey: "registrations",
-        metricLabel: "Registrations",
-      },
-    ],
-  },
-];
-
 export default function InsightPage() {
+  const { pins, loading } = usePins(WORKSPACE_ID);
   const [workflowName, setWorkflowName] = useState("");
+  if (loading) return <Loader />;
   return (
     <div className="flex flex-col justify-center items-center p-5 gap-y-4 h-screen">
       <p className="text-3xl font-sans">Which workflow you want to analyse?</p>
@@ -244,17 +202,26 @@ export default function InsightPage() {
       </div>
       <div className="w-full">
         {pins && (
-          <DashboardLayout cols={ValidDashboardColumns.TWELVE} title={`My pins`}>
+          <DashboardLayout
+            cols={ValidDashboardColumns.TWELVE}
+            title={`My pins`}
+          >
             {pins?.map((insight) => {
               return (
                 <Insight
-                  key={insight.id}
+                  key={insight?.data?.id}
                   workspaceId={WORKSPACE_ID}
-                  title={insight.title}
-                  type={insight.chartType}
-                  metrics={insight.metrics}
+                  title={insight?.data?.title}
+                  type={insight?.data?.chartType}
+                  metrics={insight?.data?.metrics}
                   spanCols={ValidSpanColumns.THREE}
                   className="h-60"
+                  actions={[
+                    {
+                      name: "Remove from pins",
+                      onClick: () => deletePin(WORKSPACE_ID, insight?.pin_id),
+                    },
+                  ]}
                   onClick={() => router.push(`${asPath}/${insight.id}`)}
                 />
               );

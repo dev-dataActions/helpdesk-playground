@@ -9,8 +9,6 @@ import {
 } from "@/da-insight-kit/components/DashboardLayout";
 import { IoIosArrowForward } from "react-icons/io";
 
-const WORKSPACE_ID = "42eed85d-b1d7-4b8e-8621-1dfa79e72cf1";
-
 export default function ReportingPage() {
   const router = useRouter();
   const { query, asPath } = router;
@@ -18,8 +16,38 @@ export default function ReportingPage() {
   const workflowId = workflowIds?.[workflowIds?.length - 1];
   const workflow = workflows?.find((w) => w.id === parseInt(workflowId));
   const workflowNode = findNode(workflowsTree[0], workflowId);
-
-  console.log(workflowNode);
+  const WORKSPACE_ID = "42eed85d-b1d7-4b8e-8621-1dfa79e72cf1";
+  const handleAction=(insight:Object)=>{
+    async function postData(url = '', data = {}) {
+      try {
+          const response = await fetch(url, {
+              method: 'POST', 
+              headers: {
+                  'Content-Type': 'application/json', 
+              },
+              body: JSON.stringify(data), 
+          });
+          if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+          const result = await response.json(); 
+          return result;
+      } catch (error) {
+          console.error('Error:', error);
+          throw error;
+      }
+  }
+  postData(`${process.env.NEXT_PUBLIC_BACKEND_URL}/pin`, {
+      workspace_id: WORKSPACE_ID,
+      user_id: "arihant",
+      data_type: "pin",
+      data: insight,
+})
+    .then((data) => {
+        console.log('Success:', data);
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+    });
+  }
 
   return (
     <div className="pt-20 px-32">
@@ -35,6 +63,7 @@ export default function ReportingPage() {
                 metrics={insight.metrics}
                 spanCols={ValidSpanColumns.TWO}
                 className="h-60"
+                actions={[{name:"Add to pins",onClick: () => handleAction(insight)}]}
                 onClick={() => router.push(`${asPath}/${insight.id}`)}
               />
             );
