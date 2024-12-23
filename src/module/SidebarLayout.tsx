@@ -59,6 +59,7 @@ export const SidebarLayout = ({ children }: { children: ReactNode }) => {
         }
       });
     return pathArray;
+    
   };
 
   const navItems = useMemo(
