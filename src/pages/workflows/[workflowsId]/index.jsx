@@ -1,42 +1,27 @@
 export default function NewWorkflowsPage() {
-  const liveBoards = [
+  const reviewBoards = [
     {
       id: 1,
-      name: "Game Selection",
+      name: "Acquisition and Activation",
       createdOn: "October 30, 2024 11:09 AM",
       updatedOn: "October 30, 2024 11:09 AM",
-      href: "/new_workflows/1",
+      href: "/workflows/1/1",
     },
     {
       id: 2,
-      name: "Time Slot Optimization",
+      name: "Stable retention",
       createdOn: "October 30, 2024 11:09 AM",
       updatedOn: "October 30, 2024 11:09 AM",
-      href: "/new_workflows/2",
-    },
-    {
-      id: 3,
-      name: "Prize Pool and Entry Fee",
-      createdOn: "October 30, 2024 11:09 AM",
-      updatedOn: "October 30, 2024 11:09 AM",
-      href: "/new_workflows/3",
-    },
-    {
-      id: 4,
-      name: "Target Player",
-      createdOn: "October 30, 2024 11:09 AM",
-      updatedOn: "October 30, 2024 11:09 AM",
-      href: "/new_workflows/4",
+      href: "#",
     },
   ];
 
   return (
     <div className="p-4 mt-10">
       <div className="mb-6">
-        <p className="text-xl font-semibold">Live Boards</p>
+        <p className="text-xl font-semibold">Review Boards</p>
         <p className="text-gray-600">
-          You can create dashboards within this organization, or within teams
-          and projects.
+          You can review what is happening within your organization, or within teams and projects.
         </p>
       </div>
       <div className="border border-gray-200 rounded-lg bg-white">
@@ -49,11 +34,8 @@ export default function NewWorkflowsPage() {
             </tr>
           </thead>
           <tbody>
-            {liveBoards.map((board) => (
-              <tr
-                key={board.id}
-                className="cursor-pointer text-sm text-gray-600"
-              >
+            {reviewBoards.map((board) => (
+              <tr key={board.id} className="cursor-pointer text-sm text-gray-600">
                 <td className="px-4 py-2">
                   <a href={board.href}>{board.name}</a>
                 </td>
@@ -66,10 +48,7 @@ export default function NewWorkflowsPage() {
       </div>
       <div>
         <p>Review Boards</p>
-        <p>
-          You can review workflows within this organization, or within teams and
-          projects.
-        </p>
+        <p>You can review workflows within this organization, or within teams and projects.</p>
       </div>
     </div>
   );

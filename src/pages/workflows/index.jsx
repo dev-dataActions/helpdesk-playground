@@ -5,7 +5,6 @@ import { usePins } from "@/hooks/usePins";
 import { deletePin } from "@/services/pins.svc";
 import { useState } from "react";
 import { GoHistory } from "react-icons/go";
-import { SlBulb } from "react-icons/sl";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 const WORKSPACE_ID = "42eed85d-b1d7-4b8e-8621-1dfa79e72cf1";
@@ -13,15 +12,9 @@ const WORKSPACE_ID = "42eed85d-b1d7-4b8e-8621-1dfa79e72cf1";
 const workflows = [
   {
     id: "1",
-    name: "Tournament Planning",
-    desc: "View tournaments workflows",
+    name: "Player lifecycle management",
+    desc: "A comprehensive workflow designed to manage the various stages of a player's career in esports, from recruitment and training to performance tracking and retirement planning. This workflow ensures that players receive the necessary support and resources to excel in their careers while maintaining a healthy work-life balance.",
     icon: <GoHistory size={30} />,
-  },
-  {
-    id: "2",
-    name: "Tournament Execution",
-    desc: "View tournament workflows insights",
-    icon: <SlBulb size={30} />,
   },
 ];
 
@@ -36,8 +29,7 @@ export default function InsightPage() {
         <div className="flex flex-col gap-y-1">
           <p className="text-2xl font-semibold">Pinned Insights</p>
           <p>
-            You can browse your workflow live-boards and pin insights to quickly
-            access and monitor
+            You can browse your workflow live-boards and pin insights to quickly access and monitor
           </p>
         </div>
         <div className="w-1/2">
@@ -70,9 +62,7 @@ export default function InsightPage() {
       <div className="flex flex-col gap-y-4">
         <div className="flex flex-col gap-y-1">
           <p className="text-2xl font-sans font-semibold">Workflows</p>
-          <p>
-            You can browse your workflows to review and keep track of progress.
-          </p>
+          <p>You can browse your workflows to review and keep track of progress.</p>
         </div>
         <div className="flex items-center gap-x-2">
           {workflows.map((workflow) => (
@@ -80,10 +70,7 @@ export default function InsightPage() {
               key={workflow.id}
               className="flex bg-white p-3 h-28 justify-center rounded-lg border border-gray-300 text-xs text-gray-800 hover:cursor-pointer"
             >
-              <a
-                href={`/workflows/${workflow.id}`}
-                className="flex items-center gap-x-6"
-              >
+              <a href={`/workflows/${workflow.id}`} className="flex items-center gap-x-6">
                 <div className="flex flex-col w-auto">
                   <p className="text-lg">{workflow.name}</p>
                   <p className="text-sm text-gray-600">{workflow.desc}</p>
