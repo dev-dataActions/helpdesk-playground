@@ -64,6 +64,13 @@ export default function NewWorkflowsPage() {
           </tbody>
         </table>
       </div>
+      <div>
+        <p>Review Boards</p>
+        <p>
+          You can review workflows within this organization, or within teams and
+          projects.
+        </p>
+      </div>
     </div>
   );
 }

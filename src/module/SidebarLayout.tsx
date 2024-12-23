@@ -53,7 +53,7 @@ export const SidebarLayout = ({ children }: { children: ReactNode }) => {
           console.log(path);
           path.split("-").forEach((wid) => {
             pathArray.push({
-              label: workflows.find((w) => w.id === parseInt(wid))?.name,
+              label: workflows?.find((w) => w.id === parseInt(wid))?.name,
               id: wid,
             });
           });
@@ -89,14 +89,8 @@ export const SidebarLayout = ({ children }: { children: ReactNode }) => {
       {
         id: 6,
         icon: <CgInsights size={16} />,
-        label: "Insights",
-        href: "/workflows",
-      },
-      {
-        id: 7,
-        icon: <CgInsights size={16} />,
         label: "Workflows",
-        href: "/new_workflows",
+        href: "/workflows",
       },
     ],
     [pathname]
