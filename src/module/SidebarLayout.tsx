@@ -92,6 +92,12 @@ export const SidebarLayout = ({ children }: { children: ReactNode }) => {
         label: "Insights",
         href: "/workflows",
       },
+      {
+        id: 7,
+        icon: <CgInsights size={16} />,
+        label: "Workflows",
+        href: "/new_workflows",
+      },
     ],
     [pathname]
   );
