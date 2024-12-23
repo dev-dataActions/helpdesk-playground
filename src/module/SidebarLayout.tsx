@@ -50,7 +50,6 @@ export const SidebarLayout = ({ children }: { children: ReactNode }) => {
             id: path,
           });
         } else {
-          console.log(path);
           path.split("-").forEach((wid) => {
             pathArray.push({
               label: workflows?.find((w) => w.id === parseInt(wid))?.name,
