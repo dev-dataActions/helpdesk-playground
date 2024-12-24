@@ -8,11 +8,11 @@ export interface Template {
 export interface InsightType {
   id: number;
   title: string;
-  chartType: string;
+  chartType: ChartTypes;
   metrics: {
     metricKey: string;
     metricLabel: string;
-    chartType?: string;
+    chartType?: ChartTypes;
     yAxisId?: string;
   }[];
   filters?: {
