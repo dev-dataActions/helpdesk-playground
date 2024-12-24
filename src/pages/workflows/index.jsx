@@ -2,34 +2,26 @@ import { Insight } from "@/da-insight-kit";
 import { Loader } from "@/da-insight-kit/common/Loader";
 import { ValidSpanColumns } from "@/da-insight-kit/components/Insight";
 import { usePins } from "@/hooks/usePins";
+import { useWorkflows } from "@/hooks/useWorkflows";
 import { deletePin } from "@/services/pins.svc";
-import { useState } from "react";
 import { GoHistory } from "react-icons/go";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 const WORKSPACE_ID = "42eed85d-b1d7-4b8e-8621-1dfa79e72cf1";
 
-const workflows = [
-  {
-    id: "1",
-    name: "Player lifecycle management",
-    desc: "A comprehensive workflow designed to manage the various stages of a player's career in esports, from recruitment and training to performance tracking and retirement planning. This workflow ensures that players receive the necessary support and resources to excel in their careers while maintaining a healthy work-life balance.",
-    icon: <GoHistory size={30} />,
-  },
-];
-
 export default function InsightPage() {
   const { pins, loading } = usePins(WORKSPACE_ID);
-  const [workflowName, setWorkflowName] = useState("");
+  const { workflows } = useWorkflows(WORKSPACE_ID);
   if (loading) return <Loader />;
   return (
-    <div className="flex flex-col mt-10 items-start p-5 gap-y-4 h-screen">
+    <div className="flex flex-col mt-10 items-start p-5 gap-y-4 h-screen px-24">
       <ToastContainer />
       <div className="w-auto flex flex-col gap-y-4">
         <div className="flex flex-col gap-y-1">
           <p className="text-2xl font-semibold">Pinned Insights</p>
           <p>
-            You can browse your workflow live-boards and pin insights to quickly access and monitor
+            You can browse your workflow live-boards and pin insights to quickly
+            access and monitor
           </p>
         </div>
         <div className="w-1/2">
@@ -62,20 +54,27 @@ export default function InsightPage() {
       <div className="flex flex-col gap-y-4">
         <div className="flex flex-col gap-y-1">
           <p className="text-2xl font-sans font-semibold">Workflows</p>
-          <p>You can browse your workflows to review and keep track of progress.</p>
+          <p>
+            You can browse your workflows to review and keep track of progress.
+          </p>
         </div>
-        <div className="flex items-center gap-x-2">
-          {workflows.map((workflow) => (
+        <div className="flex flex-col items-start gap-x-2">
+          {workflows?.map((workflow) => (
             <div
               key={workflow.id}
-              className="flex bg-white p-3 h-28 justify-center rounded-lg border border-gray-300 text-xs text-gray-800 hover:cursor-pointer"
+              className="flex bg-white p-3 w-1/3 justify-center rounded-lg border border-gray-300 text-xs text-gray-800 hover:cursor-pointer"
             >
-              <a href={`/workflows/${workflow.id}`} className="flex items-center gap-x-6">
-                <div className="flex flex-col w-auto">
+              <a
+                href={`/workflows/${workflow.id}`}
+                className="flex items-center gap-x-6"
+              >
+                <div className="flex flex-col">
                   <p className="text-lg">{workflow.name}</p>
-                  <p className="text-sm text-gray-600">{workflow.desc}</p>
+                  <p className="text-xs text-gray-600">{workflow.desc}</p>
                 </div>
-                <div className="text-lg">{workflow.icon}</div>
+                <div className="text-lg">
+                  <GoHistory size={30} />
+                </div>
               </a>
             </div>
           ))}

@@ -10,13 +10,14 @@ import { CgInsights } from "react-icons/cg";
 import { Breadcrumbs } from "../da-insight-kit/common/Breadcrumbs";
 import { useRouter } from "next/router";
 import { usePathname } from "next/navigation";
-import { workflows } from "../pages/workflows";
+import { useWorkflows } from "@/hooks/useWorkflows";
 
 export const SidebarLayout = ({ children }: { children: ReactNode }) => {
   const router = useRouter();
+  const WORKSPACE_ID = "42eed85d-b1d7-4b8e-8621-1dfa79e72cf1";
   const { query } = router;
   const pathname = usePathname();
-
+  const { workflows } = useWorkflows(WORKSPACE_ID);
   const createPathArray = () => {
     if (!pathname) return [];
     const pathArray = [];
@@ -37,8 +38,12 @@ export const SidebarLayout = ({ children }: { children: ReactNode }) => {
           const workflowId = workflowIds?.[workflowIds?.length - 1];
           const insightId = query?.insightId;
 
-          const workflow = workflows?.find((w) => w.id === parseInt(workflowId));
-          const insight = workflow?.reportingInsights?.find((i) => i.id == insightId);
+          const workflow = workflows?.find(
+            (w) => w.id === parseInt(workflowId)
+          );
+          const insight = workflow?.reportingInsights?.find(
+            (i) => i.id == insightId
+          );
 
           pathArray.push({
             label: insight?.title,
@@ -50,6 +55,7 @@ export const SidebarLayout = ({ children }: { children: ReactNode }) => {
             id: path,
           });
         } else {
+          console.log(path);
           path.split("-").forEach((wid) => {
             pathArray.push({
               label: workflows?.find((w) => w.id === parseInt(wid))?.name,
@@ -59,7 +65,6 @@ export const SidebarLayout = ({ children }: { children: ReactNode }) => {
         }
       });
     return pathArray;
-    
   };
 
   const navItems = useMemo(
@@ -115,7 +120,10 @@ export const SidebarLayout = ({ children }: { children: ReactNode }) => {
         className={`transition-all h-12 w-full md:pl-64 px-4 fixed top-0 left-0 z-10 bg-white border border-b`}
       >
         <div className="px-5 h-full flex items-center text-sm">
-          <Breadcrumbs onBack={() => router.back()} breadcrumbs={createPathArray()} />
+          <Breadcrumbs
+            onBack={() => router.back()}
+            breadcrumbs={createPathArray()}
+          />
         </div>
       </div>
       <div className="min-h-screen md:pl-64">{children}</div>
