@@ -1,9 +1,13 @@
-import { TimeGrain, TimeGrainAPIKey } from "@/da-insight-kit/constants/date.constant";
+import {
+  TimeGrain,
+  TimeGrainAPIKey,
+  TimeGrainOffset,
+} from "@/da-insight-kit/constants/date.constant";
 import { InsightFilters, InsightMetricFilters } from "../components/Insight";
 
-import { Metric } from "../utils/insight.util";
 import { getAllChartDataV1 } from "@/da-insight-kit/services/query.svc";
 import { shortenDate } from "@/da-insight-kit/utils/date.util";
+import { Metric } from "@/da-insight-kit/utils/insight.util";
 
 export interface Entry {
   date?: string;
@@ -12,7 +16,11 @@ export interface Entry {
   [key: string]: string | number;
 }
 
-const getApiCalls = (metrics: Metric[], filters: InsightFilters | null, workspaceId: string) => {
+const getApiCalls = (
+  metrics: Metric[],
+  filters: InsightFilters | null,
+  workspaceId: string
+) => {
   const { timeRange = 90, timeGrain = TimeGrain.MONTHLY } = filters ?? {};
   const apiCalls: Promise<{ data: Entry[]; query: string }>[] = [];
   metrics.forEach((metric) => {
@@ -101,7 +109,9 @@ const transformData = (
         switch (cw) {
           case "Prev. period": {
             const res = [];
-            const offset = Math.floor(filters?.timeRange / TimeGrainOffset[filters?.timeGrain]);
+            const offset = Math.floor(
+              filters?.timeRange / TimeGrainOffset[filters?.timeGrain]
+            );
             for (let i = data.length - 1; i - offset >= 0; i--) {
               const curr = data[i];
               const prev = data[i - offset];
@@ -135,7 +145,8 @@ const transformData = (
             const middleIndex = Math.floor(sortedValues.length / 2);
 
             if (sortedValues.length % 2 === 0) {
-              value = (sortedValues[middleIndex - 1] + sortedValues[middleIndex]) / 2;
+              value =
+                (sortedValues[middleIndex - 1] + sortedValues[middleIndex]) / 2;
             } else {
               value = sortedValues[middleIndex];
             }
@@ -146,7 +157,9 @@ const transformData = (
             break;
           }
           case "Average": {
-            const avg = numericValues.reduce((acc, curr) => acc + curr) / numericValues.length;
+            const avg =
+              numericValues.reduce((acc, curr) => acc + curr) /
+              numericValues.length;
             value = avg;
             transformedData = transformedData.map((item) => ({
               ...item,
@@ -172,7 +185,9 @@ const transformResponses = (
   const { timeGrain, index = "date" } = filters ?? {};
   const data: { [date: string | number]: Entry } = {};
   responses.forEach(({ data: response }) => {
-    response.forEach((e: Entry) => (e.date = shortenDate(e.fromtime, e.totime, timeGrain)));
+    response.forEach(
+      (e: Entry) => (e.date = shortenDate(e.fromtime, e.totime, timeGrain))
+    );
     response.forEach((e: Entry) => {
       const key: string | number = e[index] ?? "";
       metrics.forEach((metric: Metric) => {

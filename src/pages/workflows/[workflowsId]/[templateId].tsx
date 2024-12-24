@@ -11,7 +11,7 @@ export default function WorkflowsTemplatePage() {
   const { templates } = useTemplates(WORKSPACE_ID);
   const workspaceId = process.env.NEXT_PUBLIC_WORKSPACE_ID;
 
-  if (!workspaceId) return <p>Workspace ID not found</p>;
+  if (!workspaceId) return <p className="mt-10">Workspace ID not found</p>;
 
   return (
     <div className="flex flex-col mt-10 gap-y-4 p-4 px-48">

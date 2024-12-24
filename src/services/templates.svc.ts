@@ -17,7 +17,8 @@ export interface InsightType {
   }[];
   filters?: {
     [key: string]: {
-      showDimensionSplitIn: string;
+      showDimensionSplitIn?: string;
+      compareWith?: string[];
     };
   };
 }
@@ -80,6 +81,11 @@ export const getTemplatesByWorkspaceIdAndUserId = async (
               yAxisId: "right",
             },
           ],
+          filters: {
+            revenue: {
+              compareWith: ["Prev. period", "Max", "Min", "Median"],
+            },
+          },
         },
         {
           id: 2,
