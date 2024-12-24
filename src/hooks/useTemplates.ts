@@ -1,7 +1,4 @@
-import {
-  getTemplatesByWorkspaceIdAndUserId,
-  Template,
-} from "@/services/templates.svc";
+import { getTemplatesByWorkspaceIdAndUserId, Template } from "@/services/templates.svc";
 import { useEffect, useState } from "react";
 export default function useTemplates(workspaceId: string) {
   const [loading, setLoading] = useState<boolean>(false);
@@ -12,6 +9,6 @@ export default function useTemplates(workspaceId: string) {
     getTemplatesByWorkspaceIdAndUserId(workspaceId)
       .then((data) => setTemplates(data))
       .finally(() => setLoading(false));
-  });
+  }, [workspaceId]);
   return { templates, loading };
 }
