@@ -21,7 +21,7 @@ export default function WorkflowsTemplatePage() {
           <div className="flex gap-x-4">
             {template.insights.map((insight: InsightType) => (
               <Insight
-                key={1}
+                key={insight.id}
                 workspaceId={workspaceId}
                 title={insight.title}
                 type={insight.chartType}
