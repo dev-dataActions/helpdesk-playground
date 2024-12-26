@@ -21,8 +21,7 @@ export default function InsightPage() {
         <div className="flex flex-col gap-y-1">
           <p className="text-2xl font-semibold">Pinned Insights</p>
           <p>
-            You can browse your workflow live-boards and pin insights to quickly
-            access and monitor
+            You can browse your workflow live-boards and pin insights to quickly access and monitor
           </p>
         </div>
         <div className="w-1/2">
@@ -55,9 +54,7 @@ export default function InsightPage() {
       <div className="flex flex-col gap-y-4">
         <div className="flex flex-col gap-y-1">
           <p className="text-2xl font-sans font-semibold">Workflows</p>
-          <p>
-            You can browse your workflows to review and keep track of progress.
-          </p>
+          <p>You can browse your workflows to review and keep track of progress.</p>
         </div>
         <div className="flex flex-col items-start gap-x-2">
           {workflows?.map((workflow) => (
@@ -65,10 +62,7 @@ export default function InsightPage() {
               key={workflow.id}
               className="flex bg-white p-3 w-1/3 justify-center rounded-lg border border-gray-300 text-xs text-gray-800 hover:cursor-pointer"
             >
-              <a
-                href={`/workflows/${workflow.id}`}
-                className="flex items-center gap-x-6"
-              >
+              <a href={`/insights/${workflow.id}`} className="flex items-center gap-x-6">
                 <div className="flex flex-col">
                   <p className="text-lg">{workflow.name}</p>
                   <p className="text-xs text-gray-600">{workflow.desc}</p>
