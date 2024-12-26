@@ -1,3 +1,18 @@
+import { Metric } from "@/da-insight-kit/utils/insight.util";
+
+export interface IPinData {
+  chartType: string;
+  id: string;
+  metrics: Metric[];
+  title: string;
+}
+export interface IPin {
+  workspace_user_id: string;
+  data: IPinData;
+  pin_id: string;
+  data_type: string;
+}
+
 export const getPinsByWorkspaceIdAndUserId = async (workspaceId: string) => {
   try {
     const response = await fetch(
@@ -37,4 +52,3 @@ export const deletePin = async (workspaceId: string, pinId: string) => {
     throw error;
   }
 };
-
