@@ -1,4 +1,6 @@
 import { Insight } from "@/da-insight-kit";
+import { DashboardLayout } from "@/da-insight-kit/components/DashboardLayout";
+import { ValidDashboardColumns } from "@/da-insight-kit/components/DashboardLayout";
 import { ValidSpanColumns } from "@/da-insight-kit/components/Insight";
 import useTemplates from "@/hooks/useTemplates";
 import { InsightType } from "@/services/templates.svc";
@@ -14,27 +16,28 @@ export default function WorkflowsTemplatePage() {
   if (!workspaceId) return <p className="mt-10">Workspace ID not found</p>;
 
   return (
-    <div className="flex flex-col mt-10 gap-y-4 p-4 px-48">
-      {templates?.map((template) => (
-        <>
-          <h1 className="text-xl">{template.title}</h1>
-          <div className="flex gap-x-4">
-            {template.insights.map((insight: InsightType) => (
-              <Insight
-                key={insight.id}
-                workspaceId={workspaceId}
-                title={insight.title}
-                type={insight.chartType}
-                metrics={insight.metrics}
-                filters={insight?.filters}
-                spanCols={ValidSpanColumns.THREE}
-                className="h-60"
-                onClick={() => router.push(`${router.asPath}/${insight.id}`)}
-              />
-            ))}
-          </div>
-        </>
-      ))}
-    </div>
+    <DashboardLayout title="Workflows" cols={ValidDashboardColumns.ONE}>
+      <div className="flex flex-col gap-y-4 p-4 px-44">
+        {templates?.map((template) => (
+          <>
+            <h1 className="text-xl">{template.title}</h1>
+            <div className="flex gap-x-4">
+              {template.insights.map((insight: InsightType) => (
+                <Insight
+                  key={insight.id}
+                  workspaceId={workspaceId}
+                  title={insight.title}
+                  type={insight.chartType}
+                  metrics={insight.metrics}
+                  filters={insight?.filters}
+                  className="h-60"
+                  onClick={() => router.push(`${router.asPath}/${insight.id}`)}
+                />
+              ))}
+            </div>
+          </>
+        ))}
+      </div>
+    </DashboardLayout>
   );
 }
