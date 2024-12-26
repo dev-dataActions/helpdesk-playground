@@ -4,6 +4,7 @@ import { ValidSpanColumns } from "@/da-insight-kit/components/Insight";
 import { usePins } from "@/hooks/usePins";
 import { useWorkflows } from "@/hooks/useWorkflows";
 import { deletePin } from "@/services/pins.svc";
+import router from "next/router";
 import { GoHistory } from "react-icons/go";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -45,7 +46,7 @@ export default function InsightPage() {
                       },
                     },
                   ]}
-                  onClick={() => router.push(`${asPath}/${insight.id}`)}
+                  onClick={() => router.push(`/insights/${insight.id}`)}
                 />
               );
             })}

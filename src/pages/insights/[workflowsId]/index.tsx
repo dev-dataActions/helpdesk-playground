@@ -30,7 +30,6 @@ export default function WorkflowsPage() {
               <td className="px-4 py-2">{board.updatedOn}</td>
             </>
           )}
-          emptyMessage="No Live Boards"
         />
       </div>
 

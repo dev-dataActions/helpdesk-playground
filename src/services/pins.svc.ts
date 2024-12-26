@@ -7,6 +7,7 @@ export interface IPinData {
   title: string;
 }
 export interface IPin {
+  id: any;
   workspace_user_id: string;
   data: IPinData;
   pin_id: string;
