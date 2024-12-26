@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Label } from "./Label";
+
 interface IItem {
   id?: number | string;
   component?: React.ReactNode;
@@ -9,11 +10,13 @@ interface IItem {
   className?: string;
   current?: boolean;
 }
+
 interface IListProps {
   title?: string;
   items: IItem[];
   className?: string;
 }
+
 export const List: React.FC<IListProps> = ({ title, items, className }) => {
   return (
     <div className={className}>

@@ -5,11 +5,20 @@ import { CiMoneyBill } from "react-icons/ci";
 import { usePathname } from "next/navigation";
 import { GoPeople } from "react-icons/go";
 import { PiBrainThin } from "react-icons/pi";
-import { List } from "./List";
+import { List } from "../common/List";
 
 interface ISidebarLayoutProps {
   children: ReactNode;
 }
+
+const UserDetails: React.FC<{ username: string }> = ({ username }) => {
+  return (
+    <div className="flex items-center border-b h-12 px-3 gap-2">
+      <p className="text-sm">{username}</p>
+      <IoIosArrowDown size={12} />
+    </div>
+  );
+};
 
 export const SidebarLayout: React.FC<ISidebarLayoutProps> = ({ children }) => {
   const pathname = usePathname();
@@ -51,14 +60,9 @@ export const SidebarLayout: React.FC<ISidebarLayoutProps> = ({ children }) => {
 
   return (
     <div className="bg-gray-100">
-      <div className="fixed top-0 left-0 z-30 w-64 h-screen bg-white border-r">
-        <div className="flex items-center border-b h-12 px-3 gap-2">
-          <p className="text-sm">Organiser</p>
-          <IoIosArrowDown size={12} />
-        </div>
-        <nav className="flex flex-col justify-between flex-grow p-4">
-          <List items={navItems} />
-        </nav>
+      <div className="h-screen w-64 fixed top-0 left-0 bg-white border-r">
+        <UserDetails username="Organiser" />
+        <List items={navItems} className="p-4" />
       </div>
       <div className="min-h-screen md:pl-64">{children}</div>
     </div>
