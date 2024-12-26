@@ -1,4 +1,4 @@
-import { SidebarLayout } from "@/module/SidebarLayout";
+import { SidebarLayout } from "@/modules/SidebarLayout";
 import "@/styles/globals.css";
 import type { AppProps } from "next/app";
 

@@ -1,9 +1,16 @@
 import { getWorkflowsByWorkspaceIdAndUserId } from "@/services/workflows.svc";
 import { useEffect, useState } from "react";
 
-export function useWorkflows(workspaceId: string) {
+export interface IWorkflow {
+  id: number;
+  name: string;
+  desc: string;
+  icon: string;
+}
+
+export function useWorkflows(workspaceId: string | undefined) {
   const [loading, setLoading] = useState<boolean>(false);
-  const [workflows, setWorkflows] = useState<{ id: number; name: string; desc: string; icon: string; }[] | null>(null);
+  const [workflows, setWorkflows] = useState<IWorkflow[]>([]);
 
   useEffect(() => {
     if (!workspaceId) return;
@@ -13,5 +20,5 @@ export function useWorkflows(workspaceId: string) {
       .finally(() => setLoading(false));
   }, [workspaceId]);
 
-  return { workflows,loading };
+  return { workflows, loading };
 }
