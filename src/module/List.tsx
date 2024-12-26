@@ -1,10 +1,27 @@
 import Link from "next/link";
 import { Label } from "./Label";
-
-export const List = ({ title, items, className }) => {
+interface IItem {
+  id?: number | string;
+  component?: React.ReactNode;
+  href?: string;
+  icon?: React.ReactNode;
+  label?: string;
+  className?: string;
+  current?: boolean;
+}
+interface IListProps {
+  title?: string;
+  items: IItem[];
+  className?: string;
+}
+export const List: React.FC<IListProps> = ({ title, items, className }) => {
   return (
     <div className={className}>
-      {title && <div className="text-xs font-medium p-1 flex items-center gap-x-1">{title}</div>}
+      {title && (
+        <div className="text-xs font-medium p-1 flex items-center gap-x-1">
+          {title}
+        </div>
+      )}
       <ul role="list" className="flex flex-col gap-y-2">
         {items.map((item, index) => (
           <li key={item.id ?? index}>
@@ -18,7 +35,13 @@ export const List = ({ title, items, className }) => {
                 } hover:bg-gray-100 hover:text-black rounded-md text-sm`}
                 shallow
               >
-                <Label icon={item.icon} text={item.label} className={item.className} />
+                <Label
+                  icon={item.icon}
+                  text={item.label}
+                  className={item.className}
+                >
+                  {item.label}
+                </Label>
               </Link>
             )}
           </li>

@@ -1,4 +1,3 @@
-import { List } from "./List";
 import { ReactNode, useMemo } from "react";
 import { IoIosArrowDown } from "react-icons/io";
 import { IoHomeOutline } from "react-icons/io5";
@@ -7,10 +6,11 @@ import { BiMessageRounded } from "react-icons/bi";
 import { GiMoneyStack } from "react-icons/gi";
 import { TbDatabaseExport } from "react-icons/tb";
 import { CgInsights } from "react-icons/cg";
-import { Breadcrumbs } from "../da-insight-kit/common/Breadcrumbs";
 import { useRouter } from "next/router";
 import { usePathname } from "next/navigation";
 import { useWorkflows } from "@/hooks/useWorkflows";
+import { Breadcrumbs } from "@/da-insight-kit/common/Breadcrumbs";
+import { List } from "./List";
 
 export const SidebarLayout = ({ children }: { children: ReactNode }) => {
   const router = useRouter();

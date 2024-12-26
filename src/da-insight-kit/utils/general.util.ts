@@ -1,4 +1,7 @@
-export function getSum(entry: { [key: string]: number | string }, keys: string[] = []): number {
+export interface IEntry {
+  [key: string]: number | string;
+}
+export function getSum(entry: IEntry, keys: string[] = []): number {
   if (!entry || keys.length == 0) return 0;
   const sum = keys.reduce((total, key) => {
     if (typeof entry[key] === "string") return total;
@@ -11,10 +14,7 @@ export const getChangeInPercent = (a: number, b: number): string => {
   return (((a - b) / b) * 100).toFixed(2);
 };
 
-export function getChange(
-  entries: { [key: string]: number | string }[],
-  keys: string[] = []
-): number {
+export function getChange(entries: IEntry[], keys: string[] = []): number {
   const a = getSum(entries?.[entries.length - 1], keys) ?? 0;
   const b = Math.max(1, getSum(entries?.[entries.length - 2], keys) ?? 0);
 
@@ -32,13 +32,16 @@ export function shuffle<T>(array: T[]): T[] {
     randomIndex = Math.floor(Math.random() * currentIndex);
     currentIndex--;
 
-    [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+    [array[currentIndex], array[randomIndex]] = [
+      array[randomIndex],
+      array[currentIndex],
+    ];
   }
 
   return array;
 }
 
-export const classNames = (...classes: (string | undefined | null | false)[]): string =>
+export const classNames = (...classes: string[]): string =>
   classes.filter(Boolean).join(" ");
 
 export const valueFormatter = (number: number): string => {

@@ -1,4 +1,5 @@
 import { ChartTypes } from "@/da-insight-kit/constants/charts.contant";
+import { Metric } from "@/da-insight-kit/utils/insight.util";
 export interface Template {
   id: number;
   title: string;
@@ -9,12 +10,7 @@ export interface InsightType {
   id: number;
   title: string;
   chartType: ChartTypes;
-  metrics: {
-    metricKey: string;
-    metricLabel: string;
-    chartType?: ChartTypes;
-    yAxisId?: string;
-  }[];
+  metrics: Metric[];
   filters?: {
     [key: string]: {
       showDimensionSplitIn?: string;
