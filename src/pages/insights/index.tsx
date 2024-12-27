@@ -1,5 +1,5 @@
 import { Insight } from "@/da-insight-kit";
-import { Loader } from "@/modules/common/Loader";
+import { Loader } from "@/da-insight-kit/common/Loader";
 import { ValidSpanColumns } from "@/da-insight-kit/components/Insight";
 import { usePins } from "@/hooks/usePins";
 import { useWorkflows } from "@/hooks/useWorkflows";
@@ -11,9 +11,9 @@ import "react-toastify/dist/ReactToastify.css";
 const WORKSPACE_ID = "42eed85d-b1d7-4b8e-8621-1dfa79e72cf1";
 
 export default function InsightPage() {
-  const { pins } = usePins();
-  const { workflows } = useWorkflows();
-
+  const { pins, loading } = usePins(WORKSPACE_ID);
+  const { workflows } = useWorkflows(WORKSPACE_ID);
+  if (loading) return <Loader />;
   return (
     <div className="flex flex-col mt-10 items-start p-5 gap-y-4 h-screen px-24">
       <ToastContainer />
@@ -26,26 +26,26 @@ export default function InsightPage() {
         </div>
         <div className="w-1/2">
           {pins &&
-            pins?.map((pin) => {
+            pins?.map((insight) => {
               return (
                 <Insight
-                  key={pin?.data?.id}
+                  key={insight?.data?.id}
                   workspaceId={WORKSPACE_ID}
-                  title={pin?.data?.title}
-                  type={pin?.data?.chartType}
-                  metrics={pin?.data?.metrics}
+                  title={insight?.data?.title}
+                  type={insight?.data?.chartType}
+                  metrics={insight?.data?.metrics}
                   spanCols={ValidSpanColumns.THREE}
                   className="h-60"
                   actions={[
                     {
                       name: "Remove from pins",
                       onClick: () => {
-                        deletePin(WORKSPACE_ID, pin?.pin_id);
+                        deletePin(WORKSPACE_ID, insight?.pin_id);
                         toast("Removed from pins");
                       },
                     },
                   ]}
-                  onClick={() => router.push(`/insights/${pin.id}`)}
+                  onClick={() => router.push(`/insights/${insight.id}`)}
                 />
               );
             })}

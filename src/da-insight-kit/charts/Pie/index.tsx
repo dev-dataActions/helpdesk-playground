@@ -1,26 +1,19 @@
 import React from "react";
-import { Loader } from "@/modules/common/Loader";
+import { Loader } from "@/da-insight-kit/common/Loader";
 import { ColorPalette } from "@/da-insight-kit/constants/colors.constants";
 import { customRechartTooltip } from "@/da-insight-kit/utils/customRechartTooltip";
-import {
-  PieChart as PChart,
-  Pie,
-  Cell,
-  ResponsiveContainer,
-  Tooltip,
-  TooltipProps,
-} from "recharts";
+import { PieChart as PChart, Pie, Cell, ResponsiveContainer, Tooltip, TooltipProps } from "recharts";
 
 const RADIAN = Math.PI / 180;
 const COLORS = Object.values(ColorPalette);
 
 interface PieChartData {
   segment: string;
-  [key: string]: string | number;
+  [key: string]: string | number; 
 }
 
 interface ChartsConfig {
-  value: string;
+  value: string; 
 }
 
 interface PieChartProps {

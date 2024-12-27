@@ -1,7 +1,7 @@
 import React from "react";
 import uniqid from "uniqid";
 import { Stat } from "./components/Stat";
-import { Loader } from "../../../modules/common/Loader";
+import { Loader } from "../../common/Loader";
 import { getChange, getSum } from "../../utils/general.util";
 import { TimeGrainAPIKey } from "../../constants/date.constant";
 import { customRechartTooltip } from "../../utils/customRechartTooltip";

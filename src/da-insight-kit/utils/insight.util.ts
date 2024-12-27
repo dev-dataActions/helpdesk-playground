@@ -7,14 +7,14 @@ export interface Metric {
   yAxisId?: string;
 }
 
-export interface IInsight {
+export interface InsightConfig {
   title: string;
-  description?: string;
+  description: string;
   chartType: ChartTypes;
   metrics: Metric[];
 }
 
-export const getInsightConfig = (insightId: string, workspaceId: string): IInsight => {
+export const getInsightConfig = (insightId: string, workspaceId: string): InsightConfig => {
   return {
     title: "New users",
     description: "The contribution of new users in total revenue.",

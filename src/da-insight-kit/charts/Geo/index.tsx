@@ -1,4 +1,4 @@
-import { Loader } from "@/modules/common/Loader";
+import { Loader } from "@/da-insight-kit/common/Loader";
 import React from "react";
 import { Chart } from "react-google-charts";
 
