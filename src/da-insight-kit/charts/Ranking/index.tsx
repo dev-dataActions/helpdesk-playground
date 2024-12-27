@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import "react-tippy/dist/tippy.css";
 import { Tooltip } from "react-tippy";
-import { Loader } from "@/da-insight-kit/common/Loader";
+import { Loader } from "@/modules/common/Loader";
 
 interface RankingData {
   segment: string;

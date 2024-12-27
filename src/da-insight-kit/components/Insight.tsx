@@ -3,8 +3,8 @@ import { TfiInfoAlt } from "react-icons/tfi";
 import { PiDotsThreeVerticalBold } from "react-icons/pi";
 import { ChartMap, ChartTypes } from "../constants/charts.contant";
 import { TimeGrain } from "../constants/date.constant";
-import { Button } from "../common/Button";
-import { Item, PopUpMenu } from "../common/PopUpMenu";
+import { Button } from "../../modules/common/Button";
+import { Item, PopUpMenu } from "../../modules/common/PopUpMenu";
 import { Metric } from "../utils/insight.util";
 import { Entry } from "../resolvers/dataResolvers/simple";
 import { ChartDataResolverMap } from "../resolvers/dataResolvers/constants/dataResolvers.constant";
@@ -68,9 +68,7 @@ export interface InsightProps {
   title?: string;
   description?: string;
   dataResolver?: (filters: InsightFilters | null) => Promise<Entry[]>;
-  chartConfigResolver?: (
-    filters: InsightFilters | null
-  ) => Promise<ChartsConfig>;
+  chartConfigResolver?: (filters: InsightFilters | null) => Promise<ChartsConfig>;
   filters?: InsightFilters | null | undefined;
   actions?: Item[];
   options?: InsightOptions;
@@ -80,9 +78,7 @@ export interface InsightProps {
   onClick?: () => void;
 }
 
-const getDefaultFilters = (
-  initialFilters: InsightFilters | null | undefined
-): InsightFilters => ({
+const getDefaultFilters = (initialFilters: InsightFilters | null | undefined): InsightFilters => ({
   index: initialFilters?.index ?? "date",
   timeRange: initialFilters?.timeRange ?? 90,
   cadence: initialFilters?.cadence ?? TimeGrain.MONTHLY,
@@ -128,15 +124,15 @@ export const Insight: React.FC<InsightProps> = ({
 
   useEffect(() => {
     if (!filters) return;
-    (chartConfigResolver ?? defaultChartConfigResolver)(filters).then(
-      (config: ChartsConfig) => setChartsConfig(config)
+    (chartConfigResolver ?? defaultChartConfigResolver)(filters).then((config: ChartsConfig) =>
+      setChartsConfig(config)
     );
   }, [chartConfigResolver, defaultChartConfigResolver, filters]);
 
   useEffect(() => {
     if (!filters) return;
-    (dataResolver ?? defaultDataResolver)(filters)?.then(
-      (_data: Entry[] | SegmentEntry[]) => setData(_data)
+    (dataResolver ?? defaultDataResolver)(filters)?.then((_data: Entry[] | SegmentEntry[]) =>
+      setData(_data)
     );
   }, [dataResolver, defaultDataResolver, filters]);
 

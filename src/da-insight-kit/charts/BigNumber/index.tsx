@@ -2,7 +2,7 @@ import React from "react";
 import { getChange, getSum, valueFormatter } from "../../utils/general.util";
 import { CompactBigNumber } from "./components/CompactBigNumber";
 import { getCurrLabel } from "./utils/bigNumber.util";
-import { Loader } from "../../common/Loader";
+import { Loader } from "../../../modules/common/Loader";
 import { ExpandedBigNumber } from "./components/ExpandedBigNumber";
 import { TimeGrainAPIKey } from "../../constants/date.constant";
 import { Change } from "./components/Change";

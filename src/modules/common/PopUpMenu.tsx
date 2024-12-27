@@ -1,6 +1,6 @@
 import { Menu, Transition } from "@headlessui/react";
 import { Fragment, ReactElement } from "react";
-import { classNames } from "../utils/general.util";
+import { classNames } from "../../da-insight-kit/utils/general.util";
 
 export interface Item {
   name?: string;

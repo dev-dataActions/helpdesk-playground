@@ -1,16 +1,17 @@
 import { useEffect, useState } from "react";
-import { getPinsByWorkspaceIdAndUserId, IPin } from "../services/pins.svc";
+import { getPinsByUserId, IPin } from "../services/pins.svc";
 
-export function usePins(workspaceId: string) {
+export function usePins(userId?: string | undefined) {
   const [loading, setLoading] = useState<boolean>(false);
-  const [pins, setPins] = useState<IPin[] | null>(null);
+  const [pins, setPins] = useState<IPin[]>([]);
 
   useEffect(() => {
-    if (!workspaceId) return;
+    if (!userId) return;
     setLoading(true);
-    getPinsByWorkspaceIdAndUserId(workspaceId)
+    getPinsByUserId(userId)
       .then((data) => setPins(data))
       .finally(() => setLoading(false));
-  }, [workspaceId]);
+  }, [userId]);
+
   return { pins, isFetching: loading };
 }
