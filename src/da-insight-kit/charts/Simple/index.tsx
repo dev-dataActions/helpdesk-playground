@@ -1,4 +1,4 @@
-import { Loader } from "@/da-insight-kit/common/Loader";
+import { Loader } from "@/modules/common/Loader";
 import { ChartsConfig, InsightFilters, InsightOptions } from "@/da-insight-kit/components/Insight";
 import { Entry } from "@/da-insight-kit/resolvers/dataResolvers/simple";
 import { customRechartTooltip } from "@/da-insight-kit/utils/customRechartTooltip";

@@ -1,7 +1,8 @@
 import { Insight } from "@/da-insight-kit";
-import { DashboardLayout } from "@/da-insight-kit/components/DashboardLayout";
-import { ValidDashboardColumns } from "@/da-insight-kit/components/DashboardLayout";
-import { ValidSpanColumns } from "@/da-insight-kit/components/Insight";
+import {
+  DashboardLayout,
+  ValidDashboardColumns,
+} from "@/da-insight-kit/components/DashboardLayout";
 import useTemplates from "@/hooks/useTemplates";
 import { InsightType } from "@/services/templates.svc";
 import { useRouter } from "next/router";

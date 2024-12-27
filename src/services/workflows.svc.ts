@@ -1,4 +1,13 @@
-export const getWorkflowsByWorkspaceIdAndUserId = async (workspaceId: string) => {
+export interface IWorkflow {
+  id: number;
+  name: string;
+  desc: string;
+  icon: string;
+}
+
+export const getWorkflowsByWorkspaceIdAndUserId = async (
+  workspaceId: string
+): Promise<IWorkflow[]> => {
   // Your SaaS app backend should implement this API call to return workflows by workspace ID
   return [
     {
