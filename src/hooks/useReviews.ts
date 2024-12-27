@@ -1,9 +1,12 @@
-import { getReviewsByWorkspaceIdAndUserId, IReview } from "@/services/reviews.svc";
+import {
+  getReviewsByWorkspaceIdAndUserId,
+  IReview,
+} from "@/services/reviews.svc";
 import { useEffect, useState } from "react";
 
 export function useReviews(workspaceId?: string) {
   const [loading, setLoading] = useState<boolean>(false);
-  const [reviews, setReviews] = useState<IReview[] | null>(null);
+  const [reviews, setReviews] = useState<IReview[]>([]);
 
   useEffect(() => {
     if (!workspaceId) return;

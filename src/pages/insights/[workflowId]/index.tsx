@@ -15,7 +15,11 @@ export default function WorkflowsPage() {
         title="Live Boards"
         description="You can review what is happening within your organization, or within teams and projects."
       >
-        <Table colNames={["Name", "Created On", "Updated On"]} data={[]} renderRow={() => <></>} />
+        <Table
+          colNames={["Name", "Created On", "Updated On"]}
+          data={[]}
+          renderRow={() => <></>}
+        />
       </DashboardLayout>
 
       <DashboardLayout
@@ -24,11 +28,15 @@ export default function WorkflowsPage() {
       >
         <Table
           colNames={["Name", "Created On", "Last Edited By"]}
-          data={reviews || []}
+          data={reviews}
           renderRow={(review: IReview) => (
             <>
               <td
-                onClick={() => router.push(`/insights/${router.query.workflowId}/${review.id}`)}
+                onClick={() =>
+                  router.push(
+                    `/insights/${router.query.workflowId}/${review.id}`
+                  )
+                }
                 className="px-4 py-2 cursor-pointer hover:underline"
               >
                 {review.name}
