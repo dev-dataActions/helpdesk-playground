@@ -1,80 +1,19 @@
-import { Insight } from "@/da-insight-kit";
-import { Loader } from "@/modules/common/Loader";
-import { ValidSpanColumns } from "@/da-insight-kit/components/Insight";
 import { usePins } from "@/hooks/usePins";
 import { useWorkflows } from "@/hooks/useWorkflows";
-import { deletePin } from "@/services/pins.svc";
-import router from "next/router";
-import { GoHistory } from "react-icons/go";
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-const WORKSPACE_ID = "42eed85d-b1d7-4b8e-8621-1dfa79e72cf1";
+import { Pins } from "@/modules/insights/Pins";
+import { Workflows } from "@/modules/insights/Workflows";
 
 export default function InsightPage() {
-  const { pins } = usePins();
-  const { workflows } = useWorkflows();
+  const WORKSPACE_ID = process.env.NEXT_PUBLIC_WORKSPACE_ID;
+  const { pins } = usePins("userId"); // replace with actual userId
+  const { workflows } = useWorkflows("userId"); // replace with actual userId
+
+  if (!WORKSPACE_ID) return <div>Workspace ID not found</div>;
 
   return (
-    <div className="flex flex-col mt-10 items-start p-5 gap-y-4 h-screen px-24">
-      <ToastContainer />
-      <div className="w-auto flex flex-col gap-y-4">
-        <div className="flex flex-col gap-y-1">
-          <p className="text-2xl font-semibold">Pinned Insights</p>
-          <p>
-            You can browse your workflow live-boards and pin insights to quickly access and monitor
-          </p>
-        </div>
-        <div className="w-1/2">
-          {pins &&
-            pins?.map((pin) => {
-              return (
-                <Insight
-                  key={pin?.data?.id}
-                  workspaceId={WORKSPACE_ID}
-                  title={pin?.data?.title}
-                  type={pin?.data?.chartType}
-                  metrics={pin?.data?.metrics}
-                  spanCols={ValidSpanColumns.THREE}
-                  className="h-60"
-                  actions={[
-                    {
-                      name: "Remove from pins",
-                      onClick: () => {
-                        deletePin(WORKSPACE_ID, pin?.pin_id);
-                        toast("Removed from pins");
-                      },
-                    },
-                  ]}
-                  onClick={() => router.push(`/insights/${pin.id}`)}
-                />
-              );
-            })}
-        </div>
-      </div>
-      <div className="flex flex-col gap-y-4">
-        <div className="flex flex-col gap-y-1">
-          <p className="text-2xl font-sans font-semibold">Workflows</p>
-          <p>You can browse your workflows to review and keep track of progress.</p>
-        </div>
-        <div className="flex flex-col items-start gap-x-2">
-          {workflows?.map((workflow) => (
-            <div
-              key={workflow.id}
-              className="flex bg-white p-3 w-1/3 justify-center rounded-lg border border-gray-300 text-xs text-gray-800 hover:cursor-pointer"
-            >
-              <a href={`/insights/${workflow.id}`} className="flex items-center gap-x-6">
-                <div className="flex flex-col">
-                  <p className="text-lg">{workflow.name}</p>
-                  <p className="text-xs text-gray-600">{workflow.desc}</p>
-                </div>
-                <div className="text-lg">
-                  <GoHistory size={30} />
-                </div>
-              </a>
-            </div>
-          ))}
-        </div>
-      </div>
+    <div className="flex flex-col gap-y-6 p-12">
+      <Pins pins={pins} />
+      <Workflows workflows={workflows} />
     </div>
   );
 }
