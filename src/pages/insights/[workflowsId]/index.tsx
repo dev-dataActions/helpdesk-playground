@@ -21,7 +21,7 @@ export default function WorkflowsPage() {
           renderRow={(board, idx) => (
             <>
               <div
-                onClick={() => router.push(`/workflows/1/${board.id}`)}
+                onClick={() => router.push(`/insights/1/${board.id}`)}
                 className="cursor-pointer"
               >
                 <td className="px-4 py-2">{board.name}</td>
