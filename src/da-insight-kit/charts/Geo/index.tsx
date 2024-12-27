@@ -16,6 +16,7 @@ const GeoChart: React.FC<GeoChartProps> = ({ data, loading }) => {
         {
           eventName: "select",
           callback: ({ chartWrapper }) => {
+            if (!chartWrapper) return;
             const chart = chartWrapper.getChart();
             const selection = chart.getSelection();
             if (selection.length === 0) return;
