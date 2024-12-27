@@ -1,10 +1,6 @@
-import { Insight } from "@/da-insight-kit";
-import { DashboardLayout } from "@/da-insight-kit/components/DashboardLayout";
-import { ValidDashboardColumns } from "@/da-insight-kit/components/DashboardLayout";
-import { ValidSpanColumns } from "@/da-insight-kit/components/Insight";
 import useTemplates from "@/hooks/useTemplates";
-import { InsightType } from "@/services/templates.svc";
 import { useRouter } from "next/router";
+import { Insight, DashboardLayout, ValidDashboardColumns, IInsight } from "@/da-insight-kit";
 
 const WORKSPACE_ID = "42eed85d-b1d7-4b8e-8621-1dfa79e72cf1";
 
@@ -22,7 +18,7 @@ export default function WorkflowsTemplatePage() {
           <>
             <h1 className="text-xl">{template.title}</h1>
             <div className="flex gap-x-4">
-              {template.insights.map((insight: InsightType) => (
+              {template.insights.map((insight: IInsight) => (
                 <Insight
                   key={insight.id}
                   workspaceId={workspaceId}
