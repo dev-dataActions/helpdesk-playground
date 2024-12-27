@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getPinsByWorkspaceIdAndUserId, IPin } from "../services/pins.svc";
+import { getPinsByUserId, IPin } from "../services/pins.svc";
 
 export function usePins(workspaceId: string) {
   const [loading, setLoading] = useState<boolean>(false);
@@ -8,7 +8,7 @@ export function usePins(workspaceId: string) {
   useEffect(() => {
     if (!workspaceId) return;
     setLoading(true);
-    getPinsByWorkspaceIdAndUserId(workspaceId)
+    getPinsByUserId(workspaceId)
       .then((data) => setPins(data))
       .finally(() => setLoading(false));
   }, [workspaceId]);
