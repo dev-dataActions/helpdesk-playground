@@ -1,4 +1,4 @@
-import { Loader } from "@/modules/common/Loader";
+import { Loader } from "@/da-insight-kit/common/Loader";
 import React from "react";
 import { Chart } from "react-google-charts";
 
@@ -16,6 +16,7 @@ const GeoChart: React.FC<GeoChartProps> = ({ data, loading }) => {
         {
           eventName: "select",
           callback: ({ chartWrapper }) => {
+            if (!chartWrapper) return;
             const chart = chartWrapper.getChart();
             const selection = chart.getSelection();
             if (selection.length === 0) return;

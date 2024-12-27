@@ -8,10 +8,17 @@ export interface Metric {
 }
 
 export interface IInsight {
-  title: string;
+  id?: string | number;
+  title?: string;
   description?: string;
   chartType: ChartTypes;
   metrics: Metric[];
+  filters?: {
+    [key: string]: {
+      showDimensionSplitIn?: string;
+      compareWith?: string[];
+    };
+  };
 }
 
 export const getInsightConfig = (insightId: string, workspaceId: string): IInsight => {

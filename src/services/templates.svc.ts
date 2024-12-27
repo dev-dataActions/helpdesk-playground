@@ -1,23 +1,12 @@
 import { ChartTypes } from "@/da-insight-kit/constants/charts.contant";
-import { Metric } from "@/da-insight-kit/utils/insight.util";
+import { IInsight } from "@/da-insight-kit/utils/insight.util";
+
 export interface Template {
   id: number;
   title: string;
-  insights: InsightType[];
+  insights: IInsight[];
 }
-[];
-export interface InsightType {
-  id: number;
-  title: string;
-  chartType: ChartTypes;
-  metrics: Metric[];
-  filters?: {
-    [key: string]: {
-      showDimensionSplitIn?: string;
-      compareWith?: string[];
-    };
-  };
-}
+
 export const getTemplatesByWorkspaceIdAndUserId = async (
   workspaceId: string
 ): Promise<Template[]> => {
