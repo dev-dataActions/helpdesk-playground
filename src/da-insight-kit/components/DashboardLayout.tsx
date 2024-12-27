@@ -10,18 +10,21 @@ export enum ValidDashboardColumns {
 
 interface DashboardLayoutProps {
   title: string | ReactElement;
+  description?: string;
   children: ReactElement | ReactElement[];
-  cols: ValidDashboardColumns;
+  cols?: ValidDashboardColumns;
 }
 
 export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
   children,
   title = "Dashboard",
-  cols = ValidDashboardColumns.SIX,
+  description = "",
+  cols,
 }) => {
   return (
-    <div className="p-5">
-      <div className="text-lg lg:text-2xl text-left font-semibold text-gray-800 mb-2">{title}</div>
+    <div className="w-full">
+      <div className="text-lg lg:text-2xl text-left text-gray-800">{title}</div>
+      <p className="mb-3 font-light text-gray-600 text-sm">{description}</p>
       <div className={`grid ${cols} gap-4`}>{children}</div>
     </div>
   );
