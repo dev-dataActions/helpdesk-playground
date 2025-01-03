@@ -1,12 +1,15 @@
-
 import { Metric } from "@/da-insight-kit/utils/insight.util";
 import { ChartTypes } from "@/da-insight-kit/constants/charts.contant";
-import {getDimensionOptions} from '@/da-insight-kit/services/dimensions.svc'
+import { getDimensionOptions } from "@/da-insight-kit/services/dimensions.svc";
 import { shuffle } from "@/da-insight-kit/utils/general.util";
 import { ColorPalette } from "@/da-insight-kit/constants/colors.constants";
 import { TimeGrainAPIKey } from "@/da-insight-kit/constants/date.constant";
 
-export const getDimensionValues = async (metric, dimension, timegrain = "weekly") => {
+export const getDimensionValues = async (
+  metric,
+  dimension,
+  timegrain = "weekly"
+) => {
   const data = await getDimensionOptions({
     timegrain: TimeGrainAPIKey[timegrain],
     metric: metric,
@@ -93,15 +96,21 @@ export const simpleChartConfigResolver = async (metrics: Metric[], filters) => {
 
     switch (metric.chartType) {
       case ChartTypes.BAR: {
-        chartsConfig.bars.push(...getBarConfig(metric, index, splitDimensionValues));
+        chartsConfig.bars.push(
+          ...getBarConfig(metric, index, splitDimensionValues)
+        );
         break;
       }
       case ChartTypes.LINE: {
-        chartsConfig.lines.push(...getLineConfig(metric, index, splitDimensionValues));
+        chartsConfig.lines.push(
+          ...getLineConfig(metric, index, splitDimensionValues)
+        );
         break;
       }
       case ChartTypes.AREA: {
-        chartsConfig.areas.push(...getAreaConfig(metric, index, splitDimensionValues));
+        chartsConfig.areas.push(
+          ...getAreaConfig(metric, index, splitDimensionValues)
+        );
         break;
       }
       default: {

@@ -1,5 +1,9 @@
 import { Loader } from "@/da-insight-kit/common/Loader";
-import { ChartsConfig, InsightFilters, InsightOptions } from "@/da-insight-kit/components/Insight";
+import {
+  ChartsConfig,
+  InsightFilters,
+  InsightOptions,
+} from "@/da-insight-kit/components/Insight";
 import { Entry } from "@/da-insight-kit/resolvers/dataResolvers/simple";
 import { customRechartTooltip } from "@/da-insight-kit/utils/customRechartTooltip";
 import { valueFormatter } from "@/da-insight-kit/utils/general.util";
@@ -61,7 +65,11 @@ const SimpleChart: React.FC<SimpleChartProps> = ({
         <ComposedChart data={data}>
           {!compact && (
             <>
-              <CartesianGrid stroke="#e7e7e7" vertical={false} horizontal={true} />
+              <CartesianGrid
+                stroke="#e7e7e7"
+                vertical={false}
+                horizontal={true}
+              />
               <XAxis
                 dataKey={index}
                 axisLine={false}
@@ -85,7 +93,12 @@ const SimpleChart: React.FC<SimpleChartProps> = ({
                 tickFormatter={valueFormatter}
                 fontSize={fontSize}
               />
-              <Legend verticalAlign="top" align="right" iconSize={7} iconType="circle" />
+              <Legend
+                verticalAlign="top"
+                align="right"
+                iconSize={7}
+                iconType="circle"
+              />
             </>
           )}
 
