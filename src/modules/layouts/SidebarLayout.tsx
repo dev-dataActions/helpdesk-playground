@@ -50,9 +50,9 @@ export const SidebarLayout: React.FC<ISidebarLayoutProps> = ({ children }) => {
       {
         id: 6,
         icon: <PiBrainThin size={16} />,
-        label: "Insights",
-        href: "/insights",
-        current: pathname?.includes("/insights"),
+        label: "Workflows",
+        href: "/workflows",
+        current: pathname?.includes("/workflows"),
       },
     ],
     [pathname]

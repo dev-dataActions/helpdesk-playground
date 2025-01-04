@@ -3,10 +3,12 @@ import { useReviews } from "../../../hooks/useReviews";
 import { Table } from "../../../da-insight-kit/components/Table";
 import { DashboardLayout } from "@/da-insight-kit";
 import { IReview } from "@/services/reviews.svc";
+import { useLiveBoards } from "@/hooks/useLiveBoards";
 
 export default function WorkflowsPage() {
   const WORKSPACE_ID = process.env.NEXT_PUBLIC_WORKSPACE_ID;
   const { reviews } = useReviews(WORKSPACE_ID);
+  const { liveBoards } = useLiveBoards(WORKSPACE_ID);
   const router = useRouter();
 
   return (
@@ -17,8 +19,23 @@ export default function WorkflowsPage() {
       >
         <Table
           colNames={["Name", "Created On", "Updated On"]}
-          data={[]}
-          renderRow={() => <></>}
+          data={liveBoards}
+          renderRow={(liveBoard: IReview) => (
+            <>
+              <td
+                onClick={() =>
+                  router.push(
+                    `/workflows/${router.query.workflowId}/${liveBoard.id}`
+                  )
+                }
+                className="px-4 py-2 cursor-pointer hover:underline"
+              >
+                {liveBoard.name}
+              </td>
+              <td className="px-4 py-2">{liveBoard.createdOn}</td>
+              <td className="px-4 py-2">{liveBoard.updatedOn}</td>
+            </>
+          )}
         />
       </DashboardLayout>
 
@@ -34,7 +51,7 @@ export default function WorkflowsPage() {
               <td
                 onClick={() =>
                   router.push(
-                    `/insights/${router.query.workflowId}/${review.id}`
+                    `/workflows/${router.query.workflowId}/${review.id}`
                   )
                 }
                 className="px-4 py-2 cursor-pointer hover:underline"

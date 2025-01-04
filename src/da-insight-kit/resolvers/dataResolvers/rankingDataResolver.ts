@@ -8,7 +8,6 @@ const getApiCall = async (
   filters: InsightFilters | null,
   workspaceId: string
 ): Promise<Entry[]> => {
-  console.log(metric, filters, workspaceId);
   // return getAllChartDataV1({
   //   workspaceId,
   //   payload: {
@@ -30,22 +29,22 @@ const getApiCall = async (
   ];
 };
 
-
-
 const transformData = (data: Entry[]): SegmentEntry[] => {
   const arr = [];
-  let sum = 0
-  for(let key in data[0]) if(key != 'fromtime' && key != 'totime') sum += parseInt(data[0][key] + "")
+  let sum = 0;
+  for (let key in data[0])
+    if (key != "fromtime" && key != "totime")
+      sum += parseInt(data[0][key] + "");
   for (const key in data[0]) {
     const obj: SegmentEntry = {
       segment: "",
       value: 0,
-      percentage:0
+      percentage: 0,
     };
     if (key !== "fromtime" && key !== "totime") {
       obj.segment = key;
       obj.value = parseInt(data[0][key] + "");
-      obj.percentage = (obj.value/sum) * 100;
+      obj.percentage = (obj.value / sum) * 100;
       arr.push(obj);
     }
   }

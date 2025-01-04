@@ -15,3 +15,16 @@ export const getReviewsByWorkspaceIdAndUserId = async (workspaceId: string) => {
     },
   ];
 };
+
+export const getLiveBoardsByWorkspaceIdAndUserId = async (
+  workspaceId: string
+) => {
+  return [
+    {
+      id: 1,
+      name: "Tournament Health Check Dashboard - Individual Tourney",
+      createdOn: "October 30, 2024 11:09 AM",
+      updatedOn: "October 30, 2024 11:09 AM",
+    },
+  ];
+};

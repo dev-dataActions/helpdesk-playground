@@ -390,13 +390,10 @@ export const getTemplatesByWorkspaceIdAndUserId = async (
               chartType: ChartTypes.BAR,
               yAxisId: "right",
             },
-            {
-              metricKey: "revenue",
-              metricLabel: "Significant Change",
-              chartType: ChartTypes.BAR,
-              yAxisId: "right",
-            },
           ],
+          filters: {
+            revenue: { showDimensionSplitIn: "user__device_type" },
+          },
         },
         {
           id: 2,
@@ -410,10 +407,139 @@ export const getTemplatesByWorkspaceIdAndUserId = async (
               chartType: ChartTypes.BAR,
               yAxisId: "right",
             },
+          ],
+          filters: {
+            new_users: { showDimensionSplitIn: "user__device_type" },
+          },
+        },
+      ],
+    },
+  ];
+};
+
+export const getLiveBoardTemplatesByWorkspaceIdAndUserId = async (
+  workspaceId: string
+): Promise<Template[]> => {
+  return [
+    {
+      id: 1,
+      insights: [
+        {
+          id: 1,
+          title: "Registrations",
+          chartType: ChartTypes.BIGNUMBERWITHTREND,
+          metrics: [
+            {
+              metricKey: "new_users",
+              metricLabel: "Total Tournaments Organized",
+            },
+          ],
+        },
+        {
+          id: 2,
+          title: "Joined Players",
+          chartType: ChartTypes.BIGNUMBERWITHTREND,
+          metrics: [
             {
               metricKey: "registrations",
-              metricLabel: "Non Significant Change",
+              metricLabel: "Total Registered Players",
+            },
+          ],
+        },
+        {
+          id: 3,
+          chartType: ChartTypes.BIGNUMBERWITHTREND,
+          title: "Current Round",
+          metrics: [
+            {
+              metricKey: "new_users",
+              metricLabel: "Total Players Participated",
+            },
+          ],
+        },
+      ],
+    },
+    {
+      id: 1,
+      insights: [
+        {
+          id: 4,
+          chartType: ChartTypes.BIGNUMBERWITHTREND,
+          title: "Matches Played",
+          metrics: [
+            {
+              metricKey: "participation_rate",
+              metricLabel: "Participation Rate Per Tourney",
+            },
+          ],
+        },
+        {
+          id: 5,
+          chartType: ChartTypes.BIGNUMBERWITHTREND,
+          title: "Players Remaining in Tournament",
+          metrics: [
+            {
+              metricKey: "participation_rate",
+              metricLabel: "Total Dropped off Players",
+            },
+          ],
+        },
+        {
+          id: 6,
+          chartType: ChartTypes.BIGNUMBERWITHTREND,
+          title: "Current Matches",
+          metrics: [
+            {
+              metricKey: "new_users",
+              metricLabel: "Avg Drop off Rate Per Tourney",
+            },
+          ],
+        },
+        {
+          id: 4,
+          chartType: ChartTypes.BIGNUMBERWITHTREND,
+          title: "Current Active Players",
+          metrics: [
+            {
+              metricKey: "new_users",
+              metricLabel: "Total Players Participated",
+            },
+          ],
+        },
+      ],
+    },
+    {
+      id: 2,
+      insights: [
+        {
+          id: 1,
+          title: "Registrations",
+          chartType: ChartTypes.SIMPLE_CHART,
+          metrics: [
+            {
+              metricKey: "registrations",
+              metricLabel: "Registrations",
+              chartType: ChartTypes.LINE,
+              yAxisId: "right",
+            },
+          ],
+        },
+        {
+          id: 2,
+          title: "Active Players vs Players Remaining in Tournament",
+          chartType: ChartTypes.SIMPLE_CHART,
+          metrics: [
+            {
+              metricKey: "active_users",
+              metricLabel: "Active Players",
               chartType: ChartTypes.BAR,
+              yAxisId: "right",
+            },
+            {
+              metricKey: "registrations",
+              metricLabel: "Remaining Players",
+              chartType: ChartTypes.BAR,
+              yAxisId: "right",
             },
           ],
         },
