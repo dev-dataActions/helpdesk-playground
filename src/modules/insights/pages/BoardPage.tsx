@@ -7,12 +7,12 @@ const BoardPage = ({ boardId }: { boardId: string }) => {
   if (!board) return <p className="mt-10">Board not found.</p>;
 
   return (
-    <DashboardLayout title="Workflows" cols={ValidDashboardColumns.ONE}>
-      <div className="flex flex-col gap-y-4 p-4 px-44">
-        {board?.sections?.map((section) => (
-          <>
-            <h1 className="text-xl">{section.title}</h1>
-            <div className="flex gap-x-4">
+    <div className="p-16 px-40">
+      <h1 className="text-2xl font-semibold mb-3">{board.title}</h1>
+      <div className="flex flex-col gap-y-4">
+        {board?.sections?.map((section, index) => (
+          <div key={index}>
+            <DashboardLayout title={section.title ?? ""} cols={ValidDashboardColumns.TWELVE}>
               {section.insights.map((insight: IInsight) => (
                 <Insight
                   key={insight.id}
@@ -20,14 +20,14 @@ const BoardPage = ({ boardId }: { boardId: string }) => {
                   type={insight.chartType}
                   metrics={insight.metrics}
                   filters={insight?.filters}
-                  options={{ className: "h-60" }}
+                  options={insight?.options}
                 />
               ))}
-            </div>
-          </>
+            </DashboardLayout>
+          </div>
         ))}
       </div>
-    </DashboardLayout>
+    </div>
   );
 };
 

@@ -1,4 +1,4 @@
-import { ChartTypes, IInsight } from "da-insight-kit";
+import { ChartTypes, IInsight, ValidSpanColumns } from "da-insight-kit";
 
 interface Section {
   title?: string;
@@ -437,35 +437,37 @@ export const getBoardByBoardId = async (boardId: string): Promise<IBoard | null>
   else if (boardId === "2")
     return {
       id: "2",
-      title: "Live Tournament Health - Across all Tournaments",
+      title: "Tournament Health Check Dashboard",
       sections: [
         {
           insights: [
             {
               id: 1,
               title: "Registrations",
-              chartType: ChartTypes.BIGNUMBERWITHTREND,
+              chartType: ChartTypes.BIGNUMBER,
               metrics: [
                 {
                   metricKey: "new_users",
                   metricLabel: "Total Tournaments Organized",
                 },
               ],
+              options: { className: "h-52", spanCols: ValidSpanColumns.FOUR },
             },
             {
               id: 2,
               title: "Joined Players",
-              chartType: ChartTypes.BIGNUMBERWITHTREND,
+              chartType: ChartTypes.BIGNUMBER,
               metrics: [
                 {
                   metricKey: "registrations",
                   metricLabel: "Total Registered Players",
                 },
               ],
+              options: { className: "h-52", spanCols: ValidSpanColumns.FOUR },
             },
             {
               id: 3,
-              chartType: ChartTypes.BIGNUMBERWITHTREND,
+              chartType: ChartTypes.BIGNUMBER,
               title: "Current Round",
               metrics: [
                 {
@@ -473,6 +475,7 @@ export const getBoardByBoardId = async (boardId: string): Promise<IBoard | null>
                   metricLabel: "Total Players Participated",
                 },
               ],
+              options: { className: "h-52", spanCols: ValidSpanColumns.FOUR },
             },
           ],
         },
@@ -480,83 +483,55 @@ export const getBoardByBoardId = async (boardId: string): Promise<IBoard | null>
           insights: [
             {
               id: 4,
-              chartType: ChartTypes.BIGNUMBERWITHTREND,
+              chartType: ChartTypes.MIXED,
               title: "Matches Played",
               metrics: [
                 {
                   metricKey: "participation_rate",
                   metricLabel: "Participation Rate Per Tourney",
+                  chartType: ChartTypes.AREA,
                 },
               ],
+              options: { className: "h-60", spanCols: ValidSpanColumns.SIX },
             },
             {
               id: 5,
-              chartType: ChartTypes.BIGNUMBERWITHTREND,
+              chartType: ChartTypes.MIXED,
               title: "Players Remaining in Tournament",
               metrics: [
                 {
                   metricKey: "participation_rate",
                   metricLabel: "Total Dropped off Players",
+                  chartType: ChartTypes.AREA,
                 },
               ],
+              options: { className: "h-60", spanCols: ValidSpanColumns.SIX },
             },
             {
               id: 6,
-              chartType: ChartTypes.BIGNUMBERWITHTREND,
+              chartType: ChartTypes.MIXED,
               title: "Current Matches",
               metrics: [
                 {
                   metricKey: "new_users",
                   metricLabel: "Avg Drop off Rate Per Tourney",
+                  chartType: ChartTypes.BAR,
                 },
               ],
+              options: { className: "h-60", spanCols: ValidSpanColumns.SIX },
             },
             {
               id: 4,
-              chartType: ChartTypes.BIGNUMBERWITHTREND,
+              chartType: ChartTypes.MIXED,
               title: "Current Active Players",
               metrics: [
                 {
                   metricKey: "new_users",
                   metricLabel: "Total Players Participated",
-                },
-              ],
-            },
-          ],
-        },
-        {
-          insights: [
-            {
-              id: 1,
-              title: "Registrations",
-              chartType: ChartTypes.MIXED,
-              metrics: [
-                {
-                  metricKey: "registrations",
-                  metricLabel: "Registrations",
-                  chartType: ChartTypes.LINE,
-                  yAxisId: "right",
-                },
-              ],
-            },
-            {
-              id: 2,
-              title: "Active Players vs Players Remaining in Tournament",
-              chartType: ChartTypes.MIXED,
-              metrics: [
-                {
-                  metricKey: "active_users",
-                  metricLabel: "Active Players",
                   chartType: ChartTypes.BAR,
-                  yAxisId: "right",
-                },
-                {
-                  metricKey: "registrations",
-                  metricLabel: "Remaining Players",
-                  chartType: ChartTypes.BAR,
-                  yAxisId: "right",
                 },
               ],
+              options: { className: "h-60", spanCols: ValidSpanColumns.SIX },
             },
           ],
         },
