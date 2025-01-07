@@ -5,7 +5,7 @@ import { CiMoneyBill } from "react-icons/ci";
 import { usePathname } from "next/navigation";
 import { GoPeople } from "react-icons/go";
 import { PiBrainThin } from "react-icons/pi";
-import { List } from "../common/List";
+import { List } from "../insights/components/List";
 
 interface ISidebarLayoutProps {
   children: ReactNode;
