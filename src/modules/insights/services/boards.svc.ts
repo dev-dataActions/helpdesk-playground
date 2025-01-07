@@ -1,8 +1,8 @@
-import { ChartTypes } from "da-insight-kit";
+import { ChartTypes, IInsight } from "da-insight-kit";
 
 interface Section {
   title?: string;
-  insights: object[];
+  insights: IInsight[];
 }
 
 export interface IBoard {
