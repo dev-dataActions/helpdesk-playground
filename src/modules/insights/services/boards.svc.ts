@@ -447,8 +447,8 @@ export const getBoardByBoardId = async (boardId: string): Promise<IBoard | null>
               chartType: ChartTypes.BIGNUMBER,
               metrics: [
                 {
-                  metricKey: "new_users",
-                  metricLabel: "Total Tournaments Organized",
+                  metricKey: "event_registrations",
+                  metricLabel: "Registrations",
                 },
               ],
               options: { className: "h-52", spanCols: ValidSpanColumns.FOUR },
@@ -459,8 +459,8 @@ export const getBoardByBoardId = async (boardId: string): Promise<IBoard | null>
               chartType: ChartTypes.BIGNUMBER,
               metrics: [
                 {
-                  metricKey: "registrations",
-                  metricLabel: "Total Registered Players",
+                  metricKey: "joined_players",
+                  metricLabel: "Joined Players",
                 },
               ],
               options: { className: "h-52", spanCols: ValidSpanColumns.FOUR },
@@ -468,11 +468,11 @@ export const getBoardByBoardId = async (boardId: string): Promise<IBoard | null>
             {
               id: 3,
               chartType: ChartTypes.BIGNUMBER,
-              title: "Current Round",
+              title: "Dropped Players",
               metrics: [
                 {
-                  metricKey: "new_users",
-                  metricLabel: "Total Players Participated",
+                  metricKey: "dropped_players",
+                  metricLabel: "Dropped Players",
                 },
               ],
               options: { className: "h-52", spanCols: ValidSpanColumns.FOUR },
@@ -484,37 +484,48 @@ export const getBoardByBoardId = async (boardId: string): Promise<IBoard | null>
             {
               id: 4,
               chartType: ChartTypes.MIXED,
-              title: "Matches Played",
+              title: "Joined Players",
               metrics: [
                 {
-                  metricKey: "participation_rate",
+                  metricKey: "joined_players",
                   metricLabel: "Participation Rate Per Tourney",
-                  chartType: ChartTypes.AREA,
+                  chartType: ChartTypes.LINE,
                 },
               ],
+              filters: {
+                joined_players: { showDimensionSplitIn: "event_type" },
+              },
               options: { className: "h-60", spanCols: ValidSpanColumns.SIX },
             },
             {
               id: 5,
               chartType: ChartTypes.MIXED,
-              title: "Players Remaining in Tournament",
+              title: "Dropped Players",
               metrics: [
                 {
-                  metricKey: "participation_rate",
-                  metricLabel: "Total Dropped off Players",
-                  chartType: ChartTypes.AREA,
+                  metricKey: "dropped_players",
+                  metricLabel: "Dropped Players",
+                  chartType: ChartTypes.LINE,
                 },
               ],
+              filters: {
+                dropped_players: { showDimensionSplitIn: "event_type" },
+              },
               options: { className: "h-60", spanCols: ValidSpanColumns.SIX },
             },
             {
               id: 6,
               chartType: ChartTypes.MIXED,
-              title: "Current Matches",
+              title: "Registrations vs Joined Players",
               metrics: [
                 {
-                  metricKey: "new_users",
-                  metricLabel: "Avg Drop off Rate Per Tourney",
+                  metricKey: "event_registrations",
+                  metricLabel: "Registrations",
+                  chartType: ChartTypes.BAR,
+                },
+                {
+                  metricKey: "joined_players",
+                  metricLabel: "Joined Players",
                   chartType: ChartTypes.BAR,
                 },
               ],
@@ -523,11 +534,16 @@ export const getBoardByBoardId = async (boardId: string): Promise<IBoard | null>
             {
               id: 4,
               chartType: ChartTypes.MIXED,
-              title: "Current Active Players",
+              title: "Joined Players vs Dropped Players",
               metrics: [
                 {
-                  metricKey: "new_users",
-                  metricLabel: "Total Players Participated",
+                  metricKey: "joined_players",
+                  metricLabel: "Joined Players",
+                  chartType: ChartTypes.BAR,
+                },
+                {
+                  metricKey: "dropped_players",
+                  metricLabel: "Dropped Players",
                   chartType: ChartTypes.BAR,
                 },
               ],
