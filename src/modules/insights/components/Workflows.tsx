@@ -7,9 +7,8 @@ export interface IWorkflowProps {
 }
 export const Workflows: React.FC<IWorkflowProps> = ({ workflows }) => {
   const router = useRouter();
-  const WORKSPACE_ID = process.env.NEXT_PUBLIC_WORKSPACE_ID;
 
-  if (!workflows || !WORKSPACE_ID) return <div>No pins found</div>;
+  if (!workflows) return <div>No workflow found</div>;
 
   return (
     <div>
