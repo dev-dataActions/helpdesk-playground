@@ -7,7 +7,7 @@ export const getWorkflows = async () => {
   }
 };
 
-export const getWorkflowByWorkflowId = async (workflowId: string) => {
+export const getWorkflowByWorkflowId = async (workflowId) => {
   try {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_BACKEND_URL}/workflow?workflow_id=${workflowId}`
@@ -18,7 +18,7 @@ export const getWorkflowByWorkflowId = async (workflowId: string) => {
   }
 };
 
-export const getMetricsByWorkflowId = async (workflowId: string) => {
+export const getMetricsByWorkflowId = async (workflowId) => {
   try {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_BACKEND_URL}/workflow-metric?workflow_id=${workflowId}`
@@ -29,7 +29,7 @@ export const getMetricsByWorkflowId = async (workflowId: string) => {
   }
 };
 
-export const getInsightsByWorkflowId = async (workflowId: string) => {
+export const getInsightsByWorkflowId = async (workflowId) => {
   try {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_BACKEND_URL}/workflow-insight?workflow_id=${workflowId}`
@@ -40,10 +40,7 @@ export const getInsightsByWorkflowId = async (workflowId: string) => {
   }
 };
 
-export const getBoardsByWorkflowId = async (
-  workflowId: string,
-  staging = true
-) => {
+export const getBoardsByWorkflowId = async (workflowId, staging = true) => {
   try {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_BACKEND_URL}/board?workflow_id=${workflowId}&staging=${staging}`
@@ -54,11 +51,7 @@ export const getBoardsByWorkflowId = async (
   }
 };
 
-export const getBoardByWorkflowIdAndBoardId = async (
-  workflowId: string,
-  boardId: string,
-  staging = true
-) => {
+export const getBoardByWorkflowIdAndBoardId = async (workflowId, boardId, staging = true) => {
   try {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_BACKEND_URL}/board?workflow_id=${workflowId}&board_id=${boardId}&staging=${staging}`

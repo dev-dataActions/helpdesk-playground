@@ -1,7 +1,7 @@
-import { useWorkflows } from "@/modules/insights/hooks/useWorkflows";
-import { Workflows } from "@/modules/insights/components/Workflows";
-import { Loading } from "@/modules/insights/common/functional/Loading";
+import { Loading } from "../common/functional/Loading";
 import { PanelLayout } from "../common/layout/PanelLayout";
+import { Workflows } from "../components/Workflows";
+import { useWorkflows } from "../hooks/useWorkflows";
 
 export default function WorkflowsPage() {
   const { workflows, loading } = useWorkflows();
