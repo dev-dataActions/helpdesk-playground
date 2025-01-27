@@ -1,10 +1,5 @@
 import { IInsight } from "da-insight-kit";
 
-interface Section {
-  title?: string;
-  insights: IInsight[];
-}
-
 export interface IBoard {
   board_id: string;
   workflow_id: string;
