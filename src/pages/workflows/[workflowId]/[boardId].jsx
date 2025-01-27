@@ -1,11 +1,11 @@
-import BoardPage from "@/modules/insights/pages/BoardPage";
 import { useRouter } from "next/router";
+import BoardPage from "../../../modules/insights/pages/BoardPage";
 
 export default function Board() {
   const router = useRouter();
-  const { boardId } = router.query;
+  const { boardId, workflowId } = router.query;
 
   if (!boardId || typeof boardId !== "string") return <p>Board not found</p>;
 
-  return <BoardPage boardId={boardId} />;
+  return <BoardPage workflowId={workflowId} boardId={boardId} />;
 }

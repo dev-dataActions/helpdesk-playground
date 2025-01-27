@@ -1,14 +1,14 @@
 import React from "react";
 import { useRouter } from "next/router";
 import useWorkflowBoards from "../hooks/useWorkflowBoards";
-import { PanelLayout } from "@/modules/layouts/PanelLayout";
-import { Loader } from "@/modules/insights/common/base/Loader";
-import { BoardTypes } from "@/modules/insights/constants/board.constants";
-import Table from "@/modules/insights/common/functional/Table";
+import { Loading } from "../common/functional/Loading";
+import Table from "../common/functional/Table";
+import { PanelLayout } from "../common/layout/PanelLayout";
+import { BoardTypes } from "../constants/board.constants";
 
 export const WorkflowBoards = ({ workflowId }) => {
-  const { boards, loading } = useWorkflowBoards(workflowId);
   const { query, push } = useRouter();
+  const { boards, loading } = useWorkflowBoards(workflowId);
 
   const columns = [
     {
@@ -17,20 +17,13 @@ export const WorkflowBoards = ({ workflowId }) => {
       render: (value) => <span className="text-sm text-gray-700">{value}</span>,
     },
     {
-      key: "deployed",
-      title: "stage",
-      render: (value) => (
-        <span className="text-gray-700 text-sm">{value ? "Deployed" : "Draft"}</span>
-      ),
-    },
-    {
       key: "lastUpdated",
       title: "Last updated",
       render: (value) => <span className="text-gray-700 text-sm">{value}</span>,
     },
   ];
 
-  if (loading) return <Loader />;
+  if (loading) return <Loading />;
 
   return (
     <div className="flex flex-col gap-3">

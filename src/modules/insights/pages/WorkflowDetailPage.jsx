@@ -1,8 +1,8 @@
 import { useRouter } from "next/router";
-import { useWorkflow } from "../hooks/useWorkflow";
-import { PanelLayout } from "@/modules/layouts/PanelLayout";
+import { Loading } from "../common/functional/Loading";
+import { PanelLayout } from "../common/layout/PanelLayout";
 import { WorkflowBoards } from "../components/WorkflowBoards";
-import { Loading } from "@/modules/insights/common/functional/Loading";
+import { useWorkflow } from "../hooks/useWorkflow";
 
 export const WorkflowDetailPage = () => {
   const { query } = useRouter();

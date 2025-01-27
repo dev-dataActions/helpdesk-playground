@@ -1,8 +1,8 @@
 import { DashboardLayout, Insight, ValidDashboardColumns } from "da-insight-kit";
-import useBoards from "../hooks/useWorkflowBoards";
+import useBoard from "../hooks/useBoard";
 
-const BoardPage = ({ boardId }) => {
-  const { board } = useBoards(boardId);
+const BoardPage = ({ workflowId, boardId }) => {
+  const { board } = useBoard(workflowId, boardId);
 
   if (!board) return <p className="mt-10">Board not found.</p>;
 

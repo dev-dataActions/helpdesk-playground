@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
-import { getBoardsByWorkflowId } from "../services/boards.svc";
+import { getBoardByWorkflowIdAndBoardId } from "../services/workflows.svc";
 import { formatDate } from "../common/utils/date.util";
 
-export default function useWorkflowBoards(workflowId) {
-  const [boards, setBoards] = useState([]);
+export default function useBoard(workflowId, boardId) {
+  const [board, setBoard] = useState({});
   const [loading, setLoading] = useState(true);
-  const [counter, setCounter] = useState(0);
   const [error, setError] = useState(null);
 
   const transformData = (data) => {
@@ -14,21 +13,20 @@ export default function useWorkflowBoards(workflowId) {
       workflowId: entry.workflow_id,
       title: entry.data.title,
       insights: entry.data.insights,
-      deployed: true,
+      deployed: entry.deployed,
       type: entry.data.type,
       lastUpdated: formatDate(entry.lastUpdated ?? new Date(), "MMMM d, yyyy h:mm a"),
-    }));
+    }))[0];
   };
 
   useEffect(() => {
+    if (!workflowId || !boardId) return;
     setLoading(true);
-    getBoardsByWorkflowId(workflowId)
-      .then((data) => setBoards(transformData(data)))
+    getBoardByWorkflowIdAndBoardId(workflowId, boardId)
+      .then((data) => setBoard(transformData(data)))
       .catch((err) => setError(err))
       .finally(() => setLoading(false));
-  }, [workflowId, counter]);
+  }, [workflowId, boardId]);
 
-  const refetch = () => setCounter((prev) => prev + 1);
-
-  return { boards, loading, error, refetch };
+  return { board, loading, error };
 }

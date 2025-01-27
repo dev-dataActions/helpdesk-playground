@@ -17,8 +17,8 @@ export const Workflows = ({ workflows }) => {
           >
             <div className="flex gap-2 items-start justify-between w-full">
               <div className="flex flex-col text-left h-full w-[85%]">
-                <p className="mb-1">{workflow.workflow_name}</p>
-                <p className="text-xs text-gray-500">{workflow.data.description}</p>
+                <p className="mb-1">{workflow.name}</p>
+                <p className="text-xs text-gray-500">{workflow.description}</p>
               </div>
               <GoWorkflow size={36} />
             </div>
