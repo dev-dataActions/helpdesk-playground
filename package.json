@@ -20,7 +20,8 @@
     "react-tippy": "^1.4.0",
     "react-toastify": "^10.0.6",
     "recharts": "^2.13.3",
-    "uniqid": "^5.4.0"
+    "uniqid": "^5.4.0",
+    "unique-names-generator": "^4.7.1"
   },
   "devDependencies": {
     "@types/node": "^20",

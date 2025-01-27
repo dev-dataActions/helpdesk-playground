@@ -1,8 +1,13 @@
-import { DashboardLayout, IInsight, Insight, ValidDashboardColumns } from "da-insight-kit";
-import useBoard from "../hooks/useBoard";
+import {
+  DashboardLayout,
+  IInsight,
+  Insight,
+  ValidDashboardColumns,
+} from "da-insight-kit";
+import useBoards from "../hooks/useWorkflowBoards";
 
 const BoardPage = ({ boardId }: { boardId: string }) => {
-  const { board } = useBoard(boardId);
+  const { board } = useBoards(boardId);
 
   if (!board) return <p className="mt-10">Board not found.</p>;
 
@@ -12,7 +17,10 @@ const BoardPage = ({ boardId }: { boardId: string }) => {
       <div className="flex flex-col gap-y-4">
         {board?.sections?.map((section, index) => (
           <div key={index}>
-            <DashboardLayout title={section.title ?? ""} cols={ValidDashboardColumns.TWELVE}>
+            <DashboardLayout
+              title={section.title ?? ""}
+              cols={ValidDashboardColumns.TWELVE}
+            >
               {section.insights.map((insight: IInsight) => (
                 <Insight
                   key={insight.id}

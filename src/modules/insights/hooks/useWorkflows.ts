@@ -1,11 +1,13 @@
-import { getWorkflowsByUserId } from "@/modules/insights/services/workflows.svc";
 import { useEffect, useState } from "react";
+import { getWorkflows } from "../services/workflows.svc";
 
 export interface IWorkflow {
-  id: number;
-  name: string;
-  desc: string;
-  icon: string;
+  id: string;
+  data: {
+    icon: string;
+    description: string;
+  };
+  workflow_name: string;
 }
 
 export function useWorkflows(userId: string | undefined) {
@@ -13,12 +15,12 @@ export function useWorkflows(userId: string | undefined) {
   const [workflows, setWorkflows] = useState<IWorkflow[]>([]);
 
   useEffect(() => {
-    if (!userId) return;
     setLoading(true);
-    getWorkflowsByUserId(userId)
+    getWorkflows()
       .then((data) => setWorkflows(data))
+      .catch((err) => console.error(err))
       .finally(() => setLoading(false));
-  }, [userId]);
+  }, []);
 
   return { workflows, loading };
 }
