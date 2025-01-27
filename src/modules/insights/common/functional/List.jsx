@@ -1,19 +1,7 @@
 import Link from "next/link";
 import { Label } from "../base/Label";
 
-export interface IListProps {
-  title?: string;
-  items: {
-    id?: string;
-    href: string;
-    current?: boolean;
-    icon: string;
-    label: string;
-    component?: React.ReactNode;
-  }[];
-  className?: string;
-}
-export const List = ({ title, items, className }: IListProps) => {
+export const List = ({ title, items, className }) => {
   return (
     <div className={className}>
       {title && <div className="text-xs font-medium p-1 flex items-center gap-x-1">{title}</div>}
@@ -24,7 +12,7 @@ export const List = ({ title, items, className }: IListProps) => {
               item.component
             ) : (
               <Link
-                href={item.href}
+                href={item.href ?? "#"}
                 className={`block px-3 py-2 w-full ${
                   item.current ? "bg-gray-100 outline outline-gray-200" : ""
                 } hover:bg-gray-100 hover:outline hover:outline-gray-200 rounded-md`}
