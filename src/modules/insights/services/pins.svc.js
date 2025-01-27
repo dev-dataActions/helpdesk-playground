@@ -1,15 +1,6 @@
-import { IInsight } from "da-insight-kit";
-
-export interface IPin {
-  data: IInsight;
-  pin_id: string;
-}
-
-export const getPinsByUserId = async (userId: string): Promise<IPin[]> => {
+export const getPinsByUserId = async (userId) => {
   // Your SaaS app backend should have an API to fetch pins by workspaceId and userId
-  return fetch(
-    `https://backend.dataactions.ai/pin?workspace_id=arihant&user_id=${userId}`
-  )
+  return fetch(`https://backend.dataactions.ai/pin?workspace_id=arihant&user_id=${userId}`)
     .then((res) => res.json())
     .then((data) => data)
     .catch((err) => {
@@ -18,7 +9,7 @@ export const getPinsByUserId = async (userId: string): Promise<IPin[]> => {
     });
 };
 
-export const deletePin = async (pinId: string) => {
+export const deletePin = async (pinId) => {
   // Your SaaS app backend should have an API to delete a pin
   const url = `https://backend.dataactions.ai/pin?workspace_id=arihant&user_id=userId&pin_id=${pinId}`;
 
@@ -27,9 +18,7 @@ export const deletePin = async (pinId: string) => {
   })
     .then((response) => {
       if (!response.ok) {
-        throw new Error(
-          `Failed to delete pin with ID ${pinId}: ${response.statusText}`
-        );
+        throw new Error(`Failed to delete pin with ID ${pinId}: ${response.statusText}`);
       }
       return response.json();
     })
@@ -40,7 +29,7 @@ export const deletePin = async (pinId: string) => {
     });
 };
 
-export const AddPin = async (payload: IPin) => {
+export const AddPin = async (payload) => {
   const url = "https://backend.dataactions.ai/pin";
 
   try {

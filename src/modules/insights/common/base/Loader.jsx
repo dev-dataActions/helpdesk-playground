@@ -1,14 +1,6 @@
-import { LoadingProps } from "../functional/Loading";
-
-export const Loader: React.FC<LoadingProps> = ({
-  loaderSize,
-  className,
-  loaderText = "Loading...",
-}) => {
+export const Loader = ({ loaderSize, className, loaderText = "Loading..." }) => {
   return (
-    <div
-      className={`${className} h-full w-full flex justify-center items-center`}
-    >
+    <div className={`${className} h-full w-full flex justify-center items-center`}>
       <svg
         aria-hidden="true"
         className={`${

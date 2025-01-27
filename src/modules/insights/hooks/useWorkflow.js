@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { getWorkflowByWorkflowId } from "../services/workflows.svc";
 
-export function useWorkflow(workflowId: string) {
+export function useWorkflow(workflowId) {
   const [loading, setLoading] = useState(true);
   const [workflow, setWorkflow] = useState([]);
 

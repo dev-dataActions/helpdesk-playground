@@ -1,25 +1,22 @@
 import { useEffect, useState } from "react";
-import { getBoardsByWorkflowId, IBoard } from "../services/boards.svc";
+import { getBoardsByWorkflowId } from "../services/boards.svc";
 import { formatDate } from "@/utils/date.util";
 
-export default function useWorkflowBoards(workflowId: string) {
+export default function useWorkflowBoards(workflowId) {
   const [boards, setBoards] = useState([]);
   const [loading, setLoading] = useState(true);
   const [counter, setCounter] = useState(0);
   const [error, setError] = useState(null);
 
-  const transformData = (data: IBoard[]) => {
-    return data.map((entry: IBoard) => ({
+  const transformData = (data) => {
+    return data.map((entry) => ({
       id: entry.board_id,
       workflowId: entry.workflow_id,
       title: entry.data.title,
       insights: entry.data.insights,
       deployed: entry.deployed,
       type: entry.data.type,
-      lastUpdated: formatDate(
-        entry.lastUpdated ?? new Date(),
-        "MMMM d, yyyy h:mm a"
-      ),
+      lastUpdated: formatDate(entry.lastUpdated ?? new Date(), "MMMM d, yyyy h:mm a"),
     }));
   };
 

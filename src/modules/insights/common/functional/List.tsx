@@ -1,7 +1,19 @@
 import Link from "next/link";
 import { Label } from "../base/Label";
 
-export const List = ({ title, items, className }) => {
+export interface IListProps {
+  title?: string;
+  items: {
+    id?: string;
+    href: string;
+    current?: boolean;
+    icon: string;
+    label: string;
+    component?: React.ReactNode;
+  }[];
+  className?: string;
+}
+export const List = ({ title, items, className }: IListProps) => {
   return (
     <div className={className}>
       {title && <div className="text-xs font-medium p-1 flex items-center gap-x-1">{title}</div>}

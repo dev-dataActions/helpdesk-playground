@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { getMetricsByWorkflowId } from "../services/workflows.svc";
 
-export default function useWorkflowMetrics(workflowId: string) {
+export default function useWorkflowMetrics(workflowId) {
   const [metrics, setMetrics] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);

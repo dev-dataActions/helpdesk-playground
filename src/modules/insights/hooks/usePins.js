@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import { getPinsByUserId, IPin } from "../services/pins.svc";
+import { getPinsByUserId } from "../services/pins.svc";
 
-export function usePins(userId: string) {
-  const [loading, setLoading] = useState<boolean>(false);
-  const [pins, setPins] = useState<IPin[]>([]);
+export function usePins(userId) {
+  const [loading, setLoading] = useState(false);
+  const [pins, setPins] = useState([]);
 
   useEffect(() => {
     if (!userId) return;

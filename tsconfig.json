@@ -18,6 +18,20 @@
     },
     "allowImportingTsExtensions": true
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "**/*.jsx"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "**/*.jsx",
+    "src/utils/date.util.js",
+    "src/modules/insights/services/workflows.svc.js",
+    "src/modules/insights/services/pins.svc.js",
+    "src/modules/insights/services/boards.svc.js",
+    "src/modules/insights/constants/board.constants.js",
+    "src/modules/insights/hooks/useReviewsBoards.js",
+    "src/modules/insights/hooks/usePins.js",
+    "src/modules/insights/hooks/useWorkflowBoards.js",
+    "src/modules/insights/hooks/useWorkflow.js"
+  ],
   "exclude": ["node_modules"]
 }

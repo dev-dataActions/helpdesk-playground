@@ -1,17 +1,13 @@
-import { ReactNode, useMemo } from "react";
+import { useMemo } from "react";
 import { IoIosArrowDown } from "react-icons/io";
 import { IoGameControllerOutline, IoHomeOutline } from "react-icons/io5";
 import { CiMoneyBill } from "react-icons/ci";
 import { usePathname } from "next/navigation";
 import { GoPeople } from "react-icons/go";
 import { PiBrainThin } from "react-icons/pi";
-import { List } from "../insights/components/List";
+import { List } from "../functional/List";
 
-interface ISidebarLayoutProps {
-  children: ReactNode;
-}
-
-const UserDetails: React.FC<{ username: string }> = ({ username }) => {
+const UserDetails = ({ username }) => {
   return (
     <div className="flex items-center border-b h-12 px-3 gap-2">
       <p className="text-sm">{username}</p>
@@ -20,7 +16,7 @@ const UserDetails: React.FC<{ username: string }> = ({ username }) => {
   );
 };
 
-export const SidebarLayout: React.FC<ISidebarLayoutProps> = ({ children }) => {
+export const SidebarLayout = ({ children }) => {
   const pathname = usePathname();
 
   const navItems = useMemo(

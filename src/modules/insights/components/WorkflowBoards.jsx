@@ -1,21 +1,12 @@
 import React from "react";
 import { useRouter } from "next/router";
 import useWorkflowBoards from "../hooks/useWorkflowBoards";
-import { PiDotsThreeVerticalBold } from "react-icons/pi";
-import { PopUpMenu } from "da-insight-kit/dist/common/PopUpMenu";
 import { PanelLayout } from "@/modules/layouts/PanelLayout";
-import { Loader } from "@/common/base/Loader";
-import { Button } from "@/common/base/Button";
-import { BoardTypes } from "@/constants/board.constants";
-import Table from "@/common/functional/Table";
+import { Loader } from "@/modules/insights/common/base/Loader";
+import { BoardTypes } from "@/modules/insights/constants/board.constants";
+import Table from "@/modules/insights/common/functional/Table";
 
-interface WorkflowBoardsProps {
-  workflowId: string;
-}
-
-export const WorkflowBoards: React.FC<WorkflowBoardsProps> = ({
-  workflowId,
-}) => {
+export const WorkflowBoards = ({ workflowId }) => {
   const { boards, loading } = useWorkflowBoards(workflowId);
   const { query, push } = useRouter();
 
@@ -23,25 +14,19 @@ export const WorkflowBoards: React.FC<WorkflowBoardsProps> = ({
     {
       key: "title",
       title: "Title",
-      render: (value: string) => (
-        <span className="text-sm text-gray-700">{value}</span>
-      ),
+      render: (value) => <span className="text-sm text-gray-700">{value}</span>,
     },
     {
       key: "deployed",
       title: "stage",
-      render: (value: boolean) => (
-        <span className="text-gray-700 text-sm">
-          {value ? "Deployed" : "Draft"}
-        </span>
+      render: (value) => (
+        <span className="text-gray-700 text-sm">{value ? "Deployed" : "Draft"}</span>
       ),
     },
     {
       key: "lastUpdated",
       title: "Last updated",
-      render: (value: string) => (
-        <span className="text-gray-700 text-sm">{value}</span>
-      ),
+      render: (value) => <span className="text-gray-700 text-sm">{value}</span>,
     },
   ];
 
@@ -58,9 +43,7 @@ export const WorkflowBoards: React.FC<WorkflowBoardsProps> = ({
         <Table
           columns={columns}
           data={boards?.filter((board) => board.type === BoardTypes.LIVE_BOARD)}
-          onClick={(metric: any) =>
-            push(`/workflows/${query?.workflowId}/${metric.id}`)
-          }
+          onClick={(metric) => push(`/workflows/${query?.workflowId}/${metric.id}`)}
         />
       </PanelLayout>
 
@@ -71,12 +54,8 @@ export const WorkflowBoards: React.FC<WorkflowBoardsProps> = ({
       >
         <Table
           columns={columns}
-          data={boards?.filter(
-            (board) => board.type === BoardTypes.REVIEW_BOARD
-          )}
-          onClick={(board: any) =>
-            push(`/workflows/${query?.workflowId}/${board.id}`)
-          }
+          data={boards?.filter((board) => board.type === BoardTypes.REVIEW_BOARD)}
+          onClick={(board) => push(`/workflows/${query?.workflowId}/${board.id}`)}
         />
       </PanelLayout>
     </div>

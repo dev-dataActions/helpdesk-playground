@@ -1,12 +1,8 @@
 import { toast } from "react-toastify";
-import { deletePin, IPin } from "../services/pins.svc";
+import { deletePin } from "../services/pins.svc";
 import { DashboardLayout, Insight, ValidDashboardColumns, ValidSpanColumns } from "da-insight-kit";
 
-export interface IPinsProps {
-  pins: IPin[];
-}
-
-export const Pins: React.FC<IPinsProps> = ({ pins }) => {
+export const Pins = ({ pins }) => {
   if (!pins) return <div>No pins found</div>;
   return (
     <DashboardLayout

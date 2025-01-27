@@ -1,9 +1,9 @@
-import { getReviewsBoardsByUserId, IBoard } from "@/modules/insights/services/boards.svc";
+import { getReviewsBoardsByUserId } from "@/modules/insights/services/boards.svc";
 import { useEffect, useState } from "react";
 
-export function useReviewsBoards(userId?: string) {
-  const [loading, setLoading] = useState<boolean>(false);
-  const [reviewBoards, setReviewBoards] = useState<IBoard[]>([]);
+export function useReviewsBoards(userId) {
+  const [loading, setLoading] = useState(false);
+  const [reviewBoards, setReviewBoards] = useState([]);
 
   useEffect(() => {
     if (!userId) return;
