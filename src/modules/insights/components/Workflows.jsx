@@ -4,7 +4,8 @@ import { GoWorkflow } from "react-icons/go";
 export const Workflows = ({ workflows }) => {
   const router = useRouter();
 
-  if (!workflows) return <div>No workflow found</div>;
+  if (!workflows || workflows.length == 0)
+    return <div className="text-gray-500 text-sm mt-5">No workflows found</div>;
 
   return (
     <div className="grid grid-cols-12 gap-4">

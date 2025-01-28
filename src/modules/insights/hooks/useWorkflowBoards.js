@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { getBoardsByWorkflowId } from "../services/boards.svc";
 import { formatDate } from "../common/utils/date.util";
+import { getBoardsByWorkflowId } from "../services/workflows.svc";
 
 export default function useWorkflowBoards(workflowId) {
   const [boards, setBoards] = useState([]);

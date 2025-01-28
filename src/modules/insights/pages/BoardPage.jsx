@@ -1,11 +1,14 @@
 import { Insight, ValidSpanColumns } from "da-insight-kit";
 import useBoard from "../hooks/useBoard";
+import { useRouter } from "next/router";
 
 const BoardPage = ({ workflowId, boardId }) => {
+  const router = useRouter();
+  const { boardId, workflowId } = router.query;
   const { board } = useBoard(workflowId, boardId);
 
   if (!board) return <p className="mt-10">Board not found.</p>;
-  console.log(board);
+
   return (
     <div className="px-6 py-4">
       <h1 className="text-2xl mb-3">{board.title}</h1>
