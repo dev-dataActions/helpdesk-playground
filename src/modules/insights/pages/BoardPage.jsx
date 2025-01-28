@@ -2,7 +2,7 @@ import { Insight, ValidSpanColumns } from "da-insight-kit";
 import useBoard from "../hooks/useBoard";
 import { useRouter } from "next/router";
 
-const BoardPage = ({ workflowId, boardId }) => {
+const BoardPage = () => {
   const router = useRouter();
   const { boardId, workflowId } = router.query;
   const { board } = useBoard(workflowId, boardId);
