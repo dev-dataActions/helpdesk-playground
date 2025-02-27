@@ -1,18 +1,19 @@
-import { IoIosArrowBack } from "react-icons/io";
+import React from "react";
+import { MdChevronRight } from "react-icons/md";
 
-export const Breadcrumbs = ({ breadcrumbs = [], onBack }) => {
+export const Breadcrumbs = ({ breadcrumbs = [], onClick = () => {} }) => {
   return (
-    <div className="flex text-xxs font-medium text-gray-800 gap-x-1 items-center px-2">
-      {breadcrumbs.length > 1 && (
-        <div onClick={onBack} className="p-1 rounded-md hover:bg-gray-100 cursor-pointer">
-          <IoIosArrowBack size={16} />
-        </div>
-      )}
-      {breadcrumbs.map((bc, index) => (
-        <>
-          <p>{index > 0 ? "/" : ""}</p>
-          <p>{bc}</p>
-        </>
+    <div className="flex items-center gap-x-2">
+      {breadcrumbs.map((bc) => (
+        <React.Fragment key={bc}>
+          <p
+            className="text-xxs text-gray-600 hover:text-gray-700 hover:underline cursor-pointer"
+            onClick={() => onClick(bc)}
+          >
+            {bc.name}
+          </p>
+          <MdChevronRight size={16} />
+        </React.Fragment>
       ))}
     </div>
   );

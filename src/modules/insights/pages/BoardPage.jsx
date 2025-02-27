@@ -12,7 +12,7 @@ const BoardPage = () => {
   return (
     <div className="px-6 py-4">
       <h1 className="text-2xl mb-3">{board.title}</h1>
-      <div className="grid grid-cols-12 gap-4 pt-2">
+      <div className="grid grid-cols-12 gap-2 pt-2">
         {board?.insights?.map((insight) => (
           <Insight
             key={insight.id}

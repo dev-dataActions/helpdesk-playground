@@ -1,11 +1,11 @@
 import { useMemo } from "react";
+import { usePathname } from "next/navigation";
+import { List } from "../functional/List";
 import { IoIosArrowDown } from "react-icons/io";
 import { IoGameControllerOutline, IoHomeOutline } from "react-icons/io5";
 import { CiMoneyBill } from "react-icons/ci";
-import { usePathname } from "next/navigation";
 import { GoPeople } from "react-icons/go";
 import { PiBrainThin } from "react-icons/pi";
-import { List } from "../functional/List";
 
 const UserDetails = ({ username }) => {
   return (
@@ -46,9 +46,9 @@ export const SidebarLayout = ({ children }) => {
       {
         id: 6,
         icon: <PiBrainThin size={16} />,
-        label: "Workflows",
-        href: "/workflows",
-        current: pathname?.includes("/workflows"),
+        label: "Insights",
+        href: "/insights",
+        current: pathname?.includes("/insights"),
       },
     ],
     [pathname]
