@@ -1,17 +1,17 @@
 import { Insight, ValidSpanColumns } from "da-insight-kit";
-import useBoard from "../hooks/useBoard";
-import { useRouter } from "next/router";
+import { useBoard } from "../hooks/useBoard";
+import { Loading } from "../common/functional/Loading";
+import { PanelLayout } from "../common/layout/PanelLayout";
 
-const BoardPage = () => {
-  const router = useRouter();
-  const { boardId, workflowId } = router.query;
-  const { board } = useBoard(workflowId, boardId);
+const BoardPage = ({ workspaceId, apiKey, boardId }) => {
+  const { board, loading } = useBoard(workspaceId, boardId, apiKey);
+
+  if (loading) return <Loading loaderText="Loading board..." />;
 
   if (!board) return <p className="mt-10">Board not found.</p>;
 
   return (
-    <div className="px-6 py-4">
-      <h1 className="text-2xl mb-3">{board.title}</h1>
+    <PanelLayout title={board.title} showBackButton>
       <div className="grid grid-cols-12 gap-2 pt-2">
         {board?.insights?.map((insight) => (
           <Insight
@@ -28,7 +28,7 @@ const BoardPage = () => {
           />
         ))}
       </div>
-    </div>
+    </PanelLayout>
   );
 };
 
