@@ -10,7 +10,8 @@ export const SubFeatures = ({ features = [] }) => {
             <GoToCard
               name={feature.name}
               description={feature.description}
-              goToText="Go to Module"
+              goToText="Go to module"
+              href={`/insights?featureId=${feature.id}`}
             />
           </div>
         ))}

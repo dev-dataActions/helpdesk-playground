@@ -18,7 +18,10 @@ export const getBreadcrumbs = (featureMap = {}, featureId = "") => {
 
   if (dfs(featureMap.data)) {
     if (breadcrumbs.length > 0) breadcrumbs.pop();
-    return breadcrumbs;
+    return breadcrumbs.map((bc) => ({
+      ...bc,
+      href: `/insights?featureId=${bc.id}`,
+    }));
   } else return [];
 };
 
