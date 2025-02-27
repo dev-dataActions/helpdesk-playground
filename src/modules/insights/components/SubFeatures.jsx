@@ -1,0 +1,20 @@
+import { GoToCard } from "./GoToCard";
+
+export const SubFeatures = ({ features = [] }) => {
+  return (
+    <div className="bg-blue-50 p-4 rounded-lg">
+      <p className="mb-3">{`Features (${features?.length ?? ""})`}</p>
+      <div className="flex flex-wrap gap-3">
+        {features.map((feature) => (
+          <div key={feature.id} className="w-[32.6%]">
+            <GoToCard
+              name={feature.name}
+              description={feature.description}
+              goToText="Go to Module"
+            />
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
