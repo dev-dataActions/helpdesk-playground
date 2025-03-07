@@ -39,10 +39,18 @@ const BoardPage = ({ workspaceId, appId, boardId, featureId }) => {
   if (!board) return <p className="mt-10">Board not found.</p>;
 
   return (
-    <PanelLayout title={board.name} description={board.description} showBackButton>
+    <PanelLayout
+      title={board.name}
+      description={board.description}
+      showBackButton
+    >
       <div className="grid grid-cols-12 gap-4 px-8 py-2">
         {board?.insights?.map((insight) => (
-          <InsightPreview key={insight.insight_id} insightConfig={insight} featureId={featureId} />
+          <InsightPreview
+            key={insight.insight_id}
+            insightConfig={insight}
+            featureId={featureId}
+          />
         ))}
       </div>
     </PanelLayout>
