@@ -24,10 +24,10 @@ export const PanelLayout = ({
         <>
           <div className="flex justify-between items-center mb-4">
             <div>
-              <p className="text-lg lg:text-xl text-left text-gray-800 mb-1 flex items-center gap-2">
+              <p className="text-lg lg:text-xl text-left text-gray-800 mb-1 flex items-center gap-1">
                 {showBackButton && (
                   <div
-                    className="cursor-pointer hover:bg-gray-200 rounded-md p-1"
+                    className="cursor-pointer hover:bg-gray-100 rounded-md p-1"
                     onClick={() => window?.history?.back?.()}
                   >
                     <FiChevronLeft size={20} />
@@ -35,7 +35,9 @@ export const PanelLayout = ({
                 )}
                 {title}
               </p>
-              <p className="font-light text-gray-600 text-sm">{description}</p>
+              <p className={`${showBackButton ? "pl-8" : ""} font-light text-gray-600 text-sm`}>
+                {description}
+              </p>
             </div>
             <div>
               {onEdit && (
@@ -50,7 +52,6 @@ export const PanelLayout = ({
               {customButton}
             </div>
           </div>
-          <div className="border-gray-300 border-b mb-4"></div>
         </>
       )}
       {children}

@@ -7,11 +7,10 @@ import { SubFeatures } from "../components/SubFeatures";
 import { FeatureSummary } from "../components/FeatureSummary";
 import { FeatureBoards } from "../components/FeatureBoards";
 
-export const FeatureDetailPage = ({ workspaceId, apiKey, featureId = "" }) => {
+export const FeatureDetailPage = ({ workspaceId, apiKey, appId, featureId }) => {
   const { featureMap, loading } = useFeatureMap(workspaceId, apiKey);
 
   const { breadcrumbs, feature } = useMemo(() => {
-    if (featureMap === undefined) return {};
     const breadcrumbs = getBreadcrumbs(featureMap, featureId);
     const feature = getFeature(featureMap, featureId);
     return { breadcrumbs, feature };
@@ -27,28 +26,10 @@ export const FeatureDetailPage = ({ workspaceId, apiKey, featureId = "" }) => {
 
   return (
     <PanelLayout title={feature.name} description={feature.description} breadcrumbs={breadcrumbs}>
-      <div className="flex flex-col gap-y-5 pb-16">
-        {feature?.children?.length > 0 && <SubFeatures features={feature.children} />}
-        <FeatureSummary
-          metrics={[
-            {
-              metric_name: "joined_players",
-              metric_label: "Joined Players",
-              featureId: "1740140245532",
-            },
-            {
-              metric_name: "joined_players",
-              metric_label: "Drop Off Players",
-              featureId: "1740140245532",
-            },
-            {
-              metric_name: "tournaments_organized",
-              metric_label: "Tournaments Organized",
-              featureId: "1740140245532",
-            },
-          ]}
-        />
-        <FeatureBoards featureId={featureId} workspaceId={workspaceId} />
+      <div className={`flex flex-col gap-y-10 pb-16 ${feature.children.length == 0 ? "pt-6" : ""}`}>
+        <SubFeatures features={feature.children} />
+        <FeatureSummary workspaceId={workspaceId} appId={appId} featureId={featureId} />
+        <FeatureBoards featureId={featureId} workspaceId={workspaceId} appId={appId} />
       </div>
     </PanelLayout>
   );

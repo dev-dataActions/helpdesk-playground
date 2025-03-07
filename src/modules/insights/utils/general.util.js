@@ -39,5 +39,5 @@ export const getFeature = (featureMap = {}, featureId = "") => {
     return null;
   }
 
-  return dfs(featureMap.data) || featureMap.data;
+  return dfs(featureMap?.data) || featureMap?.data;
 };

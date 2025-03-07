@@ -1,19 +1,32 @@
 import { useEffect, useState } from "react";
-import { getBoardByWorkspaceIdAndBoardId } from "../services/board.svc";
+import { getAppBoard } from "../services/board.svc";
 
-export const useBoard = (workspaceId, boardId) => {
+export const useBoard = (workspaceId, appId, featureId, boardId) => {
   const [board, setBoard] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  const transformData = (data) => {
+    return data.map((entry) => ({
+      board_id: entry.board_id,
+      workspace_id: entry.workspace_id,
+      feature_id: entry.feature_id,
+      app_id: entry.app_id,
+      name: entry.name,
+      description: entry.description,
+      insights: entry.data.insights,
+      lastUpdated: "yesterday",
+    }))[0];
+  };
+
   useEffect(() => {
-    if (!workspaceId || !boardId) return;
+    if (!workspaceId || !appId || !featureId || !boardId) return;
     setLoading(true);
-    getBoardByWorkspaceIdAndBoardId(workspaceId, boardId)
-      .then((data) => setBoard(data))
+    getAppBoard(workspaceId, appId, featureId, boardId)
+      .then((data) => setBoard(transformData(data)))
       .catch((err) => setError(err))
       .finally(() => setLoading(false));
-  }, [workspaceId, boardId]);
+  }, [workspaceId, appId, featureId, boardId]);
 
   return { board, loading, error };
 };

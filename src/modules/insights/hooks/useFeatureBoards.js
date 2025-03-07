@@ -1,21 +1,30 @@
 import { useEffect, useState } from "react";
-import { getBoardsByFeatureIdAndWorkspaceId } from "../services/features.svc";
+import { getAppBoards } from "../services/board.svc";
 
-export const useFeatureBoards = (featureId, workspaceId) => {
-  const [boards, setBoards] = useState([]);
+export const useFeatureBoards = (workspaceId, appId, featureId) => {
+  const [boards, setBoards] = useState();
   const [loading, setLoading] = useState(true);
-  const [counter, setCounter] = useState(0);
+  const [error, setError] = useState(null);
+
+  const transformData = (data) => {
+    return data.map((entry) => ({
+      board_id: entry.board_id,
+      workspace_id: entry.workspace_id,
+      feature_id: entry.feature_id,
+      app_id: entry.app_id,
+      name: entry.name,
+      description: entry.description,
+    }));
+  };
 
   useEffect(() => {
-    if (!workspaceId || !workspaceId) return;
+    if (!workspaceId || !appId || !featureId) return;
     setLoading(true);
-    getBoardsByFeatureIdAndWorkspaceId(featureId, workspaceId)
-      .then((res) => setBoards(res))
-      .catch((err) => console.log(err))
+    getAppBoards(workspaceId, appId, featureId)
+      .then((data) => setBoards(transformData(data)))
+      .catch((err) => setError(err))
       .finally(() => setLoading(false));
-  }, [featureId, workspaceId, counter]);
+  }, [workspaceId, appId, featureId]);
 
-  const refresh = () => setCounter((prevCounter) => prevCounter + 1);
-
-  return { boards, loading, refresh };
+  return { boards, loading, error };
 };

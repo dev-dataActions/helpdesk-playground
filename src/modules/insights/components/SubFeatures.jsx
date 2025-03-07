@@ -1,6 +1,7 @@
 import { GoToCard } from "./GoToCard";
 
 export const SubFeatures = ({ features = [] }) => {
+  if (!features || features.length === 0) return null;
   return (
     <div className="bg-blue-50 p-4 rounded-lg">
       <p className="mb-3">{`Features (${features?.length ?? ""})`}</p>
