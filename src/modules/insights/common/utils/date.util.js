@@ -1,4 +1,4 @@
-import { TimeGrain, TimeGrainAPIKey } from "da-insight-kit";
+import { TimeGrain, TimeGrainAPIKey } from "da-insight-sdk";
 import { format } from "date-fns";
 
 export function generateDatePairs(range, period) {
@@ -18,32 +18,14 @@ export function generateDatePairs(range, period) {
     ) {
       startDate = new Date(currentDate.getTime() - i * oneDay);
       endDate = startDate;
-    } else if (
-      period === TimeGrain.WEEKLY ||
-      period === TimeGrainAPIKey[TimeGrain.WEEKLY]
-    ) {
-      startDate = new Date(
-        currentDate.getTime() - (currentDate.getDay() - 1 + 7 * i) * oneDay
-      );
+    } else if (period === TimeGrain.WEEKLY || period === TimeGrainAPIKey[TimeGrain.WEEKLY]) {
+      startDate = new Date(currentDate.getTime() - (currentDate.getDay() - 1 + 7 * i) * oneDay);
       endDate = new Date(startDate.getTime() + 6 * oneDay);
-    } else if (
-      period === TimeGrain.MONTHLY ||
-      period === TimeGrainAPIKey[TimeGrain.MONTHLY]
-    ) {
-      startDate = new Date(
-        currentDate.getFullYear(),
-        currentDate.getMonth() - i,
-        1
-      );
-      endDate = new Date(
-        currentDate.getFullYear(),
-        currentDate.getMonth() - i + 1,
-        0
-      );
+    } else if (period === TimeGrain.MONTHLY || period === TimeGrainAPIKey[TimeGrain.MONTHLY]) {
+      startDate = new Date(currentDate.getFullYear(), currentDate.getMonth() - i, 1);
+      endDate = new Date(currentDate.getFullYear(), currentDate.getMonth() - i + 1, 0);
     } else {
-      throw new Error(
-        "Invalid period. Supported values are DAILY, WEEKLY, and MONTHLY."
-      );
+      throw new Error("Invalid period. Supported values are DAILY, WEEKLY, and MONTHLY.");
     }
 
     datePairs.push({ start: startDate, end: endDate });
@@ -64,10 +46,7 @@ export const stringifyDatePair = (dp) => {
 export const formatDatePair = (dp, period) => {
   switch (period) {
     case TimeGrain.WEEKLY:
-      return `${formatDate(dp.start, "MMM dd, yyyy")} - ${formatDate(
-        dp.end,
-        "MMM dd, yyyy"
-      )}`;
+      return `${formatDate(dp.start, "MMM dd, yyyy")} - ${formatDate(dp.end, "MMM dd, yyyy")}`;
     case TimeGrain.MONTHLY:
       return `${formatDate(dp.start, "MMM yyyy")}`;
     default:
@@ -177,21 +156,16 @@ export function isDateGreaterOrEqual(d1, d2) {
   return date1.getTime() >= date2.getTime();
 }
 
-export function shortenDate(
-  fromDateString,
-  toDateString,
-  timeGrain,
-  dateFormat
-) {
+export function shortenDate(fromDateString, toDateString, timeGrain, dateFormat) {
   if (!fromDateString || !toDateString) return "";
   switch (timeGrain) {
     case TimeGrain.DAILY:
       return formatDate(fromDateString, dateFormat ?? "MMM dd");
     case TimeGrain.WEEKLY:
-      return `${formatDate(
-        fromDateString,
+      return `${formatDate(fromDateString, dateFormat ?? "MMM dd")} - ${formatDate(
+        toDateString,
         dateFormat ?? "MMM dd"
-      )} - ${formatDate(toDateString, dateFormat ?? "MMM dd")}`;
+      )}`;
     case TimeGrain.MONTHLY:
       return formatDate(fromDateString, dateFormat ?? "MMM");
     default:
@@ -309,8 +283,7 @@ export const getTimeRanges = (cadence) => {
 
 export const getWeek = (date) => {
   const firstDayOfYear = new Date(date.getFullYear(), 0, 1);
-  const pastDaysOfYear =
-    (date - firstDayOfYear) / 86400000 + firstDayOfYear.getDay();
+  const pastDaysOfYear = (date - firstDayOfYear) / 86400000 + firstDayOfYear.getDay();
   return Math.ceil((pastDaysOfYear + firstDayOfYear.getDay() + 1) / 7);
 };
 

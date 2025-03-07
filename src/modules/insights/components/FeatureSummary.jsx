@@ -1,4 +1,4 @@
-import { Insight, ValidSpanColumns } from "da-insight-kit";
+import { Insight, ValidSpanColumns } from "da-insight-sdk";
 import { useAppFeatureInsights } from "../hooks/useAppFeatureInsights";
 import { useMemo } from "react";
 

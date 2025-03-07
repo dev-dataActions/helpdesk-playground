@@ -1,4 +1,4 @@
-import { Insight, ValidSpanColumns } from "da-insight-kit";
+import { Insight, ValidSpanColumns } from "da-insight-sdk";
 import { useBoard } from "../hooks/useBoard";
 import { Loading } from "../common/functional/Loading";
 import { PanelLayout } from "../common/layout/PanelLayout";
