@@ -11,7 +11,7 @@ export const FeatureBoards = ({ workspaceId, appId, featureId }) => {
     <div>
       <div className="flex items-start justify-between">
         <div>
-          <p className="mb-0.5 text-sm">{`Dashboards (${boards?.length ?? ""})`}</p>
+          <p className="mb-0.5 text-sm">{`Dashboards (${boards?.length ?? "0"})`}</p>
           <p className="text-gray-500 font-light text-xs mb-3">
             Deepdive into your workflows and track progress
           </p>
@@ -19,8 +19,9 @@ export const FeatureBoards = ({ workspaceId, appId, featureId }) => {
       </div>
 
       <div className="flex flex-wrap gap-3">
-        {!boards ||
-          (boards?.length == 0 && <p className="text-sm text-gray-600">No boards added yet.</p>)}
+        {(!boards || boards?.length == 0) && (
+          <p className="text-sm text-gray-600">No boards added yet.</p>
+        )}
         {boards?.map((board) => (
           <div key={board.id} className="w-[32.6%]">
             <GoToCard

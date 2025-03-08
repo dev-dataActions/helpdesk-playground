@@ -9,9 +9,9 @@ import { PiBrainThin } from "react-icons/pi";
 
 const UserDetails = ({ username }) => {
   return (
-    <div className="flex items-center border-b h-12 px-3 gap-2">
-      <p className="text-sm">{username}</p>
-      <IoIosArrowDown size={12} />
+    <div className="flex items-center border-b border-gray-400 h-12 px-3 gap-2">
+      <p className="text-sm text-green-600">{username}</p>
+      <IoIosArrowDown size={12} className="text-green-600" />
     </div>
   );
 };
@@ -56,11 +56,11 @@ export const SidebarLayout = ({ children }) => {
 
   return (
     <div>
-      <div className="h-screen w-64 fixed top-0 left-0 bg-gray-50 border-r">
+      <div className="h-screen w-64 fixed top-0 left-0 bg-gray-800 border-r">
         <UserDetails username="Organiser" />
         <List items={navItems} className="p-4" />
       </div>
-      <div className="min-h-screen md:pl-64">{children}</div>
+      <div className="min-h-screen md:pl-64 bg-gray-50">{children}</div>
     </div>
   );
 };

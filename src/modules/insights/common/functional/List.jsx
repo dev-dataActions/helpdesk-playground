@@ -14,8 +14,8 @@ export const List = ({ title, items, className }) => {
               <Link
                 href={item.href ?? "#"}
                 className={`block px-3 py-2 w-full ${
-                  item.current ? "bg-gray-100 outline outline-gray-200" : ""
-                } hover:bg-gray-100 hover:outline hover:outline-gray-200 rounded-md`}
+                  item.current ? "bg-gray-100 outline outline-gray-200 tex-black" : "text-white"
+                } hover:bg-gray-100 hover:text-black hover:outline hover:outline-gray-200 rounded-md group`}
                 shallow
               >
                 <Label icon={item.icon} text={item.label} />
