@@ -6,8 +6,7 @@ export default function FeatureDetailPageContainer() {
   return (
     <FeatureDetailPage
       workspaceId="asdfas-assadf-234234-sdf"
-      appId="app_9a7d6508-a2c5-481e-868c-c26e69276238"
-      apiKey="secret"
+      appId="app_01464be9-2a02-471d-a873-f3df68f17c4a"
       featureId={query.featureId}
     />
   );

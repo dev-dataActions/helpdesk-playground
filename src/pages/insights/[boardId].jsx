@@ -6,8 +6,7 @@ export default function BoardPageContainer() {
   return (
     <BoardPage
       workspaceId="asdfas-assadf-234234-sdf"
-      appId="app_9a7d6508-a2c5-481e-868c-c26e69276238"
-      apiKey="secret"
+      appId="app_01464be9-2a02-471d-a873-f3df68f17c4a"
       boardId={query.boardId}
       featureId={query.featureId}
     />
