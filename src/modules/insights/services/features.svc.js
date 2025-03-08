@@ -21,7 +21,7 @@ export const getAppInsightsByFeatureIdAndWorkspaceId = async (
       `${APP_BACKEND_URL}/v3/app-feature-insight?app_id=${appId}&feature_id=${featureId}&workspace_id=${workspaceId}`
     );
     return await res.json();
-  } catch (e) {
-    console.error(e);
+  } catch (error) {
+    console.error(error);
   }
 };
