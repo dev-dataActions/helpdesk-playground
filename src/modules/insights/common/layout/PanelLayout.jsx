@@ -35,9 +35,7 @@ export const PanelLayout = ({
                 )}
                 {title}
               </p>
-              <p className={`${showBackButton ? "pl-8" : ""} font-light text-gray-600 text-sm`}>
-                {description}
-              </p>
+              <p className={`font-light text-gray-600 text-sm`}>{description}</p>
             </div>
             <div>
               {onEdit && (

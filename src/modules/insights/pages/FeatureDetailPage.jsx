@@ -7,13 +7,8 @@ import { SubFeatures } from "../components/SubFeatures";
 import { FeatureSummary } from "../components/FeatureSummary";
 import { FeatureBoards } from "../components/FeatureBoards";
 
-export const FeatureDetailPage = ({
-  workspaceId,
-  apiKey,
-  appId,
-  featureId,
-}) => {
-  const { featureMap, loading } = useFeatureMap(workspaceId, apiKey);
+export const FeatureDetailPage = ({ workspaceId, appId, featureId }) => {
+  const { featureMap, loading } = useFeatureMap(workspaceId);
 
   const { breadcrumbs, feature } = useMemo(() => {
     const breadcrumbs = getBreadcrumbs(featureMap, featureId);
@@ -30,24 +25,16 @@ export const FeatureDetailPage = ({
   }
 
   return (
-    <PanelLayout
-      title={feature.name}
-      description={feature.description}
-      breadcrumbs={breadcrumbs}
-    >
-      <div
-        className={`flex flex-col gap-y-10 pb-16 ${
-          feature.children.length == 0 ? "pt-6" : ""
-        }`}
-      >
+    <PanelLayout title={feature.name} description={feature.description} breadcrumbs={breadcrumbs}>
+      <div className={`flex flex-col gap-y-10 pb-16 ${feature.children.length == 0 ? "pt-6" : ""}`}>
         <SubFeatures features={feature.children} />
         <FeatureSummary
           workspaceId={workspaceId}
           appId={appId}
-          featureId={featureId}
+          featureId={featureId ?? featureMap.data.id}
         />
         <FeatureBoards
-          featureId={featureId}
+          featureId={featureId ?? featureMap.data.id}
           workspaceId={workspaceId}
           appId={appId}
         />
