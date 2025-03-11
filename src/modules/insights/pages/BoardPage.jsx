@@ -34,7 +34,7 @@ const InsightPreview = ({ insightConfig, featureId }) => {
 const BoardPage = ({ workspaceId, appId, boardId, featureId }) => {
   const { board, loading } = useBoard(workspaceId, appId, featureId, boardId);
 
-  if (loading) return <Loading loaderText="Loading board....." />;
+  if (loading) return <Loading loaderText="Loading board..." />;
 
   if (!board) return <p className="mt-10">Board not found.</p>;
 
