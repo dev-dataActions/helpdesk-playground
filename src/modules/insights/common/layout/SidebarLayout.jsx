@@ -57,7 +57,7 @@ export const SidebarLayout = ({ children }) => {
   return (
     <div>
       <div className="h-screen w-64 fixed top-0 left-0 bg-gray-800 border-r">
-        <UserDetails username="Organiser" />
+        <UserDetails username="Atlassian" />
         <List items={navItems} className="p-4" />
       </div>
       <div className="min-h-screen md:pl-64 bg-gray-50">{children}</div>
