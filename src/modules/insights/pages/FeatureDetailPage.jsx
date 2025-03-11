@@ -25,7 +25,12 @@ export const FeatureDetailPage = ({ workspaceId, appId, featureId }) => {
   }
 
   return (
-    <PanelLayout title={feature.name} description={feature.description} breadcrumbs={breadcrumbs}>
+    <PanelLayout
+      title={feature.name}
+      description={feature.description}
+      breadcrumbs={breadcrumbs}
+      className={"!px-16 !py-8"}
+    >
       <div className={`flex flex-col gap-y-10 pb-16 ${feature.children.length == 0 ? "pt-6" : ""}`}>
         <SubFeatures features={feature.children} />
         <FeatureSummary

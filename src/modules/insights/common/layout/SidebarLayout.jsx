@@ -10,8 +10,8 @@ import { PiBrainThin } from "react-icons/pi";
 const UserDetails = ({ username }) => {
   return (
     <div className="flex items-center border-b border-gray-400 h-12 px-3 gap-2">
-      <p className="text-sm text-green-600">{username}</p>
-      <IoIosArrowDown size={12} className="text-green-600" />
+      <p className="text-sm text-white font-semibold">{username}</p>
+      <IoIosArrowDown size={12} className="text-white" />
     </div>
   );
 };
@@ -31,17 +31,17 @@ export const SidebarLayout = ({ children }) => {
       {
         id: 2,
         icon: <GoPeople size={16} />,
-        label: "Players",
+        label: "Your inbox",
       },
       {
         id: 3,
         icon: <IoGameControllerOutline size={16} />,
-        label: "Tournaments",
+        label: "Unassigned",
       },
       {
         id: 5,
         icon: <CiMoneyBill size={16} />,
-        label: "Sponsers",
+        label: "Mentions",
       },
       {
         id: 6,

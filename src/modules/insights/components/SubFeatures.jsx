@@ -7,7 +7,7 @@ export const SubFeatures = ({ features = [] }) => {
       <p className="mb-3">{`Features (${features?.length ?? ""})`}</p>
       <div className="flex flex-wrap gap-3">
         {features.map((feature) => (
-          <div key={feature.id} className="w-[32.6%]">
+          <div key={feature.id} className="w-[32.5%]">
             <GoToCard
               name={feature.name}
               description={feature.description}
