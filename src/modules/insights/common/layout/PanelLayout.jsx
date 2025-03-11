@@ -24,10 +24,10 @@ export const PanelLayout = ({
         <>
           <div className="flex justify-between items-center mb-4">
             <div>
-              <p className="text-lg lg:text-xl text-left text-gray-800 mb-1 flex items-center gap-1">
+              <p className="text-2xl font-bold text-left text-gray-800 mb-1 flex items-center gap-1 relative">
                 {showBackButton && (
                   <div
-                    className="cursor-pointer hover:bg-gray-100 rounded-md p-1"
+                    className="cursor-pointer hover:bg-gray-100 rounded-md p-1 absolute -left-9 top-0.5"
                     onClick={() => window?.history?.back?.()}
                   >
                     <FiChevronLeft size={20} />

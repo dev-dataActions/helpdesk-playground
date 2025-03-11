@@ -1,3 +1,29 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.ProseMirror:focus {
+  outline: none !important;
+}
+
+.ProseMirror h1 {
+  font-size: 1.25rem;
+  font-weight: 400;
+  margin: 5px 0;
+}
+
+.ProseMirror h2 {
+  font-size: 1rem;
+  font-weight: 400;
+  margin: 3px 0;
+}
+
+.ProseMirror ul {
+  list-style-type: disc;
+  padding-left: 1.5rem;
+}
+
+.ProseMirror ol {
+  list-style-type: decimal;
+  padding-left: 1.5rem;
+}

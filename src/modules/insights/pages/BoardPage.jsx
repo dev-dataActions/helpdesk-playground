@@ -1,50 +1,104 @@
-import { Insight, ValidSpanColumns } from "da-insight-sdk";
 import { useBoard } from "../hooks/useBoard";
 import { Loading } from "../common/functional/Loading";
 import { PanelLayout } from "../common/layout/PanelLayout";
-import { useMemo } from "react";
+import { BoardEditor } from "../components/BoardEditor";
+import { Dropdown } from "../common/base/Dropdown";
+import { TimeGrain } from "da-insight-sdk";
+import { useMemo, useState } from "react";
 
-const InsightPreview = ({ insightConfig, featureId }) => {
-  const options = useMemo(
-    () => ({
-      ...insightConfig.options,
-      className: "h-60",
-      spanCols: ValidSpanColumns.FOUR,
-    }),
-    [insightConfig.options]
+const TimeFilters = ({ filters, setFilters }) => {
+  const selectedTimeRangeOption = useMemo(() => filters?.timeRange ?? 180, [filters]);
+  const selectedTimeGrainOption = useMemo(() => filters?.timeGrain ?? TimeGrain.MONTHLY, [filters]);
+
+  const timeRangeOptions = useMemo(
+    () => [
+      {
+        label: "Week",
+        value: 7,
+        disabled: selectedTimeGrainOption === TimeGrain.MONTHLY,
+      },
+      {
+        label: "Month",
+        value: 30,
+      },
+      {
+        label: "Quarter",
+        value: 120,
+      },
+      {
+        label: "6M",
+        value: 180,
+      },
+      {
+        label: "Year",
+        value: 360,
+      },
+    ],
+    [selectedTimeGrainOption]
   );
 
-  const filters = useMemo(
-    () => ({ ...insightConfig.filters, featureId: featureId }),
-    [featureId, insightConfig.filters]
+  const timeGrainOptions = useMemo(
+    () => [
+      { label: "Daily", value: TimeGrain.DAILY },
+      { label: "Weekly", value: TimeGrain.WEEKLY },
+      { label: "Monthly", value: TimeGrain.MONTHLY },
+    ],
+    []
   );
 
   return (
-    <Insight
-      key={insightConfig.insight_id}
-      title={insightConfig.title}
-      type={insightConfig.chartType}
-      metrics={insightConfig.metrics}
-      options={options}
-      filters={filters}
-    />
+    <div className="flex gap-2">
+      <div className="w-36">
+        <Dropdown
+          options={timeRangeOptions}
+          selectedOption={selectedTimeRangeOption}
+          setSelectedOption={(value) => {
+            setFilters({
+              ...filters,
+              timeRange: value,
+            });
+          }}
+        />
+      </div>
+      <div className="w-36">
+        <Dropdown
+          options={timeGrainOptions}
+          selectedOption={selectedTimeGrainOption}
+          setSelectedOption={(value) => {
+            const newFilters = {
+              ...filters,
+              timeGrain: value,
+            };
+            if (value === TimeGrain.MONTHLY && selectedTimeRangeOption === 7)
+              newFilters.timeRange = 180;
+            setFilters(newFilters);
+          }}
+        />
+      </div>
+    </div>
   );
 };
 
 const BoardPage = ({ workspaceId, appId, boardId, featureId }) => {
   const { board, loading } = useBoard(workspaceId, appId, featureId, boardId);
+  const [filters, setFilters] = useState({
+    timeRange: 180,
+    timeGrain: TimeGrain.WEEKLY,
+  });
 
   if (loading) return <Loading loaderText="Loading board..." />;
 
   if (!board) return <p className="mt-10">Board not found.</p>;
 
   return (
-    <PanelLayout title={board.name} description={board.description} showBackButton>
-      <div className="grid grid-cols-12 gap-4 px-8 py-2">
-        {board?.insights?.map((insight) => (
-          <InsightPreview key={insight.insight_id} insightConfig={insight} featureId={featureId} />
-        ))}
-      </div>
+    <PanelLayout
+      title={board?.title}
+      description={board?.description}
+      className={"!px-40 !py-8"}
+      customButton={<TimeFilters filters={filters} setFilters={setFilters} />}
+      showBackButton={true}
+    >
+      <BoardEditor blocks={board?.blocks} featureId={featureId} filters={filters} />
     </PanelLayout>
   );
 };

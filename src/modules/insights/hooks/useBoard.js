@@ -12,10 +12,9 @@ export const useBoard = (workspaceId, appId, featureId, boardId) => {
       workspace_id: entry.workspace_id,
       feature_id: entry.feature_id,
       app_id: entry.app_id,
-      name: entry.name,
+      title: entry.name,
       description: entry.description,
-      insights: entry.data.insights,
-      lastUpdated: "yesterday",
+      blocks: entry.data.blocks,
     }))[0];
   };
 
