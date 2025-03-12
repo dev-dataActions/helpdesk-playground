@@ -14,9 +14,9 @@ const InsightPreview = memo(({ insight, featureId, filters }) => {
 
   const insightOptions = useMemo(
     () => ({
-      ...(insight?.options ?? {}),
       className: "h-64",
       spanCols: ValidSpanColumns.FOUR,
+      ...(insight?.options ?? {}),
     }),
     [insight?.options]
   );
