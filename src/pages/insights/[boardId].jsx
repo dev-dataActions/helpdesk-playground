@@ -3,10 +3,17 @@ import BoardPage from "../../modules/insights/pages/BoardPage";
 
 export default function BoardPageContainer() {
   const { query } = useRouter();
+
+  const mode = process.env.NEXT_PUBLIC_PRODUCT_MODE;
+  const appId =
+    mode === "LITE"
+      ? process.env.NEXT_PUBLIC_LITE_CFA_APP_ID
+      : process.env.NEXT_PUBLIC_PRO_CFA_APP_ID;
+
   return (
     <BoardPage
-      workspaceId="asdfas-assadf-234234-sdf"
-      appId="app_8c2bcb42-53ae-45c5-a284-9d4ab7930135"
+      workspaceId={process.env.NEXT_PUBLIC_DEMO_WORKSPACE_ID}
+      appId={appId}
       boardId={query.boardId}
       featureId={query.featureId}
     />

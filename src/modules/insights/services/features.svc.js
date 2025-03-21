@@ -1,9 +1,9 @@
-const APP_BACKEND_URL = "https://backend.dataactions.ai";
+const apiMode = process.env.NEXT_PUBLIC_PRODUCT_MODE === "LITE" ? "lite" : "v3";
 
 export const getFeatureMapByWorkspaceId = async (workspaceId) => {
   try {
     const res = await fetch(
-      `${APP_BACKEND_URL}/v3/featuremap?workspace_id=${workspaceId}`
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/${apiMode}/featuremap?workspace_id=${workspaceId}`
     );
     return await res.json();
   } catch (error) {
@@ -11,14 +11,10 @@ export const getFeatureMapByWorkspaceId = async (workspaceId) => {
   }
 };
 
-export const getAppInsightsByFeatureIdAndWorkspaceId = async (
-  appId,
-  featureId,
-  workspaceId
-) => {
+export const getAppInsightsByFeatureIdAndWorkspaceId = async (appId, featureId, workspaceId) => {
   try {
     const res = await fetch(
-      `${APP_BACKEND_URL}/v3/app-feature-insight?app_id=${appId}&feature_id=${featureId}&workspace_id=${workspaceId}`
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/${apiMode}/app-feature-insight?app_id=${appId}&feature_id=${featureId}&workspace_id=${workspaceId}`
     );
     return await res.json();
   } catch (error) {
