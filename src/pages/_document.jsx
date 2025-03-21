@@ -9,7 +9,7 @@ export default function Document() {
         <meta name="theme-color" content="#fff" />
         <meta
           name="description"
-          content="Platform for exports organisers to conduct events and generate revenue"
+          content="Platform for exports organisers to conduct events and generate revenue "
         />
         <title>Intercom</title>
       </Head>
