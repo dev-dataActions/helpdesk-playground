@@ -1,6 +1,7 @@
 const apiMode = process.env.NEXT_PUBLIC_PRODUCT_MODE === "LITE" ? "lite" : "v3";
 
 export const getFeatureMapByWorkspaceId = async (workspaceId) => {
+  console.log(process.env.NEXT_PUBLIC_PRODUCT_MODE, apiMode);
   try {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_BACKEND_URL}/${apiMode}/featuremap?workspace_id=${workspaceId}`
