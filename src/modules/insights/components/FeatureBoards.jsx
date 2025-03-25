@@ -18,12 +18,12 @@ export const FeatureBoards = ({ workspaceId, appId, featureId }) => {
         </div>
       </div>
 
-      <div className="flex flex-wrap gap-3">
+      <div className="grid grid-cols-12 gap-3">
         {(!boards || boards?.length == 0) && (
           <p className="text-sm text-gray-600">No boards added yet.</p>
         )}
         {boards?.map((board) => (
-          <div key={board.id} className="w-[32.6%]">
+          <div key={board.id} className="col-span-4">
             <GoToCard
               name={board.name}
               description={board.description}

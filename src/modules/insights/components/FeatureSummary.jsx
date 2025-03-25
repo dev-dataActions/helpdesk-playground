@@ -51,12 +51,12 @@ export const FeatureSummary = ({ workspaceId, appId, featureId }) => {
         </div>
       </div>
 
-      <div className="flex flex-wrap gap-3">
+      <div className="grid grid-cols-12 gap-3">
         {appFeatureInsights.length == 0 && (
           <p className="text-sm text-gray-600">No insights added yet.</p>
         )}
         {appFeatureInsights.map((insight) => (
-          <div key={insight.insight_id} className="w-[32.6%]">
+          <div key={insight.insight_id} className="col-span-4">
             <InsightPreview insightConfig={insight} featureId={featureId} />
           </div>
         ))}
