@@ -15,7 +15,7 @@ export default function BoardPageContainer() {
       workspaceId={process.env.NEXT_PUBLIC_DEMO_WORKSPACE_ID}
       appId={appId}
       boardId={query.boardId}
-      featureId={query.featureId}
+      decisionId={query.decisionId}
     />
   );
 }

@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { FeatureDetailPage } from "../../modules/insights/pages/FeatureDetailPage";
+import { DecisionDetailPage } from "../../modules/insights/pages/DecisionDetailPage";
 
 export default function FeatureDetailPageContainer() {
   const { query } = useRouter();
@@ -11,10 +11,10 @@ export default function FeatureDetailPageContainer() {
       : process.env.NEXT_PUBLIC_PRO_CFA_APP_ID;
 
   return (
-    <FeatureDetailPage
+    <DecisionDetailPage
       workspaceId={process.env.NEXT_PUBLIC_DEMO_WORKSPACE_ID}
       appId={appId}
-      featureId={query.featureId}
+      decisionId={query.decisionId}
     />
   );
 }

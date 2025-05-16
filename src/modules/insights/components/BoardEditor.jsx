@@ -2,14 +2,13 @@ import React, { memo, useMemo } from "react";
 import { Insight, ValidSpanColumns } from "da-insight-sdk";
 import { MarkupEditor } from "./MarkupEditor";
 
-const InsightPreview = memo(({ insight, featureId, filters }) => {
+const InsightPreview = memo(({ insight, filters }) => {
   const insightFilters = useMemo(
     () => ({
       ...insight?.filters,
       ...filters,
-      featureId: featureId,
     }),
-    [insight?.filters, featureId, filters]
+    [insight?.filters, filters]
   );
 
   const insightOptions = useMemo(
@@ -34,7 +33,7 @@ const InsightPreview = memo(({ insight, featureId, filters }) => {
 });
 InsightPreview.displayName = "InsightPreview";
 
-export const BoardEditor = ({ blocks, featureId, filters }) => {
+export const BoardEditor = ({ blocks, filters }) => {
   return (
     <div className={`grid grid-cols-12 gap-2 animate-fade-in`}>
       {blocks?.map((block) => (
@@ -43,7 +42,7 @@ export const BoardEditor = ({ blocks, featureId, filters }) => {
             {block.type === "Markup" ? (
               <MarkupEditor text={block.config.text ?? "Text"} />
             ) : (
-              <InsightPreview insight={block.config} featureId={featureId} filters={filters} />
+              <InsightPreview insight={block.config} filters={filters} />
             )}
           </div>
         </div>

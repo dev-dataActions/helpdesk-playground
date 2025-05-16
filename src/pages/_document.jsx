@@ -11,7 +11,7 @@ export default function Document() {
           name="description"
           content="Platform for exports organisers to conduct events and generate revenue "
         />
-        <title>Intercom</title>
+        <title>SaaS app</title>
       </Head>
       <body>
         <Main />

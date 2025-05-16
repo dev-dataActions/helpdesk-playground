@@ -1,4 +1,4 @@
-export const getBreadcrumbs = (featureMap = {}, featureId = "") => {
+export const getBreadcrumbs = (workspaceId, appId, decisionTree = {}, decisionId = "") => {
   const breadcrumbs = [];
 
   function dfs(node) {
@@ -6,7 +6,7 @@ export const getBreadcrumbs = (featureMap = {}, featureId = "") => {
 
     breadcrumbs.push({ name: node.name, description: node.description, id: node.id });
 
-    if (node.id === featureId) return true;
+    if (node.id === decisionId) return true;
 
     for (const child of node.children) {
       if (dfs(child)) return true;
@@ -16,20 +16,20 @@ export const getBreadcrumbs = (featureMap = {}, featureId = "") => {
     return false;
   }
 
-  if (dfs(featureMap.data)) {
+  if (dfs(decisionTree.data)) {
     if (breadcrumbs.length > 0) breadcrumbs.pop();
     return breadcrumbs.map((bc) => ({
       ...bc,
-      href: `/insights?featureId=${bc.id}`,
+      href: `/insights?decisionId=${bc.id}`,
     }));
   } else return [];
 };
 
-export const getFeature = (featureMap = {}, featureId = "") => {
+export const getDecision = (decisionTree = {}, decisionId = "") => {
   function dfs(node) {
     if (!node) return null;
 
-    if (node.id === featureId) return node;
+    if (node.id === decisionId) return node;
 
     for (const child of node.children) {
       const result = dfs(child);
@@ -39,5 +39,5 @@ export const getFeature = (featureMap = {}, featureId = "") => {
     return null;
   }
 
-  return dfs(featureMap?.data) || featureMap?.data;
+  return dfs(decisionTree?.data) || decisionTree?.data;
 };

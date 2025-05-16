@@ -1,0 +1,23 @@
+const apiMode = process.env.NEXT_PUBLIC_PRODUCT_MODE === "LITE" ? "lite" : "v3";
+
+export const getAppDTree = async (workspaceId, appId) => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/${apiMode}/app-dtree?workspace_id=${workspaceId}&app_id=${appId}`
+    );
+    return await response.json();
+  } catch (error) {
+    console.error("Error:", error);
+  }
+};
+
+export const getAppInsightsByDecisionIdAndWorkspaceId = async (appId, decisionId, workspaceId) => {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/${apiMode}/app-decision-insight?app_id=${appId}&decision_id=${decisionId}&workspace_id=${workspaceId}`
+    );
+    return await res.json();
+  } catch (error) {
+    console.error(error);
+  }
+};

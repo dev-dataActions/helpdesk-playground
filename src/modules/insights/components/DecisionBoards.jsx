@@ -1,9 +1,8 @@
-import React from "react";
-import { useFeatureBoards } from "../hooks/useFeatureBoards";
 import { GoToCard } from "./GoToCard";
+import { useDecisionBoards } from "../hooks/useDecisionBoards";
 
-export const FeatureBoards = ({ workspaceId, appId, featureId }) => {
-  const { boards, loading } = useFeatureBoards(workspaceId, appId, featureId);
+export const DecisionBoards = ({ workspaceId, appId, decisionId }) => {
+  const { boards, loading } = useDecisionBoards(workspaceId, appId, decisionId);
 
   if (loading) return null;
 
@@ -12,7 +11,7 @@ export const FeatureBoards = ({ workspaceId, appId, featureId }) => {
       <div className="flex items-start justify-between">
         <div>
           <p className="mb-0.5 text-sm">{`Dashboards (${boards?.length ?? "0"})`}</p>
-          <p className="text-gray-500 font-light text-xs mb-3">
+          <p className="text-gray-500 font-light text-xs mb-3 w-72">
             Deepdive into your workflows and track progress
           </p>
         </div>
@@ -28,7 +27,7 @@ export const FeatureBoards = ({ workspaceId, appId, featureId }) => {
               name={board.name}
               description={board.description}
               goToText="Go to dashboard"
-              href={`/insights/${board.board_id}?featureId=${featureId}`}
+              href={`/insights/${board.board_id}?decisionId=${decisionId}`}
             />
           </div>
         ))}

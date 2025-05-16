@@ -1,5 +1,4 @@
 import { Loader } from "../base/Loader";
-import React from "react";
 
 export const Loading = ({ loaderSize, loaderText = "Please wait..." }) => {
   return (

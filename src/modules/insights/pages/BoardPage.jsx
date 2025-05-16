@@ -79,8 +79,8 @@ const TimeFilters = ({ filters, setFilters }) => {
   );
 };
 
-const BoardPage = ({ workspaceId, appId, boardId, featureId }) => {
-  const { board, loading } = useBoard(workspaceId, appId, featureId, boardId);
+const BoardPage = ({ workspaceId, appId, boardId, decisionId }) => {
+  const { board, loading } = useBoard(workspaceId, appId, decisionId, boardId);
   const [filters, setFilters] = useState({
     timeRange: 180,
     timeGrain: TimeGrain.WEEKLY,
@@ -98,7 +98,7 @@ const BoardPage = ({ workspaceId, appId, boardId, featureId }) => {
       customButton={<TimeFilters filters={filters} setFilters={setFilters} />}
       showBackButton={true}
     >
-      <BoardEditor blocks={board?.blocks} featureId={featureId} filters={filters} />
+      <BoardEditor blocks={board?.blocks} filters={filters} />
     </PanelLayout>
   );
 };
