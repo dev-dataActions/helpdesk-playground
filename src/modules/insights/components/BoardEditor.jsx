@@ -1,8 +1,13 @@
-import React, { memo, useMemo } from "react";
+import { memo, useMemo } from "react";
 import { Insight, ValidSpanColumns } from "da-insight-sdk";
 import { MarkupEditor } from "./MarkupEditor";
+import { useRouter } from "next/router";
 
 const InsightPreview = memo(({ insight, filters }) => {
+  const router = useRouter();
+  const { query } = router;
+  const { boardId } = query;
+
   const insightFilters = useMemo(
     () => ({
       ...insight?.filters,
@@ -20,14 +25,29 @@ const InsightPreview = memo(({ insight, filters }) => {
     [insight?.options]
   );
 
+  const actions = useMemo(
+    () => [
+      {
+        name: "Analysis View",
+        onClick: () => router.push(`/insights/${boardId}/${insight.metric_name}/what`),
+      },
+      {
+        name: "Insights View",
+        onClick: () => router.push(`/insights/${boardId}/${insight.metric_name}/why`),
+      },
+    ],
+    []
+  );
+
   return (
     <Insight
-      key={insight.insight_id}
       title={insight.title}
+      key={insight.insight_id}
       type={insight.chartType}
       metrics={insight.metrics}
       filters={insightFilters}
       options={insightOptions}
+      actions={actions}
     />
   );
 });

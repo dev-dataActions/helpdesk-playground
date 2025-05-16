@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import BoardPage from "../../modules/insights/pages/BoardPage";
+import BoardPage from "../../../modules/insights/pages/BoardPage";
 
 export default function BoardPageContainer() {
   const { query } = useRouter();

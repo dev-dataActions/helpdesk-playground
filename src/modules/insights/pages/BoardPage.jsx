@@ -6,7 +6,7 @@ import { Dropdown } from "../common/base/Dropdown";
 import { TimeGrain } from "da-insight-sdk";
 import { useMemo, useState } from "react";
 
-const TimeFilters = ({ filters, setFilters }) => {
+export const TimeFilters = ({ filters, setFilters }) => {
   const selectedTimeRangeOption = useMemo(() => filters?.timeRange ?? 180, [filters]);
   const selectedTimeGrainOption = useMemo(() => filters?.timeGrain ?? TimeGrain.MONTHLY, [filters]);
 
