@@ -1,13 +1,13 @@
 import { useMemo } from "react";
-import { Insight, ValidSpanColumns } from "da-insight-sdk";
+import { Insight } from "da-insight-sdk";
 import { useAppDecisionInsights } from "../hooks/useAppDecisionInsights";
+import { fetchData, fetchDimensionValues } from "../common/services/insights.svc";
 
-const InsightPreview = ({ insightConfig, altitude }) => {
+const InsightPreview = ({ insightConfig, altitude, workspaceId }) => {
   const options = useMemo(
     () => ({
       ...insightConfig.options,
       className: "h-60",
-      spanCols: ValidSpanColumns.FOUR,
     }),
     [insightConfig.options]
   );
@@ -21,10 +21,13 @@ const InsightPreview = ({ insightConfig, altitude }) => {
     <Insight
       key={insightConfig.insight_id}
       title={insightConfig.title}
-      type={insightConfig.chartType}
+      type={insightConfig.type}
       metrics={insightConfig.metrics}
       options={options}
       filters={filters}
+      workspaceId={workspaceId}
+      dataResolver={(payload) => fetchData(payload, workspaceId)}
+      dimensionValuesResolver={(dimension) => fetchDimensionValues(dimension, workspaceId)}
     />
   );
 };
@@ -51,7 +54,11 @@ export const DecisionSummary = ({ workspaceId, appId, decisionId }) => {
         )}
         {appDecisionInsights?.map((insight) => (
           <div key={insight.insight_id} className="w-[32.4%]">
-            <InsightPreview insightConfig={insight} altitudeId={decisionId} />
+            <InsightPreview
+              insightConfig={insight}
+              altitudeId={decisionId}
+              workspaceId={workspaceId}
+            />
           </div>
         ))}
       </div>

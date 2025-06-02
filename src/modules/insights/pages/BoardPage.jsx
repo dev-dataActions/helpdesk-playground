@@ -98,7 +98,7 @@ const BoardPage = ({ workspaceId, appId, boardId, decisionId }) => {
       customButton={<TimeFilters filters={filters} setFilters={setFilters} />}
       showBackButton={true}
     >
-      <BoardEditor blocks={board?.blocks} filters={filters} />
+      <BoardEditor blocks={board?.blocks} filters={filters} workspaceId={workspaceId} />
     </PanelLayout>
   );
 };

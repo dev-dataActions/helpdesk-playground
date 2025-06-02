@@ -1,11 +1,12 @@
-import { Insight, TimeGrain, ValidSpanColumns } from "da-insight-sdk";
+import { Insight, TimeGrain } from "da-insight-sdk";
 import { Loading } from "../common/functional/Loading";
 import { useMetricInsights } from "../hooks/useMetricInsights";
 import { useMemo, useState } from "react";
 import { PanelLayout } from "../common/layout/PanelLayout";
 import { TimeFilters } from "./BoardPage";
+import { fetchData, fetchDimensionValues } from "../common/services/insights.svc";
 
-const InsightPreview = ({ insight, filters }) => {
+const InsightPreview = ({ insight, filters, workspaceId }) => {
   const insightFilters = useMemo(
     () => ({
       ...insight?.filters,
@@ -18,7 +19,6 @@ const InsightPreview = ({ insight, filters }) => {
     () => ({
       ...(insight?.options ?? {}),
       className: "h-64",
-      spanCols: ValidSpanColumns.FOUR,
     }),
     [insight?.options]
   );
@@ -27,10 +27,13 @@ const InsightPreview = ({ insight, filters }) => {
     <Insight
       key={insight.insight_id}
       title={insight.title}
-      type={insight.chartType}
+      type={insight.type}
       metrics={insight.metrics}
       filters={insightFilters}
       options={insightOptions}
+      workspaceId={workspaceId}
+      dataResolver={(payload) => fetchData(payload, workspaceId)}
+      dimensionValuesResolver={(dimension) => fetchDimensionValues(dimension, workspaceId)}
     />
   );
 };
@@ -59,7 +62,9 @@ export const MetricWhatPage = ({ workspaceId, metricId }) => {
         {insights
           ?.filter((i) => i.type === "what")
           ?.map((insight) => (
-            <InsightPreview key={insight.insight_id} insight={insight} filters={filters} />
+            <div key={insight.insight_id} className="col-span-4">
+              <InsightPreview insight={insight} filters={filters} workspaceId={workspaceId} />
+            </div>
           ))}
       </div>
     </PanelLayout>

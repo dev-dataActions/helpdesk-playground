@@ -17,7 +17,7 @@ export const useMetricInsights = (workspaceId, metricId) => {
         lastUpdated: formatDate(x?.data?.lastUpdated ?? new Date(), "MMMM d, yyyy h:mm a"),
         ...x.data,
       }))
-      .filter((x) => x.chartType !== ChartTypes.BIGNUMBER);
+      .filter((x) => x.type !== ChartTypes.BIGNUMBER);
   };
 
   const fetchInsights = () => {
