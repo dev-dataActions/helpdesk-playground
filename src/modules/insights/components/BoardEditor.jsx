@@ -20,6 +20,7 @@ const InsightPreview = memo(({ insight, filters, workspaceId }) => {
   const insightOptions = useMemo(
     () => ({
       className: "h-64",
+      showExplanation: true,
       ...(insight?.options ?? {}),
     }),
     [insight?.options]

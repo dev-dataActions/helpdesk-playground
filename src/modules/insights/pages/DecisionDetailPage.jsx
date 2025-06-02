@@ -32,7 +32,7 @@ export const DecisionDetailPage = ({ workspaceId, appId, decisionId }) => {
       description={decision?.description}
       breadcrumbs={breadcrumbs}
     >
-      <div className="flex justify-between items-start gap-6">
+      <div className="flex justify-between items-start gap-3">
         <div className="flex-grow flex flex-col gap-12 pt-5">
           <DecisionSummary
             appId={appId}
@@ -45,7 +45,7 @@ export const DecisionDetailPage = ({ workspaceId, appId, decisionId }) => {
             decisionId={decisionId ?? decisionTree.data.id}
           />
         </div>
-        <div className="w-[20%] flex flex-col gap-3 bg-blue-50 px-4 pt-2 pb-4 mt-5 rounded-md">
+        <div className="w-[25%] flex flex-col gap-3 bg-blue-50 px-2 pt-1 mt-5 rounded-md">
           <SubDecisions decisions={decision.children} />
         </div>
       </div>

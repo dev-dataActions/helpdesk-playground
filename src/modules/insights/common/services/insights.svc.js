@@ -1,4 +1,4 @@
-const api = process.env.NEXT_PUBLIC_BACKEND_URL;
+const api = "https://dametrics.dataactions.ai";
 const apiMode = process.env.NEXT_PUBLIC_PRODUCT_MODE;
 
 export const fetchData = async (payload, workspaceId) => {

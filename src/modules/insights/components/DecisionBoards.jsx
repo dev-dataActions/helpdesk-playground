@@ -17,12 +17,12 @@ export const DecisionBoards = ({ workspaceId, appId, decisionId }) => {
         </div>
       </div>
 
-      <div className="grid grid-cols-12 gap-3">
+      <div className="flex flex-col gap-3">
         {(!boards || boards?.length == 0) && (
           <p className="text-sm text-gray-600">No boards added yet.</p>
         )}
         {boards?.map((board) => (
-          <div key={board.id} className="col-span-4">
+          <div key={board.id} className="w-full">
             <GoToCard
               name={board.name}
               description={board.description}

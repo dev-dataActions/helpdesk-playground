@@ -19,6 +19,7 @@ const InsightPreview = ({ insight, filters, workspaceId }) => {
     () => ({
       ...(insight?.options ?? {}),
       className: "h-64",
+      showExplanation: true,
     }),
     [insight?.options]
   );
@@ -55,14 +56,14 @@ export const MetricWhatPage = ({ workspaceId, metricId }) => {
       customButton={<TimeFilters filters={filters} setFilters={setFilters} />}
       showBackButton={true}
     >
-      {insights?.filter((i) => i.type === "why")?.length === 0 && (
+      {insights?.filter((i) => i.insightType === "why")?.length === 0 && (
         <p className="text-sm text-gray-600">No insights found</p>
       )}
       <div className="grid grid-cols-12 gap-4">
         {insights
-          ?.filter((i) => i.type === "what")
+          ?.filter((i) => i.insightType === "what")
           ?.map((insight) => (
-            <div key={insight.insight_id} className="col-span-4">
+            <div key={insight.insight_id} className="col-span-12">
               <InsightPreview insight={insight} filters={filters} workspaceId={workspaceId} />
             </div>
           ))}

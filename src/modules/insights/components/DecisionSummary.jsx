@@ -48,12 +48,12 @@ export const DecisionSummary = ({ workspaceId, appId, decisionId }) => {
         </div>
       </div>
 
-      <div className="flex flex-wrap gap-3">
+      <div className="grid grid-cols-12 gap-3">
         {appDecisionInsights?.length == 0 && (
           <p className="text-sm text-gray-600 w-72">No insights added yet.</p>
         )}
         {appDecisionInsights?.map((insight) => (
-          <div key={insight.insight_id} className="w-[32.4%]">
+          <div key={insight.insight_id} className="col-span-4">
             <InsightPreview
               insightConfig={insight}
               altitudeId={decisionId}
