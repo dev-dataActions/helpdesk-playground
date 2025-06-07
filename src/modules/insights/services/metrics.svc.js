@@ -8,6 +8,7 @@ export const getInsightsByMetricIdAndWorkspaceId = async (workspaceId, metricId)
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "X-API-Key": process.env.NEXT_PUBLIC_APP_BACKEND_API_KEY,
         },
         body: JSON.stringify({ workspace_id: workspaceId, metric_names: [metricId] }),
       }
