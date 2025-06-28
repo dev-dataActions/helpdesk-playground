@@ -1,6 +1,4 @@
 import { useMemo } from "react";
-// import { DecisionSummary } from "../../components/CFA/DecisionSummary";
-// import { DecisionBoards } from "../../components/CFA/DecisionBoards";
 import { getBreadcrumbs, getDecision } from "../utils/general.util";
 import { Loading } from "../common/functional/Loading";
 import { PanelLayout } from "../common/layout/PanelLayout";
@@ -45,9 +43,11 @@ export const DecisionDetailPage = ({ workspaceId, appId, decisionId }) => {
             decisionId={decisionId ?? decisionTree.data.id}
           />
         </div>
-        <div className="w-[25%] flex flex-col gap-3 bg-blue-50 px-2 pt-1 mt-5 rounded-md">
-          <SubDecisions decisions={decision.children} />
-        </div>
+        {decision.children?.length > 0 && (
+          <div className="min-w-[20%] flex flex-col gap-3 bg-blue-50 px-2 pt-1 mt-5 rounded-md">
+            <SubDecisions decisions={decision.children} />
+          </div>
+        )}
       </div>
     </PanelLayout>
   );

@@ -45,6 +45,7 @@ export const MetricWhatPage = ({ workspaceId, metricId }) => {
     timeRange: 180,
     timeGrain: TimeGrain.WEEKLY,
   });
+  console.log(insights);
 
   if (loading) return <Loading loaderText="Loading analysis view..." />;
 

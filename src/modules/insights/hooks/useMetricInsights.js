@@ -13,7 +13,7 @@ export const useMetricInsights = (workspaceId, metricId) => {
       .map((x) => ({
         insight_id: x.insight_id,
         metric_name: x.metric_name,
-        type: x?.data?.type === "why" ? "why" : "what",
+        insightType: x?.data?.insightType === "why" ? "why" : "what",
         lastUpdated: formatDate(x?.data?.lastUpdated ?? new Date(), "MMMM d, yyyy h:mm a"),
         ...x.data,
       }))
