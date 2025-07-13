@@ -1,0 +1,17 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+
+This rule provides standards for creating a module:
+- Every module should consider the following folders: components, hooks, pages, services and utils (some can be optional if there is no requirement)
+- components folder should contain all the components required in the module
+- services folder will contain all the services which call the API, the service call should reference "request" function in [api.util.js](mdc:src/common/util/api.util.js)
+- hooks will contain all the get requests, like useBlogs, useBlog, useMetric etc, where each hook is mapped to a service call, using react-query
+- pages will contain the acutal pages mapping to the routes in /src/pages folder
+- utils will contain any helper methods required across the module
+
+- the 'container' module in the modules folder is a special module, which helps us bring all the module into one app, this part contains authentication, sidebar management, kind of stuff.
+
+Keep the modules as independant as possible so that change here don't effect other modules and team members can work independantly

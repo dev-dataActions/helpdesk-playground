@@ -4,7 +4,7 @@ import { Label } from "../base/Label";
 export const List = ({ title, items, className }) => {
   return (
     <div className={className}>
-      {title && <div className="text-xs font-medium p-1 flex items-center gap-x-1">{title}</div>}
+      {title && <div className="text-xs font-medium p-1">{title}</div>}
       <ul role="list" className="flex flex-col gap-y-2">
         {items.map((item, index) => (
           <li key={item.id ?? index}>
@@ -13,10 +13,9 @@ export const List = ({ title, items, className }) => {
             ) : (
               <Link
                 href={item.href ?? "#"}
-                className={`block px-3 py-2 w-full ${
-                  item.current ? "bg-gray-100 outline outline-gray-200 tex-black" : "text-white"
-                } hover:bg-gray-100 hover:text-black hover:outline hover:outline-gray-200 rounded-md group`}
-                shallow
+                className={`block px-2 py-2 border ${
+                  item.current ? "bg-white border-gray-300" : "border-transparent"
+                } hover:bg-white hover:border-gray-300 rounded-md`}
               >
                 <Label icon={item.icon} text={item.label} />
               </Link>

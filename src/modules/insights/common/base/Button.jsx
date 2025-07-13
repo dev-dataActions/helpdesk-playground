@@ -1,9 +1,15 @@
-export const Button = ({ onClick, label, className, ...rest }) => {
+import { cn } from "@/common/util/general.util";
+
+export const Button = ({ onClick, label, className, disabled, ...rest }) => {
   return (
     <button
       type="button"
-      onClick={onClick}
-      className={`flex w-full justify-center items-center rounded-md px-3 py-1.5 text-sm leading-6 shadow-sm ${className}`}
+      onClick={(e) => !disabled && onClick && onClick(e)}
+      className={cn(
+        "text-center rounded-md px-3 py-1.5 text-xs",
+        disabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer",
+        className
+      )}
       {...rest}
     >
       {label}

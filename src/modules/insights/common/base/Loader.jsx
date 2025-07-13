@@ -1,10 +1,12 @@
-export const Loader = ({ loaderSize, className, loaderText = "Loading..." }) => {
+import { cn } from "@/common/util/general.util";
+
+export const Loader = ({ loaderSize, className, loaderText }) => {
   return (
-    <div className={`${className} h-full w-full flex justify-center items-center`}>
+    <div className={cn("h-full w-full flex justify-center items-center gap-2 text-xs", className)}>
       <svg
         aria-hidden="true"
         className={`${
-          loaderSize ? `${loaderSize}` : "w-6 h-6"
+          loaderSize ? `${loaderSize}` : "w-4 h-4"
         } text-gray-200 animate-spin dark:text-gray-200 fill-blue-600`}
         viewBox="0 0 100 101"
         fill="none"
@@ -19,7 +21,7 @@ export const Loader = ({ loaderSize, className, loaderText = "Loading..." }) => 
           fill="currentFill"
         />
       </svg>
-      <span className="sr-only">{loaderText}</span>
+      {loaderText && <span>{loaderText}</span>}
     </div>
   );
 };

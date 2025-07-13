@@ -1,8 +1,8 @@
-import { createContext, useContext, useState } from "react";
+import { useState, createContext, useContext } from "react";
 
 const ModalContext = createContext({});
 
-export const ModalProvider = ({ children }) => {
+export const ModalContextProvider = ({ children }) => {
   const [modalStack, setModalStack] = useState([]);
 
   const openModal = (modalSettings) => {
@@ -15,20 +15,13 @@ export const ModalProvider = ({ children }) => {
   const closeModal = () => {
     setModalStack((prevStack) => prevStack.slice(0, -1));
     if (typeof window != "undefined" && window.document) {
-      document.body.style.overflow = "auto";
+      document.body.style.overflow = "unset";
     }
   };
   const currentModalSettings = Array.isArray(modalStack) ? modalStack : [];
 
   return (
-    <ModalContext.Provider
-      value={{
-        modalStack,
-        openModal,
-        closeModal,
-        modalSettings: currentModalSettings,
-      }}
-    >
+    <ModalContext.Provider value={{ modalSettings: currentModalSettings, openModal, closeModal }}>
       {children}
     </ModalContext.Provider>
   );
