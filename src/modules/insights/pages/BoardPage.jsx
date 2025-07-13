@@ -94,9 +94,8 @@ const BoardFilters = ({ filters, activeFilters, setActiveFilters, workspaceId })
   return (
     <div className="flex flex-wrap gap-4 mb-4 bg-gray-50 p-3 rounded-md border border-gray-200">
       {filters.map((filter) => (
-        <div className="w-60">
+        <div className="w-60" key={filter.dimension}>
           <Dropdown
-            key={filter.dimension}
             placeholder={"None"}
             inlineLabel={filter.dimension}
             options={(dimensionValues[filter.dimension] || []).map((v) => ({ label: v, value: v }))}
