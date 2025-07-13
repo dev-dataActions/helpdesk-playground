@@ -15,6 +15,7 @@ export const useBoard = (workspaceId, appId, decisionId, boardId) => {
       title: entry.name,
       description: entry.description,
       blocks: entry.data.blocks,
+      filters: entry.data.filters,
     }))[0];
   };
 

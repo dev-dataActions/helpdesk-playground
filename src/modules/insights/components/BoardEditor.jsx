@@ -17,6 +17,32 @@ const COLUMN_CLASSES = {
   4: "col-span-3",
 };
 
+// Compute filters for each insight based on metrics, activeFilters, and existing filters
+function computeInsightFilters(insight, activeFilters) {
+  const filters = { ...insight?.filters };
+  if (!insight?.metrics) return filters;
+  insight.metrics.forEach((metric) => {
+    const metricKey = metric.metricKey;
+    const metricFilters =
+      Object.keys(activeFilters)
+        .filter((dimension) => !!activeFilters?.[dimension])
+        .map((dimension) => ({
+          key: dimension,
+          value: activeFilters[dimension],
+        })) || [];
+
+    const existing = filters?.[metricKey] || {};
+    // Remove any dimensionFilters for dimensions that are in activeFilters
+    const preserved = (existing.dimensionFilters || []).filter((f) => !metricFilters || !metricFilters[f.dimension]);
+    filters[metricKey] = {
+      ...existing,
+      dimensionFilters: [...preserved, ...metricFilters],
+    };
+  });
+  console.log("filters", filters);
+  return filters;
+}
+
 /**
  * InsightPreview component for rendering insights
  * @param {Object} props - Component props
@@ -25,7 +51,7 @@ const COLUMN_CLASSES = {
  * @param {string} props.workspaceId - Workspace ID
  * @param {Function} props.onNavigate - Navigation handler
  */
-const InsightPreview = memo(({ insight, timeRange, workspaceId, boardId, onNavigate }) => {
+const InsightPreview = memo(({ insight, timeRange, workspaceId, boardId, onNavigate, activeFilters }) => {
   const metricLabel = useMemo(
     () => insight?.metrics.find((m) => m.metricKey === insight?.metric_name)?.metricLabel,
     [insight]
@@ -68,6 +94,9 @@ const InsightPreview = memo(({ insight, timeRange, workspaceId, boardId, onNavig
     [workspaceId]
   );
 
+  // Compute the correct filters for this insight
+  const computedFilters = useMemo(() => computeInsightFilters(insight, activeFilters), [insight, activeFilters]);
+
   return (
     <Insight
       type={insight?.type}
@@ -75,7 +104,7 @@ const InsightPreview = memo(({ insight, timeRange, workspaceId, boardId, onNavig
       metrics={insight?.metrics}
       timeRange={timeRange}
       timeGrain={insight?.timeGrain}
-      filters={insight?.filters}
+      filters={computedFilters}
       options={insight?.options}
       actions={actions}
       dataResolver={dataResolver}
@@ -94,8 +123,19 @@ InsightPreview.displayName = "InsightPreview";
  * @param {string} props.boardId - Board ID
  * @param {Function} props.onNavigate - Navigation handler
  * @param {string} props.className - Additional CSS classes
+ * @param {Object} props.activeFilters - Active filters
  */
-export const BoardEditor = ({ blocks = [], timeRange, workspaceId, boardId, onNavigate = null, className = "" }) => {
+export const BoardEditor = ({
+  blocks = [],
+  timeRange,
+  workspaceId,
+  boardId,
+  onNavigate = null,
+  className = "",
+  activeFilters = {},
+}) => {
+  // For backward compatibility, support both globalFilters and activeFilters
+
   if (!Array.isArray(blocks) || blocks.length === 0) {
     return (
       <div className={`grid grid-cols-12 gap-2 animate-fade-in ${className}`}>
@@ -118,6 +158,7 @@ export const BoardEditor = ({ blocks = [], timeRange, workspaceId, boardId, onNa
                 workspaceId={workspaceId}
                 boardId={boardId}
                 onNavigate={onNavigate}
+                activeFilters={activeFilters}
               />
             ) : (
               <div className={`grid grid-cols-12 gap-3`}>
@@ -143,6 +184,7 @@ export const BoardEditor = ({ blocks = [], timeRange, workspaceId, boardId, onNa
                             workspaceId={workspaceId}
                             boardId={boardId}
                             onNavigate={onNavigate}
+                            activeFilters={activeFilters}
                           />
                         </div>
                       );

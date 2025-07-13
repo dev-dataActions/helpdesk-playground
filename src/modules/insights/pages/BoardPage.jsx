@@ -3,8 +3,9 @@ import { Loading } from "../common/functional/Loading";
 import { Error } from "../common/functional/Error";
 import { BoardEditor } from "../components/BoardEditor";
 import { Dropdown } from "../common/base/Dropdown";
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import { PanelLayout } from "../common/layouts/PanelLayout";
+import { fetchDimensionValues } from "../common/services/insights.svc";
 
 /**
  * Time grain offset constants
@@ -68,6 +69,46 @@ export const TimeFilters = ({ timeRange, setTimeRange }) => {
   );
 };
 
+const BoardFilters = ({ filters, activeFilters, setActiveFilters, workspaceId }) => {
+  const [dimensionValues, setDimensionValues] = useState({});
+
+  // Fetch dimension values for each filter
+  useEffect(() => {
+    if (!filters || !workspaceId) return;
+    (async function () {
+      const results = {};
+      for (const filter of filters) {
+        const values = await fetchDimensionValues(filter.dimension, workspaceId, undefined);
+        results[filter.dimension] = Array.isArray(values) ? values : [];
+      }
+      setDimensionValues(results);
+      setActiveFilters((prev) => {
+        const next = {};
+        for (const filter of filters) if (!next[filter.dimension]) next[filter.dimension] = filter.value;
+        return JSON.stringify(next) !== JSON.stringify(prev) ? next : prev;
+      });
+    })();
+  }, [filters, workspaceId]);
+
+  if (!filters || filters.length === 0) return null;
+  return (
+    <div className="flex flex-wrap gap-4 mb-4 bg-gray-50 p-3 rounded-md border border-gray-200">
+      {filters.map((filter) => (
+        <div className="w-60">
+          <Dropdown
+            key={filter.dimension}
+            placeholder={"None"}
+            inlineLabel={filter.dimension}
+            options={(dimensionValues[filter.dimension] || []).map((v) => ({ label: v, value: v }))}
+            selectedOption={activeFilters?.[filter.dimension]}
+            setSelectedOption={(val) => setActiveFilters((prev) => ({ ...prev, [filter.dimension]: val }))}
+          />
+        </div>
+      ))}
+    </div>
+  );
+};
+
 /**
  * BoardPage component with comprehensive error handling and prop validation
  * @param {Object} props - Component props
@@ -82,6 +123,7 @@ export const TimeFilters = ({ timeRange, setTimeRange }) => {
 const BoardPage = ({ workspaceId, appId, boardId, decisionId, onNavigate = null, onBack = null, className = "" }) => {
   const { board, loading, error } = useBoard(workspaceId, appId, decisionId, boardId);
   const [timeRange, setTimeRange] = useState(TIME_GRAIN_OFFSET.QUARTERLY);
+  const [activeFilters, setActiveFilters] = useState(null);
 
   if (loading) {
     return (
@@ -116,13 +158,23 @@ const BoardPage = ({ workspaceId, appId, boardId, decisionId, onNavigate = null,
       showBackButton={true}
       onBack={onBack}
     >
-      <BoardEditor
-        blocks={board?.blocks}
-        timeRange={timeRange}
+      {/* Render filter dropdowns below title/description */}
+      <BoardFilters
+        filters={board.filters}
         workspaceId={workspaceId}
-        boardId={boardId}
-        onNavigate={onNavigate}
+        activeFilters={activeFilters}
+        setActiveFilters={setActiveFilters}
       />
+      {activeFilters != null && (
+        <BoardEditor
+          blocks={board?.blocks}
+          timeRange={timeRange}
+          workspaceId={workspaceId}
+          boardId={boardId}
+          onNavigate={onNavigate}
+          activeFilters={activeFilters}
+        />
+      )}
     </PanelLayout>
   );
 };
