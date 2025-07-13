@@ -5,37 +5,92 @@ import { SubDecisions } from "../components/SubDecisions";
 import { DecisionSummary } from "../components/DecisionSummary";
 import { DecisionBoards } from "../components/DecisionBoards";
 import { Loading } from "../common/functional/Loading";
+import { Error } from "../common/functional/Error";
 import { PanelLayout } from "../common/layouts/PanelLayout";
 
-export const DecisionDetailPage = ({ workspaceId, appId, decisionId }) => {
-  const { decisionTree, loading } = useDecisionTree(workspaceId, appId);
+/**
+ * DecisionDetailPage component with comprehensive error handling and prop validation
+ * @param {Object} props - Component props
+ * @param {string} props.workspaceId - Workspace ID
+ * @param {string} props.appId - App ID
+ * @param {string} props.decisionId - Decision ID
+ * @param {Function} props.onNavigate - Navigation handler function
+ * @param {string} props.className - Additional CSS classes
+ */
+export const DecisionDetailPage = ({ workspaceId, appId, decisionId, onNavigate = null, className = "" }) => {
+  const { decisionTree, loading, error } = useDecisionTree(workspaceId, appId);
 
   const { breadcrumbs, decision } = useMemo(() => {
-    const breadcrumbs = getBreadcrumbs(workspaceId, appId, decisionTree, decisionId);
-    const decision = getDecision(decisionTree, decisionId);
-    return { breadcrumbs, decision };
-  }, [workspaceId, appId, decisionTree, decisionId]);
+    try {
+      const breadcrumbs = getBreadcrumbs(decisionTree, decisionId);
+      const decision = getDecision(decisionTree, decisionId);
+      return { breadcrumbs, decision };
+    } catch (error) {
+      console.error("Error processing decision data:", error);
+      return { breadcrumbs: [], decision: null };
+    }
+  }, [decisionTree, decisionId]);
 
   if (loading) {
-    return <Loading loaderText="Loading decision tree..." />;
+    return (
+      <div className={className}>
+        <Loading loaderText="Loading decision tree..." />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className={className}>
+        <Error errorText={error} fullScreen={false} />
+      </div>
+    );
   }
 
   if (!decision || !breadcrumbs) {
-    return <Loading loaderText="Loading decision details..." />;
+    return (
+      <div className={className}>
+        <Loading loaderText="Loading decision details..." />
+      </div>
+    );
   }
 
+  const handleBreadcrumbNavigate = (href) => {
+    try {
+      if (onNavigate && typeof onNavigate === "function") {
+        onNavigate(href);
+      }
+    } catch (error) {
+      console.error("Breadcrumb navigation error:", error);
+    }
+  };
+
   return (
-    <PanelLayout title={decision?.name} description={decision?.description} breadcrumbs={breadcrumbs}>
-      <div className="flex justify-between items-start gap-3">
-        <div className="flex-grow flex flex-col gap-12 pt-5">
-          <DecisionSummary appId={appId} workspaceId={workspaceId} decisionId={decisionId ?? decisionTree.data.id} />
-          <DecisionBoards appId={appId} workspaceId={workspaceId} decisionId={decisionId ?? decisionTree.data.id} />
+    <PanelLayout
+      title={decision?.name}
+      description={decision?.description}
+      breadcrumbs={breadcrumbs}
+      onNavigate={handleBreadcrumbNavigate}
+      className={className}
+    >
+      <div className="flex justify-between items-start gap-3 border-t border-gray-200 mt-2">
+        <div className="flex-grow flex flex-col gap-6 pt-5">
+          <DecisionSummary
+            appId={appId}
+            workspaceId={workspaceId}
+            decisionId={decisionId ?? decisionTree?.data?.id}
+            onNavigate={onNavigate}
+          />
+          <DecisionBoards
+            appId={appId}
+            workspaceId={workspaceId}
+            decisionId={decisionId ?? decisionTree?.data?.id}
+            onNavigate={onNavigate}
+          />
         </div>
-        {decision.children?.length > 0 && (
-          <div className="min-w-[20%] flex flex-col gap-3 bg-blue-50 px-2 pt-1 mt-5 rounded-md">
-            <SubDecisions decisions={decision.children} />
-          </div>
-        )}
+        <div className="w-72 flex flex-col gap-3 bg-blue-50 border border-blue-200 p-2 mt-8 rounded-md">
+          <SubDecisions decisions={decision.children} onNavigate={onNavigate} />
+        </div>
       </div>
     </PanelLayout>
   );

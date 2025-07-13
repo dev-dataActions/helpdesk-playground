@@ -1,7 +1,6 @@
-import { memo, useMemo } from "react";
+import { memo, useCallback, useMemo } from "react";
 import { Insight } from "da-insight-sdk";
 import { MarkupEditor } from "./MarkupEditor";
-import { useRouter } from "next/router";
 import { fetchData, fetchDimensionValues } from "../common/services/insights.svc";
 
 const HEIGHT_CLASSES = {
@@ -18,84 +17,143 @@ const COLUMN_CLASSES = {
   4: "col-span-3",
 };
 
-const InsightPreview = memo(({ insight, timeRange, workspaceId }) => {
-  const router = useRouter();
-  const { query } = router;
-  const { boardId } = query;
-
-  const insightOptions = useMemo(
-    () => ({
-      className: "h-64",
-      ...(insight?.options ?? {}),
-    }),
-    [insight?.options]
+/**
+ * InsightPreview component for rendering insights
+ * @param {Object} props - Component props
+ * @param {Object} props.insight - Insight configuration
+ * @param {Object} props.timeRange - Time range configuration
+ * @param {string} props.workspaceId - Workspace ID
+ * @param {Function} props.onNavigate - Navigation handler
+ */
+const InsightPreview = memo(({ insight, timeRange, workspaceId, boardId, onNavigate }) => {
+  const metricLabel = useMemo(
+    () => insight?.metrics.find((m) => m.metricKey === insight?.metric_name)?.metricLabel,
+    [insight]
   );
 
   const actions = useMemo(
     () => [
       {
         name: "Analysis View",
-        onClick: () => router.push(`/insights/${boardId}/${insight.metric_name}/what`),
+        onClick: () => {
+          try {
+            if (onNavigate && typeof onNavigate === "function") {
+              onNavigate(`/insights/${boardId}/${insight?.metric_name}/what?metricLabel=${metricLabel}`);
+            }
+          } catch (error) {
+            console.error("Navigation error:", error);
+          }
+        },
       },
       {
         name: "Insights View",
-        onClick: () => router.push(`/insights/${boardId}/${insight.metric_name}/why`),
+        onClick: () => {
+          try {
+            if (onNavigate && typeof onNavigate === "function") {
+              onNavigate(`/insights/${boardId}/${insight?.metric_name}/why?metricLabel=${metricLabel}`);
+            }
+          } catch (error) {
+            console.error("Navigation error:", error);
+          }
+        },
       },
     ],
-    []
+    [insight?.metric_name, onNavigate]
+  );
+
+  const dataResolver = useCallback((payload) => fetchData(payload, workspaceId), [workspaceId]);
+
+  const dimensionValuesResolver = useCallback(
+    (dimension) => fetchDimensionValues(dimension, workspaceId),
+    [workspaceId]
   );
 
   return (
     <Insight
-      title={insight.title}
-      key={insight.insight_id}
-      type={insight.type}
-      metrics={insight.metrics}
-      timeGrain={insight.timeGrain}
-      filters={insight.filters}
+      type={insight?.type}
+      title={insight?.title}
+      metrics={insight?.metrics}
       timeRange={timeRange}
-      options={insightOptions}
+      timeGrain={insight?.timeGrain}
+      filters={insight?.filters}
+      options={insight?.options}
       actions={actions}
-      workspaceId={workspaceId}
-      dataResolver={(payload) => fetchData(payload, workspaceId)}
-      dimensionValuesResolver={(dimension) => fetchDimensionValues(dimension, workspaceId)}
+      dataResolver={dataResolver}
+      dimensionValuesResolver={dimensionValuesResolver}
     />
   );
 });
 InsightPreview.displayName = "InsightPreview";
 
-export const BoardEditor = ({ blocks, timeRange, workspaceId }) => {
-  console.log(blocks);
+/**
+ * BoardEditor component with comprehensive error handling and prop validation
+ * @param {Object} props - Component props
+ * @param {Array} props.blocks - Board blocks
+ * @param {Object} props.timeRange - Time range configuration
+ * @param {string} props.workspaceId - Workspace ID
+ * @param {string} props.boardId - Board ID
+ * @param {Function} props.onNavigate - Navigation handler
+ * @param {string} props.className - Additional CSS classes
+ */
+export const BoardEditor = ({ blocks = [], timeRange, workspaceId, boardId, onNavigate = null, className = "" }) => {
+  if (!Array.isArray(blocks) || blocks.length === 0) {
+    return (
+      <div className={`grid grid-cols-12 gap-2 animate-fade-in ${className}`}>
+        <div className="col-span-full text-center text-gray-500 p-8">No blocks available</div>
+      </div>
+    );
+  }
+
   return (
-    <div className={`grid grid-cols-12 gap-2 animate-fade-in`}>
-      {blocks?.map((block) => (
-        <div className="col-span-full" key={block.id}>
-          <div data-id={block.id}>
-            {block.type === "Markup" ? (
-              <MarkupEditor text={block.config.text ?? "Text"} />
-            ) : block.type === "Insight" ? (
-              <InsightPreview insight={block.config} timeRange={timeRange} workspaceId={workspaceId} />
+    <div className={`grid grid-cols-12 gap-3 animate-fade-in ${className}`}>
+      {blocks.map((block) => (
+        <div className="col-span-full" key={block?.id || "block"}>
+          <div data-id={block?.id}>
+            {block?.type === "Markup" ? (
+              <MarkupEditor text={block?.config?.text ?? "Text"} />
+            ) : block?.type === "Insight" ? (
+              <InsightPreview
+                insight={block?.config}
+                timeRange={timeRange}
+                workspaceId={workspaceId}
+                boardId={boardId}
+                onNavigate={onNavigate}
+              />
             ) : (
               <div className={`grid grid-cols-12 gap-3`}>
-                {block.config.blocks.map((subBlock) => {
-                  if (subBlock.type === "Markup")
-                    return (
-                      <div className={COLUMN_CLASSES[block.config.columns]}>
-                        <MarkupEditor text={block.config.text ?? "Text"} />
-                      </div>
-                    );
-                  else if (subBlock.type === "Insight")
-                    return (
-                      <div className={COLUMN_CLASSES[block.config.columns]}>
-                        <InsightPreview
-                          insight={{ ...subBlock.config, options: { className: HEIGHT_CLASSES[block.config.height] } }}
-                          timeRange={timeRange}
-                          workspaceId={workspaceId}
-                        />
-                      </div>
-                    );
-                  else return <div>Invalid block type</div>;
-                })}
+                {Array.isArray(block?.config?.blocks) &&
+                  block.config.blocks.map((subBlock, index) => {
+                    if (subBlock?.type === "Markup") {
+                      return (
+                        <div key={index} className={COLUMN_CLASSES[block?.config?.columns] || "col-span-12"}>
+                          <MarkupEditor text={block?.config?.text ?? "Text"} />
+                        </div>
+                      );
+                    } else if (subBlock?.type === "Insight") {
+                      return (
+                        <div key={index} className={COLUMN_CLASSES[block?.config?.columns] || "col-span-12"}>
+                          <InsightPreview
+                            insight={{
+                              ...subBlock?.config,
+                              options: {
+                                className: HEIGHT_CLASSES[block?.config?.height],
+                              },
+                            }}
+                            timeRange={timeRange}
+                            workspaceId={workspaceId}
+                            boardId={boardId}
+                            onNavigate={onNavigate}
+                          />
+                        </div>
+                      );
+                    } else {
+                      return (
+                        <div key={index} className="col-span-full text-center text-gray-500 p-4">
+                          Invalid block type: {subBlock?.type}
+                        </div>
+                      );
+                    }
+                  })}
               </div>
             )}
           </div>

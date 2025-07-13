@@ -1,27 +1,38 @@
 import { useBoard } from "../hooks/useBoard";
 import { Loading } from "../common/functional/Loading";
+import { Error } from "../common/functional/Error";
 import { BoardEditor } from "../components/BoardEditor";
 import { Dropdown } from "../common/base/Dropdown";
-import { TimeGrain, TimeGrainOffset } from "da-insight-sdk";
 import { useMemo, useState } from "react";
 import { PanelLayout } from "../common/layouts/PanelLayout";
 
+/**
+ * Time grain offset constants
+ */
+export const TIME_GRAIN_OFFSET = {
+  DAILY: 1,
+  WEEKLY: 7,
+  MONTHLY: 30,
+  QUARTERLY: 90,
+  YEARLY: 365,
+};
+
 export const TimeFilters = ({ timeRange, setTimeRange }) => {
-  const selectedTimeRangeOption = useMemo(() => timeRange ?? 180, [timeRange]);
+  const selectedTimeRangeOption = useMemo(() => timeRange ?? TIME_GRAIN_OFFSET.MONTHLY, [timeRange]);
 
   const timeRangeOptions = useMemo(
     () => [
       {
         label: "Week",
-        value: 7,
+        value: TIME_GRAIN_OFFSET.WEEKLY,
       },
       {
         label: "Month",
-        value: 30,
+        value: TIME_GRAIN_OFFSET.MONTHLY,
       },
       {
         label: "Quarter",
-        value: 120,
+        value: TIME_GRAIN_OFFSET.QUARTERLY,
       },
       {
         label: "6M",
@@ -29,40 +40,89 @@ export const TimeFilters = ({ timeRange, setTimeRange }) => {
       },
       {
         label: "Year",
-        value: 360,
+        value: TIME_GRAIN_OFFSET.YEARLY,
       },
     ],
     []
   );
 
+  const handleTimeRangeChange = (value) => {
+    try {
+      if (setTimeRange && typeof setTimeRange === "function") {
+        setTimeRange(value);
+      }
+    } catch (error) {
+      console.error("Time range change error:", error);
+    }
+  };
+
   return (
-    <div className="w-36">
+    <div className="w-52">
       <Dropdown
+        inlineLabel="Time range"
         options={timeRangeOptions}
-        selectedOption={timeRange}
-        setSelectedOption={(value) => setTimeRange(value)}
+        selectedOption={selectedTimeRangeOption}
+        setSelectedOption={handleTimeRangeChange}
       />
     </div>
   );
 };
 
-const BoardPage = ({ workspaceId, appId, boardId, decisionId }) => {
-  const { board, loading } = useBoard(workspaceId, appId, decisionId, boardId);
-  const [timeRange, setTimeRange] = useState(TimeGrainOffset.MONTHLY);
+/**
+ * BoardPage component with comprehensive error handling and prop validation
+ * @param {Object} props - Component props
+ * @param {string} props.workspaceId - Workspace ID
+ * @param {string} props.appId - App ID
+ * @param {string} props.boardId - Board ID
+ * @param {string} props.decisionId - Decision ID
+ * @param {Function} props.onNavigate - Navigation handler function
+ * @param {Function} props.onBack - Back button handler
+ * @param {string} props.className - Additional CSS classes
+ */
+const BoardPage = ({ workspaceId, appId, boardId, decisionId, onNavigate = null, onBack = null, className = "" }) => {
+  const { board, loading, error } = useBoard(workspaceId, appId, decisionId, boardId);
+  const [timeRange, setTimeRange] = useState(TIME_GRAIN_OFFSET.QUARTERLY);
 
-  if (loading) return <Loading loaderText="Loading board..." />;
+  if (loading) {
+    return (
+      <div className={className}>
+        <Loading loaderText="Loading board..." />
+      </div>
+    );
+  }
 
-  if (!board) return <p className="mt-10">Board not found.</p>;
+  if (error) {
+    return (
+      <div className={className}>
+        <Error errorText={error} fullScreen={false} />
+      </div>
+    );
+  }
+
+  if (!board || Object.keys(board).length === 0) {
+    return (
+      <div className={className}>
+        <p className="mt-10 text-center text-gray-500">Board not found.</p>
+      </div>
+    );
+  }
 
   return (
     <PanelLayout
       title={board?.title}
       description={board?.description}
-      className={"!px-40 !py-8"}
+      className={`px-24 py-8`}
       customButton={<TimeFilters timeRange={timeRange} setTimeRange={setTimeRange} />}
       showBackButton={true}
+      onBack={onBack}
     >
-      <BoardEditor blocks={board?.blocks} timeRange={timeRange} workspaceId={workspaceId} />
+      <BoardEditor
+        blocks={board?.blocks}
+        timeRange={timeRange}
+        workspaceId={workspaceId}
+        boardId={boardId}
+        onNavigate={onNavigate}
+      />
     </PanelLayout>
   );
 };

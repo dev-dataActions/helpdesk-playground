@@ -1,20 +1,26 @@
 import { useRouter } from "next/router";
 import { DecisionDetailPage } from "../../modules/insights/pages/DecisionDetailPage";
+import { ScreenLayout } from "../../modules/insights/common/layouts/ScreenLayout";
 
-export default function FeatureDetailPageContainer() {
-  const { query } = useRouter();
+export default function DecisionDetailPageContainer() {
+  const router = useRouter();
 
-  const mode = process.env.NEXT_PUBLIC_PRODUCT_MODE;
-  const appId =
-    mode === "LITE"
-      ? process.env.NEXT_PUBLIC_LITE_CFA_APP_ID
-      : process.env.NEXT_PUBLIC_PRO_CFA_APP_ID;
+  const handleNavigate = (path) => {
+    try {
+      router.push(path);
+    } catch (error) {
+      console.error("Navigation error:", error);
+    }
+  };
 
   return (
-    <DecisionDetailPage
-      workspaceId={process.env.NEXT_PUBLIC_DEMO_WORKSPACE_ID}
-      appId={appId}
-      decisionId={query.decisionId}
-    />
+    <ScreenLayout breadcrumbs={[{ name: "Insights" }]}>
+      <DecisionDetailPage
+        workspaceId={process.env.NEXT_PUBLIC_WORKSPACE_ID}
+        appId={process.env.NEXT_PUBLIC_CFA_APP_ID}
+        decisionId={router?.query?.decisionId}
+        onNavigate={handleNavigate}
+      />
+    </ScreenLayout>
   );
 }
