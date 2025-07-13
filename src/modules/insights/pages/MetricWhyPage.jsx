@@ -65,7 +65,7 @@ export const MetricWhyPage = ({ workspaceId, metricId, metricLabel, onBack = nul
       {insights?.filter((i) => i.insightType === "why")?.length === 0 && (
         <p className="text-sm text-gray-600">No insights found</p>
       )}
-      <div className="grid grid-cols-12 gap-4">
+      <div className="grid grid-cols-12 gap-4 mt-4">
         {insights
           ?.filter((i) => i.insightType === "why")
           ?.map((insight) => (
