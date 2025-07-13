@@ -1,5 +1,5 @@
-import { Breadcrumbs } from "@/common/functional/Breadcrumbs";
-import { cn } from "@/common/util/general.util";
+import { Breadcrumbs } from "../functional/Breadcrumbs";
+import { cn } from "../util/general.util";
 import { useState } from "react";
 import { FiChevronLeft } from "react-icons/fi";
 import { HiPencil } from "react-icons/hi2";
@@ -45,10 +45,7 @@ export const PanelLayout = ({
                   )}
                   {title || (!!onEditTitle ? "Untitled" : null)}
                   {!!onEditTitle && (
-                    <HiPencil
-                      size={16}
-                      className="mt-1 text-gray-400 invisible group-hover:visible cursor-pointer"
-                    />
+                    <HiPencil size={16} className="mt-1 text-gray-400 invisible group-hover:visible cursor-pointer" />
                   )}
                 </p>
               ) : (
@@ -79,10 +76,7 @@ export const PanelLayout = ({
                 >
                   {description || (!!onEditDescription ? "Click to add description" : null)}
                   {!!onEditDescription && (
-                    <HiPencil
-                      size={12}
-                      className="text-gray-400 invisible group-hover:visible cursor-pointer"
-                    />
+                    <HiPencil size={12} className="text-gray-400 invisible group-hover:visible cursor-pointer" />
                   )}
                 </p>
               ) : (

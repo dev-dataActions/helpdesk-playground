@@ -1,6 +1,6 @@
 import { TfiClose } from "react-icons/tfi";
 import { Button } from "../base/Button";
-import { useModalContext } from "@/common/contexts/ModalContext";
+import { useModalContext } from "../contexts/ModalContext";
 
 export const ModalWrapper = () => {
   const { modalSettings, closeModal } = useModalContext();

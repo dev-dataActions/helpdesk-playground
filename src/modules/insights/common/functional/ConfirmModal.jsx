@@ -1,5 +1,5 @@
 import React from "react";
-import { Button } from "@/common/base/Button";
+import { Button } from "../base/Button";
 
 /**
  * Generic confirmation modal component for reusable confirmation dialogs

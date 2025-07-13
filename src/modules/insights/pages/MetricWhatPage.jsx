@@ -2,7 +2,7 @@ import { Insight, TimeGrain } from "da-insight-sdk";
 import { Loading } from "../common/functional/Loading";
 import { useMetricInsights } from "../hooks/useMetricInsights";
 import { useMemo, useState } from "react";
-import { PanelLayout } from "../common/layout/PanelLayout";
+import { PanelLayout } from "../common/layouts/PanelLayout";
 import { TimeFilters } from "./BoardPage";
 import { fetchData, fetchDimensionValues } from "../common/services/insights.svc";
 
@@ -45,7 +45,6 @@ export const MetricWhatPage = ({ workspaceId, metricId }) => {
     timeRange: 180,
     timeGrain: TimeGrain.WEEKLY,
   });
-  console.log(insights);
 
   if (loading) return <Loading loaderText="Loading analysis view..." />;
 
@@ -57,7 +56,7 @@ export const MetricWhatPage = ({ workspaceId, metricId }) => {
       customButton={<TimeFilters filters={filters} setFilters={setFilters} />}
       showBackButton={true}
     >
-      {insights?.filter((i) => i.insightType === "why")?.length === 0 && (
+      {insights?.filter((i) => i.insightType === "what")?.length === 0 && (
         <p className="text-sm text-gray-600">No insights found</p>
       )}
       <div className="grid grid-cols-12 gap-4">

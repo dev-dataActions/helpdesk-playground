@@ -1,6 +1,6 @@
-import { request } from "@/common/util/api.util";
+import { request } from "../util/api.util";
 
-const API_BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
+const API_BACKEND_URL = "https://dametrics.dataactions.ai";
 const API_MODE = process.env.NEXT_PUBLIC_PRODUCT_MODE;
 
 export const fetchData = async (payload, workspaceId, tenantId) => {

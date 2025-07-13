@@ -1,21 +1,19 @@
 import { useBoard } from "../hooks/useBoard";
 import { Loading } from "../common/functional/Loading";
-import { PanelLayout } from "../common/layout/PanelLayout";
 import { BoardEditor } from "../components/BoardEditor";
 import { Dropdown } from "../common/base/Dropdown";
-import { TimeGrain } from "da-insight-sdk";
+import { TimeGrain, TimeGrainOffset } from "da-insight-sdk";
 import { useMemo, useState } from "react";
+import { PanelLayout } from "../common/layouts/PanelLayout";
 
-export const TimeFilters = ({ filters, setFilters }) => {
-  const selectedTimeRangeOption = useMemo(() => filters?.timeRange ?? 180, [filters]);
-  const selectedTimeGrainOption = useMemo(() => filters?.timeGrain ?? TimeGrain.MONTHLY, [filters]);
+export const TimeFilters = ({ timeRange, setTimeRange }) => {
+  const selectedTimeRangeOption = useMemo(() => timeRange ?? 180, [timeRange]);
 
   const timeRangeOptions = useMemo(
     () => [
       {
         label: "Week",
         value: 7,
-        disabled: selectedTimeGrainOption === TimeGrain.MONTHLY,
       },
       {
         label: "Month",
@@ -34,57 +32,23 @@ export const TimeFilters = ({ filters, setFilters }) => {
         value: 360,
       },
     ],
-    [selectedTimeGrainOption]
-  );
-
-  const timeGrainOptions = useMemo(
-    () => [
-      { label: "Daily", value: TimeGrain.DAILY },
-      { label: "Weekly", value: TimeGrain.WEEKLY },
-      { label: "Monthly", value: TimeGrain.MONTHLY },
-    ],
     []
   );
 
   return (
-    <div className="flex gap-2">
-      <div className="w-36">
-        <Dropdown
-          options={timeRangeOptions}
-          selectedOption={selectedTimeRangeOption}
-          setSelectedOption={(value) => {
-            setFilters({
-              ...filters,
-              timeRange: value,
-            });
-          }}
-        />
-      </div>
-      <div className="w-36">
-        <Dropdown
-          options={timeGrainOptions}
-          selectedOption={selectedTimeGrainOption}
-          setSelectedOption={(value) => {
-            const newFilters = {
-              ...filters,
-              timeGrain: value,
-            };
-            if (value === TimeGrain.MONTHLY && selectedTimeRangeOption === 7)
-              newFilters.timeRange = 180;
-            setFilters(newFilters);
-          }}
-        />
-      </div>
+    <div className="w-36">
+      <Dropdown
+        options={timeRangeOptions}
+        selectedOption={timeRange}
+        setSelectedOption={(value) => setTimeRange(value)}
+      />
     </div>
   );
 };
 
 const BoardPage = ({ workspaceId, appId, boardId, decisionId }) => {
   const { board, loading } = useBoard(workspaceId, appId, decisionId, boardId);
-  const [filters, setFilters] = useState({
-    timeRange: 180,
-    timeGrain: TimeGrain.WEEKLY,
-  });
+  const [timeRange, setTimeRange] = useState(TimeGrainOffset.MONTHLY);
 
   if (loading) return <Loading loaderText="Loading board..." />;
 
@@ -95,10 +59,10 @@ const BoardPage = ({ workspaceId, appId, boardId, decisionId }) => {
       title={board?.title}
       description={board?.description}
       className={"!px-40 !py-8"}
-      customButton={<TimeFilters filters={filters} setFilters={setFilters} />}
+      customButton={<TimeFilters timeRange={timeRange} setTimeRange={setTimeRange} />}
       showBackButton={true}
     >
-      <BoardEditor blocks={board?.blocks} filters={filters} workspaceId={workspaceId} />
+      <BoardEditor blocks={board?.blocks} timeRange={timeRange} workspaceId={workspaceId} />
     </PanelLayout>
   );
 };

@@ -8,9 +8,7 @@ export const classNames = (...classes) => classes.filter(Boolean).join(" ");
 export const formatString = (input) => {
   return input
     .split("_")
-    .map((word, index) =>
-      index === 0 ? word.charAt(0).toUpperCase() + word.slice(1) : word.toLowerCase()
-    )
+    .map((word, index) => (index === 0 ? word.charAt(0).toUpperCase() + word.slice(1) : word.toLowerCase()))
     .join(" ");
 };
 

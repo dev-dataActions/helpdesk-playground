@@ -1,6 +1,6 @@
-import { Label } from "@/common/base/Label";
+import { Label } from "../base/Label";
 import { IoAddOutline } from "react-icons/io5";
-import { PopupWrapper } from "@/common/functional/PopupWrapper";
+import { PopupWrapper } from "../functional/PopupWrapper";
 import { useResizeObserver } from "../hooks/useResizeObserver";
 import { useState } from "react";
 import { toast } from "react-toastify";

@@ -2,7 +2,7 @@ import { Insight, TimeGrain } from "da-insight-sdk";
 import { Loading } from "../common/functional/Loading";
 import { useMetricInsights } from "../hooks/useMetricInsights";
 import { useMemo, useState } from "react";
-import { PanelLayout } from "../common/layout/PanelLayout";
+import { PanelLayout } from "../common/layouts/PanelLayout";
 import { TimeFilters } from "./BoardPage";
 import { fetchData, fetchDimensionValues } from "../common/services/insights.svc";
 

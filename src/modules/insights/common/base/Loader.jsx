@@ -1,4 +1,4 @@
-import { cn } from "@/common/util/general.util";
+import { cn } from "../util/general.util";
 
 export const Loader = ({ loaderSize, className, loaderText }) => {
   return (

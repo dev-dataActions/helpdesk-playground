@@ -1,5 +1,3 @@
-import { toast } from "react-toastify";
-
 export async function request(url, method = "GET", options = {}) {
   const { headers = {}, body } = options;
   try {
@@ -19,13 +17,13 @@ export async function request(url, method = "GET", options = {}) {
         const data = await res.json();
         errorMsg = data?.message || errorMsg;
       } catch {}
-      toast.error(errorMsg);
+      console.error(errorMsg);
       return null;
     }
 
     return await res.json();
   } catch (error) {
-    toast.error("Network error: Unable to reach the server.");
+    console.error("Network error: Unable to reach the server.");
     console.error("Network/API error:", error);
     return null;
   }
