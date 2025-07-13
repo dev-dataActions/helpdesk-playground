@@ -5,7 +5,6 @@ import { Button } from "../base/Button";
  * Generic confirmation modal component for reusable confirmation dialogs
  *
  * @param {Object} props - Component props
- * @param {string} props.title - The title of the confirmation dialog
  * @param {string|React.ReactNode} props.message - The confirmation message (supports HTML/JSX)
  * @param {string} props.confirmText - Text for the confirm button (default: "Confirm")
  * @param {string} props.cancelText - Text for the cancel button (default: "Cancel")
@@ -16,10 +15,8 @@ import { Button } from "../base/Button";
  * @param {boolean} props.isLoading - Whether the confirm action is in progress
  * @param {string} props.loadingText - Text to show on confirm button when loading
  * @param {boolean} props.disableConfirm - Whether to disable the confirm button
- * @param {string} props.size - Modal size class (default: "w-96")
  */
 export const ConfirmModal = ({
-  title = "Confirm Action",
   message = "Are you sure you want to proceed?",
   confirmText = "Confirm",
   cancelText = "Cancel",
@@ -30,7 +27,6 @@ export const ConfirmModal = ({
   isLoading = false,
   loadingText = "Processing...",
   disableConfirm = false,
-  size = "w-96",
 }) => {
   const getButtonStyles = (variant, isConfirm = false) => {
     const baseStyles = "px-4 py-2 border transition-colors";

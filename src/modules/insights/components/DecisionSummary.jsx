@@ -1,4 +1,3 @@
-import { useMemo } from "react";
 import { Insight } from "da-insight-sdk";
 import { useAppDecisionInsights } from "../hooks/useAppDecisionInsights";
 import { fetchData, fetchDimensionValues } from "../common/services/insights.svc";
@@ -30,10 +29,9 @@ const InsightPreview = ({ insightConfig, workspaceId }) => {
  * @param {string} props.workspaceId - Workspace ID
  * @param {string} props.appId - App ID
  * @param {string} props.decisionId - Decision ID
- * @param {Function} props.onNavigate - Navigation handler function
  * @param {string} props.className - Additional CSS classes
  */
-export const DecisionSummary = ({ workspaceId, appId, decisionId, onNavigate = null, className = "" }) => {
+export const DecisionSummary = ({ workspaceId, appId, decisionId, className = "" }) => {
   const { insights: appDecisionInsights, loading, error } = useAppDecisionInsights(workspaceId, appId, decisionId);
 
   if (loading) {

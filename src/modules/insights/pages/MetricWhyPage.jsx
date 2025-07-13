@@ -46,9 +46,8 @@ const InsightPreview = ({ insight, timeRange, workspaceId }) => {
  * @param {string} props.metricId - Metric ID
  * @param {string} props.metricLabel - Metric label
  * @param {Function} props.onBack - Back button handler
- * @param {string} props.className - Additional CSS classes
  */
-export const MetricWhyPage = ({ workspaceId, metricId, metricLabel, onBack = null, className = "" }) => {
+export const MetricWhyPage = ({ workspaceId, metricId, metricLabel, onBack = null }) => {
   const { insights, loading } = useMetricInsights(workspaceId, metricId);
   const [timeRange, setTimeRange] = useState(TIME_GRAIN_OFFSET.QUARTERLY);
 

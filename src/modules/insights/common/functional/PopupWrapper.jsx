@@ -2,16 +2,9 @@ import React, { useState, useRef, useEffect } from "react";
 import { createPortal } from "react-dom";
 
 let activePopupId = null;
+console.log("activePopupId", activePopupId);
 
-export const PopupWrapper = ({
-  trigger,
-  align = "left",
-  top = 0,
-  right = 0,
-  left = 0,
-  bottom = 0,
-  children,
-}) => {
+export const PopupWrapper = ({ trigger, align = "left", top = 0, right = 0, left = 0, bottom = 0, children }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
   const buttonRef = useRef(null);
@@ -22,11 +15,7 @@ export const PopupWrapper = ({
     setMounted(true);
 
     const handleClickOutside = (e) => {
-      if (
-        popupRef.current &&
-        !popupRef.current.contains(e.target) &&
-        !buttonRef.current.contains(e.target)
-      ) {
+      if (popupRef.current && !popupRef.current.contains(e.target) && !buttonRef.current.contains(e.target)) {
         setIsOpen(false);
         activePopupId = null;
       }
@@ -117,9 +106,7 @@ export const PopupWrapper = ({
           >
             <div className="rounded-md shadow-md bg-white">
               {React.Children.map(children, (child) =>
-                React.isValidElement(child)
-                  ? React.cloneElement(child, { close: () => setIsOpen(false) })
-                  : child
+                React.isValidElement(child) ? React.cloneElement(child, { close: () => setIsOpen(false) }) : child
               )}
             </div>
           </div>,

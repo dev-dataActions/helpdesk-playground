@@ -17,14 +17,10 @@ export const MultiSelectDropdown = ({
   const containerRef = useRef(null);
 
   const filteredOptions = options.filter(
-    (opt) =>
-      opt.label.toLowerCase().includes(inputValue.toLowerCase()) &&
-      !selectedOptions.includes(opt.value)
+    (opt) => opt.label.toLowerCase().includes(inputValue.toLowerCase()) && !selectedOptions.includes(opt.value)
   );
 
-  const inputValueAlreadyExists = options.some(
-    (opt) => opt.label.toLowerCase() === inputValue.toLowerCase()
-  );
+  const inputValueAlreadyExists = options.some((opt) => opt.label.toLowerCase() === inputValue.toLowerCase());
 
   const addOption = (value) => {
     if (!selectedOptions.includes(value)) {
@@ -62,11 +58,7 @@ export const MultiSelectDropdown = ({
     return (
       <div className="w-full relative text-xs cursor-not-allowed">
         {label && <label className="block text-xs text-gray-500 mb-1">{label}</label>}
-        <div
-          className={`w-full border border-gray-300 rounded-md py-2 px-3 bg-white text-gray-300`}
-        >
-          {placeholder}
-        </div>
+        <div className={`w-full border border-gray-300 rounded-md py-2 px-3 bg-white text-gray-300`}>{placeholder}</div>
       </div>
     );
   }
@@ -75,9 +67,7 @@ export const MultiSelectDropdown = ({
     return (
       <div className="w-full relative text-xs">
         {label && <label className="block text-xs text-gray-500 mb-1">{label}</label>}
-        <div className={`w-full border border-gray-300 rounded-md py-2 px-3 bg-white`}>
-          Loading...
-        </div>
+        <div className={`w-full border border-gray-300 rounded-md py-2 px-3 bg-white`}>Loading...</div>
       </div>
     );
   }
@@ -94,10 +84,7 @@ export const MultiSelectDropdown = ({
         {selectedOptions.map((value, idx) => {
           const label = options.find((o) => o.value === value)?.label || value;
           return (
-            <div
-              key={value + idx}
-              className="flex items-center bg-gray-200 rounded-full px-2 py-0.5"
-            >
+            <div key={value + idx} className="flex items-center bg-gray-200 rounded-full px-2 py-0.5">
               <span>{label}</span>
               <button
                 onClick={(e) => {
@@ -123,10 +110,7 @@ export const MultiSelectDropdown = ({
           placeholder={placeholder}
         />
 
-        <IoIosArrowDown
-          className="absolute right-2 top-2 text-gray-500 pointer-events-none"
-          size={16}
-        />
+        <IoIosArrowDown className="absolute right-2 top-2 text-gray-500 pointer-events-none" size={16} />
       </div>
 
       {isOpen && (filteredOptions.length > 0 || inputValue.trim()) && (
@@ -146,7 +130,7 @@ export const MultiSelectDropdown = ({
               onClick={() => addOption(inputValue.trim())}
               className="px-3 py-2 hover:bg-blue-50 cursor-pointer text-blue-600"
             >
-              Create "{inputValue.trim()}"
+              {`Create ${inputValue.trim()}`}
             </div>
           )}
         </div>
