@@ -88,7 +88,7 @@ export const DecisionDetailPage = ({ workspaceId, appId, decisionId, onNavigate 
             onNavigate={onNavigate}
           />
         </div>
-        <div className="w-72 flex flex-col gap-3 bg-blue-50 border border-blue-200 p-2 mt-8 rounded-md">
+        <div className="min-w-72 w-72 flex flex-col gap-3 bg-blue-50 border border-blue-200 p-2 mt-8 rounded-md">
           <SubDecisions decisions={decision.children} onNavigate={onNavigate} />
         </div>
       </div>
