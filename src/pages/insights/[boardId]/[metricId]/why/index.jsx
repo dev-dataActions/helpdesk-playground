@@ -1,9 +1,11 @@
 import { useRouter } from "next/router";
 import { MetricWhyPage } from "../../../../../modules/insights/pages/MetricWhyPage";
 import { ScreenLayout } from "../../../../../modules/insights/common/layouts/ScreenLayout";
+import { useTenantId } from "../../../../../modules/insights/hooks/useTenantId";
 
 export default function MetricsWhyPageContainer() {
   const router = useRouter();
+  const { tenantId } = useTenantId();
 
   const handleNavigate = (path) => {
     try {
@@ -24,6 +26,7 @@ export default function MetricsWhyPageContainer() {
   return (
     <ScreenLayout breadcrumbs={[{ name: "Insights" }]}>
       <MetricWhyPage
+        tenantId={tenantId}
         workspaceId={process.env.NEXT_PUBLIC_WORKSPACE_ID}
         metricId={router?.query?.metricId}
         metricLabel={router?.query?.metricLabel}

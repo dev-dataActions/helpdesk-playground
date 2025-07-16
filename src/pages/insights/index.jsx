@@ -1,9 +1,11 @@
 import { useRouter } from "next/router";
 import { DecisionDetailPage } from "../../modules/insights/pages/DecisionDetailPage";
 import { ScreenLayout } from "../../modules/insights/common/layouts/ScreenLayout";
+import { useTenantId } from "../../modules/insights/hooks/useTenantId";
 
 export default function DecisionDetailPageContainer() {
   const router = useRouter();
+  const { tenantId } = useTenantId();
 
   const handleNavigate = (path) => {
     try {
@@ -16,6 +18,7 @@ export default function DecisionDetailPageContainer() {
   return (
     <ScreenLayout breadcrumbs={[{ name: "Insights" }]}>
       <DecisionDetailPage
+        tenantId={tenantId}
         workspaceId={process.env.NEXT_PUBLIC_WORKSPACE_ID}
         appId={process.env.NEXT_PUBLIC_CFA_APP_ID}
         decisionId={router?.query?.decisionId}

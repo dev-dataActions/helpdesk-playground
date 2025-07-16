@@ -1,22 +1,24 @@
 import { useMemo } from "react";
 import { usePathname } from "next/navigation";
 import { List } from "../functional/List";
-import { IoIosArrowDown } from "react-icons/io";
 import { IoGameControllerOutline, IoHomeOutline } from "react-icons/io5";
 import { CiMoneyBill } from "react-icons/ci";
 import { GoPeople } from "react-icons/go";
 import { PiBrainThin } from "react-icons/pi";
+import { TenantDropdown } from "../../components/TenantDropdown";
+import { useTenantId } from "../../hooks/useTenantId";
 
-const UserDetails = ({ username }) => {
+const UserDetails = ({ workspaceId }) => {
+  const { tenantId, setTenantId } = useTenantId();
   return (
-    <div className="flex items-center border-b h-12 px-3 gap-2">
-      <p className="text-sm text-white font-semibold">{username}</p>
-      <IoIosArrowDown size={12} className="text-white" />
+    <div className="flex items-center border-b h-12 px-1.5">
+      <TenantDropdown workspaceId={workspaceId} tenantId={tenantId} setTenantId={setTenantId} />
     </div>
   );
 };
 
 export const SidebarLayout = ({ children }) => {
+  const workspaceId = process.env.NEXT_PUBLIC_WORKSPACE_ID;
   const pathname = usePathname();
 
   const navItems = useMemo(
@@ -57,7 +59,7 @@ export const SidebarLayout = ({ children }) => {
   return (
     <div>
       <div className="h-screen w-64 fixed top-0 left-0 bg-gray-800 border-r z-20">
-        <UserDetails username="Atlassian" />
+        <UserDetails workspaceId={workspaceId} />
         <List items={navItems} className="p-4" />
       </div>
       <div className="min-h-screen md:pl-64">{children}</div>

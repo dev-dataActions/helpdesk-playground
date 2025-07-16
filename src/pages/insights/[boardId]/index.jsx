@@ -1,9 +1,11 @@
 import { useRouter } from "next/router";
 import BoardPage from "../../../modules/insights/pages/BoardPage";
 import { ScreenLayout } from "../../../modules/insights/common/layouts/ScreenLayout";
+import { useTenantId } from "../../../modules/insights/hooks/useTenantId";
 
 export default function BoardPageContainer() {
   const router = useRouter();
+  const { tenantId } = useTenantId();
 
   const handleNavigate = (path) => {
     try {
@@ -24,6 +26,7 @@ export default function BoardPageContainer() {
   return (
     <ScreenLayout breadcrumbs={[{ name: "Insights" }]}>
       <BoardPage
+        tenantId={tenantId}
         workspaceId={process.env.NEXT_PUBLIC_WORKSPACE_ID}
         appId={process.env.NEXT_PUBLIC_CFA_APP_ID}
         boardId={router?.query?.boardId}
