@@ -16,8 +16,9 @@ import { PanelLayout } from "../common/layouts/PanelLayout";
  * @param {string} props.decisionId - Decision ID
  * @param {Function} props.onNavigate - Navigation handler function
  * @param {string} props.className - Additional CSS classes
+ * @param {string} props.tenantId - Tenant ID
  */
-export const DecisionDetailPage = ({ workspaceId, appId, decisionId, onNavigate = null, className = "" }) => {
+export const DecisionDetailPage = ({ workspaceId, appId, decisionId, tenantId, onNavigate = null, className = "" }) => {
   const { decisionTree, loading, error } = useDecisionTree(workspaceId, appId);
 
   const { breadcrumbs, decision } = useMemo(() => {
@@ -78,6 +79,7 @@ export const DecisionDetailPage = ({ workspaceId, appId, decisionId, onNavigate 
           <DecisionSummary
             appId={appId}
             workspaceId={workspaceId}
+            tenantId={tenantId}
             decisionId={decisionId ?? decisionTree?.data?.id}
             onNavigate={onNavigate}
           />

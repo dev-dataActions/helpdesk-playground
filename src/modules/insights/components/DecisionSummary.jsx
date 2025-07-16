@@ -9,16 +9,17 @@ import { Loading } from "../common/functional/Loading";
  * @param {Object} props - Component props
  * @param {Object} props.insightConfig - Insight configuration
  * @param {string} props.workspaceId - Workspace ID
+ * @param {string} props.tenantId - Tenant ID
  */
-const InsightPreview = ({ insightConfig, workspaceId }) => {
+const InsightPreview = ({ insightConfig, workspaceId, tenantId }) => {
   return (
     <Insight
       title={insightConfig?.title}
       type={insightConfig?.type}
       metrics={insightConfig?.metrics}
       options={insightConfig?.options}
-      dataResolver={(payload) => fetchData(payload, workspaceId)}
-      dimensionValuesResolver={(dimension) => fetchDimensionValues(dimension, workspaceId)}
+      dataResolver={(payload) => fetchData(payload, workspaceId, tenantId)}
+      dimensionValuesResolver={(dimension) => fetchDimensionValues(dimension, workspaceId, tenantId)}
     />
   );
 };
@@ -30,9 +31,14 @@ const InsightPreview = ({ insightConfig, workspaceId }) => {
  * @param {string} props.appId - App ID
  * @param {string} props.decisionId - Decision ID
  * @param {string} props.className - Additional CSS classes
+ * @param {string} props.tenantId - Tenant ID
  */
-export const DecisionSummary = ({ workspaceId, appId, decisionId, className = "" }) => {
-  const { insights: appDecisionInsights, loading, error } = useAppDecisionInsights(workspaceId, appId, decisionId);
+export const DecisionSummary = ({ workspaceId, appId, decisionId, tenantId, className = "" }) => {
+  const {
+    insights: appDecisionInsights,
+    loading,
+    error,
+  } = useAppDecisionInsights(workspaceId, appId, decisionId, tenantId);
 
   if (loading) {
     return (
@@ -89,7 +95,11 @@ export const DecisionSummary = ({ workspaceId, appId, decisionId, className = ""
         {appDecisionInsights.length === 0 && <p className="text-sm text-gray-600 w-72">No insights added yet.</p>}
         {appDecisionInsights.map((insight, index) => (
           <div key={insight?.insight_id || index} className="col-span-4">
-            <InsightPreview insightConfig={{ ...insight, options: { className: "h-40" } }} workspaceId={workspaceId} />
+            <InsightPreview
+              insightConfig={{ ...insight, options: { className: "h-40" } }}
+              workspaceId={workspaceId}
+              tenantId={tenantId}
+            />
           </div>
         ))}
       </div>

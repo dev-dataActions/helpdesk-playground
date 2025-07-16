@@ -6,7 +6,7 @@ import { PanelLayout } from "../common/layouts/PanelLayout";
 import { TIME_GRAIN_OFFSET, TimeFilters } from "./BoardPage";
 import { fetchData, fetchDimensionValues } from "../common/services/insights.svc";
 
-const InsightPreview = ({ insight, timeRange, workspaceId }) => {
+const InsightPreview = ({ insight, timeRange, workspaceId, tenantId }) => {
   const insightOptions = useMemo(
     () => ({
       className: "h-64",
@@ -16,11 +16,11 @@ const InsightPreview = ({ insight, timeRange, workspaceId }) => {
     [insight?.options]
   );
 
-  const dataResolver = useCallback((payload) => fetchData(payload, workspaceId), [workspaceId]);
+  const dataResolver = useCallback((payload) => fetchData(payload, workspaceId, tenantId), [workspaceId, tenantId]);
 
   const dimensionValuesResolver = useCallback(
-    (dimension) => fetchDimensionValues(dimension, workspaceId),
-    [workspaceId]
+    (dimension) => fetchDimensionValues(dimension, workspaceId, tenantId),
+    [workspaceId, tenantId]
   );
 
   return (
@@ -46,8 +46,9 @@ const InsightPreview = ({ insight, timeRange, workspaceId }) => {
  * @param {string} props.metricId - Metric ID
  * @param {string} props.metricLabel - Metric label
  * @param {Function} props.onBack - Back button handler
+ * @param {string} props.tenantId - Tenant ID
  */
-export const MetricWhyPage = ({ workspaceId, metricId, metricLabel, onBack = null }) => {
+export const MetricWhyPage = ({ workspaceId, metricId, metricLabel, tenantId, onBack = null }) => {
   const { insights, loading } = useMetricInsights(workspaceId, metricId);
   const [timeRange, setTimeRange] = useState(TIME_GRAIN_OFFSET.QUARTERLY);
 
@@ -70,7 +71,7 @@ export const MetricWhyPage = ({ workspaceId, metricId, metricLabel, onBack = nul
           ?.filter((i) => i.insightType === "why")
           ?.map((insight) => (
             <div key={insight.insight_id} className="col-span-6">
-              <InsightPreview insight={insight} timeRange={timeRange} workspaceId={workspaceId} />
+              <InsightPreview insight={insight} timeRange={timeRange} workspaceId={workspaceId} tenantId={tenantId} />
             </div>
           ))}
       </div>

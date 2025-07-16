@@ -50,8 +50,9 @@ function computeInsightFilters(insight, activeFilters) {
  * @param {Object} props.timeRange - Time range configuration
  * @param {string} props.workspaceId - Workspace ID
  * @param {Function} props.onNavigate - Navigation handler
+ * @param {string} props.tenantId - Tenant ID
  */
-const InsightPreview = memo(({ insight, timeRange, workspaceId, boardId, onNavigate, activeFilters }) => {
+const InsightPreview = memo(({ insight, timeRange, workspaceId, boardId, tenantId, onNavigate, activeFilters }) => {
   const metricLabel = useMemo(
     () => insight?.metrics.find((m) => m.metricKey === insight?.metric_name)?.metricLabel,
     [insight]
@@ -87,11 +88,11 @@ const InsightPreview = memo(({ insight, timeRange, workspaceId, boardId, onNavig
     [insight?.metric_name, onNavigate]
   );
 
-  const dataResolver = useCallback((payload) => fetchData(payload, workspaceId), [workspaceId]);
+  const dataResolver = useCallback((payload) => fetchData(payload, workspaceId, tenantId), [workspaceId, tenantId]);
 
   const dimensionValuesResolver = useCallback(
-    (dimension) => fetchDimensionValues(dimension, workspaceId),
-    [workspaceId]
+    (dimension) => fetchDimensionValues(dimension, workspaceId, tenantId),
+    [workspaceId, tenantId]
   );
 
   // Compute the correct filters for this insight
@@ -124,12 +125,14 @@ InsightPreview.displayName = "InsightPreview";
  * @param {Function} props.onNavigate - Navigation handler
  * @param {string} props.className - Additional CSS classes
  * @param {Object} props.activeFilters - Active filters
+ * @param {string} props.tenantId - Tenant ID
  */
 export const BoardEditor = ({
   blocks = [],
   timeRange,
   workspaceId,
   boardId,
+  tenantId,
   onNavigate = null,
   className = "",
   activeFilters = {},
@@ -157,6 +160,7 @@ export const BoardEditor = ({
                 timeRange={timeRange}
                 workspaceId={workspaceId}
                 boardId={boardId}
+                tenantId={tenantId}
                 onNavigate={onNavigate}
                 activeFilters={activeFilters}
               />
@@ -183,6 +187,7 @@ export const BoardEditor = ({
                             timeRange={timeRange}
                             workspaceId={workspaceId}
                             boardId={boardId}
+                            tenantId={tenantId}
                             onNavigate={onNavigate}
                             activeFilters={activeFilters}
                           />

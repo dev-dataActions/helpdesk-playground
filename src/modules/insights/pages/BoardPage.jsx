@@ -118,8 +118,18 @@ const BoardFilters = ({ filters, activeFilters, setActiveFilters, workspaceId })
  * @param {Function} props.onNavigate - Navigation handler function
  * @param {Function} props.onBack - Back button handler
  * @param {string} props.className - Additional CSS classes
+ * @param {string} props.tenantId - Tenant ID
  */
-const BoardPage = ({ workspaceId, appId, boardId, decisionId, onNavigate = null, onBack = null, className = "" }) => {
+const BoardPage = ({
+  workspaceId,
+  appId,
+  boardId,
+  decisionId,
+  tenantId,
+  onNavigate = null,
+  onBack = null,
+  className = "",
+}) => {
   const { board, loading, error } = useBoard(workspaceId, appId, decisionId, boardId);
   const [timeRange, setTimeRange] = useState(TIME_GRAIN_OFFSET.QUARTERLY);
   const [activeFilters, setActiveFilters] = useState(null);
@@ -170,6 +180,7 @@ const BoardPage = ({ workspaceId, appId, boardId, decisionId, onNavigate = null,
           timeRange={timeRange}
           workspaceId={workspaceId}
           boardId={boardId}
+          tenantId={tenantId}
           onNavigate={onNavigate}
           activeFilters={activeFilters}
         />
