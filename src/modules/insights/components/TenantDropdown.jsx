@@ -6,6 +6,7 @@ export const TenantDropdown = ({ workspaceId, tenantId, setTenantId }) => {
   return (
     <div className="w-full">
       <Dropdown
+        inlineLabel="Account"
         options={tenants?.map((x) => ({ label: x.name, value: x.id }))}
         placeHolder="Admin"
         selectedOption={tenantId}

@@ -49,12 +49,12 @@ export const Dropdown = ({
       ) : (
         <div className="relative">
           {inlineLabel ? (
-            <div className="flex items-center border border-gray-300 rounded-md overflow-hidden">
+            <div className="flex items-center border border-gray-300 rounded-md bg-white overflow-hidden">
               <span className="text-xs text-gray-500 px-2.5 py-2 border-r border-gray-300 bg-gray-50">
                 {inlineLabel}:
               </span>
               <select
-                className="flex-1 px-2.5 py-2 text-xs text-gray-800 appearance-none outline-none cursor-pointer bg-white rounded-r-md"
+                className="flex-1 px-2.5 py-2 text-xs text-gray-800 appearance-none outline-none cursor-pointer rounded-r-md"
                 value={selectedOption}
                 onChange={handleChange}
                 {...rest}

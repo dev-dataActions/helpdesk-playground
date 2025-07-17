@@ -1,18 +1,22 @@
 import { useMemo } from "react";
 import { usePathname } from "next/navigation";
 import { List } from "../functional/List";
-import { IoGameControllerOutline, IoHomeOutline } from "react-icons/io5";
-import { CiMoneyBill } from "react-icons/ci";
-import { GoPeople } from "react-icons/go";
-import { PiBrainThin } from "react-icons/pi";
+import { IoHomeOutline } from "react-icons/io5";
+import { PiBrainThin, PiTestTubeLight } from "react-icons/pi";
 import { TenantDropdown } from "../../components/TenantDropdown";
 import { useTenantId } from "../../hooks/useTenantId";
+import { SiTemporal } from "react-icons/si";
 
 const UserDetails = ({ workspaceId }) => {
   const { tenantId, setTenantId } = useTenantId();
   return (
-    <div className="flex items-center border-b h-12 px-1.5">
-      <TenantDropdown workspaceId={workspaceId} tenantId={tenantId} setTenantId={setTenantId} />
+    <div className="flex flex-col items-center gap-4 p-4">
+      <div className="bg-white w-full rounded-md flex items-center justify-center">
+        <img src="/Piatrika-logo.png" alt="logo" className="w-[60%] py-2" />
+      </div>
+      <div className="w-full">
+        <TenantDropdown workspaceId={workspaceId} tenantId={tenantId} setTenantId={setTenantId} />
+      </div>
     </div>
   );
 };
@@ -32,23 +36,18 @@ export const SidebarLayout = ({ children }) => {
       },
       {
         id: 2,
-        icon: <GoPeople size={16} />,
-        label: "Your inbox",
+        icon: <PiTestTubeLight size={16} />,
+        label: "Trail Genie",
       },
       {
         id: 3,
-        icon: <IoGameControllerOutline size={16} />,
-        label: "Unassigned",
-      },
-      {
-        id: 5,
-        icon: <CiMoneyBill size={16} />,
-        label: "Mentions",
+        icon: <SiTemporal size={16} />,
+        label: "Product Genie",
       },
       {
         id: 6,
         icon: <PiBrainThin size={16} />,
-        label: "Insights",
+        label: "Trialing Insights",
         href: "/insights",
         current: pathname?.includes("/insights"),
       },
@@ -58,9 +57,9 @@ export const SidebarLayout = ({ children }) => {
 
   return (
     <div>
-      <div className="h-screen w-64 fixed top-0 left-0 bg-gray-800 border-r z-20">
+      <div className="h-screen w-64 fixed top-0 left-0 bg-[#25649A] border-r z-20">
         <UserDetails workspaceId={workspaceId} />
-        <List items={navItems} className="p-4" />
+        <List items={navItems} className="px-4 py-2" />
       </div>
       <div className="min-h-screen md:pl-64">{children}</div>
     </div>
