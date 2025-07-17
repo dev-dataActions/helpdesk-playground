@@ -1,4 +1,4 @@
-import { Insight } from "da-insight-sdk";
+import { ChartTypes, Insight } from "da-insight-sdk";
 import { Loading } from "../common/functional/Loading";
 import { useMetricInsights } from "../hooks/useMetricInsights";
 import { useCallback, useMemo, useState } from "react";
@@ -10,7 +10,7 @@ const InsightPreview = ({ insight, timeRange, workspaceId, tenantId }) => {
   const insightOptions = useMemo(
     () => ({
       className: "h-64",
-      showExplanation: true,
+      showExplanation: insight?.type !== ChartTypes.BIGNUMBER,
       ...(insight?.options ?? {}),
     }),
     [insight?.options]

@@ -1,5 +1,5 @@
 import { memo, useCallback, useMemo } from "react";
-import { Insight } from "da-insight-sdk";
+import { ChartTypes, Insight } from "da-insight-sdk";
 import { MarkupEditor } from "./MarkupEditor";
 import { fetchData, fetchDimensionValues } from "../common/services/insights.svc";
 
@@ -53,6 +53,10 @@ function computeInsightFilters(insight, activeFilters) {
  * @param {string} props.tenantId - Tenant ID
  */
 const InsightPreview = memo(({ insight, timeRange, workspaceId, boardId, tenantId, onNavigate, activeFilters }) => {
+  const insightOptions = useMemo(
+    () => ({ showExplanation: insight?.type !== ChartTypes.BIGNUMBER, ...insight?.options }),
+    [insight]
+  );
   const metricLabel = useMemo(
     () => insight?.metrics.find((m) => m.metricKey === insight?.metric_name)?.metricLabel,
     [insight]
@@ -106,7 +110,7 @@ const InsightPreview = memo(({ insight, timeRange, workspaceId, boardId, tenantI
       timeRange={timeRange}
       timeGrain={insight?.timeGrain}
       filters={computedFilters}
-      options={insight?.options}
+      options={insightOptions}
       actions={actions}
       dataResolver={dataResolver}
       dimensionValuesResolver={dimensionValuesResolver}
