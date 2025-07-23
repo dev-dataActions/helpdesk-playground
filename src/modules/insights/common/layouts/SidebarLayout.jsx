@@ -6,6 +6,8 @@ import { PiBrainThin, PiTestTubeLight } from "react-icons/pi";
 import { TenantDropdown } from "../../components/TenantDropdown";
 import { useTenantId } from "../../hooks/useTenantId";
 import { SiTemporal } from "react-icons/si";
+import { IoChevronBackOutline } from "react-icons/io5";
+import { useSidebarContext } from "../contexts/SidebarContext";
 
 const UserDetails = ({ workspaceId }) => {
   const { tenantId, setTenantId } = useTenantId();
@@ -24,7 +26,7 @@ const UserDetails = ({ workspaceId }) => {
 export const SidebarLayout = ({ children }) => {
   const workspaceId = process.env.NEXT_PUBLIC_WORKSPACE_ID;
   const pathname = usePathname();
-
+  const { isCollapsed, toggleSidebar } = useSidebarContext();
   const navItems = useMemo(
     () => [
       {
@@ -57,11 +59,34 @@ export const SidebarLayout = ({ children }) => {
 
   return (
     <div>
-      <div className="h-screen w-64 fixed top-0 left-0 bg-[#25649A] border-r z-20">
+      <div
+        className={`h-screen w-64 fixed top-0 left-0 bg-[#25649A] border-r z-20 transition-transform duration-300 ease-in-out ${
+          isCollapsed ? "-translate-x-full" : "translate-x-0"
+        }`}
+      >
         <UserDetails workspaceId={workspaceId} />
         <List items={navItems} className="px-4 py-2" />
+        <button
+          onClick={toggleSidebar}
+          className="absolute bottom-4 left-4 p-2 bg-white/10 hover:bg-white/20 rounded-md transition-colors duration-200"
+        >
+          <IoChevronBackOutline
+            size={16}
+            className={`text-white transition-transform duration-300 ${isCollapsed ? "rotate-180" : ""}`}
+          />
+        </button>
       </div>
-      <div className="min-h-screen md:pl-64">{children}</div>
+      <div className={`min-h-screen transition-all duration-300 ease-in-out ${isCollapsed ? "pl-4" : "md:pl-64"}`}>
+        {children}
+        {isCollapsed && (
+          <button
+            onClick={toggleSidebar}
+            className="fixed bottom-4 left-4 p-2 bg-[#25649A] hover:bg-[#1e4f7a] rounded-md transition-colors duration-200 z-30"
+          >
+            <IoChevronBackOutline size={16} className="text-white rotate-180" />
+          </button>
+        )}
+      </div>
     </div>
   );
 };

@@ -11,6 +11,7 @@
 !.yarn/versions
 .yalc
 yalc.lock
+.cursor/rules
 
 # testing
 /coverage
