@@ -68,7 +68,7 @@ export const SidebarLayout = ({ children }) => {
         <List items={navItems} className="px-4 py-2" />
         <button
           onClick={toggleSidebar}
-          className="absolute bottom-4 left-4 p-2 bg-white/10 hover:bg-white/20 rounded-md transition-colors duration-200"
+          className="absolute bottom-4 left-4 p-2 bg-white/10 hover:bg-white/20 rounded-md transition-colors duration-200 z-40"
         >
           <IoChevronBackOutline
             size={16}
@@ -81,9 +81,9 @@ export const SidebarLayout = ({ children }) => {
         {isCollapsed && (
           <button
             onClick={toggleSidebar}
-            className="fixed bottom-4 left-4 p-2 bg-[#25649A] hover:bg-[#1e4f7a] rounded-md transition-colors duration-200 z-30"
+            className="fixed bottom-4 left-4 p-3 bg-[#25649A] hover:bg-[#1e4f7a] rounded-md transition-colors duration-200 z-50 shadow-lg"
           >
-            <IoChevronBackOutline size={16} className="text-white rotate-180" />
+            <IoChevronBackOutline size={20} className="text-white rotate-180" />
           </button>
         )}
       </div>
