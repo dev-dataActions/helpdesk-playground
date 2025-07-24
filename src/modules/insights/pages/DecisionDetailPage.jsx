@@ -74,7 +74,7 @@ export const DecisionDetailPage = ({ workspaceId, appId, decisionId, tenantId, o
       onNavigate={handleBreadcrumbNavigate}
       className={className}
     >
-      <div className="grid grid-cols-1 lg:grid-cols-[1fr_288px] gap-6 border-t border-gray-200 mt-2 pt-5">
+      <div className="grid grid-cols-1 lg:grid-cols-[1fr_288px] gap-6 border-t border-gray-200 mt-2 py-5">
         <div className="flex flex-col gap-6">
           <DecisionSummary
             appId={appId}
