@@ -81,7 +81,7 @@ export const SidebarLayout = ({ children }) => {
         {isCollapsed && (
           <button
             onClick={toggleSidebar}
-            className="fixed bottom-4 left-4 p-3 bg-[#25649A] hover:bg-[#1e4f7a] rounded-md transition-colors duration-200 z-50 shadow-lg"
+            className="fixed bottom-4 left-4 p-2 bg-[#25649A] hover:bg-[#1e4f7a] rounded-md transition-colors duration-200 z-50 shadow-lg"
           >
             <IoChevronBackOutline size={20} className="text-white rotate-180" />
           </button>
