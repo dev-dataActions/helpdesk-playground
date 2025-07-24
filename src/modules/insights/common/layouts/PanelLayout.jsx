@@ -20,7 +20,7 @@ export const PanelLayout = ({
   const [isEditingDescription, setIsEditingDescription] = useState(false);
 
   return (
-    <div className={cn("w-full px-4 py-4 flex flex-col", className)}>
+    <div className={cn("w-full md:px-4 md:py-4 flex flex-col", className)}>
       {breadcrumbs?.length > 0 && (
         <div className="mb-3">
           <Breadcrumbs breadcrumbs={breadcrumbs} />
@@ -29,7 +29,7 @@ export const PanelLayout = ({
       {(title !== undefined || description !== undefined || customButton !== undefined) && (
         <div className="flex justify-between items-center mb-2 gap-3">
           <div className="grow">
-            <div className="text-2xl font-bold text-left text-gray-800 mb-1 w-full">
+            <div className="text-xl md:text-2xl font-bold text-left text-gray-800 mb-1 w-full">
               {!isEditingTitle ? (
                 <p
                   onClick={() => setIsEditingTitle(!!onEditTitle && true)}
@@ -37,7 +37,7 @@ export const PanelLayout = ({
                 >
                   {showBackButton && (
                     <div
-                      className="cursor-pointer hover:bg-gray-100 rounded-md p-1 absolute -left-9 top-0.5"
+                      className="cursor-pointer hover:bg-gray-100 rounded-md p-1 absolute -left-8 top-0.5"
                       onClick={() => window?.history?.back?.()}
                     >
                       <FiChevronLeft size={20} />

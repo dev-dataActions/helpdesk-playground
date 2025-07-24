@@ -94,7 +94,7 @@ export const DecisionSummary = ({ workspaceId, appId, decisionId, tenantId, clas
       <div className="grid grid-cols-12 gap-3">
         {appDecisionInsights.length === 0 && <p className="text-sm text-gray-600 w-72">No insights added yet.</p>}
         {appDecisionInsights.map((insight, index) => (
-          <div key={insight?.insight_id || index} className="col-span-4">
+          <div key={insight?.insight_id || index} className="col-span-12 md:col-span-4">
             <InsightPreview
               insightConfig={{ ...insight, options: { className: "h-40" } }}
               workspaceId={workspaceId}

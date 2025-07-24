@@ -76,7 +76,7 @@ export const SidebarLayout = ({ children }) => {
           />
         </button>
       </div>
-      <div className={`min-h-screen transition-all duration-300 ease-in-out ${isCollapsed ? "pl-4" : "md:pl-64"}`}>
+      <div className={`min-h-screen transition-all duration-300 ease-in-out ${isCollapsed ? "" : "md:pl-64"}`}>
         {children}
         {isCollapsed && (
           <button

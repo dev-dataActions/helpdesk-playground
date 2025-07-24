@@ -105,6 +105,7 @@ const InsightPreview = memo(({ insight, timeRange, workspaceId, boardId, tenantI
   return (
     <Insight
       type={insight?.type}
+      description={insight?.description}
       title={insight?.title}
       metrics={insight?.metrics}
       timeRange={timeRange}

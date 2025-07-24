@@ -36,7 +36,7 @@ export const GoToCard = ({
 
   return (
     <div
-      className={`w-full h-full bg-white rounded-md border border-gray-200 flex flex-col justify-between ${className}`}
+      className={`w-full h-full bg-white rounded-md border border-gray-300 flex flex-col justify-between ${className}`}
     >
       <div className="flex items-start gap-x-3 p-4">
         <div className="p-2.5 rounded-full bg-blue-100 text-blue-500 flex items-center justify-center">

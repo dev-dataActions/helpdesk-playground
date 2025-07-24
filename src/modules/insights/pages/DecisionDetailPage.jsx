@@ -74,8 +74,8 @@ export const DecisionDetailPage = ({ workspaceId, appId, decisionId, tenantId, o
       onNavigate={handleBreadcrumbNavigate}
       className={className}
     >
-      <div className="flex justify-between items-start gap-3 border-t border-gray-200 mt-2">
-        <div className="flex-grow flex flex-col gap-6 pt-5">
+      <div className="grid grid-cols-1 lg:grid-cols-[1fr_288px] gap-6 border-t border-gray-200 mt-2 pt-5">
+        <div className="flex flex-col gap-6">
           <DecisionSummary
             appId={appId}
             workspaceId={workspaceId}
@@ -90,8 +90,10 @@ export const DecisionDetailPage = ({ workspaceId, appId, decisionId, tenantId, o
             onNavigate={onNavigate}
           />
         </div>
-        <div className="min-w-72 w-72 flex flex-col gap-3 bg-blue-50 border border-blue-200 p-2 mt-8 rounded-md">
-          <SubDecisions decisions={decision.children} onNavigate={onNavigate} />
+        <div>
+          <div className="bg-blue-50 border border-blue-200 p-3 rounded-md">
+            <SubDecisions decisions={decision.children} onNavigate={onNavigate} />
+          </div>
         </div>
       </div>
     </PanelLayout>
