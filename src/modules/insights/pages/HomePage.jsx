@@ -1,98 +1,11 @@
-import { useCallback, useMemo, useState } from "react";
-import { ChartTypes, Insight } from "da-insight-sdk";
+import { useCallback } from "react";
 import { useDecisionTree } from "../hooks/useDecisionTree";
 import { DecisionTreeView } from "../components/DecisionTreeView";
+import { MetricView } from "../components/MetricView";
 import { Loading } from "../common/functional/Loading";
 import { Error } from "../common/functional/Error";
-import { fetchData, fetchDimensionValues } from "../common/services/insights.svc";
-import { useTenantId } from "../hooks/useTenantId";
 import { PanelLayout } from "../common/layouts/PanelLayout";
-
-/**
- * InsightPreview component for metric view
- * @param {Object} props - Component props
- * @param {Object} props.insight - Insight configuration
- * @param {string} props.workspaceId - Workspace ID
- * @param {string} props.tenantId - Tenant ID
- */
-const InsightPreview = ({ insight, workspaceId, tenantId }) => {
-  const insightOptions = useMemo(
-    () => ({
-      className: "h-48",
-      showExplanation: false,
-      ...(insight?.options ?? {}),
-    }),
-    [insight?.options]
-  );
-
-  const dataResolver = useCallback((payload) => fetchData(payload, workspaceId, tenantId), [workspaceId, tenantId]);
-
-  const dimensionValuesResolver = useCallback(
-    (dimension) => fetchDimensionValues(dimension, workspaceId, tenantId),
-    [workspaceId, tenantId]
-  );
-
-  return (
-    <Insight
-      type={insight.type}
-      title={insight.title}
-      metrics={insight.metrics}
-      options={insightOptions}
-      dataResolver={dataResolver}
-      dimensionValuesResolver={dimensionValuesResolver}
-    />
-  );
-};
-
-/**
- * MetricView component for rendering metrics by category
- * @param {Object} props - Component props
- * @param {Object} props.metricViewConfig - Metric configuration
- * @param {string} props.workspaceId - Workspace ID
- * @param {string} props.tenantId - Tenant ID
- */
-const MetricView = ({ metricViewConfig, workspaceId, tenantId }) => {
-  const categories = ["OUTPUT", "DRIVER", "INPUT"];
-
-  const createBignumberInsight = (metric) => ({
-    type: ChartTypes.BIGNUMBERWITHTREND,
-    title: metric.metricLabel,
-    metrics: [
-      {
-        metricKey: metric.metricKey,
-        metricLabel: metric.metricLabel,
-      },
-    ],
-  });
-
-  return (
-    <div className="flex flex-col gap-6">
-      {categories.map((category) => {
-        const metrics = metricViewConfig[category] || [];
-        if (metrics.length === 0) return null;
-
-        return (
-          <div key={category} className="space-y-2">
-            <h3 className="text-sm font-medium text-gray-600 border-b border-gray-200 pb-0.5 capitalize">
-              {category.toLowerCase()} Metrics
-            </h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {metrics.map((metric, index) => (
-                <div key={`${category}-${index}`}>
-                  <InsightPreview
-                    insight={createBignumberInsight(metric)}
-                    workspaceId={workspaceId}
-                    tenantId={tenantId}
-                  />
-                </div>
-              ))}
-            </div>
-          </div>
-        );
-      })}
-    </div>
-  );
-};
+import { useTenantId } from "../hooks/useTenantId";
 
 /**
  * HomePage component with comprehensive error handling and prop validation
@@ -145,7 +58,11 @@ export const HomePage = ({
   }
 
   return (
-    <PanelLayout title="Insights" description="Monitor your key metrics and explore decision insights">
+    <PanelLayout
+      title="Insights"
+      description="Monitor your key metrics and explore decision insights"
+      breadcrumbs={[{ name: "Home" }]}
+    >
       <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-6 mt-4">
         {/* Metric View - Takes full width except 300px */}
         <MetricView metricViewConfig={metricViewConfig} workspaceId={workspaceId} tenantId={finalTenantId} />
