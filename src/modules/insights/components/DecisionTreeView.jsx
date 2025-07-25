@@ -37,7 +37,7 @@ const TreeNode = ({ node, level = 0, selectedId, expandedNodes, onToggleExpand, 
         onClick={handleClick}
       >
         {/* Indentation */}
-        {level > 0 && <div className="flex" style={{ width: `${level * 8}px` }} />}
+        {level > 0 && <div className="flex" style={{ width: `${level * 5}px` }} />}
 
         {/* Expand/collapse arrow */}
         {hasChildren ? (
