@@ -138,7 +138,7 @@ const BoardPage = ({
   if (loading) {
     return (
       <div className={className}>
-        <Loading loaderText="Loading board..." />
+        <Loading loaderText="Loading decision board..." />
       </div>
     );
   }
@@ -154,7 +154,7 @@ const BoardPage = ({
   if (!board || Object.keys(board).length === 0) {
     return (
       <div className={className}>
-        <p className="mt-10 text-center text-gray-500">Board not found.</p>
+        <p className="mt-10 text-center text-gray-500">Decision Board not found.</p>
       </div>
     );
   }

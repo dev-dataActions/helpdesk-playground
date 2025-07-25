@@ -29,7 +29,7 @@ export const DecisionBoards = ({ workspaceId, appId, decisionId, onNavigate = nu
       <div className={`${className}`}>
         <div className="flex items-start justify-between">
           <div>
-            <p className="mb-0.5 text-sm">Dashboards (loading...)</p>
+            <p className="mb-0.5 text-sm">Decision Boards (loading...)</p>
             <p className="text-gray-500 font-light text-xs mb-3 w-72">
               Deepdive into your workflows and track progress
             </p>
@@ -45,7 +45,7 @@ export const DecisionBoards = ({ workspaceId, appId, decisionId, onNavigate = nu
       <div className={`${className}`}>
         <div className="flex items-start justify-between">
           <div>
-            <p className="mb-0.5 text-sm">Dashboards</p>
+            <p className="mb-0.5 text-sm">Decision Boards</p>
             <p className="text-gray-500 font-light text-xs mb-3 w-72">
               Deepdive into your workflows and track progress
             </p>
@@ -60,7 +60,7 @@ export const DecisionBoards = ({ workspaceId, appId, decisionId, onNavigate = nu
     <div className={`${className}`}>
       <div className="flex items-start justify-between">
         <div>
-          <p className="mb-0.5 text-sm">{`Dashboards (${boards?.length ?? 0})`}</p>
+          <p className="mb-0.5 text-sm">{`Decision Boards (${boards?.length ?? 0})`}</p>
           <p className="text-gray-500 font-light text-xs mb-3 w-72">Deepdive into your workflows and track progress</p>
         </div>
       </div>
@@ -72,7 +72,7 @@ export const DecisionBoards = ({ workspaceId, appId, decisionId, onNavigate = nu
             <GoToCard
               name={board.name}
               description={board.description}
-              goToText="Go to dashboard"
+              goToText="Go to board"
               onClick={() => handleBoardClick(board)}
             />
           </div>
