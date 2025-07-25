@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { getBreadcrumbs, getDecision } from "../utils/general.util";
 import { useDecisionTree } from "../hooks/useDecisionTree";
-import { SubDecisions } from "../components/SubDecisions";
+import { DecisionTreeView } from "../components/DecisionTreeView";
 import { DecisionSummary } from "../components/DecisionSummary";
 import { DecisionBoards } from "../components/DecisionBoards";
 import { Loading } from "../common/functional/Loading";
@@ -70,11 +70,11 @@ export const DecisionDetailPage = ({ workspaceId, appId, decisionId, tenantId, o
     <PanelLayout
       title={decision?.name}
       description={decision?.description}
-      breadcrumbs={breadcrumbs}
+      breadcrumbs={[{ name: "Decisions" }, ...breadcrumbs]}
       onNavigate={handleBreadcrumbNavigate}
       className={className}
     >
-      <div className="grid grid-cols-1 lg:grid-cols-[1fr_288px] gap-6 border-t border-gray-200 mt-2 py-5">
+      <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-6 border-t border-gray-200 mt-2 py-5">
         <div className="flex flex-col gap-6">
           <DecisionSummary
             appId={appId}
@@ -91,8 +91,8 @@ export const DecisionDetailPage = ({ workspaceId, appId, decisionId, tenantId, o
           />
         </div>
         <div>
-          <div className="bg-blue-50 border border-blue-200 p-3 rounded-md">
-            <SubDecisions decisions={decision.children} onNavigate={onNavigate} />
+          <div className="bg-blue-50 border border-blue-200 p-1.5 rounded-md">
+            <DecisionTreeView decisionTree={decisionTree} selectedDecisionId={decisionId} onNavigate={onNavigate} />
           </div>
         </div>
       </div>
