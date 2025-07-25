@@ -1,5 +1,5 @@
 import { useState, useMemo } from "react";
-import { FiChevronRight, FiFolder, FiFile } from "react-icons/fi";
+import { FiChevronRight } from "react-icons/fi";
 
 /**
  * Tree node component for individual decision items
