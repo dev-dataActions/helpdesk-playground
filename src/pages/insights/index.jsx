@@ -32,7 +32,12 @@ export default function DecisionDetailPageContainer() {
 
   return (
     <ScreenLayout breadcrumbs={[{ name: "Insights" }]}>
-      <HomePage />
+      <HomePage
+        tenantId={tenantId}
+        workspaceId={process.env.NEXT_PUBLIC_WORKSPACE_ID}
+        appId={process.env.NEXT_PUBLIC_CFA_APP_ID}
+        onNavigate={handleNavigate}
+      />
     </ScreenLayout>
   );
 }

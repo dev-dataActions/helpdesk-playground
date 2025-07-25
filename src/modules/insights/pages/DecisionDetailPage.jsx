@@ -70,7 +70,7 @@ export const DecisionDetailPage = ({ workspaceId, appId, decisionId, tenantId, o
     <PanelLayout
       title={decision?.name}
       description={decision?.description}
-      breadcrumbs={[{ name: "Decisions" }, ...breadcrumbs]}
+      breadcrumbs={[{ name: "Home", href: "/insights" }, ...breadcrumbs]}
       onNavigate={handleBreadcrumbNavigate}
       className={className}
     >

@@ -149,7 +149,7 @@ export const DecisionTreeView = ({ decisionTree = {}, selectedDecisionId = "", o
   return (
     <div className={className}>
       <div className="flex justify-between items-center gap-2 mb-1">
-        <p className="text-xs text-gray-600">Decision Tree</p>
+        <p className="text-xs text-gray-600">Jump into a decision</p>
       </div>
 
       <div className="bg-white border border-gray-200 rounded-md p-1 max-h-96 overflow-y-auto">
