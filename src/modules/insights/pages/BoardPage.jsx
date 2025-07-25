@@ -94,13 +94,14 @@ const BoardFilters = ({ filters, activeFilters, setActiveFilters, workspaceId })
   return (
     <div className="flex flex-wrap gap-4 mb-4 bg-gray-50 p-3 rounded-md border border-gray-200">
       {filters.map((filter) => (
-        <div className="w-60" key={filter.dimension}>
+        <div className="w-64" key={filter?.dimension}>
           <Dropdown
-            placeholder={"None"}
-            inlineLabel={filter.dimension}
-            options={(dimensionValues[filter.dimension] || []).map((v) => ({ label: v, value: v }))}
-            selectedOption={activeFilters?.[filter.dimension]}
+            placeHolder={"All"}
+            inlineLabel={filter?.dimension}
+            options={dimensionValues?.[filter?.dimension]?.map((v) => ({ label: v, value: v }))}
+            selectedOption={activeFilters?.[filter?.dimension]}
             setSelectedOption={(val) => setActiveFilters((prev) => ({ ...prev, [filter.dimension]: val }))}
+            allowNone={true}
           />
         </div>
       ))}
@@ -162,7 +163,7 @@ const BoardPage = ({
     <PanelLayout
       title={board?.title}
       description={board?.description}
-      className={`min-w-[800px] px-4 py-4 md:!px-24 md:!py-8`}
+      className={`min-w-[800px] px-4 py-4 md:!px-28 md:!py-8`}
       customButton={<TimeFilters timeRange={timeRange} setTimeRange={setTimeRange} />}
       showBackButton={true}
       onBack={onBack}

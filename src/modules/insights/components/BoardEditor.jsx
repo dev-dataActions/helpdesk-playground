@@ -153,7 +153,7 @@ export const BoardEditor = ({
   }
 
   return (
-    <div className={`grid grid-cols-12 gap-3 animate-fade-in ${className}`}>
+    <div className={`mt-6 grid grid-cols-12 gap-3 animate-fade-in ${className}`}>
       {blocks.map((block) => (
         <div className="col-span-full" key={block?.id || "block"}>
           <div data-id={block?.id}>
