@@ -73,7 +73,7 @@ export const MetricView = ({ metricViewConfig, workspaceId, tenantId, className 
         return (
           <div key={category} className="space-y-1.5">
             <h3 className="text-sm text-gray-600 capitalize">{category.toLowerCase()} Metrics</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">
               {metrics.map((metric, index) => (
                 <div key={`${category}-${index}`}>
                   <InsightPreview
