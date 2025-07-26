@@ -25,6 +25,7 @@ const LoginPage = () => {
         setError("Invalid credentials. Use username: piatrika, password: piatrika");
       }
     } catch (err) {
+      console.error("Error during login:", err);
       setError("An error occurred during login");
     } finally {
       setIsLoading(false);
