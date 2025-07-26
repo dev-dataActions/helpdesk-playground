@@ -127,3 +127,27 @@ export const generateId = (length = 8) => {
     return Date.now().toString();
   }
 };
+
+/**
+ * Get sub-decisions for a given decision ID
+ * @param {Object} decisionTree - Decision tree data
+ * @param {string} decisionId - Decision ID
+ * @returns {Array} Array of sub-decision objects
+ */
+export const getSubDecisions = (decisionTree = {}, decisionId = "") => {
+  try {
+    const decision = getDecision(decisionTree, decisionId);
+    if (!decision || !Array.isArray(decision.children)) {
+      return [];
+    }
+    return decision.children.map((child) => ({
+      id: child.id || "",
+      name: child.name || "Unnamed Decision",
+      description: child.description || "",
+      children: child.children || [],
+    }));
+  } catch (error) {
+    console.error("Error getting sub-decisions:", error);
+    return [];
+  }
+};

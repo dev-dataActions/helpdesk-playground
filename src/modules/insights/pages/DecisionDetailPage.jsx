@@ -1,9 +1,10 @@
 import { useMemo, useCallback } from "react";
-import { getBreadcrumbs, getDecision } from "../utils/general.util";
+import { getBreadcrumbs, getDecision, getSubDecisions } from "../utils/general.util";
 import { useDecisionTree } from "../hooks/useDecisionTree";
 import { DecisionTreeView } from "../components/DecisionTreeView";
 import { DecisionBoards } from "../components/DecisionBoards";
 import { MetricView } from "../components/MetricView";
+import { SubDecisionCards } from "../components/SubDecisionCards";
 import { Loading } from "../common/functional/Loading";
 import { Error } from "../common/functional/Error";
 import { PanelLayout } from "../common/layouts/PanelLayout";
@@ -22,15 +23,16 @@ import { Tabs } from "../common/functional/Tabs";
 export const DecisionDetailPage = ({ workspaceId, appId, decisionId, tenantId, onNavigate = null, className = "" }) => {
   const { decisionTree, loading, error } = useDecisionTree(workspaceId, appId);
 
-  const { breadcrumbs, decision, metricConfig } = useMemo(() => {
+  const { breadcrumbs, decision, metricConfig, subDecisions } = useMemo(() => {
     try {
       const breadcrumbs = getBreadcrumbs(decisionTree, decisionId);
       const decision = getDecision(decisionTree, decisionId);
       const metricConfig = metricViewConfig[decisionId] || null;
-      return { breadcrumbs, decision, metricConfig };
+      const subDecisions = getSubDecisions(decisionTree, decisionId);
+      return { breadcrumbs, decision, metricConfig, subDecisions };
     } catch (error) {
       console.error("Error processing decision data:", error);
-      return { breadcrumbs: [], decision: null, metricConfig: null };
+      return { breadcrumbs: [], decision: null, metricConfig: null, subDecisions: [] };
     }
   }, [decisionTree, decisionId]);
 
@@ -77,9 +79,12 @@ export const DecisionDetailPage = ({ workspaceId, appId, decisionId, tenantId, o
       label: "Monitoring",
       value: "monitoring",
       component: (
-        <div className="mt-4">
-          <MetricView metricViewConfig={metricConfig} workspaceId={workspaceId} tenantId={tenantId} className="p-1" />
-        </div>
+        <MetricView
+          metricViewConfig={metricConfig}
+          workspaceId={workspaceId}
+          tenantId={tenantId}
+          className="mt-4 p-1"
+        />
       ),
     },
     {
@@ -87,7 +92,7 @@ export const DecisionDetailPage = ({ workspaceId, appId, decisionId, tenantId, o
       label: "Reviewing",
       value: "reviewing",
       component: (
-        <div className="mt-4">
+        <div className="mt-4 p-1">
           <DecisionBoards
             appId={appId}
             workspaceId={workspaceId}
@@ -113,6 +118,15 @@ export const DecisionDetailPage = ({ workspaceId, appId, decisionId, tenantId, o
           <div className="bg-blue-50 border border-blue-200 p-1.5 rounded-md">
             <DecisionTreeView decisionTree={decisionTree} selectedDecisionId={decisionId} onNavigate={onNavigate} />
           </div>
+          <div className="mt-4">
+            <SubDecisionCards
+              subDecisions={subDecisions}
+              metricViewConfig={metricViewConfig}
+              workspaceId={workspaceId}
+              tenantId={tenantId}
+              onNavigate={onNavigate}
+            />
+          </div>
         </div>
       </div>
     </PanelLayout>
@@ -137,6 +151,51 @@ const metricViewConfig = {
       {
         metricKey: "num_failed_trials",
         metricLabel: "No of Failed Trials",
+      },
+    ],
+  },
+  // Example configurations for sub-decisions
+  feature_mbrug9mq: {
+    OUTPUT: [
+      {
+        metricKey: "field_deployment_success_rate",
+        metricLabel: "Field Deployment Success Rate",
+      },
+    ],
+    DRIVER: [
+      {
+        metricKey: "avg_delay_planting",
+        metricLabel: "Avg. Delay in Planting",
+      },
+      {
+        metricKey: "avg_delay_harvest",
+        metricLabel: "Avg. Delay in Harvest",
+      },
+    ],
+    INPUT: [
+      {
+        metricKey: "fieldbook_fill_rate",
+        metricLabel: "Fieldbook Fill Rate",
+      },
+    ],
+  },
+  feature_mcyg3aru: {
+    OUTPUT: [
+      {
+        metricKey: "trial_completion_rate",
+        metricLabel: "Trial Completion Rate",
+      },
+    ],
+    DRIVER: [
+      {
+        metricKey: "data_quality_score",
+        metricLabel: "Data Quality Score",
+      },
+    ],
+    INPUT: [
+      {
+        metricKey: "resource_utilization",
+        metricLabel: "Resource Utilization",
       },
     ],
   },
