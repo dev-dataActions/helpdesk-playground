@@ -83,30 +83,83 @@ export const HomePage = ({
   );
 };
 
+// const metricViewConfig = {
+//   OUTPUT: [
+//     {
+//       metricKey: "num_trials_created",
+//       metricLabel: "No of Trials Completed",
+//     },
+//     {
+//       metricKey: "num_trials_promoted",
+//       metricLabel: "No. of Trials Promoted",
+//     },
+//     {
+//       metricKey: "trial_type",
+//       metricLabel: "Trial Type",
+//     },
+//     {
+//       metricKey: "cost_incurred_trials",
+//       metricLabel: "Cost Incurred in Trials (Guardrail)",
+//     },
+//   ],
+//   DRIVER: [
+//     {
+//       metricKey: "observation_fill_rate",
+//       metricLabel: "Observation Fill Rate",
+//     },
+//     {
+//       metricKey: "trial_completion_rate",
+//       metricLabel: "Trial Completion Rate",
+//     },
+//     {
+//       metricKey: "avg_time_to_complete_trial",
+//       metricLabel: "Avg. Time to Complete Trial",
+//     },
+//   ],
+//   INPUT: [
+//     {
+//       metricKey: "num_failed_trials",
+//       metricLabel: "No of Failed Trials",
+//     },
+//     {
+//       metricKey: "no_of_trials_created",
+//       metricLabel: "No of Trials Created",
+//     },
+//     {
+//       metricKey: "num_locations_planted",
+//       metricLabel: "No of Locations Planted",
+//     },
+//     {
+//       metricKey: "num_trials_in_progress",
+//       metricLabel: "No of Trials In Progress",
+//     },
+//     {
+//       metricKey: "num_locations_harvested",
+//       metricLabel: "No of Locations Harvested",
+//     },
+//     {
+//       metricKey: "crop_yield",
+//       metricLabel: "Crop Yield",
+//     },
+//   ],
+// };
+
 const metricViewConfig = {
   OUTPUT: [
     {
-      metricKey: "num_trials_created",
-      metricLabel: "No of Trials Completed",
+      metricKey: "completed_projects",
+      metricLabel: "Qualified Products",
     },
     {
       metricKey: "num_trials_promoted",
-      metricLabel: "No. of Trials Promoted",
+      metricLabel: "Trials Promoted",
     },
     {
-      metricKey: "trial_type",
-      metricLabel: "Trial Type",
-    },
-    {
-      metricKey: "cost_incurred_trials",
-      metricLabel: "Cost Incurred in Trials (Guardrail)",
+      metricKey: "num_fields_harvested",
+      metricLabel: "Fields Harvested",
     },
   ],
   DRIVER: [
-    {
-      metricKey: "observation_fill_rate",
-      metricLabel: "Observation Fill Rate",
-    },
     {
       metricKey: "trial_completion_rate",
       metricLabel: "Trial Completion Rate",
@@ -115,31 +168,27 @@ const metricViewConfig = {
       metricKey: "avg_time_to_complete_trial",
       metricLabel: "Avg. Time to Complete Trial",
     },
+    {
+      metricKey: "avg_delay_in_planting",
+      metricLabel: "Avg. Delay in Planting",
+    },
+    {
+      metricKey: "avg_delay_in_harvest",
+      metricLabel: "Avg. Delay in Harvest",
+    },
   ],
   INPUT: [
     {
-      metricKey: "num_failed_trials",
-      metricLabel: "No of Failed Trials",
-    },
-    {
       metricKey: "no_of_trials_created",
-      metricLabel: "No of Trials Created",
+      metricLabel: "Trials Created",
     },
     {
-      metricKey: "num_locations_planted",
-      metricLabel: "No of Locations Planted",
+      metricKey: "fieldbook_fill_rate",
+      metricLabel: "Fieldbook Fill Rate",
     },
     {
-      metricKey: "num_trials_in_progress",
-      metricLabel: "No of Trials In Progress",
-    },
-    {
-      metricKey: "num_locations_harvested",
-      metricLabel: "No of Locations Harvested",
-    },
-    {
-      metricKey: "crop_yield",
-      metricLabel: "Crop Yield",
+      metricKey: "num_fields_planted",
+      metricLabel: "Fields Planted",
     },
   ],
 };

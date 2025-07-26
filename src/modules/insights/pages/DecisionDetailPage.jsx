@@ -138,65 +138,120 @@ const metricViewConfig = {
   decision_mbmcip2a: {
     OUTPUT: [
       {
-        metricKey: "num_trials_created",
-        metricLabel: "No of Trials Completed",
+        metricKey: "completed_projects",
+        metricLabel: "Qualified Products",
+      },
+      {
+        metricKey: "num_trials_promoted",
+        metricLabel: "Num Trials Advanced",
       },
     ],
     DRIVER: [
       {
-        metricKey: "observation_fill_rate",
-        metricLabel: "Observation Fill Rate",
+        metricKey: "trial_completion_rate",
+        metricLabel: "Trial Completion Rate",
+      },
+      {
+        metricKey: "avg_time_to_complete_trial",
+        metricLabel: "Avg. Time to Complete Trial",
       },
     ],
     INPUT: [
       {
-        metricKey: "num_failed_trials",
-        metricLabel: "No of Failed Trials",
+        metricKey: "no_of_trials_created",
+        metricLabel: "Trials Created",
+      },
+      {
+        metricKey: "num_fields_planted",
+        metricLabel: "Num. Fields Planted",
       },
     ],
   },
-  // Example configurations for sub-decisions
   feature_mbrug9mq: {
     OUTPUT: [
       {
-        metricKey: "field_deployment_success_rate",
-        metricLabel: "Field Deployment Success Rate",
+        metricKey: "completed_projects",
+        metricLabel: "Qualified Products",
       },
     ],
     DRIVER: [
       {
-        metricKey: "avg_delay_planting",
-        metricLabel: "Avg. Delay in Planting",
+        metricKey: "trial_completion_rate",
+        metricLabel: "Trial Completion Rate",
       },
       {
-        metricKey: "avg_delay_harvest",
-        metricLabel: "Avg. Delay in Harvest",
+        metricKey: "avg_time_to_complete_trial",
+        metricLabel: "Avg. Time to Complete Trial",
       },
     ],
     INPUT: [
       {
-        metricKey: "fieldbook_fill_rate",
-        metricLabel: "Fieldbook Fill Rate",
+        metricKey: "no_of_trials_created",
+        metricLabel: "Total Trials Started",
       },
     ],
   },
   feature_mcyg3aru: {
     OUTPUT: [
       {
-        metricKey: "trial_completion_rate",
-        metricLabel: "Trial Completion Rate",
+        metricKey: "num_trials_promoted",
+        metricLabel: "Total Trials Promoted",
       },
     ],
     DRIVER: [
       {
-        metricKey: "data_quality_score",
-        metricLabel: "Data Quality Score",
+        metricKey: "trial_completion_rate",
+        metricLabel: "Trial Completion Rate",
+      },
+      {
+        metricKey: "avg_time_to_complete_trial",
+        metricLabel: "Avg. Time to Complete Trial",
       },
     ],
     INPUT: [
       {
-        metricKey: "resource_utilization",
-        metricLabel: "Resource Utilization",
+        metricKey: "no_of_trials_created",
+        metricLabel: "Total Trials Started",
+      },
+      {
+        metricKey: "num_trials_created",
+        metricLabel: "Total Trials Closed",
+      },
+    ],
+  },
+  feature_mcygu7lb: {
+    OUTPUT: [
+      {
+        metricKey: "num_fields_harvested",
+        metricLabel: "No of Trials Harvested",
+      },
+    ],
+    DRIVER: [
+      {
+        metricKey: "fieldbook_fill_rate",
+        metricLabel: "FieldBook Fill Rate",
+      },
+      {
+        metricKey: "avg_delay_in_planting",
+        metricLabel: "Avg. Delay in Planting",
+      },
+      {
+        metricKey: "avg_delay_in_observations",
+        metricLabel: "Avg. Delay in Observation Protocol",
+      },
+      {
+        metricKey: "avg_delay_in_agronomy_protocol",
+        metricLabel: "Avg. Delay in Agronomy Protocol",
+      },
+      {
+        metricKey: "avg_delay_in_harvest",
+        metricLabel: "Avg. Delay in Harvest",
+      },
+    ],
+    INPUT: [
+      {
+        metricKey: "num_fields_planted",
+        metricLabel: "No of Trials Planted",
       },
     ],
   },
