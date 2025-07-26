@@ -65,7 +65,12 @@ export const HomePage = ({
     >
       <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-6 mt-4">
         {/* Metric View - Takes full width except 300px */}
-        <MetricView metricViewConfig={metricViewConfig} workspaceId={workspaceId} tenantId={finalTenantId} />
+        <MetricView
+          metricViewConfig={metricViewConfig}
+          workspaceId={workspaceId}
+          tenantId={finalTenantId}
+          onNavigate={handleNavigate}
+        />
 
         {/* Decision Tree - Fixed 300px width */}
         <div className="lg:w-[300px]">

@@ -80,6 +80,7 @@ export const DecisionDetailPage = ({ workspaceId, appId, decisionId, tenantId, o
       value: "monitoring",
       component: (
         <MetricView
+          onNavigate={onNavigate}
           metricViewConfig={metricConfig}
           workspaceId={workspaceId}
           tenantId={tenantId}

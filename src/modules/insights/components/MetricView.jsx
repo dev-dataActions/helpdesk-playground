@@ -9,7 +9,7 @@ import { fetchData, fetchDimensionValues } from "../common/services/insights.svc
  * @param {string} props.workspaceId - Workspace ID
  * @param {string} props.tenantId - Tenant ID
  */
-const InsightPreview = ({ insight, workspaceId, tenantId }) => {
+const InsightPreview = ({ insight, workspaceId, tenantId, onNavigate }) => {
   const insightOptions = useMemo(
     () => ({
       className: "h-40",
@@ -26,10 +26,41 @@ const InsightPreview = ({ insight, workspaceId, tenantId }) => {
     [workspaceId, tenantId]
   );
 
+  const actions = useMemo(
+    () => [
+      {
+        name: "Analysis View",
+        onClick: () => {
+          try {
+            if (onNavigate && typeof onNavigate === "function") {
+              onNavigate(`/insights/metric/${insight?.metric_name}/what?metricLabel=${insight?.title}`);
+            }
+          } catch (error) {
+            console.error("Navigation error:", error);
+          }
+        },
+      },
+      {
+        name: "Insights View",
+        onClick: () => {
+          try {
+            if (onNavigate && typeof onNavigate === "function") {
+              onNavigate(`/insights/metric/${insight?.metric_name}/why?metricLabel=${insight?.title}`);
+            }
+          } catch (error) {
+            console.error("Navigation error:", error);
+          }
+        },
+      },
+    ],
+    [insight?.metric_name, onNavigate]
+  );
+
   return (
     <Insight
       type={insight.type}
       title={insight.title}
+      actions={actions}
       metrics={insight.metrics}
       options={insightOptions}
       dataResolver={dataResolver}
@@ -46,12 +77,13 @@ const InsightPreview = ({ insight, workspaceId, tenantId }) => {
  * @param {string} props.tenantId - Tenant ID
  * @param {string} props.className - Additional CSS classes
  */
-export const MetricView = ({ metricViewConfig, workspaceId, tenantId, className = "" }) => {
+export const MetricView = ({ metricViewConfig, workspaceId, tenantId, className = "", onNavigate }) => {
   const categories = ["OUTPUT", "DRIVER", "INPUT"];
 
   const createBignumberInsight = (metric) => ({
     type: ChartTypes.BIGNUMBERWITHTREND,
     title: metric.metricLabel,
+    metric_name: metric.metricKey,
     metrics: [
       {
         metricKey: metric.metricKey,
@@ -82,6 +114,7 @@ export const MetricView = ({ metricViewConfig, workspaceId, tenantId, className 
                     insight={createBignumberInsight(metric)}
                     workspaceId={workspaceId}
                     tenantId={tenantId}
+                    onNavigate={onNavigate}
                   />
                 </div>
               ))}

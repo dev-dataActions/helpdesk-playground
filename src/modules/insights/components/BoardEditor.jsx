@@ -69,7 +69,7 @@ const InsightPreview = memo(({ insight, timeRange, workspaceId, boardId, tenantI
         onClick: () => {
           try {
             if (onNavigate && typeof onNavigate === "function") {
-              onNavigate(`/insights/${boardId}/${insight?.metric_name}/what?metricLabel=${metricLabel}`);
+              onNavigate(`/insights/metric/${insight?.metric_name}/what?metricLabel=${metricLabel}`);
             }
           } catch (error) {
             console.error("Navigation error:", error);
@@ -81,7 +81,7 @@ const InsightPreview = memo(({ insight, timeRange, workspaceId, boardId, tenantI
         onClick: () => {
           try {
             if (onNavigate && typeof onNavigate === "function") {
-              onNavigate(`/insights/${boardId}/${insight?.metric_name}/why?metricLabel=${metricLabel}`);
+              onNavigate(`/insights/metric/${insight?.metric_name}/why?metricLabel=${metricLabel}`);
             }
           } catch (error) {
             console.error("Navigation error:", error);
