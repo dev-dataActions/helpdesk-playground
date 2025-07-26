@@ -10,7 +10,7 @@ import { fetchData, fetchDimensionValues } from "../common/services/insights.svc
  * @param {string} props.workspaceId - Workspace ID
  * @param {string} props.tenantId - Tenant ID
  */
-const MetricCard = ({ metric, category, workspaceId, tenantId }) => {
+const MetricCard = ({ metric, workspaceId, tenantId }) => {
   const insightConfig = useMemo(
     () => ({
       type: ChartTypes.BIGNUMBER,
@@ -36,19 +36,6 @@ const MetricCard = ({ metric, category, workspaceId, tenantId }) => {
     [workspaceId, tenantId]
   );
 
-  const getCategoryColor = (category) => {
-    switch (category) {
-      case "OUTPUT":
-        return "bg-green-100 text-green-800 border-green-200";
-      case "DRIVER":
-        return "bg-blue-100 text-blue-800 border-blue-200";
-      case "INPUT":
-        return "bg-orange-100 text-orange-800 border-orange-200";
-      default:
-        return "bg-gray-100 text-gray-800 border-gray-200";
-    }
-  };
-
   return (
     <div className="bg-white border border-gray-200 rounded-md px-3 py-2">
       <div className="w-full flex items-center justify-between">
@@ -56,13 +43,6 @@ const MetricCard = ({ metric, category, workspaceId, tenantId }) => {
           <p className={"text-xs max-w-32 truncate"} title={metric.metricLabel}>
             {metric.metricLabel}
           </p>
-          {/* <span
-            className={`text-[9px] px-1.5 py-0.5 rounded-full border uppercase tracking-wide ${getCategoryColor(
-              category
-            )}`}
-          >
-            {category.toLowerCase()}
-          </span> */}
         </div>
         <div className="w-auto">
           <Insight

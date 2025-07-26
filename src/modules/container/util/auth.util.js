@@ -34,6 +34,7 @@ export function isTokenValid(token) {
 
     return payload.exp && payload.exp > currentTime;
   } catch (error) {
+    console.error("Error validating token:", error);
     return false;
   }
 }
@@ -61,6 +62,7 @@ export function getUserFromToken(token) {
       iat: payload.iat,
     };
   } catch (error) {
+    console.error("Error getting user from token:", error);
     return null;
   }
 }

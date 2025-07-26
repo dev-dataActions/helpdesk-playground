@@ -30,6 +30,7 @@ export function AuthProvider({ children }) {
           localStorage.removeItem("authToken");
         }
       } catch (error) {
+        console.error("Error parsing token:", error);
         // Invalid token, remove it
         localStorage.removeItem("authToken");
       }
