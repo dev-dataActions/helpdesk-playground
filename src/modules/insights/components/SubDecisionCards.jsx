@@ -22,7 +22,7 @@ const MetricCard = ({ metric, category, workspaceId, tenantId }) => {
         },
       ],
       options: {
-        compact: true,
+        micro: true,
         hideCard: true,
         hideTitle: true,
       },
@@ -53,16 +53,16 @@ const MetricCard = ({ metric, category, workspaceId, tenantId }) => {
     <div className="bg-white border border-gray-200 rounded-md px-3 py-2">
       <div className="w-full flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <p className={"text-xs max-w-24 truncate"} title={metric.metricLabel}>
+          <p className={"text-xs max-w-32 truncate"} title={metric.metricLabel}>
             {metric.metricLabel}
           </p>
-          <span
+          {/* <span
             className={`text-[9px] px-1.5 py-0.5 rounded-full border uppercase tracking-wide ${getCategoryColor(
               category
             )}`}
           >
             {category.toLowerCase()}
-          </span>
+          </span> */}
         </div>
         <div className="w-auto">
           <Insight
@@ -103,39 +103,37 @@ const SubDecisionCard = ({ subDecision, metricConfig, workspaceId, tenantId, onN
 
   return (
     <div
-      className="bg-blue-50 border border-blue-200 p-3 rounded-md cursor-pointer hover:shadow-md transition-shadow duration-200 max-h-44 overflow-y-auto"
+      className="bg-blue-50 border border-blue-200 p-3 rounded-md cursor-pointer hover:shadow-md transition-shadow duration-200 max-h-40 overflow-y-auto group"
       onClick={handleCardClick}
     >
-      <div className="mb-2">
-        <h3 className="text-xs text-gray-600 mb-0.5">{subDecision?.name || "Unnamed Decision"}</h3>
-      </div>
+      <h3 className="text-xs text-gray-800 mb-2 group-hover:text-blue-800 group-hover:underline">
+        {subDecision?.name || "Unnamed Decision"}
+      </h3>
 
       {metricConfig ? (
-        <div className="space-y-1">
+        <div className="space-y-1.5">
           {categories.map((category) => {
             const metrics = metricConfig[category] || [];
             if (metrics.length === 0) return null;
 
             return (
-              <div key={category} className="space-y-1">
-                <div className="grid grid-cols-1 gap-1">
-                  {metrics.map((metric, index) => (
-                    <MetricCard
-                      key={`${category}-${index}`}
-                      metric={metric}
-                      category={category}
-                      workspaceId={workspaceId}
-                      tenantId={tenantId}
-                    />
-                  ))}
-                </div>
+              <div key={category} className="grid grid-cols-1 gap-1.5">
+                {metrics.map((metric, index) => (
+                  <MetricCard
+                    key={`${category}-${index}`}
+                    metric={metric}
+                    category={category}
+                    workspaceId={workspaceId}
+                    tenantId={tenantId}
+                  />
+                ))}
               </div>
             );
           })}
         </div>
       ) : (
-        <div className="text-center text-gray-500 py-4">
-          <p className="text-sm">No metrics configured for this decision</p>
+        <div className="text-center text-gray-500 py-2">
+          <p className="text-xs">No metrics configured for this decision</p>
         </div>
       )}
     </div>
@@ -161,19 +159,13 @@ export const SubDecisionCards = ({
   className = "",
 }) => {
   if (!Array.isArray(subDecisions) || subDecisions.length === 0) {
-    return (
-      <div className={className}>
-        <div className="text-center text-gray-500 py-8">
-          <p className="text-sm">No sub-decisions available</p>
-        </div>
-      </div>
-    );
+    return null;
   }
 
   return (
     <div className={className}>
       <div className="mb-2">
-        <h2 className="text-xs text-gray-600 mb-0.5">Sub-decisions affecting this altitude</h2>
+        <h2 className="text-xs text-gray-600 mb-0.5">Signals from sub-decisions</h2>
       </div>
 
       <div className="grid grid-cols-1 gap-6">

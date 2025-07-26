@@ -61,7 +61,9 @@ export const MetricView = ({ metricViewConfig, workspaceId, tenantId, className 
   });
 
   if (!metricViewConfig) {
-    return <div className={`text-center text-gray-500 py-8 ${className}`}>Metric view is not configured yet.</div>;
+    return (
+      <div className={`text-sm text-center text-gray-500 py-8 ${className}`}>Metric view is not configured yet.</div>
+    );
   }
 
   return (

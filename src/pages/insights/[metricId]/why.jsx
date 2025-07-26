@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
-import { MetricWhyPage } from "../../../../../modules/insights/pages/MetricWhyPage";
-import { ScreenLayout } from "../../../../../modules/insights/common/layouts/ScreenLayout";
-import { useTenantId } from "../../../../../modules/insights/hooks/useTenantId";
+import { MetricWhyPage } from "../../../modules/insights/pages/MetricWhyPage";
+import { ScreenLayout } from "../../../modules/insights/common/layouts/ScreenLayout";
+import { useTenantId } from "../../../modules/insights/hooks/useTenantId";
 
 export default function MetricsWhyPageContainer() {
   const router = useRouter();
