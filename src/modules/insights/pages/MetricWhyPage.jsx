@@ -58,7 +58,7 @@ export const MetricWhyPage = ({ workspaceId, metricId, metricLabel, tenantId, on
     <PanelLayout
       title={(metricLabel ?? metricId) + " Insights View"}
       description={`This is the insights view of ${metricLabel ?? metricId}.`}
-      className={`px-24 py-8`}
+      className={`md:px-24 md:py-8`}
       customButton={<TimeFilters timeRange={timeRange} setTimeRange={setTimeRange} />}
       showBackButton={true}
       onBack={onBack}
