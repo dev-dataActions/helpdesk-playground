@@ -22,7 +22,7 @@ const LoginPage = () => {
         const redirectTo = router.query.redirect || "/";
         router.push(redirectTo);
       } else {
-        setError("Invalid credentials. Use username: piatrika, password: piatrika");
+        setError("Invalid credentials.");
       }
     } catch (err) {
       console.error("Error during login:", err);
