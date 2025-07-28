@@ -69,6 +69,25 @@ const InsightPreview = ({ insight, workspaceId, tenantId, onNavigate }) => {
   );
 };
 
+const MetricCard = ({ metric, workspaceId, tenantId, onNavigate }) => {
+  const insight = useMemo(
+    () => ({
+      type: ChartTypes.BIGNUMBERWITHTREND,
+      title: metric.metricLabel,
+      metric_name: metric.metricKey,
+      metrics: [
+        {
+          metricKey: metric.metricKey,
+          metricLabel: metric.metricLabel,
+        },
+      ],
+    }),
+    [metric]
+  );
+
+  return <InsightPreview insight={insight} workspaceId={workspaceId} tenantId={tenantId} onNavigate={onNavigate} />;
+};
+
 /**
  * MetricView component for rendering metrics by category
  * @param {Object} props - Component props
@@ -79,18 +98,6 @@ const InsightPreview = ({ insight, workspaceId, tenantId, onNavigate }) => {
  */
 export const MetricView = ({ metricViewConfig, workspaceId, tenantId, className = "", onNavigate }) => {
   const categories = ["OUTPUT", "DRIVER", "INPUT"];
-
-  const createBignumberInsight = (metric) => ({
-    type: ChartTypes.BIGNUMBERWITHTREND,
-    title: metric.metricLabel,
-    metric_name: metric.metricKey,
-    metrics: [
-      {
-        metricKey: metric.metricKey,
-        metricLabel: metric.metricLabel,
-      },
-    ],
-  });
 
   if (!metricViewConfig) {
     return (
@@ -106,16 +113,11 @@ export const MetricView = ({ metricViewConfig, workspaceId, tenantId, className 
 
         return (
           <div key={category} className="space-y-1.5">
-            <h3 className="text-sm text-gray-600 capitalize">{category.toLowerCase()} Metrics</h3>
+            <h3 className="text-sm text-gray-800 capitalize">{category.toLowerCase()} Metrics</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">
               {metrics.map((metric, index) => (
                 <div key={`${category}-${index}`}>
-                  <InsightPreview
-                    insight={createBignumberInsight(metric)}
-                    workspaceId={workspaceId}
-                    tenantId={tenantId}
-                    onNavigate={onNavigate}
-                  />
+                  <MetricCard metric={metric} workspaceId={workspaceId} tenantId={tenantId} onNavigate={onNavigate} />
                 </div>
               ))}
             </div>
