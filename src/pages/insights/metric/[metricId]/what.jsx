@@ -8,7 +8,16 @@ import { RoleDropdown } from "../../../../modules/insights/components/RoleDropdo
 export default function MetricsWhatPageContainer() {
   const router = useRouter();
   const { tenantId } = useTenantId();
-  const { roleId, setRoleId } = useRoleId();
+
+  const handleRoleChange = () => {
+    try {
+      router.push("/insights");
+    } catch (error) {
+      console.error("Navigation error on role change:", error);
+    }
+  };
+
+  const { roleId, setRoleId } = useRoleId(handleRoleChange);
 
   const handleNavigate = (path) => {
     try {

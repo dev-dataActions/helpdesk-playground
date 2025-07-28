@@ -4,9 +4,10 @@ const ROLE_ID_KEY = "selectedRoleId";
 
 /**
  * Custom hook to manage roleId with localStorage persistence
+ * @param {Function} onRoleChange - Optional callback function called when role changes
  * @returns {Object} Object containing roleId and setRoleId function
  */
-export const useRoleId = () => {
+export const useRoleId = (onRoleChange) => {
   const [roleId, setRoleIdState] = useState(null);
 
   // Load roleId from localStorage on mount
@@ -48,6 +49,7 @@ export const useRoleId = () => {
   // Function to update roleId and save to localStorage
   const setRoleId = (newRoleId) => {
     try {
+      const previousRoleId = roleId;
       setRoleIdState(newRoleId);
       if (newRoleId) {
         localStorage.setItem(ROLE_ID_KEY, newRoleId);
@@ -56,6 +58,11 @@ export const useRoleId = () => {
       }
       // Dispatch custom event for same-tab updates
       window.dispatchEvent(new CustomEvent("roleIdChanged"));
+
+      // Call onRoleChange callback if role actually changed and callback is provided
+      if (onRoleChange && newRoleId !== previousRoleId) {
+        onRoleChange(newRoleId, previousRoleId);
+      }
     } catch (error) {
       console.error("Error saving roleId to localStorage:", error);
       // Still update the state even if localStorage fails
