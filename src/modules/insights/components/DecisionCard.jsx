@@ -1,0 +1,167 @@
+import { useMemo } from "react";
+import { ChartTypes, Insight } from "da-insight-sdk";
+import { fetchData, fetchDimensionValues } from "../common/services/insights.svc";
+import { getDecisionIdByRoleId } from "../utils/role.util";
+import { metricViewConfig } from "../constants/decision.constant";
+
+/**
+ * InsightPreview component for metric cards
+ * @param {Object} props - Component props
+ * @param {Object} props.insight - Insight configuration
+ * @param {string} props.workspaceId - Workspace ID
+ * @param {string} props.tenantId - Tenant ID
+ * @param {Function} props.onNavigate - Navigation handler
+ */
+const InsightPreview = ({ insight, workspaceId, tenantId, onNavigate }) => {
+  const insightOptions = useMemo(
+    () => ({
+      className: "h-48",
+      showExplanation: false,
+      ...(insight?.options ?? {}),
+    }),
+    [insight?.options]
+  );
+
+  const dataResolver = useMemo(() => (payload) => fetchData(payload, workspaceId, tenantId), [workspaceId, tenantId]);
+
+  const dimensionValuesResolver = useMemo(
+    () => (dimension) => fetchDimensionValues(dimension, workspaceId, tenantId),
+    [workspaceId, tenantId]
+  );
+
+  const actions = useMemo(
+    () => [
+      {
+        name: "Analysis View",
+        onClick: () => {
+          try {
+            if (onNavigate && typeof onNavigate === "function") {
+              onNavigate(`/insights/metric/${insight?.metric_name}/what?metricLabel=${insight?.title}`);
+            }
+          } catch (error) {
+            console.error("Navigation error:", error);
+          }
+        },
+      },
+      {
+        name: "Insights View",
+        onClick: () => {
+          try {
+            if (onNavigate && typeof onNavigate === "function") {
+              onNavigate(`/insights/metric/${insight?.metric_name}/why?metricLabel=${insight?.title}`);
+            }
+          } catch (error) {
+            console.error("Navigation error:", error);
+          }
+        },
+      },
+    ],
+    [insight?.metric_name, onNavigate]
+  );
+
+  return (
+    <Insight
+      type={insight.type}
+      title={insight.title}
+      actions={actions}
+      metrics={insight.metrics}
+      options={insightOptions}
+      dataResolver={dataResolver}
+      dimensionValuesResolver={dimensionValuesResolver}
+    />
+  );
+};
+
+/**
+ * MetricCard component for individual metrics
+ * @param {Object} props - Component props
+ * @param {Object} props.metric - Metric configuration
+ * @param {string} props.workspaceId - Workspace ID
+ * @param {string} props.tenantId - Tenant ID
+ * @param {Function} props.onNavigate - Navigation handler
+ */
+const MetricCard = ({ metric, workspaceId, tenantId, onNavigate }) => {
+  const insight = useMemo(
+    () => ({
+      type: ChartTypes.BIGNUMBERWITHTREND,
+      title: metric.metricLabel,
+      metric_name: metric.metricKey,
+      metrics: [
+        {
+          metricKey: metric.metricKey,
+          metricLabel: metric.metricLabel,
+        },
+      ],
+    }),
+    [metric]
+  );
+
+  return <InsightPreview insight={insight} workspaceId={workspaceId} tenantId={tenantId} onNavigate={onNavigate} />;
+};
+
+/**
+ * DecisionCard component for displaying role-based decision metrics
+ * @param {Object} props - Component props
+ * @param {string} props.roleId - Selected role ID
+ * @param {string} props.workspaceId - Workspace ID
+ * @param {string} props.tenantId - Tenant ID
+ * @param {Function} props.onNavigate - Navigation handler
+ * @param {string} props.className - Additional CSS classes
+ */
+export const DecisionCard = ({ roleId, workspaceId, tenantId, onNavigate, className = "" }) => {
+  const decisionId = useMemo(() => getDecisionIdByRoleId(roleId), [roleId]);
+
+  const outputMetrics = useMemo(() => {
+    if (!decisionId || !metricViewConfig[decisionId]?.OUTPUT) {
+      return [];
+    }
+    return metricViewConfig[decisionId]?.OUTPUT || [];
+  }, [decisionId]);
+
+  if (!roleId) {
+    return (
+      <div className={`bg-white border border-gray-200 rounded-lg p-4 ${className}`}>
+        <div className="text-center text-gray-500">
+          <p className="text-sm">Please select a role to view decision insights</p>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className={`bg-white border border-gray-300 rounded-lg p-4 ${className}`}>
+      <div className="mb-2">
+        <h2 className="font-meidum text-gray-800">My Altitude</h2>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-6">
+        {/* Output Metrics Section - Takes 1fr */}
+        <div className="space-y-4">
+          {outputMetrics.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {outputMetrics.map((metric, index) => (
+                <div key={`output-${index}`}>
+                  <MetricCard metric={metric} workspaceId={workspaceId} tenantId={tenantId} onNavigate={onNavigate} />
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="text-center text-gray-500 py-8">
+              <p className="text-sm">No output metrics available for this role</p>
+            </div>
+          )}
+        </div>
+
+        {/* Explanation Insights Section - Fixed 300px */}
+        <div className="lg:w-[300px]">
+          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 h-full">
+            <h3 className="text-sm font-medium text-blue-900 mb-2">Explanation Insights</h3>
+            <div className="text-center text-blue-700 py-8">
+              <p className="text-sm">Coming soon...</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};

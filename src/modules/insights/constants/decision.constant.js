@@ -120,3 +120,170 @@ export const metricViewConfig = {
     ],
   },
 };
+
+export const explanationInightsConfig = {
+  decision_mbmcip2a: [
+    {
+      payload: {
+        fromtime: "2025-02-01",
+        totime: "2025-07-31",
+        metric_name: "completed_projects",
+        timegrain: "month",
+        filters: [],
+      },
+      insight_type: "summary",
+      workspace_id: "workspace_99398cfd-dfd4-4195-8702-82dcfdd4efac",
+      tenant_id: "mcsyjvco",
+    },
+    {
+      payload: {
+        fromtime: "2025-02-01",
+        totime: "2025-07-31",
+        metric_name: "num_trials_promoted",
+        timegrain: "month",
+        filters: [],
+      },
+      insight_type: "summary",
+      workspace_id: "workspace_99398cfd-dfd4-4195-8702-82dcfdd4efac",
+      tenant_id: "mcsyjvco",
+    },
+    {
+      payload: {
+        fromtime: "2025-02-01",
+        totime: "2025-07-31",
+        metric_name: "num_trials_promoted",
+        timegrain: "month",
+        filters: [],
+      },
+      insight_type: "trend",
+      workspace_id: "workspace_99398cfd-dfd4-4195-8702-82dcfdd4efac",
+      tenant_id: "mcsyjvco",
+    },
+    {
+      payload: {
+        fromtime: "2025-02-01",
+        totime: "2025-07-31",
+        metric_name: "num_trials_promoted",
+        timegrain: "month",
+        filters: [{ dimension: "user_region" }],
+      },
+      insight_type: "contributor",
+      workspace_id: "workspace_99398cfd-dfd4-4195-8702-82dcfdd4efac",
+      tenant_id: "mcsyjvco",
+    },
+    {
+      payload: {
+        fromtime: "2025-02-01",
+        totime: "2025-07-31",
+        metric_name: "num_trials_promoted",
+        timegrain: "day",
+        filters: [{ dimension: "trial_name" }],
+      },
+      insight_type: "ranking",
+      workspace_id: "workspace_99398cfd-dfd4-4195-8702-82dcfdd4efac",
+      tenant_id: "mcsyjvco",
+    },
+  ],
+  feature_mbrug9mq: [
+    {
+      payload: {
+        fromtime: "2025-02-01",
+        totime: "2025-07-31",
+        metric_name: "completed_projects",
+        timegrain: "month",
+        filters: [],
+      },
+      insight_type: "summary",
+      workspace_id: "workspace_99398cfd-dfd4-4195-8702-82dcfdd4efac",
+      tenant_id: "mcsyjvco",
+    },
+  ],
+  feature_mcyg3aru: [
+    {
+      payload: {
+        fromtime: "2025-02-01",
+        totime: "2025-07-31",
+        metric_name: "num_trials_promoted",
+        timegrain: "month",
+        filters: [],
+      },
+      insight_type: "summary",
+      workspace_id: "workspace_99398cfd-dfd4-4195-8702-82dcfdd4efac",
+      tenant_id: "mcsyjvco",
+    },
+    {
+      payload: {
+        fromtime: "2025-02-01",
+        totime: "2025-07-31",
+        metric_name: "num_trials_promoted",
+        timegrain: "month",
+        filters: [],
+      },
+      insight_type: "trend",
+      workspace_id: "workspace_99398cfd-dfd4-4195-8702-82dcfdd4efac",
+      tenant_id: "mcsyjvco",
+    },
+    {
+      payload: {
+        fromtime: "2025-02-01",
+        totime: "2025-07-31",
+        metric_name: "num_trials_promoted",
+        timegrain: "month",
+        filters: [{ dimension: "user_region" }],
+      },
+      insight_type: "contributor",
+      workspace_id: "workspace_99398cfd-dfd4-4195-8702-82dcfdd4efac",
+      tenant_id: "mcsyjvco",
+    },
+    {
+      payload: {
+        fromtime: "2025-02-01",
+        totime: "2025-07-31",
+        metric_name: "num_trials_promoted",
+        timegrain: "day",
+        filters: [{ dimension: "trial_name" }],
+      },
+      insight_type: "ranking",
+      workspace_id: "workspace_99398cfd-dfd4-4195-8702-82dcfdd4efac",
+      tenant_id: "mcsyjvco",
+    },
+  ],
+  feature_mcygu7lb: [
+    {
+      payload: {
+        fromtime: "2025-02-01",
+        totime: "2025-07-31",
+        metric_name: "num_fields_harvested",
+        timegrain: "month",
+        filters: [],
+      },
+      insight_type: "summary",
+      workspace_id: "workspace_99398cfd-dfd4-4195-8702-82dcfdd4efac",
+      tenant_id: "mcsyjvco",
+    },
+    {
+      payload: {
+        fromtime: "2025-02-01",
+        totime: "2025-07-31",
+        metric_name: "num_fields_harvested",
+        timegrain: "month",
+        filters: [],
+      },
+      insight_type: "trend",
+      workspace_id: "workspace_99398cfd-dfd4-4195-8702-82dcfdd4efac",
+      tenant_id: "mcsyjvco",
+    },
+    {
+      payload: {
+        fromtime: "2025-02-01",
+        totime: "2025-07-31",
+        metric_name: "num_fields_harvested",
+        timegrain: "month",
+        filters: [{ dimension: "district" }],
+      },
+      insight_type: "contributor",
+      workspace_id: "workspace_99398cfd-dfd4-4195-8702-82dcfdd4efac",
+      tenant_id: "mcsyjvco",
+    },
+  ],
+};

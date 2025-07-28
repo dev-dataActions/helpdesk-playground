@@ -12,7 +12,7 @@ import { fetchData, fetchDimensionValues } from "../common/services/insights.svc
 const InsightPreview = ({ insight, workspaceId, tenantId, onNavigate }) => {
   const insightOptions = useMemo(
     () => ({
-      className: "h-40",
+      className: "h-44",
       showExplanation: false,
       ...(insight?.options ?? {}),
     }),
@@ -113,7 +113,7 @@ export const MetricView = ({ metricViewConfig, workspaceId, tenantId, className 
 
         return (
           <div key={category} className="space-y-1.5">
-            <h3 className="text-sm text-gray-800 capitalize">{category.toLowerCase()} Metrics</h3>
+            <h3 className="text-sm text-gray-900 capitalize">{category.toLowerCase()} Metrics</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">
               {metrics.map((metric, index) => (
                 <div key={`${category}-${index}`}>
