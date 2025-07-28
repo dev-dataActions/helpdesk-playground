@@ -2,11 +2,14 @@ import { useRouter } from "next/router";
 import { DecisionDetailPage } from "../../modules/insights/pages/DecisionDetailPage";
 import { ScreenLayout } from "../../modules/insights/common/layouts/ScreenLayout";
 import { useTenantId } from "../../modules/insights/hooks/useTenantId";
+import { useRoleId } from "../../modules/insights/hooks/useRoleId";
 import { HomePage } from "../../modules/insights/pages/HomePage";
+import { RoleDropdown } from "../../modules/insights/components/RoleDropdown";
 
 export default function DecisionDetailPageContainer() {
   const router = useRouter();
   const { tenantId } = useTenantId();
+  const { roleId, setRoleId } = useRoleId();
 
   const handleNavigate = (path) => {
     try {
@@ -16,9 +19,11 @@ export default function DecisionDetailPageContainer() {
     }
   };
 
+  const roleDropdown = <RoleDropdown roleId={roleId} setRoleId={setRoleId} />;
+
   if (router?.query?.decisionId) {
     return (
-      <ScreenLayout breadcrumbs={[{ name: "Insights" }]}>
+      <ScreenLayout breadcrumbs={[{ name: "Insights" }]} actions={roleDropdown}>
         <DecisionDetailPage
           tenantId={tenantId}
           workspaceId={process.env.NEXT_PUBLIC_WORKSPACE_ID}
@@ -31,7 +36,7 @@ export default function DecisionDetailPageContainer() {
   }
 
   return (
-    <ScreenLayout breadcrumbs={[{ name: "Insights" }]}>
+    <ScreenLayout breadcrumbs={[{ name: "Insights" }]} actions={roleDropdown}>
       <HomePage
         tenantId={tenantId}
         workspaceId={process.env.NEXT_PUBLIC_WORKSPACE_ID}
