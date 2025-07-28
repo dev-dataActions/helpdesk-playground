@@ -3,6 +3,8 @@ import { ChartTypes, Insight } from "da-insight-sdk";
 import { fetchData, fetchDimensionValues } from "../common/services/insights.svc";
 import { getDecisionIdByRoleId } from "../utils/role.util";
 import { metricViewConfig } from "../constants/decision.constant";
+import { useExplanationInsights } from "../hooks/useExplanationInsights";
+import { ExplanationInsightsFeed } from "./ExplanationInsightsFeed";
 
 /**
  * InsightPreview component for metric cards
@@ -15,7 +17,7 @@ import { metricViewConfig } from "../constants/decision.constant";
 const InsightPreview = ({ insight, workspaceId, tenantId, onNavigate }) => {
   const insightOptions = useMemo(
     () => ({
-      className: "h-48",
+      className: "h-56",
       showExplanation: false,
       ...(insight?.options ?? {}),
     }),
@@ -118,6 +120,13 @@ export const DecisionCard = ({ roleId, workspaceId, tenantId, onNavigate, classN
     return metricViewConfig[decisionId]?.OUTPUT || [];
   }, [decisionId]);
 
+  const {
+    insights,
+    loading: insightsLoading,
+    error: insightsError,
+    refetch: refetchInsights,
+  } = useExplanationInsights(decisionId, workspaceId, tenantId);
+
   if (!roleId) {
     return (
       <div className={`bg-white border border-gray-200 rounded-lg p-4 ${className}`}>
@@ -130,35 +139,37 @@ export const DecisionCard = ({ roleId, workspaceId, tenantId, onNavigate, classN
 
   return (
     <div className={`bg-white border border-gray-300 rounded-lg p-4 ${className}`}>
-      <div className="mb-2">
-        <h2 className="font-meidum text-gray-800">My Altitude</h2>
-      </div>
-
       <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-6">
         {/* Output Metrics Section - Takes 1fr */}
-        <div className="space-y-4">
-          {outputMetrics.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {outputMetrics.map((metric, index) => (
-                <div key={`output-${index}`}>
-                  <MetricCard metric={metric} workspaceId={workspaceId} tenantId={tenantId} onNavigate={onNavigate} />
-                </div>
-              ))}
-            </div>
-          ) : (
-            <div className="text-center text-gray-500 py-8">
-              <p className="text-sm">No output metrics available for this role</p>
-            </div>
-          )}
+        <div>
+          <h2 className="font-meidum text-gray-800 mb-2">My Altitude</h2>
+          <div className="space-y-4">
+            {outputMetrics.length > 0 ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {outputMetrics.map((metric, index) => (
+                  <div key={`output-${index}`}>
+                    <MetricCard metric={metric} workspaceId={workspaceId} tenantId={tenantId} onNavigate={onNavigate} />
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="text-center text-gray-500 py-8">
+                <p className="text-sm">No output metrics available for this role</p>
+              </div>
+            )}
+          </div>
         </div>
 
         {/* Explanation Insights Section - Fixed 300px */}
         <div className="lg:w-[300px]">
-          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 h-full">
-            <h3 className="text-sm font-medium text-blue-900 mb-2">Explanation Insights</h3>
-            <div className="text-center text-blue-700 py-8">
-              <p className="text-sm">Coming soon...</p>
-            </div>
+          <div className="border border-blue-200 rounded-lg p-4 h-64 bg-blue-50">
+            <ExplanationInsightsFeed
+              insights={insights}
+              loading={insightsLoading}
+              error={insightsError}
+              onRefetch={refetchInsights}
+              className="h-full"
+            />
           </div>
         </div>
       </div>
