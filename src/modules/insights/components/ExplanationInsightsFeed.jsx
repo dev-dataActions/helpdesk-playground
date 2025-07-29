@@ -59,8 +59,11 @@ export const ExplanationInsightsFeed = ({
   onRefetch = null,
   className = "",
 }) => {
-  const hasInsights = insights && insights.length > 0;
-  const filteredInsights = insights.filter((insight) => typeof insight === "string" && insight?.length);
+  const filteredInsights = useMemo(
+    () => insights.filter((insight) => typeof insight === "string" && insight?.length),
+    [insights]
+  );
+  const hasInsights = useMemo(() => filteredInsights && filteredInsights.length > 0, [filteredInsights]);
 
   if (loading) {
     return (
