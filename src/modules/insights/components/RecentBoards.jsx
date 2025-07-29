@@ -69,7 +69,7 @@ export const RecentBoards = ({ workspaceId, appId, onNavigate = null, className 
       <div className="flex flex-col gap-3 h-full py-3 px-1.5">
         {!recentBoards || recentBoards.length === 0 ? (
           <div className="text-center py-16">
-            <p className="text-sm text-gray-600">You haven't visited any boards yet</p>
+            <p className="text-sm text-gray-600">{`You haven't visited any boards yet`}</p>
             <p className="text-xs text-gray-500">Start exploring decision boards to see them here</p>
           </div>
         ) : (

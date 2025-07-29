@@ -96,7 +96,7 @@ export const ExplanationInsightsFeed = ({
     <div className={`h-full flex flex-col ${className}`}>
       {/* Header */}
       <div className="flex items-center justify-between mb-2 pb-1 border-b border-gray-300">
-        <h3 className="text-xs text-gray-900">What's happening?</h3>
+        <h3 className="text-xs text-gray-900">{`What's happening?`}</h3>
         <span className="text-xs text-blue-900 bg-blue-100 px-2 py-1 rounded-full">
           {filteredInsights.length} insights
         </span>
