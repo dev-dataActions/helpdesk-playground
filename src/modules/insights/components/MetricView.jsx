@@ -14,7 +14,7 @@ import { fetchData, fetchDimensionValues } from "../common/services/insights.svc
 const InsightPreview = ({ insight, workspaceId, tenantId, onNavigate, timeRange }) => {
   const insightOptions = useMemo(
     () => ({
-      className: "h-44",
+      className: "h-52",
       showExplanation: false,
       ...(insight?.options ?? {}),
     }),
