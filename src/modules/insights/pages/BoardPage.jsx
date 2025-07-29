@@ -16,6 +16,7 @@ export const TIME_GRAIN_OFFSET = {
   WEEKLY: 7,
   MONTHLY: 30,
   QUARTERLY: 90,
+  HALF_YEARLY: 180,
   YEARLY: 365,
 };
 
@@ -24,10 +25,6 @@ export const TimeFilters = ({ timeRange, setTimeRange }) => {
 
   const timeRangeOptions = useMemo(
     () => [
-      {
-        label: "Week",
-        value: TIME_GRAIN_OFFSET.WEEKLY,
-      },
       {
         label: "Month",
         value: TIME_GRAIN_OFFSET.MONTHLY,
@@ -38,7 +35,7 @@ export const TimeFilters = ({ timeRange, setTimeRange }) => {
       },
       {
         label: "6M",
-        value: 180,
+        value: TIME_GRAIN_OFFSET.HALF_YEARLY,
       },
       {
         label: "Year",

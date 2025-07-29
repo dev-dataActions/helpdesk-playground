@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { ChartTypes, Insight } from "da-insight-sdk";
+import { ChartTypes, Insight, TimeGrain } from "da-insight-sdk";
 import { FiArrowRight } from "react-icons/fi";
 import { fetchData, fetchDimensionValues } from "../common/services/insights.svc";
 import { getDecisionIdByRoleId } from "../utils/role.util";
@@ -15,8 +15,9 @@ import { ExplanationInsightsFeed } from "./ExplanationInsightsFeed";
  * @param {string} props.workspaceId - Workspace ID
  * @param {string} props.tenantId - Tenant ID
  * @param {Function} props.onNavigate - Navigation handler
+ * @param {Object} props.timeRange - Time range configuration
  */
-const InsightPreview = ({ insight, workspaceId, tenantId, onNavigate }) => {
+const InsightPreview = ({ insight, workspaceId, tenantId, onNavigate, timeRange }) => {
   const insightOptions = useMemo(
     () => ({
       className: "h-52",
@@ -69,6 +70,8 @@ const InsightPreview = ({ insight, workspaceId, tenantId, onNavigate }) => {
       title={insight.title}
       actions={actions}
       metrics={insight.metrics}
+      timeRange={timeRange}
+      timeGrain={TimeGrain.WEEKLY}
       options={insightOptions}
       dataResolver={dataResolver}
       dimensionValuesResolver={dimensionValuesResolver}
@@ -83,8 +86,9 @@ const InsightPreview = ({ insight, workspaceId, tenantId, onNavigate }) => {
  * @param {string} props.workspaceId - Workspace ID
  * @param {string} props.tenantId - Tenant ID
  * @param {Function} props.onNavigate - Navigation handler
+ * @param {Object} props.timeRange - Time range configuration
  */
-const MetricCard = ({ metric, workspaceId, tenantId, onNavigate }) => {
+const MetricCard = ({ metric, workspaceId, tenantId, onNavigate, timeRange }) => {
   const insight = useMemo(
     () => ({
       type: ChartTypes.BIGNUMBERWITHTREND,
@@ -100,7 +104,15 @@ const MetricCard = ({ metric, workspaceId, tenantId, onNavigate }) => {
     [metric]
   );
 
-  return <InsightPreview insight={insight} workspaceId={workspaceId} tenantId={tenantId} onNavigate={onNavigate} />;
+  return (
+    <InsightPreview
+      insight={insight}
+      workspaceId={workspaceId}
+      tenantId={tenantId}
+      onNavigate={onNavigate}
+      timeRange={timeRange}
+    />
+  );
 };
 
 /**
@@ -112,8 +124,17 @@ const MetricCard = ({ metric, workspaceId, tenantId, onNavigate }) => {
  * @param {Object} props.decisionTree - Decision tree data
  * @param {Function} props.onNavigate - Navigation handler
  * @param {string} props.className - Additional CSS classes
+ * @param {Object} props.timeRange - Time range configuration
  */
-export const DecisionCard = ({ roleId, workspaceId, tenantId, decisionTree, onNavigate, className = "" }) => {
+export const DecisionCard = ({
+  roleId,
+  workspaceId,
+  tenantId,
+  decisionTree,
+  onNavigate,
+  className = "",
+  timeRange,
+}) => {
   const decisionId = useMemo(() => getDecisionIdByRoleId(roleId), [roleId]);
 
   const decision = useMemo(() => {
@@ -179,7 +200,13 @@ export const DecisionCard = ({ roleId, workspaceId, tenantId, decisionTree, onNa
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {outputMetrics.map((metric, index) => (
                   <div key={`output-${index}`}>
-                    <MetricCard metric={metric} workspaceId={workspaceId} tenantId={tenantId} onNavigate={onNavigate} />
+                    <MetricCard
+                      metric={metric}
+                      workspaceId={workspaceId}
+                      tenantId={tenantId}
+                      onNavigate={onNavigate}
+                      timeRange={timeRange}
+                    />
                   </div>
                 ))}
               </div>

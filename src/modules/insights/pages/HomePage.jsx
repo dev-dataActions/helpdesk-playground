@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { useDecisionTree } from "../hooks/useDecisionTree";
 import { DecisionTreeView } from "../components/DecisionTreeView";
 import { DecisionCard } from "../components/DecisionCard";
@@ -10,6 +10,7 @@ import { RecentBoards } from "../components/RecentBoards";
 import { PinnedBoards } from "../components/PinnedBoards";
 import { useTenantId } from "../hooks/useTenantId";
 import { useRoleId } from "../hooks/useRoleId";
+import { TimeFilters } from "./BoardPage";
 
 /**
  * HomePage component with comprehensive error handling and prop validation
@@ -30,6 +31,7 @@ export const HomePage = ({
   const { tenantId } = useTenantId();
   const finalTenantId = propTenantId || tenantId;
   const { roleId } = useRoleId();
+  const [timeRange, setTimeRange] = useState(90);
 
   const { decisionTree, loading, error } = useDecisionTree(workspaceId, appId);
 
@@ -67,6 +69,7 @@ export const HomePage = ({
       title="My Altitude"
       description="Monitor your key metrics and explore decision insights"
       breadcrumbs={[{ name: "Home" }]}
+      customButton={<TimeFilters timeRange={timeRange} setTimeRange={setTimeRange} />}
     >
       <div className="mt-2">
         <DecisionCard
@@ -76,6 +79,7 @@ export const HomePage = ({
           decisionTree={decisionTree}
           onNavigate={handleNavigate}
           className="mb-6"
+          timeRange={timeRange}
         />
       </div>
       <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-6 mt-4">
