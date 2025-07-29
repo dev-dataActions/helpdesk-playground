@@ -129,7 +129,9 @@ export const DecisionCard = ({ roleId, workspaceId, tenantId, onNavigate, classN
 
   if (!roleId) {
     return (
-      <div className={`bg-white border border-gray-200 rounded-lg p-4 ${className}`}>
+      <div
+        className={`bg-white border border-gray-200 rounded-lg p-5 min-h-72 ${className} flex flex-col justify-center`}
+      >
         <div className="text-center text-gray-500">
           <p className="text-sm">Please select a role to view decision insights</p>
         </div>

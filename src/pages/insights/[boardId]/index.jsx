@@ -1,4 +1,5 @@
 import { useRouter } from "next/router";
+import { useCallback } from "react";
 import BoardPage from "../../../modules/insights/pages/BoardPage";
 import { ScreenLayout } from "../../../modules/insights/common/layouts/ScreenLayout";
 import { useTenantId } from "../../../modules/insights/hooks/useTenantId";
@@ -9,31 +10,31 @@ export default function BoardPageContainer() {
   const router = useRouter();
   const { tenantId } = useTenantId();
 
-  const handleRoleChange = () => {
+  const handleRoleChange = useCallback(() => {
     try {
       router.push("/insights");
     } catch (error) {
       console.error("Navigation error on role change:", error);
     }
-  };
+  }, []);
 
   const { roleId, setRoleId } = useRoleId(handleRoleChange);
 
-  const handleNavigate = (path) => {
+  const handleNavigate = useCallback((path) => {
     try {
       router.push(path);
     } catch (error) {
       console.error("Navigation error:", error);
     }
-  };
+  }, []);
 
-  const handleBack = () => {
+  const handleBack = useCallback(() => {
     try {
       router.back();
     } catch (error) {
       console.error("Back navigation error:", error);
     }
-  };
+  }, []);
 
   const roleDropdown = <RoleDropdown roleId={roleId} setRoleId={setRoleId} />;
 

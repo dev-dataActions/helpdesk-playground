@@ -1,14 +1,15 @@
 import { useCallback } from "react";
 import { useDecisionTree } from "../hooks/useDecisionTree";
 import { DecisionTreeView } from "../components/DecisionTreeView";
-import { MetricView } from "../components/MetricView";
 import { DecisionCard } from "../components/DecisionCard";
 import { Loading } from "../common/functional/Loading";
 import { Error } from "../common/functional/Error";
 import { PanelLayout } from "../common/layouts/PanelLayout";
+import { Tabs } from "../common/functional/Tabs";
+import { RecentBoards } from "../components/RecentBoards";
+import { PinnedBoards } from "../components/PinnedBoards";
 import { useTenantId } from "../hooks/useTenantId";
 import { useRoleId } from "../hooks/useRoleId";
-import { metricViewConfig } from "../constants/home.constant";
 
 /**
  * HomePage component with comprehensive error handling and prop validation
@@ -77,12 +78,23 @@ export const HomePage = ({
         />
       </div>
       <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-6 mt-4">
-        {/* Metric View - Takes full width except 300px */}
-        <MetricView
-          metricViewConfig={metricViewConfig}
-          workspaceId={workspaceId}
-          tenantId={finalTenantId}
-          onNavigate={handleNavigate}
+        {/* Boards Tabs - Takes full width except 300px */}
+
+        <Tabs
+          tabs={[
+            {
+              id: "recent",
+              label: "Recent Boards",
+              value: "recent",
+              component: <RecentBoards workspaceId={workspaceId} appId={appId} onNavigate={handleNavigate} />,
+            },
+            {
+              id: "pinned",
+              label: "Pinned Boards",
+              value: "pinned",
+              component: <PinnedBoards />,
+            },
+          ]}
         />
 
         {/* Decision Tree - Fixed 300px width */}

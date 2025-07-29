@@ -6,6 +6,7 @@ import { Dropdown } from "../common/base/Dropdown";
 import { useMemo, useState, useEffect } from "react";
 import { PanelLayout } from "../common/layouts/PanelLayout";
 import { fetchDimensionValues } from "../common/services/insights.svc";
+import { useRecentBoards } from "../hooks/useRecentBoards";
 
 /**
  * Time grain offset constants
@@ -134,6 +135,16 @@ const BoardPage = ({
   const { board, loading, error } = useBoard(workspaceId, appId, decisionId, boardId);
   const [timeRange, setTimeRange] = useState(TIME_GRAIN_OFFSET.QUARTERLY);
   const [activeFilters, setActiveFilters] = useState(null);
+
+  // Track recent boards
+  const { loading: recentBoardsLoading, addRecentBoard } = useRecentBoards(workspaceId, appId);
+
+  // Add board to recent boards when it loads successfully
+  useEffect(() => {
+    if (board && board.title && boardId && decisionId && !recentBoardsLoading) {
+      addRecentBoard(boardId, board.title, board.description, decisionId);
+    }
+  }, [board, boardId, decisionId, addRecentBoard, recentBoardsLoading]);
 
   if (loading) {
     return (

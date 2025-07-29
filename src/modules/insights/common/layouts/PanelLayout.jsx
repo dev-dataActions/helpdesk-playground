@@ -31,7 +31,7 @@ export const PanelLayout = ({
           <div className="grow">
             <div className="text-xl md:text-2xl font-bold text-left text-gray-800 mb-1 w-full">
               {!isEditingTitle ? (
-                <p
+                <div
                   onClick={() => setIsEditingTitle(!!onEditTitle && true)}
                   className="flex items-center gap-2 relative group"
                 >
@@ -47,7 +47,7 @@ export const PanelLayout = ({
                   {!!onEditTitle && (
                     <HiPencil size={16} className="mt-1 text-gray-400 invisible group-hover:visible cursor-pointer" />
                   )}
-                </p>
+                </div>
               ) : (
                 <input
                   value={title}

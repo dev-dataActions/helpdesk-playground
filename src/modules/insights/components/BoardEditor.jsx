@@ -39,7 +39,6 @@ function computeInsightFilters(insight, activeFilters) {
       dimensionFilters: [...preserved, ...metricFilters],
     };
   });
-  console.log("filters", filters);
   return filters;
 }
 

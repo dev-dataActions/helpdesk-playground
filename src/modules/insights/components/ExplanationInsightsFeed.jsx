@@ -11,7 +11,6 @@ import { PiChartBarThin } from "react-icons/pi";
  * @param {number} props.index - Index of the insight
  */
 const InsightItem = ({ insight, index }) => {
-  console.log("insight", insight);
   const icon = useMemo(() => {
     const iconMap = {
       trending: <FiTrendingUp className="w-4 h-4 text-blue-500" />,
