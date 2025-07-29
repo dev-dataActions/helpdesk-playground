@@ -33,11 +33,24 @@ const InsightItem = ({ insight }) => {
     }
   }, [insight]);
 
+  const parseInsight = (message) => {
+    try {
+      if (!message || typeof message !== "string") {
+        return message;
+      }
+      // Remove underscores and capitalize the whole string
+      return message.replace(/_/g, " ");
+    } catch (error) {
+      console.error("Error parsing insight:", error);
+      return message;
+    }
+  };
+
   return (
     <div className="flex items-start space-x-3 px-3 py-2 bg-white border border-gray-300 rounded-lg hover:border-blue-200 transition-colors">
       <div className="flex-shrink-0 mt-0.5">{icon}</div>
       <div className="flex-1 min-w-0">
-        <p className="text-xs text-gray-700 leading-relaxed">{insight}</p>
+        <p className="text-xs text-gray-700 leading-relaxed">{parseInsight(insight)}</p>
       </div>
     </div>
   );
