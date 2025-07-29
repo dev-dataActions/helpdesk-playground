@@ -7,6 +7,7 @@ import { useMemo, useState, useEffect } from "react";
 import { PanelLayout } from "../common/layouts/PanelLayout";
 import { fetchDimensionValues } from "../common/services/insights.svc";
 import { useRecentBoards } from "../hooks/useRecentBoards";
+import { Loader } from "../common/base/Loader";
 
 /**
  * Time grain offset constants
@@ -183,7 +184,7 @@ const BoardPage = ({
         activeFilters={activeFilters}
         setActiveFilters={setActiveFilters}
       />
-      {activeFilters != null && (
+      {activeFilters != null ? (
         <BoardEditor
           blocks={board?.blocks}
           timeRange={timeRange}
@@ -193,6 +194,10 @@ const BoardPage = ({
           onNavigate={onNavigate}
           activeFilters={activeFilters}
         />
+      ) : (
+        <div className="w-full h-full flex justify-center items-center py-16">
+          <Loader loaderText="Applying filters to board..." className="text-sm" loaderSize="w-5 h-5" />
+        </div>
       )}
     </PanelLayout>
   );
