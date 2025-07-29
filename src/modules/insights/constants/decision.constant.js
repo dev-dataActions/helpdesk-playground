@@ -12,7 +12,7 @@ export const metricViewConfig = {
     INPUT: [
       { metricKey: "num_fields_harvested", metricLabel: "Num. Fields Harvested" },
       { metricKey: "num_fields_planted", metricLabel: "Num. Fields Planted" },
-      { metricKey: "total_trials_planned", metricLabel: "Total Trials Planned" }
+      { metricKey: "no_of_trials_created", metricLabel: "Total Trials Created" }
     ]
   },
 
@@ -28,7 +28,7 @@ export const metricViewConfig = {
     INPUT: [
       { metricKey: "num_fields_harvested", metricLabel: "Num. Fields Harvested" },
       { metricKey: "num_fields_planted", metricLabel: "Num. Fields Planted" },
-      { metricKey: "total_trials_planned", metricLabel: "Total Trials Planned" }
+      { metricKey: "no_of_trials_created", metricLabel: "Total Trials Created" }
     ]
   },
 
@@ -44,7 +44,7 @@ export const metricViewConfig = {
     INPUT: [
       { metricKey: "num_fields_harvested", metricLabel: "Num. Fields Harvested" },
       { metricKey: "num_fields_planted", metricLabel: "Num. Fields Planted" },
-      { metricKey: "total_trials_planned", metricLabel: "Total Trials Planned" }
+      { metricKey: "no_of_trials_created", metricLabel: "Total Trials Created" }
     ]
   },
 
