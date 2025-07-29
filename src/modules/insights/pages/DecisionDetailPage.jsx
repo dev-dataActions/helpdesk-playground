@@ -1,10 +1,12 @@
 import { useMemo, useCallback } from "react";
 import { getBreadcrumbs, getDecision, getSubDecisions } from "../utils/general.util";
 import { useDecisionTree } from "../hooks/useDecisionTree";
+import { useExplanationInsights } from "../hooks/useExplanationInsights";
 import { DecisionTreeView } from "../components/DecisionTreeView";
 import { DecisionBoards } from "../components/DecisionBoards";
 import { MetricView } from "../components/MetricView";
 import { SubDecisionCards } from "../components/SubDecisionCards";
+import { ExplanationInsightsFeed } from "../components/ExplanationInsightsFeed";
 import { Loading } from "../common/functional/Loading";
 import { Error } from "../common/functional/Error";
 import { PanelLayout } from "../common/layouts/PanelLayout";
@@ -36,6 +38,14 @@ export const DecisionDetailPage = ({ workspaceId, appId, decisionId, tenantId, o
       return { breadcrumbs: [], decision: null, metricConfig: null, subDecisions: [] };
     }
   }, [decisionTree, decisionId]);
+
+  // Fetch explanation insights for the current decision
+  const {
+    insights,
+    loading: insightsLoading,
+    error: insightsError,
+    refetch: refetchInsights,
+  } = useExplanationInsights(decisionId, workspaceId, tenantId);
 
   const handleBreadcrumbNavigate = useCallback(
     (href) => {
@@ -120,6 +130,19 @@ export const DecisionDetailPage = ({ workspaceId, appId, decisionId, tenantId, o
           <div className="bg-blue-50 border border-blue-200 p-1.5 rounded-md">
             <DecisionTreeView decisionTree={decisionTree} selectedDecisionId={decisionId} onNavigate={onNavigate} />
           </div>
+
+          <div className="mt-4">
+            <div className="border border-blue-200 rounded-lg p-4 h-64 bg-blue-50">
+              <ExplanationInsightsFeed
+                insights={insights}
+                loading={insightsLoading}
+                error={insightsError}
+                onRefetch={refetchInsights}
+                className="h-full"
+              />
+            </div>
+          </div>
+
           <div className="mt-4">
             <SubDecisionCards
               subDecisions={subDecisions}
