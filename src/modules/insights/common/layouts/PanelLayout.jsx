@@ -37,7 +37,7 @@ export const PanelLayout = ({
                 >
                   {showBackButton && (
                     <div
-                      className="cursor-pointer hover:bg-gray-100 rounded-md p-1 absolute -left-8 top-0.5"
+                      className="cursor-pointer hover:bg-gray-100 rounded-md p-1 absolute -left-9 top-0.5"
                       onClick={() => window?.history?.back?.()}
                     >
                       <FiChevronLeft size={20} />
