@@ -4,12 +4,21 @@ import { Button } from "../base/Button";
 import { classNames } from "../util/general.util";
 import { useRouter } from "next/router";
 
-export const Tabs = ({ tabs }) => {
+export const Tabs = ({ tabs, onTabChange }) => {
   const router = useRouter();
-  const [selectedTab, setSelectedTab] = useState(
-    tabs.find((t) => t.current)?.value ?? tabs[0].value
-  );
+  const [selectedTab, setSelectedTab] = useState(tabs.find((t) => t.current)?.value ?? tabs[0].value);
   const currentComponent = tabs.find((t) => t.value === selectedTab)?.component;
+
+  const handleTabChange = (value) => {
+    try {
+      setSelectedTab(value);
+      if (onTabChange && typeof onTabChange === "function") {
+        onTabChange(value);
+      }
+    } catch (error) {
+      console.error("Tab change error:", error);
+    }
+  };
 
   useEffect(() => {
     const tab = tabs.find((t) => t.value === selectedTab);
@@ -19,12 +28,7 @@ export const Tabs = ({ tabs }) => {
   return (
     <div className="deepdive-tabs rounded-md">
       <div className="sm:hidden mb-3">
-        <Dropdown
-          id="tabs"
-          options={tabs}
-          selectedOption={selectedTab}
-          setSelectedOption={(value) => setSelectedTab(value)}
-        />
+        <Dropdown id="tabs" options={tabs} selectedOption={selectedTab} setSelectedOption={handleTabChange} />
       </div>
       <div className="hidden sm:!block mb-1">
         <div className="border-b border-gray-200">
@@ -33,7 +37,7 @@ export const Tabs = ({ tabs }) => {
               <Button
                 key={tab.id}
                 label={tab.label}
-                onClick={() => setSelectedTab(tab.value)}
+                onClick={() => handleTabChange(tab.value)}
                 className={classNames(
                   tab.value === selectedTab
                     ? "border-blue-700 text-blue-700"

@@ -1,4 +1,4 @@
-import { useMemo, useCallback } from "react";
+import { useMemo, useCallback, useState } from "react";
 import { getBreadcrumbs, getDecision, getSubDecisions } from "../utils/general.util";
 import { useDecisionTree } from "../hooks/useDecisionTree";
 import { useExplanationInsights } from "../hooks/useExplanationInsights";
@@ -11,6 +11,7 @@ import { Loading } from "../common/functional/Loading";
 import { Error } from "../common/functional/Error";
 import { PanelLayout } from "../common/layouts/PanelLayout";
 import { Tabs } from "../common/functional/Tabs";
+import { TimeFilters } from "./BoardPage";
 import { metricViewConfig } from "../constants/decision.constant";
 
 /**
@@ -25,6 +26,8 @@ import { metricViewConfig } from "../constants/decision.constant";
  */
 export const DecisionDetailPage = ({ workspaceId, appId, decisionId, tenantId, onNavigate = null, className = "" }) => {
   const { decisionTree, loading, error } = useDecisionTree(workspaceId, appId);
+  const [timeRange, setTimeRange] = useState(90); // Default to quarterly (90 days)
+  const [selectedTab, setSelectedTab] = useState("monitoring");
 
   const { breadcrumbs, decision, metricConfig, subDecisions } = useMemo(() => {
     try {
@@ -59,6 +62,14 @@ export const DecisionDetailPage = ({ workspaceId, appId, decisionId, tenantId, o
     },
     [onNavigate]
   );
+
+  const handleTabChange = useCallback((tabValue) => {
+    try {
+      setSelectedTab(tabValue);
+    } catch (error) {
+      console.error("Tab change error:", error);
+    }
+  }, []);
 
   if (loading) {
     return (
@@ -95,6 +106,7 @@ export const DecisionDetailPage = ({ workspaceId, appId, decisionId, tenantId, o
           metricViewConfig={metricConfig}
           workspaceId={workspaceId}
           tenantId={tenantId}
+          timeRange={timeRange}
           className="mt-4 p-1"
         />
       ),
@@ -123,9 +135,12 @@ export const DecisionDetailPage = ({ workspaceId, appId, decisionId, tenantId, o
       breadcrumbs={[{ name: "Home", href: "/insights" }, ...breadcrumbs, { name: decision?.name }]}
       onNavigate={handleBreadcrumbNavigate}
       className={className}
+      customButton={
+        selectedTab === "monitoring" ? <TimeFilters timeRange={timeRange} setTimeRange={setTimeRange} /> : null
+      }
     >
       <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-6">
-        <Tabs tabs={tabs} />
+        <Tabs tabs={tabs} onTabChange={handleTabChange} />
         <div className="lg:w-[300px]">
           <div className="bg-blue-50 border border-blue-200 p-1.5 rounded-md">
             <DecisionTreeView decisionTree={decisionTree} selectedDecisionId={decisionId} onNavigate={onNavigate} />

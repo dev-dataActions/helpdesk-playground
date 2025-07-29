@@ -1,5 +1,5 @@
 import { useCallback, useMemo } from "react";
-import { ChartTypes, Insight } from "da-insight-sdk";
+import { ChartTypes, Insight, TimeGrain } from "da-insight-sdk";
 import { fetchData, fetchDimensionValues } from "../common/services/insights.svc";
 
 /**
@@ -8,8 +8,10 @@ import { fetchData, fetchDimensionValues } from "../common/services/insights.svc
  * @param {Object} props.insight - Insight configuration
  * @param {string} props.workspaceId - Workspace ID
  * @param {string} props.tenantId - Tenant ID
+ * @param {Function} props.onNavigate - Navigation handler
+ * @param {Object} props.timeRange - Time range configuration
  */
-const InsightPreview = ({ insight, workspaceId, tenantId, onNavigate }) => {
+const InsightPreview = ({ insight, workspaceId, tenantId, onNavigate, timeRange }) => {
   const insightOptions = useMemo(
     () => ({
       className: "h-44",
@@ -62,6 +64,8 @@ const InsightPreview = ({ insight, workspaceId, tenantId, onNavigate }) => {
       title={insight.title}
       actions={actions}
       metrics={insight.metrics}
+      timeRange={timeRange}
+      timeGrain={TimeGrain.WEEKLY}
       options={insightOptions}
       dataResolver={dataResolver}
       dimensionValuesResolver={dimensionValuesResolver}
@@ -69,7 +73,16 @@ const InsightPreview = ({ insight, workspaceId, tenantId, onNavigate }) => {
   );
 };
 
-const MetricCard = ({ metric, workspaceId, tenantId, onNavigate }) => {
+/**
+ * MetricCard component for individual metrics
+ * @param {Object} props - Component props
+ * @param {Object} props.metric - Metric configuration
+ * @param {string} props.workspaceId - Workspace ID
+ * @param {string} props.tenantId - Tenant ID
+ * @param {Function} props.onNavigate - Navigation handler
+ * @param {Object} props.timeRange - Time range configuration
+ */
+const MetricCard = ({ metric, workspaceId, tenantId, onNavigate, timeRange }) => {
   const insight = useMemo(
     () => ({
       type: ChartTypes.BIGNUMBERWITHTREND,
@@ -85,7 +98,15 @@ const MetricCard = ({ metric, workspaceId, tenantId, onNavigate }) => {
     [metric]
   );
 
-  return <InsightPreview insight={insight} workspaceId={workspaceId} tenantId={tenantId} onNavigate={onNavigate} />;
+  return (
+    <InsightPreview
+      insight={insight}
+      workspaceId={workspaceId}
+      tenantId={tenantId}
+      onNavigate={onNavigate}
+      timeRange={timeRange}
+    />
+  );
 };
 
 /**
@@ -95,8 +116,10 @@ const MetricCard = ({ metric, workspaceId, tenantId, onNavigate }) => {
  * @param {string} props.workspaceId - Workspace ID
  * @param {string} props.tenantId - Tenant ID
  * @param {string} props.className - Additional CSS classes
+ * @param {Function} props.onNavigate - Navigation handler
+ * @param {Object} props.timeRange - Time range configuration
  */
-export const MetricView = ({ metricViewConfig, workspaceId, tenantId, className = "", onNavigate }) => {
+export const MetricView = ({ metricViewConfig, workspaceId, tenantId, className = "", onNavigate, timeRange }) => {
   const categories = ["OUTPUT", "DRIVER", "INPUT"];
 
   if (!metricViewConfig) {
@@ -117,7 +140,13 @@ export const MetricView = ({ metricViewConfig, workspaceId, tenantId, className 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">
               {metrics.map((metric, index) => (
                 <div key={`${category}-${index}`}>
-                  <MetricCard metric={metric} workspaceId={workspaceId} tenantId={tenantId} onNavigate={onNavigate} />
+                  <MetricCard
+                    metric={metric}
+                    workspaceId={workspaceId}
+                    tenantId={tenantId}
+                    onNavigate={onNavigate}
+                    timeRange={timeRange}
+                  />
                 </div>
               ))}
             </div>
