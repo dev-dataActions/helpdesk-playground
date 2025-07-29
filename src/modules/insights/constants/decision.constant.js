@@ -133,7 +133,7 @@ export const explanationInightsConfig = {
       },
       insight_type: "summary",
       workspace_id: "workspace_99398cfd-dfd4-4195-8702-82dcfdd4efac",
-      tenant_id: "mcsyjvco",
+      tenant_id: null,
     },
     {
       payload: {
@@ -145,7 +145,7 @@ export const explanationInightsConfig = {
       },
       insight_type: "summary",
       workspace_id: "workspace_99398cfd-dfd4-4195-8702-82dcfdd4efac",
-      tenant_id: "mcsyjvco",
+      tenant_id: null,
     },
     {
       payload: {
@@ -157,7 +157,7 @@ export const explanationInightsConfig = {
       },
       insight_type: "trend",
       workspace_id: "workspace_99398cfd-dfd4-4195-8702-82dcfdd4efac",
-      tenant_id: "mcsyjvco",
+      tenant_id: null,
     },
     {
       payload: {
@@ -170,7 +170,7 @@ export const explanationInightsConfig = {
       },
       insight_type: "contributor",
       workspace_id: "workspace_99398cfd-dfd4-4195-8702-82dcfdd4efac",
-      tenant_id: "mcsyjvco",
+      tenant_id: null,
     },
     {
       payload: {
@@ -180,9 +180,9 @@ export const explanationInightsConfig = {
         dimensions: ["trial_name"],
         filters: [],
       },
-      insight_type: "ranking",
+      insight_type: "contributor",
       workspace_id: "workspace_99398cfd-dfd4-4195-8702-82dcfdd4efac",
-      tenant_id: "mcsyjvco",
+      tenant_id: null,
     },
   ],
   feature_mbrug9mq: [
@@ -196,7 +196,7 @@ export const explanationInightsConfig = {
       },
       insight_type: "summary",
       workspace_id: "workspace_99398cfd-dfd4-4195-8702-82dcfdd4efac",
-      tenant_id: "mcsyjvco",
+      tenant_id: null,
     },
   ],
   feature_mcyg3aru: [
@@ -210,7 +210,7 @@ export const explanationInightsConfig = {
       },
       insight_type: "summary",
       workspace_id: "workspace_99398cfd-dfd4-4195-8702-82dcfdd4efac",
-      tenant_id: "mcsyjvco",
+      tenant_id: null,
     },
     {
       payload: {
@@ -222,7 +222,7 @@ export const explanationInightsConfig = {
       },
       insight_type: "trend",
       workspace_id: "workspace_99398cfd-dfd4-4195-8702-82dcfdd4efac",
-      tenant_id: "mcsyjvco",
+      tenant_id: null,
     },
     {
       payload: {
@@ -235,7 +235,7 @@ export const explanationInightsConfig = {
       },
       insight_type: "contributor",
       workspace_id: "workspace_99398cfd-dfd4-4195-8702-82dcfdd4efac",
-      tenant_id: "mcsyjvco",
+      tenant_id: null,
     },
     {
       payload: {
@@ -247,7 +247,7 @@ export const explanationInightsConfig = {
       },
       insight_type: "contributor",
       workspace_id: "workspace_99398cfd-dfd4-4195-8702-82dcfdd4efac",
-      tenant_id: "mcsyjvco",
+      tenant_id: null,
     },
   ],
   feature_mcygu7lb: [
@@ -261,7 +261,7 @@ export const explanationInightsConfig = {
       },
       insight_type: "summary",
       workspace_id: "workspace_99398cfd-dfd4-4195-8702-82dcfdd4efac",
-      tenant_id: "mcsyjvco",
+      tenant_id: null,
     },
     {
       payload: {
@@ -273,7 +273,7 @@ export const explanationInightsConfig = {
       },
       insight_type: "trend",
       workspace_id: "workspace_99398cfd-dfd4-4195-8702-82dcfdd4efac",
-      tenant_id: "mcsyjvco",
+      tenant_id: null,
     },
     {
       payload: {
@@ -286,7 +286,7 @@ export const explanationInightsConfig = {
       },
       insight_type: "contributor",
       workspace_id: "workspace_99398cfd-dfd4-4195-8702-82dcfdd4efac",
-      tenant_id: "mcsyjvco",
+      tenant_id: null,
     },
   ],
 };

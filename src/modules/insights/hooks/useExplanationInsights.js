@@ -36,23 +36,15 @@ export const useExplanationInsights = (decisionId, workspaceId, tenantId) => {
 
       // Fetch insights for all config items
       const allInsights = [];
+      try {
+        const insightData = await fetchExplanationInsights(config, workspaceId, tenantId);
 
-      for (const insightConfig of config) {
-        try {
-          const payload = {
-            ...insightConfig.payload,
-            insight_type: insightConfig.insight_type,
-          };
-
-          const insightData = await fetchExplanationInsights(payload, workspaceId, tenantId);
-
-          if (insightData && Array.isArray(insightData)) {
-            allInsights.push(...insightData);
-          }
-        } catch (error) {
-          console.error(`Error fetching insight for config:`, insightConfig, error);
-          // Continue with other insights even if one fails
+        if (insightData && Array.isArray(insightData)) {
+          allInsights.push(...insightData);
         }
+      } catch (error) {
+        console.error(`Error fetching insight for config:`, insightConfig, error);
+        // Continue with other insights even if one fails
       }
 
       setInsights(allInsights);

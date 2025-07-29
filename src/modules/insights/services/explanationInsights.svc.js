@@ -21,15 +21,15 @@ export const fetchExplanationInsights = async (payload, workspaceId, tenantId) =
   }
 
   try {
-    const url = `${process.env.NEXT_PUBLIC_BACKEND_URL}/explanation-insights`;
+    const url = `https://dametrics.dataactions.ai/getInsightFeed`;
 
     // TODO: Uncomment when API is ready
-    // const response = await request(url, "POST", { body: payload });
-    // return response?.insights || [];
+    const response = await request(url, "POST", { body: payload });
+    return response || [];
 
     // Dummy data for development
-    const dummyInsights = getDummyInsights(payload?.insight_type);
-    return dummyInsights;
+    // const dummyInsights = getDummyInsights(payload?.insight_type);
+    // return dummyInsights;
   } catch (error) {
     console.error("Error fetching explanation insights:", error);
     return null;

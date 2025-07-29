@@ -8,9 +8,8 @@ import { PiChartBarThin } from "react-icons/pi";
  * Individual insight item component
  * @param {Object} props - Component props
  * @param {string} props.insight - Insight text
- * @param {number} props.index - Index of the insight
  */
-const InsightItem = ({ insight, index }) => {
+const InsightItem = ({ insight }) => {
   const icon = useMemo(() => {
     const iconMap = {
       trending: <FiTrendingUp className="w-4 h-4 text-blue-500" />,
@@ -23,7 +22,7 @@ const InsightItem = ({ insight, index }) => {
     // Simple logic to assign icons based on content
     if (insight.toLowerCase().includes("trend") || insight.toLowerCase().includes("growth")) {
       return iconMap.trending;
-    } else if (insight.toLowerCase().includes("region") || insight.toLowerCase().includes("contribut")) {
+    } else if (insight.toLowerCase().includes("region") || insight.toLowerCase().includes("contributor")) {
       return iconMap.users;
     } else if (insight.toLowerCase().includes("rank") || insight.toLowerCase().includes("top")) {
       return iconMap.award;
@@ -61,6 +60,7 @@ export const ExplanationInsightsFeed = ({
   className = "",
 }) => {
   const hasInsights = insights && insights.length > 0;
+  const filteredInsights = insights.filter((insight) => typeof insight === "string" && insight?.length);
 
   if (loading) {
     return (
@@ -94,13 +94,15 @@ export const ExplanationInsightsFeed = ({
       {/* Header */}
       <div className="flex items-center justify-between mb-2 pb-1 border-b border-gray-300">
         <h3 className="text-xs text-gray-900">What's happening?</h3>
-        <span className="text-xs text-blue-900 bg-blue-100 px-2 py-1 rounded-full">{insights.length} insights</span>
+        <span className="text-xs text-blue-900 bg-blue-100 px-2 py-1 rounded-full">
+          {filteredInsights.length} insights
+        </span>
       </div>
 
       {/* Insights List */}
       <div className="flex-1 overflow-y-auto space-y-2 pr-1">
-        {insights.map((insight, index) => (
-          <InsightItem key={`insight-${index}`} insight={insight} index={index} />
+        {filteredInsights.map((insight, index) => (
+          <InsightItem key={`insight-${index}`} insight={insight} />
         ))}
       </div>
     </div>
