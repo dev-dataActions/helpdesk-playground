@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { fetchExplanationInsights } from "../services/explanationInsights.svc";
+import { explanationInsightsConfig } from "../constants/decision.constant";
 
 /**
  * Custom hook to fetch explanation insights for a decision
@@ -24,10 +25,7 @@ export const useExplanationInsights = (decisionId, workspaceId, tenantId) => {
     setError(null);
 
     try {
-      // Import the config dynamically to avoid circular dependencies
-      const { explanationInightsConfig } = await import("../constants/decision.constant");
-
-      const config = explanationInightsConfig[decisionId];
+      const config = explanationInsightsConfig[decisionId];
       if (!config || !Array.isArray(config)) {
         console.warn(`No explanation insights config found for decision: ${decisionId}`);
         setInsights([]);
