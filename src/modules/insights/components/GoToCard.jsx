@@ -1,4 +1,4 @@
-import { GoChevronRight, GoLinkExternal } from "react-icons/go";
+import { GoChevronRight, GoLinkExternal, GoPin } from "react-icons/go";
 
 /**
  * GoToCard component with comprehensive error handling and prop validation
@@ -9,6 +9,10 @@ import { GoChevronRight, GoLinkExternal } from "react-icons/go";
  * @param {string} props.href - Link URL (optional, for backward compatibility)
  * @param {Function} props.onClick - Click handler
  * @param {string} props.className - Additional CSS classes
+ * @param {boolean} props.isPinned - Whether the card is pinned
+ * @param {Function} props.onPinToggle - Pin toggle handler function
+ * @param {string} props.boardId - Board ID for pin functionality
+ * @param {string} props.decisionId - Decision ID for pin functionality
  */
 export const GoToCard = ({
   name = "Title",
@@ -17,6 +21,10 @@ export const GoToCard = ({
   href = "#",
   onClick = null,
   className = "",
+  isPinned = false,
+  onPinToggle = null,
+  boardId = null,
+  decisionId = null,
 }) => {
   const handleClick = (e) => {
     try {
@@ -34,10 +42,38 @@ export const GoToCard = ({
     }
   };
 
+  const handlePinToggle = (e) => {
+    try {
+      e.preventDefault();
+      e.stopPropagation();
+
+      if (onPinToggle && typeof onPinToggle === "function" && boardId && decisionId) {
+        onPinToggle(boardId, decisionId, isPinned);
+      }
+    } catch (error) {
+      console.error("GoToCard pin toggle error:", error);
+    }
+  };
+
   return (
     <div
-      className={`w-full h-full bg-white rounded-md border border-gray-300 flex flex-col justify-between ${className}`}
+      className={`w-full h-full bg-white rounded-md border border-gray-300 flex flex-col justify-between relative ${className}`}
     >
+      {/* Pin button - only show if pin functionality is available */}
+      {onPinToggle && boardId && decisionId && (
+        <button
+          className="absolute top-3 right-3 p-1 rounded-full hover:bg-gray-100 transition-colors z-10"
+          onClick={handlePinToggle}
+          title={isPinned ? "Unpin board" : "Pin board"}
+        >
+          {isPinned ? (
+            <GoPin size={16} className="text-blue-500" />
+          ) : (
+            <GoPin size={16} className="text-gray-600 hover:text-blue-500" />
+          )}
+        </button>
+      )}
+
       <div className="flex items-start gap-x-3 p-4">
         <div className="p-2.5 rounded-full bg-blue-100 text-blue-500 flex items-center justify-center">
           <GoLinkExternal size={16} />

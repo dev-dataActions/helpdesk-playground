@@ -1,6 +1,7 @@
 import { useCallback } from "react";
 import { GoToCard } from "./GoToCard";
 import { useRecentBoards } from "../hooks/useRecentBoards";
+import { usePinnedBoards } from "../hooks/usePinnedBoards";
 import { Loading } from "../common/functional/Loading";
 import { Error } from "../common/functional/Error";
 
@@ -14,6 +15,7 @@ import { Error } from "../common/functional/Error";
  */
 export const RecentBoards = ({ workspaceId, appId, onNavigate = null, className = "" }) => {
   const { recentBoards, loading, error } = useRecentBoards(workspaceId, appId);
+  const { isPinned, pinBoard, unpinBoard } = usePinnedBoards(workspaceId, appId);
 
   const handleBoardClick = useCallback(
     (board) => {
@@ -26,6 +28,24 @@ export const RecentBoards = ({ workspaceId, appId, onNavigate = null, className 
       }
     },
     [onNavigate]
+  );
+
+  const handlePinToggle = useCallback(
+    (boardId, decisionId, currentlyPinned) => {
+      try {
+        const board = recentBoards?.find((b) => b.boardId === boardId);
+        if (!board) return;
+
+        if (currentlyPinned) {
+          unpinBoard(boardId, decisionId);
+        } else {
+          pinBoard(boardId, board.boardName, board.boardDescription, decisionId);
+        }
+      } catch (error) {
+        console.error("Pin toggle error:", error);
+      }
+    },
+    [recentBoards, pinBoard, unpinBoard]
   );
 
   if (loading) {
@@ -53,16 +73,24 @@ export const RecentBoards = ({ workspaceId, appId, onNavigate = null, className 
             <p className="text-xs text-gray-500">Start exploring decision boards to see them here</p>
           </div>
         ) : (
-          recentBoards.map((board) => (
-            <div key={board.boardId} className="w-full">
-              <GoToCard
-                name={board.boardName}
-                description={board.boardDescription}
-                goToText="Go to board"
-                onClick={() => handleBoardClick(board)}
-              />
-            </div>
-          ))
+          recentBoards.map((board) => {
+            const isBoardPinned = isPinned(board.boardId, board.decisionId);
+
+            return (
+              <div key={board.boardId} className="w-full">
+                <GoToCard
+                  name={board.boardName}
+                  description={board.boardDescription}
+                  goToText="Go to board"
+                  onClick={() => handleBoardClick(board)}
+                  isPinned={isBoardPinned}
+                  onPinToggle={handlePinToggle}
+                  boardId={board.boardId}
+                  decisionId={board.decisionId}
+                />
+              </div>
+            );
+          })
         )}
       </div>
     </div>

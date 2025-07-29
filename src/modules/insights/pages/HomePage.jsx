@@ -93,7 +93,7 @@ export const HomePage = ({
               id: "pinned",
               label: "Pinned Boards",
               value: "pinned",
-              component: <PinnedBoards />,
+              component: <PinnedBoards workspaceId={workspaceId} appId={appId} onNavigate={handleNavigate} />,
             },
           ]}
         />

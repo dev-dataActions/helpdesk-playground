@@ -1,5 +1,6 @@
 import { GoToCard } from "./GoToCard";
 import { useDecisionBoards } from "../hooks/useDecisionBoards";
+import { usePinnedBoards } from "../hooks/usePinnedBoards";
 import { Error } from "../common/functional/Error";
 
 /**
@@ -13,6 +14,7 @@ import { Error } from "../common/functional/Error";
  */
 export const DecisionBoards = ({ workspaceId, appId, decisionId, onNavigate = null, className = "" }) => {
   const { boards, loading, error } = useDecisionBoards(workspaceId, appId, decisionId);
+  const { isPinned, pinBoard, unpinBoard } = usePinnedBoards(workspaceId, appId);
 
   const handleBoardClick = (board) => {
     try {
@@ -21,6 +23,21 @@ export const DecisionBoards = ({ workspaceId, appId, decisionId, onNavigate = nu
       }
     } catch (error) {
       console.error("Board navigation error:", error);
+    }
+  };
+
+  const handlePinToggle = (boardId, decisionId, currentlyPinned) => {
+    try {
+      const board = boards?.find((b) => b.board_id === boardId || b.id === boardId);
+      if (!board) return;
+
+      if (currentlyPinned) {
+        unpinBoard(boardId, decisionId);
+      } else {
+        pinBoard(boardId, board.name, board.description, decisionId);
+      }
+    } catch (error) {
+      console.error("Pin toggle error:", error);
     }
   };
 
@@ -67,16 +84,25 @@ export const DecisionBoards = ({ workspaceId, appId, decisionId, onNavigate = nu
 
       <div className="flex flex-col gap-3">
         {(!boards || boards.length === 0) && <p className="text-sm text-gray-600">No boards added yet.</p>}
-        {boards?.map((board) => (
-          <div key={board.board_id || board.id} className="w-full">
-            <GoToCard
-              name={board.name}
-              description={board.description}
-              goToText="Go to board"
-              onClick={() => handleBoardClick(board)}
-            />
-          </div>
-        ))}
+        {boards?.map((board) => {
+          const boardId = board.board_id || board.id;
+          const isBoardPinned = isPinned(boardId, decisionId);
+
+          return (
+            <div key={boardId} className="w-full">
+              <GoToCard
+                name={board.name}
+                description={board.description}
+                goToText="Go to board"
+                onClick={() => handleBoardClick(board)}
+                isPinned={isBoardPinned}
+                onPinToggle={handlePinToggle}
+                boardId={boardId}
+                decisionId={decisionId}
+              />
+            </div>
+          );
+        })}
       </div>
     </div>
   );
