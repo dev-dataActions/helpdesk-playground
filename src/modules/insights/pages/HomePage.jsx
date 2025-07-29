@@ -64,7 +64,7 @@ export const HomePage = ({
 
   return (
     <PanelLayout
-      title="Insights"
+      title="My Altitude"
       description="Monitor your key metrics and explore decision insights"
       breadcrumbs={[{ name: "Home" }]}
     >
@@ -73,6 +73,7 @@ export const HomePage = ({
           roleId={roleId}
           workspaceId={workspaceId}
           tenantId={finalTenantId}
+          decisionTree={decisionTree}
           onNavigate={handleNavigate}
           className="mb-6"
         />
