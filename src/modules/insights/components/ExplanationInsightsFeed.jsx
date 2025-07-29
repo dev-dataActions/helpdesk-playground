@@ -1,8 +1,8 @@
 import { useMemo } from "react";
 import { FiTrendingUp, FiUsers, FiAward, FiInfo } from "react-icons/fi";
-import { Loading } from "../common/functional/Loading";
 import { Error } from "../common/functional/Error";
 import { PiChartBarThin } from "react-icons/pi";
+import { Loader } from "../common/base/Loader";
 
 /**
  * Individual insight item component
@@ -68,7 +68,7 @@ export const ExplanationInsightsFeed = ({
   if (loading) {
     return (
       <div className={`h-full ${className}`}>
-        <Loading loaderText="Loading insights..." />
+        <Loader loaderText="Loading insights..." />
       </div>
     );
   }

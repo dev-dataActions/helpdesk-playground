@@ -141,7 +141,7 @@ export const DecisionCard = ({ roleId, workspaceId, tenantId, onNavigate, classN
 
   return (
     <div className={`bg-white border border-gray-300 rounded-lg p-4 ${className}`}>
-      <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-4">
         {/* Output Metrics Section - Takes 1fr */}
         <div>
           <h2 className="font-meidum text-gray-800 mb-2">My Altitude</h2>

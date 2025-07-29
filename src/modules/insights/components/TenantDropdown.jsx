@@ -4,7 +4,7 @@ import { useTenants } from "../hooks/useTenants";
 export const TenantDropdown = ({ workspaceId, tenantId, setTenantId }) => {
   const { tenants } = useTenants(workspaceId);
   return (
-    <div className="w-48">
+    <div className="w-full">
       <Dropdown
         inlineLabel="Account"
         options={tenants?.map((x) => ({ label: x.name, value: x.id }))}
