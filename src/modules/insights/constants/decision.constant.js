@@ -1,7 +1,7 @@
 export const metricViewConfig = {
   decision_mbmcip2a: {
     OUTPUT: [
-      { metricKey: "no_of_trials_completed", metricLabel: "No of Trials Completed" },
+      { metricKey: "num_trials_created", metricLabel: "No of Trials Completed" },
       { metricKey: "no_of_entries_advanced", metricLabel: "No of Entries Advanced" }
     ],
     DRIVER: [
@@ -12,13 +12,13 @@ export const metricViewConfig = {
     INPUT: [
       { metricKey: "num_fields_harvested", metricLabel: "Num. Fields Harvested" },
       { metricKey: "num_fields_planted", metricLabel: "Num. Fields Planted" },
-      { metricKey: "total_trials_planned", metricLabel: "Total Trials Planned" }
+      { metricKey: "no_of_trials_created", metricLabel: "Total Trials Created" }
     ]
   },
 
   feature_mbrug9mq: {
     OUTPUT: [
-      { metricKey: "no_of_trials_completed", metricLabel: "No of Trials Completed" }
+      { metricKey: "num_trials_created", metricLabel: "No of Trials Completed" }
     ],
     DRIVER: [
       { metricKey: "trial_completion_rate", metricLabel: "Trial Completion Rate" },
@@ -28,13 +28,13 @@ export const metricViewConfig = {
     INPUT: [
       { metricKey: "num_fields_harvested", metricLabel: "Num. Fields Harvested" },
       { metricKey: "num_fields_planted", metricLabel: "Num. Fields Planted" },
-      { metricKey: "total_trials_planned", metricLabel: "Total Trials Planned" }
+      { metricKey: "no_of_trials_created", metricLabel: "Total Trials Created" }
     ]
   },
 
   feature_mcyg3aru: {
     OUTPUT: [
-      { metricKey: "no_of_trials_completed", metricLabel: "No of Trials Completed" }
+      { metricKey: "num_trials_created", metricLabel: "No of Trials Completed" }
     ],
     DRIVER: [
       { metricKey: "trial_completion_rate", metricLabel: "Trial Completion Rate" },
@@ -44,7 +44,7 @@ export const metricViewConfig = {
     INPUT: [
       { metricKey: "num_fields_harvested", metricLabel: "Num. Fields Harvested" },
       { metricKey: "num_fields_planted", metricLabel: "Num. Fields Planted" },
-      { metricKey: "total_trials_planned", metricLabel: "Total Trials Planned" }
+      { metricKey: "no_of_trials_created", metricLabel: "Total Trials Created" }
     ]
   },
 
@@ -112,7 +112,7 @@ export const explanationInsightsConfig = {
       payload: {
         fromtime: "2025-02-01",
         totime: "2025-07-31",
-        metric_name: "no_of_trials_completed",
+        metric_name: "num_trials_created",
         timegrain: "month",
         filters: [],
       },
@@ -124,7 +124,7 @@ export const explanationInsightsConfig = {
       payload: {
         fromtime: "2025-02-01",
         totime: "2025-07-31",
-        metric_name: "no_of_trials_completed",
+        metric_name: "num_trials_created",
         timegrain: "month",
         dimensions: ["crop_name"],
         filters: [],
@@ -137,7 +137,7 @@ export const explanationInsightsConfig = {
       payload: {
         fromtime: "2025-02-01",
         totime: "2025-07-31",
-        metric_name: "no_of_trials_completed",
+        metric_name: "num_trials_created",
         timegrain: "month",
         dimensions: ["user_region"],
         filters: [],
@@ -152,7 +152,7 @@ export const explanationInsightsConfig = {
       payload: {
         fromtime: "2025-02-01",
         totime: "2025-07-31",
-        metric_name: "no_of_trials_completed",
+        metric_name: "num_trials_created",
         timegrain: "month",
         filters: [],
       },
@@ -164,7 +164,7 @@ export const explanationInsightsConfig = {
       payload: {
         fromtime: "2025-02-01",
         totime: "2025-07-31",
-        metric_name: "no_of_trials_completed",
+        metric_name: "num_trials_created",
         timegrain: "month",
         dimensions: ["crop_name"],
         filters: [],
@@ -177,7 +177,7 @@ export const explanationInsightsConfig = {
       payload: {
         fromtime: "2025-02-01",
         totime: "2025-07-31",
-        metric_name: "no_of_trials_completed",
+        metric_name: "num_trials_created",
         timegrain: "month",
         dimensions: ["user_region"],
         filters: [],
@@ -192,7 +192,7 @@ export const explanationInsightsConfig = {
       payload: {
         fromtime: "2025-02-01",
         totime: "2025-07-31",
-        metric_name: "no_of_trials_completed",
+        metric_name: "num_trials_created",
         timegrain: "month",
         filters: [],
       },
@@ -204,7 +204,7 @@ export const explanationInsightsConfig = {
       payload: {
         fromtime: "2025-02-01",
         totime: "2025-07-31",
-        metric_name: "no_of_trials_completed",
+        metric_name: "num_trials_created",
         timegrain: "month",
         dimensions: ["trial_location"],
         filters: [],
@@ -217,7 +217,7 @@ export const explanationInsightsConfig = {
       payload: {
         fromtime: "2025-02-01",
         totime: "2025-07-31",
-        metric_name: "no_of_trials_completed",
+        metric_name: "num_trials_created",
         timegrain: "month",
         dimensions: ["zone"],
         filters: [],
