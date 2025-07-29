@@ -1,71 +1,72 @@
 export const metricViewConfig = {
   decision_mbmcip2a: {
-  OUTPUT: [
-    { metricKey: "no_of_trials_completed", metricLabel: "No of Trials Completed" },
-    { metricKey: "no_of_entries_advanced", metricLabel: "No of Entries Advanced" }
-  ],
-  DRIVER: [
-    { metricKey: "trial_completion_rate", metricLabel: "Trial Completion Rate" },
-    { metricKey: "fieldbook_fill_rate", metricLabel: "Fieldbook Fill Rate" },
-    { metricKey: "avg_time_to_complete_trial", metricLabel: "Avg. Time to Complete Trial" }
-  ],
-  INPUT: [
-    { metricKey: "num_fields_harvested", metricLabel: "Num. Fields Harvested" },
-    { metricKey: "num_fields_planted", metricLabel: "Num. Fields Planted" },
-    { metricKey: "total_trials_planned", metricLabel: "Total Trials Planned" }
-  ]
-},
+    OUTPUT: [
+      { metricKey: "no_of_trials_completed", metricLabel: "No of Trials Completed" },
+      { metricKey: "no_of_entries_advanced", metricLabel: "No of Entries Advanced" }
+    ],
+    DRIVER: [
+      { metricKey: "trial_completion_rate", metricLabel: "Trial Completion Rate" },
+      { metricKey: "fieldbook_fill_rate", metricLabel: "Fieldbook Fill Rate" },
+      { metricKey: "avg_time_to_complete_trial", metricLabel: "Avg. Time to Complete Trial" }
+    ],
+    INPUT: [
+      { metricKey: "num_fields_harvested", metricLabel: "Num. Fields Harvested" },
+      { metricKey: "num_fields_planted", metricLabel: "Num. Fields Planted" },
+      { metricKey: "total_trials_planned", metricLabel: "Total Trials Planned" }
+    ]
+  },
 
-feature_mbrug9mq: {
-  OUTPUT: [
-    { metricKey: "no_of_trials_completed", metricLabel: "No of Trials Completed" }
-  ],
-  DRIVER: [
-    { metricKey: "trial_completion_rate", metricLabel: "Trial Completion Rate" },
-    { metricKey: "fieldbook_fill_rate", metricLabel: "Fieldbook Fill Rate" },
-    { metricKey: "avg_time_to_complete_trial", metricLabel: "Avg. Time to Complete Trial" }
-  ],
-  INPUT: [
-    { metricKey: "num_fields_harvested", metricLabel: "Num. Fields Harvested" },
-    { metricKey: "num_fields_planted", metricLabel: "Num. Fields Planted" },
-    { metricKey: "total_trials_planned", metricLabel: "Total Trials Planned" }
-  ]
-},
+  feature_mbrug9mq: {
+    OUTPUT: [
+      { metricKey: "no_of_trials_completed", metricLabel: "No of Trials Completed" }
+    ],
+    DRIVER: [
+      { metricKey: "trial_completion_rate", metricLabel: "Trial Completion Rate" },
+      { metricKey: "fieldbook_fill_rate", metricLabel: "Fieldbook Fill Rate" },
+      { metricKey: "avg_time_to_complete_trial", metricLabel: "Avg. Time to Complete Trial" }
+    ],
+    INPUT: [
+      { metricKey: "num_fields_harvested", metricLabel: "Num. Fields Harvested" },
+      { metricKey: "num_fields_planted", metricLabel: "Num. Fields Planted" },
+      { metricKey: "total_trials_planned", metricLabel: "Total Trials Planned" }
+    ]
+  },
 
-feature_mcyg3aru: {
-  OUTPUT: [
-    { metricKey: "no_of_trials_completed", metricLabel: "No of Trials Completed" }
-  ],
-  DRIVER: [
-    { metricKey: "trial_completion_rate", metricLabel: "Trial Completion Rate" },
-    { metricKey: "planting_to_harvest_completion_rate", metricLabel: "Planting to Harvest Completion Rate" },
-    { metricKey: "avg_time_to_complete_trial", metricLabel: "Avg. Time to Complete Trial" }
-  ],
-  INPUT: [
-    { metricKey: "num_fields_harvested", metricLabel: "Num. Fields Harvested" },
-    { metricKey: "num_fields_planted", metricLabel: "Num. Fields Planted" },
-    { metricKey: "total_trials_planned", metricLabel: "Total Trials Planned" }
-  ]
-},
+  feature_mcyg3aru: {
+    OUTPUT: [
+      { metricKey: "no_of_trials_completed", metricLabel: "No of Trials Completed" }
+    ],
+    DRIVER: [
+      { metricKey: "trial_completion_rate", metricLabel: "Trial Completion Rate" },
+      { metricKey: "planting_to_harvest_completion_rate", metricLabel: "Planting to Harvest Completion Rate" },
+      { metricKey: "avg_time_to_complete_trial", metricLabel: "Avg. Time to Complete Trial" }
+    ],
+    INPUT: [
+      { metricKey: "num_fields_harvested", metricLabel: "Num. Fields Harvested" },
+      { metricKey: "num_fields_planted", metricLabel: "Num. Fields Planted" },
+      { metricKey: "total_trials_planned", metricLabel: "Total Trials Planned" }
+    ]
+  },
 
-feature_mcygu7lb: {
-  OUTPUT: [
-    { metricKey: "no_of_fields_harvested", metricLabel: "No of Fields Harvested" },
-    // { metricKey: "avg_time_to_complete_harvest", metricLabel: "Avg. Time to Complete Harvest" }
-  ],
-  DRIVER: [
-    { metricKey: "fieldbook_fill_rate", metricLabel: "Fieldbook Fill Rate" },
-    { metricKey: "avg_delay_in_observations", metricLabel: "Avg. Delay in Observations" },
-    { metricKey: "avg_delay_in_agronomy_protocol", metricLabel: "Avg. Delay in Agronomy Protcol" },
-    { metricKey: "avg_delay_in_planting", metricLabel: "Avg. Delay in Planting" },
-    { metricKey: "avg_delay_in_harvest", metricLabel: "Avg. Delay in Harvest" }
-  ],
-  INPUT: [
-    { metricKey: "num_fields_planted", metricLabel: "Num. Fields Planted" }
-  ]
+  feature_mcygu7lb: {
+    OUTPUT: [
+      { metricKey: "no_of_fields_harvested", metricLabel: "No of Fields Harvested" },
+      { metricKey: "avg_time_to_complete_harvest", metricLabel: "Avg. Time to Complete Harvest" }
+    ],
+    DRIVER: [
+      { metricKey: "fieldbook_fill_rate", metricLabel: "Fieldbook Fill Rate" },
+      { metricKey: "avg_delay_in_observations", metricLabel: "Avg. Delay in Observations" },
+      { metricKey: "avg_delay_in_agronomy_protocol", metricLabel: "Avg. Delay in Agronomy Protocol" },
+      { metricKey: "avg_delay_in_planting", metricLabel: "Avg. Delay in Planting" },
+      { metricKey: "avg_delay_in_harvest", metricLabel: "Avg. Delay in Harvest" }
+    ],
+    INPUT: [
+      { metricKey: "num_fields_planted", metricLabel: "Num. Fields Planted" }
+    ]
+  }
 };
 
-export const explanationInightsConfig = {
+export const explanationInsightsConfig = {
   overview_lever: [
     {
       payload: {
@@ -266,5 +267,4 @@ export const explanationInightsConfig = {
       tenant_id: "mcsyjvco",
     },
   ],
-};
-
+}; 
