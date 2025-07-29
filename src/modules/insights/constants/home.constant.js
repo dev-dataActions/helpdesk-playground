@@ -1,5 +1,5 @@
 export const metricViewConfig = {
-    OUTPUT: [
+  OUTPUT: [
     { metricKey: "no_of_entries_advanced", metricLabel: "No of Entries Advanced" }
   ],
   INPUT: [
@@ -8,5 +8,4 @@ export const metricViewConfig = {
     { metricKey: "trial_completion_rate", metricLabel: "Trial Completion Rate" },
     { metricKey: "avg_time_to_complete_trial", metricLabel: "Avg. Time to Complete Trial" }
   ]
-}
 };
