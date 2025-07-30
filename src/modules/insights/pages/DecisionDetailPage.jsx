@@ -26,7 +26,7 @@ import { metricViewConfig } from "../constants/decision.constant";
  */
 export const DecisionDetailPage = ({ workspaceId, appId, decisionId, tenantId, onNavigate = null, className = "" }) => {
   const { decisionTree, loading, error } = useDecisionTree(workspaceId, appId);
-  const [timeRange, setTimeRange] = useState(90); // Default to quarterly (90 days)
+  const [timeRange, setTimeRange] = useState(30); // Default to quarterly (90 days)
   const [selectedTab, setSelectedTab] = useState("monitoring");
 
   const { breadcrumbs, decision, metricConfig, subDecisions } = useMemo(() => {

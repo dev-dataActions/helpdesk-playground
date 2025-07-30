@@ -31,7 +31,7 @@ export const HomePage = ({
   const { tenantId } = useTenantId();
   const finalTenantId = propTenantId || tenantId;
   const { roleId } = useRoleId();
-  const [timeRange, setTimeRange] = useState(90);
+  const [timeRange, setTimeRange] = useState(30);
 
   const { decisionTree, loading, error } = useDecisionTree(workspaceId, appId);
 
