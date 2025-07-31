@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import { useTenantId } from "../../../../modules/insights/hooks/useTenantId";
 import { useRoleId } from "../../../../modules/insights/hooks/useRoleId";
-import { ScreenLayout } from "../../../../modules/insights/common/layouts/ScreenLayout";
+import { ScreenLayout } from "da-apps-sdk";
 import { MetricWhatPage } from "../../../../modules/insights/pages/MetricWhatPage";
 import { RoleDropdown } from "../../../../modules/insights/components/RoleDropdown";
 

@@ -1,6 +1,6 @@
 import { useCallback, useMemo } from "react";
 import { ChartTypes, Insight, TimeGrain } from "da-insight-sdk";
-import { fetchData, fetchDimensionValues } from "../common/services/insights.svc";
+import { fetchData, fetchDimensionValues } from "../../container/services/insights.svc";
 
 /**
  * InsightPreview component for metric view

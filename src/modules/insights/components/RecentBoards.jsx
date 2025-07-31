@@ -2,8 +2,7 @@ import { useCallback } from "react";
 import { GoToCard } from "./GoToCard";
 import { useRecentBoards } from "../hooks/useRecentBoards";
 import { usePinnedBoards } from "../hooks/usePinnedBoards";
-import { Loading } from "../common/functional/Loading";
-import { Error } from "../common/functional/Error";
+import { Loading, Error } from "da-apps-sdk";
 
 /**
  * RecentBoards component with comprehensive error handling and prop validation

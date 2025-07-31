@@ -7,10 +7,7 @@ import { DecisionBoards } from "../components/DecisionBoards";
 import { MetricView } from "../components/MetricView";
 import { SubDecisionCards } from "../components/SubDecisionCards";
 import { ExplanationInsightsFeed } from "../components/ExplanationInsightsFeed";
-import { Loading } from "../common/functional/Loading";
-import { Error } from "../common/functional/Error";
-import { PanelLayout } from "../common/layouts/PanelLayout";
-import { Tabs } from "../common/functional/Tabs";
+import { Loading, Error, PanelLayout, Tabs } from "da-apps-sdk";
 import { TimeFilters } from "./BoardPage";
 import { metricViewConfig } from "../constants/decision.constant";
 

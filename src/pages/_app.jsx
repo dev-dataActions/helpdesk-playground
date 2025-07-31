@@ -1,7 +1,8 @@
 import "../styles/globals.css";
 import "da-insight-sdk/dist/styles.css";
-import { SidebarLayout } from "../modules/insights/common/layouts/SidebarLayout";
-import { SidebarContextProvider } from "../modules/insights/common/contexts/SidebarContext";
+import "da-apps-sdk/styles";
+import { SidebarLayout } from "../modules/container/layouts/SidebarLayout";
+import { SidebarContextProvider } from "../modules/container/contexts/SidebarContext";
 import { AuthProvider } from "../modules/container/contexts/AuthContext";
 import { ProtectedRoute } from "../modules/container/components/ProtectedRoute";
 import { useRouter } from "next/router";

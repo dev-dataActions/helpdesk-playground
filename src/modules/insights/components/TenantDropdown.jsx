@@ -1,4 +1,4 @@
-import { Dropdown } from "../common/base/Dropdown";
+import { Dropdown } from "da-apps-sdk";
 import { useTenants } from "../hooks/useTenants";
 
 export const TenantDropdown = ({ workspaceId, tenantId, setTenantId }) => {

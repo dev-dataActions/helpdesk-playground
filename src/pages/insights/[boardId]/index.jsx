@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import { useCallback } from "react";
 import BoardPage from "../../../modules/insights/pages/BoardPage";
-import { ScreenLayout } from "../../../modules/insights/common/layouts/ScreenLayout";
+import { ScreenLayout } from "da-apps-sdk";
 import { useTenantId } from "../../../modules/insights/hooks/useTenantId";
 import { useRoleId } from "../../../modules/insights/hooks/useRoleId";
 import { RoleDropdown } from "../../../modules/insights/components/RoleDropdown";

@@ -1,4 +1,4 @@
-import { request } from "../common/util/api.util";
+import { request } from "../../container/util/api.util";
 
 /**
  * Get all tenants

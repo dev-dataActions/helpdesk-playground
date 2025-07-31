@@ -1,8 +1,7 @@
 import { Insight } from "da-insight-sdk";
 import { useAppDecisionInsights } from "../hooks/useAppDecisionInsights";
-import { fetchData, fetchDimensionValues } from "../common/services/insights.svc";
-import { Error } from "../common/functional/Error";
-import { Loading } from "../common/functional/Loading";
+import { fetchData, fetchDimensionValues } from "../../container/services/insights.svc";
+import { Error, Loading } from "da-apps-sdk";
 
 /**
  * InsightPreview component for decision summary

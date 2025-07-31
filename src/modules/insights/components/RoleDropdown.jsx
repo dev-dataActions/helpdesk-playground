@@ -1,4 +1,4 @@
-import { Dropdown } from "../common/base/Dropdown";
+import { Dropdown } from "da-apps-sdk";
 
 const ROLE_OPTIONS = [
   { label: "DGO", value: "DGO" },

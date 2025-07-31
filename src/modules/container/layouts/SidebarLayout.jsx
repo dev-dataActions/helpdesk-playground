@@ -1,14 +1,14 @@
 import { useMemo } from "react";
 import { usePathname } from "next/navigation";
-import { List } from "../functional/List";
+import { List } from "da-apps-sdk";
 import { IoHomeOutline } from "react-icons/io5";
 import { PiBrainThin, PiTestTubeLight } from "react-icons/pi";
-import { TenantDropdown } from "../../components/TenantDropdown";
-import { useTenantId } from "../../hooks/useTenantId";
+import { TenantDropdown } from "../../insights/components/TenantDropdown";
+import { useTenantId } from "../../insights/hooks/useTenantId";
 import { SiTemporal } from "react-icons/si";
 import { IoChevronBackOutline } from "react-icons/io5";
 import { useSidebarContext } from "../contexts/SidebarContext";
-import { useAuth } from "../../../container/contexts/AuthContext";
+import { useAuth } from "../contexts/AuthContext";
 import { IoLogOutOutline } from "react-icons/io5";
 
 const UserDetails = ({ workspaceId }) => {
@@ -69,7 +69,7 @@ export const SidebarLayout = ({ children }) => {
   return (
     <div>
       <div
-        className={`h-screen w-64 fixed top-0 left-0 bg-[#25649A] border-r z-20 transition-transform duration-300 ease-in-out ${
+        className={`h-screen w-64 fixed top-0 left-0 bg-[#25649A] border-r z-20 transition-transform duration-500 ease-in-out ${
           isCollapsed ? "-translate-x-full" : "translate-x-0"
         }`}
       >
@@ -100,12 +100,12 @@ export const SidebarLayout = ({ children }) => {
         </div>
       </div>
 
-      <div className={`min-h-screen transition-all duration-300 ease-in-out ${isCollapsed ? "" : "md:pl-64"}`}>
+      <div className={`min-h-screen transition-all duration-500 ease-in-out ${isCollapsed ? "" : "md:pl-64"}`}>
         {children}
         {isCollapsed && (
           <button
             onClick={toggleSidebar}
-            className="fixed bottom-4 left-4 p-1.5 bg-[#25649A] hover:bg-[#1e4f7a] rounded-md transition-colors duration-200 z-50 shadow-lg"
+            className="fixed bottom-4 left-4 p-1.5 bg-[#25649A] hover:bg-[#1e4f7a] rounded-md transition-colors duration-300 z-50 shadow-lg"
           >
             <IoChevronBackOutline size={16} className="text-white rotate-180" />
           </button>

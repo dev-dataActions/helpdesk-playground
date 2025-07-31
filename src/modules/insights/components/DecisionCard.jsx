@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { ChartTypes, Insight, TimeGrain } from "da-insight-sdk";
 import { FiArrowRight } from "react-icons/fi";
-import { fetchData, fetchDimensionValues } from "../common/services/insights.svc";
+import { fetchData, fetchDimensionValues } from "../../container/services/insights.svc";
 import { getDecisionIdByRoleId } from "../utils/role.util";
 import { getDecision } from "../utils/general.util";
 import { metricViewConfig } from "../constants/decision.constant";

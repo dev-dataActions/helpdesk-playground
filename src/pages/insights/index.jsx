@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import { DecisionDetailPage } from "../../modules/insights/pages/DecisionDetailPage";
-import { ScreenLayout } from "../../modules/insights/common/layouts/ScreenLayout";
+import { ScreenLayout } from "da-apps-sdk";
 import { useTenantId } from "../../modules/insights/hooks/useTenantId";
 import { useRoleId } from "../../modules/insights/hooks/useRoleId";
 import { HomePage } from "../../modules/insights/pages/HomePage";
