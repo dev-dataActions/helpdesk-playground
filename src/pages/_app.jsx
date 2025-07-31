@@ -6,6 +6,7 @@ import { AuthProvider } from "../modules/container/contexts/AuthContext";
 import { ProtectedRoute } from "../modules/container/components/ProtectedRoute";
 import { useRouter } from "next/router";
 import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 function AppContent({ Component, pageProps }) {
   const router = useRouter();
@@ -21,6 +22,7 @@ function AppContent({ Component, pageProps }) {
         <SidebarLayout>
           <Component {...pageProps} />
           <Analytics />
+          <SpeedInsights />
         </SidebarLayout>
       </SidebarContextProvider>
     </ProtectedRoute>
