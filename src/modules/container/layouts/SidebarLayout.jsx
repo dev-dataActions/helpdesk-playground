@@ -54,7 +54,7 @@ export const SidebarLayout = ({ children }) => {
       {
         id: 6,
         icon: <PiBrainThin size={16} />,
-        label: "Trialing Insights",
+        label: "Trialing & Ops Insights",
         href: "/insights",
         current: pathname?.includes("/insights"),
       },
