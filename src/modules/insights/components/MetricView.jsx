@@ -31,7 +31,7 @@ const InsightPreview = ({ insight, workspaceId, tenantId, onNavigate, timeRange 
   const actions = useMemo(
     () => [
       {
-        name: "Analysis View",
+        name: "Drilldown",
         onClick: () => {
           try {
             if (onNavigate && typeof onNavigate === "function") {
@@ -42,18 +42,18 @@ const InsightPreview = ({ insight, workspaceId, tenantId, onNavigate, timeRange 
           }
         },
       },
-      {
-        name: "Insights View",
-        onClick: () => {
-          try {
-            if (onNavigate && typeof onNavigate === "function") {
-              onNavigate(`/insights/metric/${insight?.metric_name}/why?metricLabel=${insight?.title}`);
-            }
-          } catch (error) {
-            console.error("Navigation error:", error);
-          }
-        },
-      },
+      // {
+      //   name: "Insights View",
+      //   onClick: () => {
+      //     try {
+      //       if (onNavigate && typeof onNavigate === "function") {
+      //         onNavigate(`/insights/metric/${insight?.metric_name}/why?metricLabel=${insight?.title}`);
+      //       }
+      //     } catch (error) {
+      //       console.error("Navigation error:", error);
+      //     }
+      //   },
+      // },
     ],
     [insight?.metric_name, onNavigate]
   );
@@ -82,7 +82,7 @@ const InsightPreview = ({ insight, workspaceId, tenantId, onNavigate, timeRange 
  * @param {Function} props.onNavigate - Navigation handler
  * @param {Object} props.timeRange - Time range configuration
  */
-const MetricCard = ({ metric, workspaceId, tenantId, onNavigate, timeRange }) => {
+const MetricCard = ({ metric, workspaceId, tenantId, onNavigate, timeRange, className }) => {
   const insight = useMemo(
     () => ({
       type: ChartTypes.BIGNUMBERWITHTREND,
@@ -94,6 +94,7 @@ const MetricCard = ({ metric, workspaceId, tenantId, onNavigate, timeRange }) =>
           metricLabel: metric.metricLabel,
         },
       ],
+      ...(className && { options: { className: className } }),
     }),
     [metric]
   );
@@ -130,29 +131,85 @@ export const MetricView = ({ metricViewConfig, workspaceId, tenantId, className 
 
   return (
     <div className={`flex flex-col gap-6 ${className}`}>
-      {categories.map((category) => {
-        const metrics = metricViewConfig[category] || [];
-        if (metrics.length === 0) return null;
+      {/* Output Metrics - Keep as is */}
+      {(() => {
+        const outputMetrics = metricViewConfig["OUTPUT"] || [];
+        if (outputMetrics.length === 0) return null;
 
         return (
-          <div key={category} className="space-y-1.5">
-            <h3 className="text-sm text-gray-900 capitalize">{category.toLowerCase()} Metrics</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">
-              {metrics.map((metric, index) => (
-                <div key={`${category}-${index}`}>
-                  <MetricCard
-                    metric={metric}
-                    workspaceId={workspaceId}
-                    tenantId={tenantId}
-                    onNavigate={onNavigate}
-                    timeRange={timeRange}
-                  />
-                </div>
-              ))}
-            </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">
+            {outputMetrics.map((metric, index) => (
+              <div key={`OUTPUT-${index}`}>
+                <MetricCard
+                  metric={metric}
+                  workspaceId={workspaceId}
+                  tenantId={tenantId}
+                  onNavigate={onNavigate}
+                  timeRange={timeRange}
+                />
+              </div>
+            ))}
           </div>
         );
-      })}
+      })()}
+
+      {/* Driver and Input Metrics - 2-column vertical layout */}
+      {(() => {
+        const driverMetrics = metricViewConfig["DRIVER"] || [];
+        const inputMetrics = metricViewConfig["INPUT"] || [];
+
+        if (driverMetrics.length === 0 && inputMetrics.length === 0) return null;
+
+        return (
+          <div
+            className={`grid grid-cols-1 lg:grid-cols-2 ${
+              driverMetrics.length > 0 && inputMetrics.length > 0 ? "lg:divide-x lg:divide-gray-200" : ""
+            } mt-2`}
+          >
+            {/* Driver Metrics - Left Column */}
+            {driverMetrics.length > 0 && (
+              <div className="space-y-1.5 pr-3">
+                <h3 className="font-semibold text-sm text-gray-900 capitalize">driver Metrics</h3>
+                <div className="flex flex-col gap-4">
+                  {driverMetrics.map((metric, index) => (
+                    <div key={`DRIVER-${index}`}>
+                      <MetricCard
+                        metric={metric}
+                        workspaceId={workspaceId}
+                        tenantId={tenantId}
+                        onNavigate={onNavigate}
+                        timeRange={timeRange}
+                        className="h-36"
+                      />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Input Metrics - Right Column */}
+            {inputMetrics.length > 0 && (
+              <div className="space-y-1.5 pl-3">
+                <h3 className="font-semibold text-sm text-gray-900 capitalize">input Metrics</h3>
+                <div className="flex flex-col gap-4">
+                  {inputMetrics.map((metric, index) => (
+                    <div key={`INPUT-${index}`}>
+                      <MetricCard
+                        metric={metric}
+                        workspaceId={workspaceId}
+                        tenantId={tenantId}
+                        onNavigate={onNavigate}
+                        timeRange={timeRange}
+                        className="h-36"
+                      />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        );
+      })()}
     </div>
   );
 };

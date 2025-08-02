@@ -38,7 +38,7 @@ const InsightPreview = ({ insight, workspaceId, tenantId, onNavigate, timeRange 
   const actions = useMemo(
     () => [
       {
-        name: "Analysis View",
+        name: "Drilldown",
         onClick: () => {
           try {
             if (onNavigate && typeof onNavigate === "function") {
@@ -49,18 +49,18 @@ const InsightPreview = ({ insight, workspaceId, tenantId, onNavigate, timeRange 
           }
         },
       },
-      {
-        name: "Insights View",
-        onClick: () => {
-          try {
-            if (onNavigate && typeof onNavigate === "function") {
-              onNavigate(`/insights/metric/${insight?.metric_name}/why?metricLabel=${insight?.title}`);
-            }
-          } catch (error) {
-            console.error("Navigation error:", error);
-          }
-        },
-      },
+      // {
+      //   name: "Insights View",
+      //   onClick: () => {
+      //     try {
+      //       if (onNavigate && typeof onNavigate === "function") {
+      //         onNavigate(`/insights/metric/${insight?.metric_name}/why?metricLabel=${insight?.title}`);
+      //       }
+      //     } catch (error) {
+      //       console.error("Navigation error:", error);
+      //     }
+      //   },
+      // },
     ],
     [insight?.metric_name, onNavigate]
   );

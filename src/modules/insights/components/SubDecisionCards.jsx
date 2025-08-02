@@ -145,7 +145,7 @@ export const SubDecisionCards = ({
   return (
     <div className={className}>
       <div className="mb-2">
-        <h2 className="text-xs text-gray-600 mb-0.5">Signals from sub-decisions</h2>
+        <h2 className="text-xs text-gray-600 mb-0.5">Jump into sub-decisions</h2>
       </div>
 
       <div className="grid grid-cols-1 gap-6">
