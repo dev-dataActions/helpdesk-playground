@@ -1,6 +1,5 @@
 import { useCallback, useState } from "react";
 import { useDecisionTree } from "../hooks/useDecisionTree";
-import { DecisionTreeView } from "../components/DecisionTreeView";
 import { DecisionCard } from "../components/DecisionCard";
 import { Tabs, PanelLayout, Loading, Error } from "da-apps-sdk";
 import { RecentBoards } from "../components/RecentBoards";
@@ -79,9 +78,7 @@ export const HomePage = ({
           timeRange={timeRange}
         />
       </div>
-      <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-6 mt-4">
-        {/* Boards Tabs - Takes full width except 300px */}
-
+      <div className="mt-4">
         <Tabs
           tabs={[
             {
@@ -98,13 +95,6 @@ export const HomePage = ({
             },
           ]}
         />
-
-        {/* Decision Tree - Fixed 300px width */}
-        <div className="lg:w-[300px]">
-          <div className="bg-blue-50 border border-blue-200 p-1.5 rounded-md">
-            <DecisionTreeView decisionTree={decisionTree} selectedDecisionId="" onNavigate={handleNavigate} />
-          </div>
-        </div>
       </div>
     </PanelLayout>
   );

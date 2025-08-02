@@ -1,13 +1,13 @@
 import { useMemo, useCallback, useState } from "react";
-import { getBreadcrumbs, getDecision, getSubDecisions } from "../utils/general.util";
+import { getDecision, getSubDecisions } from "../utils/general.util";
 import { useDecisionTree } from "../hooks/useDecisionTree";
 import { useExplanationInsights } from "../hooks/useExplanationInsights";
-import { DecisionTreeView } from "../components/DecisionTreeView";
 import { DecisionBoards } from "../components/DecisionBoards";
 import { MetricView } from "../components/MetricView";
 import { SubDecisionCards } from "../components/SubDecisionCards";
 import { ExplanationInsightsFeed } from "../components/ExplanationInsightsFeed";
-import { Loading, Error, PanelLayout, Tabs } from "da-apps-sdk";
+import { Loading, Error, Tabs, PanelLayout } from "da-apps-sdk";
+import { DecisionTreeBreadcrumbs } from "../components/DecisionTreeBreadcrumbs";
 import { TimeFilters } from "./BoardPage";
 import { metricViewConfig } from "../constants/decision.constant";
 
@@ -26,16 +26,15 @@ export const DecisionDetailPage = ({ workspaceId, appId, decisionId, tenantId, o
   const [timeRange, setTimeRange] = useState(30); // Default to quarterly (90 days)
   const [selectedTab, setSelectedTab] = useState("monitoring");
 
-  const { breadcrumbs, decision, metricConfig, subDecisions } = useMemo(() => {
+  const { decision, metricConfig, subDecisions } = useMemo(() => {
     try {
-      const breadcrumbs = getBreadcrumbs(decisionTree, decisionId);
       const decision = getDecision(decisionTree, decisionId);
       const metricConfig = metricViewConfig[decisionId] || null;
       const subDecisions = getSubDecisions(decisionTree, decisionId);
-      return { breadcrumbs, decision, metricConfig, subDecisions };
+      return { decision, metricConfig, subDecisions };
     } catch (error) {
       console.error("Error processing decision data:", error);
-      return { breadcrumbs: [], decision: null, metricConfig: null, subDecisions: [] };
+      return { decision: null, metricConfig: null, subDecisions: [] };
     }
   }, [decisionTree, decisionId]);
 
@@ -47,14 +46,14 @@ export const DecisionDetailPage = ({ workspaceId, appId, decisionId, tenantId, o
     refetch: refetchInsights,
   } = useExplanationInsights(decisionId, workspaceId, tenantId);
 
-  const handleBreadcrumbNavigate = useCallback(
-    (href) => {
+  const handleNavigate = useCallback(
+    (path) => {
       try {
         if (onNavigate && typeof onNavigate === "function") {
-          onNavigate(href);
+          onNavigate(path);
         }
       } catch (error) {
-        console.error("Breadcrumb navigation error:", error);
+        console.error("Navigation error:", error);
       }
     },
     [onNavigate]
@@ -84,7 +83,7 @@ export const DecisionDetailPage = ({ workspaceId, appId, decisionId, tenantId, o
     );
   }
 
-  if (!decision || !breadcrumbs) {
+  if (!decision) {
     return (
       <div className={className}>
         <Loading loaderText="Loading decision details..." />
@@ -129,8 +128,13 @@ export const DecisionDetailPage = ({ workspaceId, appId, decisionId, tenantId, o
     <PanelLayout
       title={decision?.name}
       description={decision?.description}
-      breadcrumbs={[{ name: "Home", href: "/insights" }, ...breadcrumbs, { name: decision?.name }]}
-      onNavigate={handleBreadcrumbNavigate}
+      breadcrumbs={
+        <DecisionTreeBreadcrumbs
+          decisionTree={decisionTree}
+          currentDecisionId={decisionId}
+          onNavigate={handleNavigate}
+        />
+      }
       className={className}
       customButton={
         selectedTab === "monitoring" ? <TimeFilters timeRange={timeRange} setTimeRange={setTimeRange} /> : null
@@ -139,10 +143,6 @@ export const DecisionDetailPage = ({ workspaceId, appId, decisionId, tenantId, o
       <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-6">
         <Tabs tabs={tabs} onTabChange={handleTabChange} />
         <div className="lg:w-[300px]">
-          <div className="bg-blue-50 border border-blue-200 p-1.5 rounded-md">
-            <DecisionTreeView decisionTree={decisionTree} selectedDecisionId={decisionId} onNavigate={onNavigate} />
-          </div>
-
           <div className="mt-4">
             <div className="border border-blue-200 rounded-lg p-4 h-64 bg-blue-50">
               <ExplanationInsightsFeed
