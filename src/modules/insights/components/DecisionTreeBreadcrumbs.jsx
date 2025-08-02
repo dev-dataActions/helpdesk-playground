@@ -69,72 +69,70 @@ export const DecisionTreeBreadcrumbs = ({ decisionTree, currentDecisionId, onNav
 
   if (!breadcrumbs || breadcrumbs.length === 0) {
     return (
-      <div className={`flex items-center space-x-2 text-xxs text-gray-500 ${className}`}>
-        <span>Home</span>
-      </div>
+      <button
+        className="flex items-center gap-x-1.5 text-xxs text-gray-900 hover:underline"
+        onClick={() => onNavigate?.("/insights")}
+      >
+        Home
+        <RxSlash size={16} className="text-gray-400" />
+      </button>
     );
   }
 
   return (
-    <div className={`flex items-center space-x-2 text-sm ${className}`}>
+    <div className={`flex items-center gap-x-1.5 ${className}`}>
       {/* Home breadcrumb */}
-      <button
-        onClick={() => onNavigate && onNavigate("/insights")}
-        className="text-xxs focus:outline-none text-gray-900 hover:underline"
-      >
+      <button onClick={() => onNavigate?.("/insights")} className="text-xxs text-gray-900 hover:underline">
         Home
       </button>
-
-      <RxSlash className="w-4 h-4 text-gray-400" />
+      <RxSlash size={16} className="text-gray-400" />
 
       {/* Decision tree breadcrumbs */}
       {breadcrumbs.map((breadcrumb, index) => (
         <React.Fragment key={breadcrumb.id}>
-          <div className="relative">
-            {breadcrumb.siblings.length > 1 ? (
-              // Dropdown breadcrumb
-              <div className="relative">
-                <button
-                  onClick={() => toggleDropdown(breadcrumb.id)}
-                  className="flex items-center space-x-1 focus:outline-none"
-                >
-                  <span className="truncate max-w-[200px] text-xxs text-gray-900">{breadcrumb.name}</span>
-                  <FiChevronRight
-                    className={`w-4 h-4 transition-transform ${openDropdowns[breadcrumb.id] ? "rotate-90" : ""}`}
-                  />
-                </button>
-
-                {/* Dropdown menu */}
-                {openDropdowns[breadcrumb.id] && (
-                  <div
-                    ref={(el) => (dropdownRefs.current[breadcrumb.id] = el)}
-                    className="absolute top-full left-0 mt-1 w-64 bg-white border border-gray-300 rounded-md shadow-lg z-50 overflow-hidden"
-                  >
-                    {breadcrumb.siblings.map((sibling) => (
-                      <button
-                        key={sibling.id}
-                        onClick={() => handleSiblingSelect(sibling)}
-                        className={`w-full text-left px-4 py-2 text-xxs hover:bg-gray-100 transition-colors text-gray-700`}
-                      >
-                        {sibling.name}
-                      </button>
-                    ))}
-                  </div>
-                )}
-              </div>
-            ) : (
-              // Simple breadcrumb (no dropdown)
-              <button
-                onClick={() => handleBreadcrumbClick(breadcrumb)}
-                className={`text-xxs focus:outline-none text-gray-900 hover:underline`}
-              >
-                <span className="truncate max-w-[200px]">{breadcrumb.name}</span>
+          {breadcrumb.siblings.length > 1 ? (
+            // Dropdown breadcrumb
+            <div className="relative flex items-center gap-x-1">
+              <button onClick={() => toggleDropdown(breadcrumb.id)} className="truncate text-xxs text-gray-900">
+                {breadcrumb.name}
               </button>
-            )}
-          </div>
+              <FiChevronRight
+                size={16}
+                onClick={() => toggleDropdown(breadcrumb.id)}
+                className={`text-gray-600 cursor-pointer transition-transform ${
+                  openDropdowns[breadcrumb.id] ? "rotate-90" : ""
+                }`}
+              />
+
+              {/* Dropdown menu */}
+              {openDropdowns[breadcrumb.id] && (
+                <div
+                  ref={(el) => (dropdownRefs.current[breadcrumb.id] = el)}
+                  className="absolute top-full left-0 mt-1 w-64 bg-white border border-gray-300 rounded-md shadow-lg z-50 overflow-hidden"
+                >
+                  {breadcrumb.siblings.map((sibling) => (
+                    <button
+                      key={sibling.id}
+                      onClick={() => handleSiblingSelect(sibling)}
+                      className={`text-left w-full px-4 py-2 text-xxs hover:bg-gray-100 text-gray-800 truncate border-b border-gray-200`}
+                    >
+                      {sibling.name}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+          ) : (
+            <button
+              onClick={() => handleBreadcrumbClick(breadcrumb)}
+              className={`text-xxs text-gray-900 hover:underline truncate`}
+            >
+              {breadcrumb.name}
+            </button>
+          )}
 
           {/* Separator */}
-          {index < breadcrumbs.length - 1 && <RxSlash className="w-4 h-4 text-gray-400" />}
+          {index < breadcrumbs.length - 1 && <RxSlash size={16} className="text-gray-400" />}
         </React.Fragment>
       ))}
     </div>

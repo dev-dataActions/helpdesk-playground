@@ -7,6 +7,7 @@ import { PinnedBoards } from "../components/PinnedBoards";
 import { useTenantId } from "../hooks/useTenantId";
 import { useRoleId } from "../hooks/useRoleId";
 import { TimeFilters } from "./BoardPage";
+import { RxSlash } from "react-icons/rx";
 
 /**
  * HomePage component with comprehensive error handling and prop validation
@@ -64,7 +65,17 @@ export const HomePage = ({
     <PanelLayout
       title="My Altitude"
       description="Monitor your key metrics and explore decision insights"
-      breadcrumbs={[{ name: "Home" }]}
+      breadcrumbs={
+        <div className="flex items-center space-x-1.5 text-sm">
+          <button
+            onClick={() => onNavigate && handleNavigate("/insights")}
+            className="text-xxs focus:outline-none text-gray-900 hover:underline"
+          >
+            Home
+          </button>
+          <RxSlash className="w-4 h-4 text-gray-400" />
+        </div>
+      }
       customButton={<TimeFilters timeRange={timeRange} setTimeRange={setTimeRange} />}
     >
       <div className="mt-2">
