@@ -76,7 +76,7 @@ export const HomePage = ({
       }
     >
       <div className="mt-4">
-        <h2 className="text-gray-900 capitalize">My Decision</h2>
+        <h2 className="font-semibold text-gray-900 capitalize">My Decision</h2>
         <p className="text-sm text-gray-500 mb-2.5">Jump right into your decision scope and explore insights</p>
         <DecisionCard
           roleId={roleId}
@@ -91,14 +91,14 @@ export const HomePage = ({
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
-          <h2 className="text-gray-900 capitalize">Recent Decisions</h2>
+          <h2 className="font-semibold text-gray-900 capitalize">Recent Decisions</h2>
           <p className="text-sm text-gray-500 mb-2.5">View your most recent decisions and explore their insights</p>
           <div className="w-full h-64 flex items-center justify-center border border-gray-300 rounded-lg">
             <div className="text-sm text-gray-500">Coming soon...</div>
           </div>
         </div>
         <div>
-          <h2 className="text-gray-900 capitalize">Pinned Decisions</h2>
+          <h2 className="font-semibold text-gray-900 capitalize">Pinned Decisions</h2>
           <p className="text-sm text-gray-500 mb-2.5">View your pinned decisions and explore their insights</p>
           <div className="w-full h-64 flex items-center justify-center border border-gray-300 rounded-lg">
             <div className="text-sm text-gray-500">Coming soon...</div>
