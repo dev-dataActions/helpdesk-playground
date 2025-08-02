@@ -1,9 +1,7 @@
 import { useCallback, useState } from "react";
 import { useDecisionTree } from "../hooks/useDecisionTree";
 import { DecisionCard } from "../components/DecisionCard";
-import { Tabs, PanelLayout, Loading, Error } from "da-apps-sdk";
-import { RecentBoards } from "../components/RecentBoards";
-import { PinnedBoards } from "../components/PinnedBoards";
+import { PanelLayout, Loading, Error } from "da-apps-sdk";
 import { useTenantId } from "../hooks/useTenantId";
 import { useRoleId } from "../hooks/useRoleId";
 import { TimeFilters } from "./BoardPage";
@@ -87,24 +85,6 @@ export const HomePage = ({
           onNavigate={handleNavigate}
           className="mb-6"
           timeRange={timeRange}
-        />
-      </div>
-      <div className="mt-4">
-        <Tabs
-          tabs={[
-            {
-              id: "recent",
-              label: "Recent Boards",
-              value: "recent",
-              component: <RecentBoards workspaceId={workspaceId} appId={appId} onNavigate={handleNavigate} />,
-            },
-            {
-              id: "pinned",
-              label: "Pinned Boards",
-              value: "pinned",
-              component: <PinnedBoards workspaceId={workspaceId} appId={appId} onNavigate={handleNavigate} />,
-            },
-          ]}
         />
       </div>
     </PanelLayout>
