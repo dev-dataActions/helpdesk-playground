@@ -7,6 +7,7 @@ import { getDecision } from "../utils/general.util";
 import { metricViewConfig } from "../constants/decision.constant";
 import { useExplanationInsights } from "../hooks/useExplanationInsights";
 import { ExplanationInsightsFeed } from "./ExplanationInsightsFeed";
+import { TimeFilters } from "../pages/BoardPage";
 
 /**
  * InsightPreview component for metric cards
@@ -100,6 +101,9 @@ const MetricCard = ({ metric, workspaceId, tenantId, onNavigate, timeRange }) =>
           metricLabel: metric.metricLabel,
         },
       ],
+      options: {
+        className: "h-60",
+      },
     }),
     [metric]
   );
@@ -125,6 +129,7 @@ const MetricCard = ({ metric, workspaceId, tenantId, onNavigate, timeRange }) =>
  * @param {Function} props.onNavigate - Navigation handler
  * @param {string} props.className - Additional CSS classes
  * @param {Object} props.timeRange - Time range configuration
+ * @param {Function} props.setTimeRange - Time range setter function
  */
 export const DecisionCard = ({
   roleId,
@@ -134,6 +139,7 @@ export const DecisionCard = ({
   onNavigate,
   className = "",
   timeRange,
+  setTimeRange,
 }) => {
   const decisionId = useMemo(() => getDecisionIdByRoleId(roleId), [roleId]);
 
@@ -147,6 +153,13 @@ export const DecisionCard = ({
       return [];
     }
     return metricViewConfig[decisionId]?.OUTPUT || [];
+  }, [decisionId]);
+
+  const inputMetrics = useMemo(() => {
+    if (!decisionId || !metricViewConfig[decisionId]?.INPUT) {
+      return [];
+    }
+    return metricViewConfig[decisionId]?.INPUT || [];
   }, [decisionId]);
 
   const {
@@ -180,47 +193,47 @@ export const DecisionCard = ({
 
   return (
     <div className={`bg-white border border-gray-300 rounded-lg shadow-sm p-4 ${className}`}>
-      <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-4">
-        {/* Output Metrics Section - Takes 1fr */}
-        <div>
-          <div
-            className="flex items-center gap-1 mb-4 border-b border-gray-300 pb-1 cursor-pointer group"
-            onClick={handleDecisionClick}
-          >
-            <h2 className="text-sm font-medium text-gray-600 group-hover:text-gray-800 transition-all duration-200">
-              {decision?.name || "My Altitude"}
-            </h2>
+      {/* Header with title, description, and time filters */}
+      <div className="flex items-start justify-between items-center gap-x-4 mb-3">
+        <div className="flex-1">
+          <div className="flex items-center gap-1 cursor-pointer group" onClick={handleDecisionClick}>
+            <h2 className="text-gray-600 group-hover:text-gray-900 transition-all duration-200">{decision?.name}</h2>
             <FiArrowRight
-              className="text-gray-500 group-hover:text-gray-700 group-hover:translate-x-1 transition-all duration-200"
+              className="text-gray-500 group-hover:text-gray-900 group-hover:translate-x-1 transition-all duration-200"
               size={16}
             />
           </div>
-          <div className="space-y-4">
-            {outputMetrics.length > 0 ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {outputMetrics.map((metric, index) => (
-                  <div key={`output-${index}`}>
-                    <MetricCard
-                      metric={metric}
-                      workspaceId={workspaceId}
-                      tenantId={tenantId}
-                      onNavigate={onNavigate}
-                      timeRange={timeRange}
-                    />
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <div className="text-center text-gray-500 py-8">
-                <p className="text-sm">No output metrics available for this role</p>
-              </div>
-            )}
-          </div>
         </div>
+
+        <TimeFilters timeRange={timeRange} setTimeRange={setTimeRange} />
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-4">
+        {outputMetrics.length > 0 ? (
+          <div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {outputMetrics.map((metric, index) => (
+                <div key={`output-${index}`}>
+                  <MetricCard
+                    metric={metric}
+                    workspaceId={workspaceId}
+                    tenantId={tenantId}
+                    onNavigate={onNavigate}
+                    timeRange={timeRange}
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        ) : (
+          <div className="text-center text-gray-500 py-8">
+            <p className="text-sm">No output metrics available for this role</p>
+          </div>
+        )}
 
         {/* Explanation Insights Section - Fixed 300px */}
         <div className="lg:w-[300px]">
-          <div className="border border-blue-200 rounded-lg p-4 h-64 bg-blue-50">
+          <div className="border border-blue-200 rounded-lg p-4 h-60 bg-blue-50">
             <ExplanationInsightsFeed
               insights={insights}
               loading={insightsLoading}

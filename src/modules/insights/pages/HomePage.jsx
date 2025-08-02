@@ -61,8 +61,8 @@ export const HomePage = ({
 
   return (
     <PanelLayout
-      title="My Altitude"
-      description="Monitor your key metrics and explore decision insights"
+      title="Home"
+      description="Welcome to insights portal, the place to explore your decisions and metrics"
       breadcrumbs={
         <div className="flex items-center space-x-1.5 text-sm">
           <button
@@ -74,9 +74,10 @@ export const HomePage = ({
           <RxSlash className="w-4 h-4 text-gray-400" />
         </div>
       }
-      customButton={<TimeFilters timeRange={timeRange} setTimeRange={setTimeRange} />}
     >
-      <div className="mt-2">
+      <div className="mt-4">
+        <h2 className="text-gray-900 capitalize">My Decision</h2>
+        <p className="text-sm text-gray-500 mb-2.5">Jump right into your decision scope and explore insights</p>
         <DecisionCard
           roleId={roleId}
           workspaceId={workspaceId}
@@ -85,7 +86,24 @@ export const HomePage = ({
           onNavigate={handleNavigate}
           className="mb-6"
           timeRange={timeRange}
+          setTimeRange={setTimeRange}
         />
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <h2 className="text-gray-900 capitalize">Recent Decisions</h2>
+          <p className="text-sm text-gray-500 mb-2.5">View your most recent decisions and explore their insights</p>
+          <div className="w-full h-64 flex items-center justify-center border border-gray-300 rounded-lg">
+            <div className="text-sm text-gray-500">Coming soon...</div>
+          </div>
+        </div>
+        <div>
+          <h2 className="text-gray-900 capitalize">Pinned Decisions</h2>
+          <p className="text-sm text-gray-500 mb-2.5">View your pinned decisions and explore their insights</p>
+          <div className="w-full h-64 flex items-center justify-center border border-gray-300 rounded-lg">
+            <div className="text-sm text-gray-500">Coming soon...</div>
+          </div>
+        </div>
       </div>
     </PanelLayout>
   );

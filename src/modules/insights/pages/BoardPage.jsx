@@ -53,7 +53,7 @@ export const TimeFilters = ({ timeRange, setTimeRange }) => {
   };
 
   return (
-    <div className="w-60">
+    <div className="w-64">
       <Dropdown
         inlineLabel="Time range"
         options={timeRangeOptions}
