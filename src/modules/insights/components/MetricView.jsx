@@ -121,8 +121,6 @@ const MetricCard = ({ metric, workspaceId, tenantId, onNavigate, timeRange, clas
  * @param {Object} props.timeRange - Time range configuration
  */
 export const MetricView = ({ metricViewConfig, workspaceId, tenantId, className = "", onNavigate, timeRange }) => {
-  const categories = ["OUTPUT", "DRIVER", "INPUT"];
-
   if (!metricViewConfig) {
     return (
       <div className={`text-sm text-center text-gray-500 py-8 ${className}`}>Metric view is not configured yet.</div>
@@ -166,7 +164,6 @@ export const MetricView = ({ metricViewConfig, workspaceId, tenantId, className 
               driverMetrics.length > 0 && inputMetrics.length > 0 ? "lg:divide-x lg:divide-gray-200" : ""
             } mt-2`}
           >
-
             {/* Input Metrics - Right Column */}
             {inputMetrics.length > 0 && (
               <div className="space-y-1.5 pr-3">
@@ -188,8 +185,8 @@ export const MetricView = ({ metricViewConfig, workspaceId, tenantId, className 
               </div>
             )}
 
-             {/* Driver Metrics - Left Column */}
-             {driverMetrics.length > 0 && (
+            {/* Driver Metrics - Left Column */}
+            {driverMetrics.length > 0 && (
               <div className="space-y-1.5 pl-3">
                 <h3 className="font-semibold text-sm text-gray-900 capitalize">driver Metrics</h3>
                 <div className="flex flex-col gap-4">

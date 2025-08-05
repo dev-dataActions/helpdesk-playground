@@ -1,7 +1,6 @@
 import React, { useState, useMemo, useEffect, useRef } from "react";
 import { FiChevronRight } from "react-icons/fi";
 import { getDecisionPath, transformToBreadcrumbs } from "../utils/decisionTree.util";
-import { HiOutlineSlash } from "react-icons/hi2";
 import { RxSlash } from "react-icons/rx";
 
 /**

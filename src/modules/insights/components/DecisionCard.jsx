@@ -155,13 +155,6 @@ export const DecisionCard = ({
     return metricViewConfig[decisionId]?.OUTPUT || [];
   }, [decisionId]);
 
-  const inputMetrics = useMemo(() => {
-    if (!decisionId || !metricViewConfig[decisionId]?.INPUT) {
-      return [];
-    }
-    return metricViewConfig[decisionId]?.INPUT || [];
-  }, [decisionId]);
-
   const {
     insights,
     loading: insightsLoading,

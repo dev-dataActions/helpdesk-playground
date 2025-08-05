@@ -1,11 +1,10 @@
 import { useCallback } from "react";
 import { useRecentDecisions } from "../hooks/useRecentDecisions";
-import { usePinnedDecisions } from "../hooks/usePinnedDecisions";
 import { Loading, Error } from "da-apps-sdk";
-import { GoLinkExternal, GoPin } from "react-icons/go";
+import { GoLinkExternal } from "react-icons/go";
 
 const RecentDecisionCard = ({ decision, handleClick }) => {
-  const { decisionName, decisionDescription, decisionId } = decision;
+  const { decisionName, decisionDescription } = decision;
 
   return (
     <div
@@ -33,7 +32,6 @@ const RecentDecisionCard = ({ decision, handleClick }) => {
  */
 export const RecentDecisions = ({ workspaceId, appId, onNavigate = null, className = "" }) => {
   const { recentDecisions, loading, error } = useRecentDecisions(workspaceId, appId);
-  const { isPinned, pinDecision, unpinDecision } = usePinnedDecisions(workspaceId, appId);
 
   const handleDecisionClick = useCallback(
     (decision) => {
@@ -46,24 +44,6 @@ export const RecentDecisions = ({ workspaceId, appId, onNavigate = null, classNa
       }
     },
     [onNavigate]
-  );
-
-  const handlePinToggle = useCallback(
-    (decisionId, currentlyPinned) => {
-      try {
-        const decision = recentDecisions?.find((d) => d.decisionId === decisionId);
-        if (!decision) return;
-
-        if (currentlyPinned) {
-          unpinDecision(decisionId);
-        } else {
-          pinDecision(decisionId, decision.decisionName, decision.decisionDescription);
-        }
-      } catch (error) {
-        console.error("Pin toggle error:", error);
-      }
-    },
-    [recentDecisions, pinDecision, unpinDecision]
   );
 
   if (loading) {
@@ -92,7 +72,6 @@ export const RecentDecisions = ({ workspaceId, appId, onNavigate = null, classNa
           </div>
         ) : (
           recentDecisions.map((decision) => {
-            const isDecisionPinned = isPinned(decision.decisionId);
             return (
               <RecentDecisionCard
                 key={decision.decisionId}
