@@ -65,7 +65,7 @@ const InsightPreview = ({ insight, workspaceId, tenantId, onNavigate, timeRange 
       actions={actions}
       metrics={insight.metrics}
       timeRange={timeRange}
-      timeGrain={TimeGrain.DAILY}
+      timeGrain={TimeGrain.WEEKLY}
       options={insightOptions}
       dataResolver={dataResolver}
       dimensionValuesResolver={dimensionValuesResolver}
@@ -166,13 +166,14 @@ export const MetricView = ({ metricViewConfig, workspaceId, tenantId, className 
               driverMetrics.length > 0 && inputMetrics.length > 0 ? "lg:divide-x lg:divide-gray-200" : ""
             } mt-2`}
           >
-            {/* Driver Metrics - Left Column */}
-            {driverMetrics.length > 0 && (
+
+            {/* Input Metrics - Right Column */}
+            {inputMetrics.length > 0 && (
               <div className="space-y-1.5 pr-3">
-                <h3 className="font-semibold text-sm text-gray-900 capitalize">driver Metrics</h3>
+                <h3 className="font-semibold text-sm text-gray-900 capitalize">input Metrics</h3>
                 <div className="flex flex-col gap-4">
-                  {driverMetrics.map((metric, index) => (
-                    <div key={`DRIVER-${index}`}>
+                  {inputMetrics.map((metric, index) => (
+                    <div key={`INPUT-${index}`}>
                       <MetricCard
                         metric={metric}
                         workspaceId={workspaceId}
@@ -187,13 +188,13 @@ export const MetricView = ({ metricViewConfig, workspaceId, tenantId, className 
               </div>
             )}
 
-            {/* Input Metrics - Right Column */}
-            {inputMetrics.length > 0 && (
+             {/* Driver Metrics - Left Column */}
+             {driverMetrics.length > 0 && (
               <div className="space-y-1.5 pl-3">
-                <h3 className="font-semibold text-sm text-gray-900 capitalize">input Metrics</h3>
+                <h3 className="font-semibold text-sm text-gray-900 capitalize">driver Metrics</h3>
                 <div className="flex flex-col gap-4">
-                  {inputMetrics.map((metric, index) => (
-                    <div key={`INPUT-${index}`}>
+                  {driverMetrics.map((metric, index) => (
+                    <div key={`DRIVER-${index}`}>
                       <MetricCard
                         metric={metric}
                         workspaceId={workspaceId}
