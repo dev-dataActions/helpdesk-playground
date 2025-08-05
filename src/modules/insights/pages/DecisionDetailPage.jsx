@@ -1,7 +1,8 @@
-import { useMemo, useCallback, useState } from "react";
+import { useMemo, useCallback, useState, useEffect } from "react";
 import { getDecision, getSubDecisions } from "../utils/general.util";
 import { useDecisionTree } from "../hooks/useDecisionTree";
 import { useExplanationInsights } from "../hooks/useExplanationInsights";
+import { useRecentDecisions } from "../hooks/useRecentDecisions";
 import { MetricView } from "../components/MetricView";
 import { SubDecisionCards } from "../components/SubDecisionCards";
 import { ExplanationInsightsFeed } from "../components/ExplanationInsightsFeed";
@@ -25,6 +26,9 @@ export const DecisionDetailPage = ({ workspaceId, appId, decisionId, tenantId, o
   const [timeRange, setTimeRange] = useState(30); // Default to quarterly (90 days)
   const [selectedTab, setSelectedTab] = useState("monitoring");
 
+  // Track recent decisions
+  const { loading: recentDecisionsLoading, addRecentDecision } = useRecentDecisions(workspaceId, appId);
+
   const { decision, metricConfig, subDecisions } = useMemo(() => {
     try {
       const decision = getDecision(decisionTree, decisionId);
@@ -36,6 +40,13 @@ export const DecisionDetailPage = ({ workspaceId, appId, decisionId, tenantId, o
       return { decision: null, metricConfig: null, subDecisions: [] };
     }
   }, [decisionTree, decisionId]);
+
+  // Add decision to recent decisions when it loads successfully
+  useEffect(() => {
+    if (decision && decision.name && decisionId && !recentDecisionsLoading) {
+      addRecentDecision(decisionId, decision.name, decision.description);
+    }
+  }, [decision, decisionId, addRecentDecision, recentDecisionsLoading]);
 
   // Fetch explanation insights for the current decision
   const {
