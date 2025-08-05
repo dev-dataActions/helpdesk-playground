@@ -1,5 +1,9 @@
 const config = {
-  content: ["./src/**/*.{js,ts,jsx,tsx,mdx}"],
+  content: [
+    "./src/**/*.{js,ts,jsx,tsx,mdx}",
+    "./node_modules/da-apps-sdk/**/*.{js,ts,jsx,tsx}",
+    "./node_modules/da-insight-sdk/**/*.{js,ts,jsx,tsx}",
+  ],
   plugins: [],
   theme: {
     extend: {

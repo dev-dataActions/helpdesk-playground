@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 import { useAuth } from "../contexts/AuthContext";
-import { Loading } from "../../insights/common/functional/Loading";
+import { Loading } from "da-apps-sdk";
 
 export function ProtectedRoute({ children }) {
   const { isAuthenticated, isLoading } = useAuth();

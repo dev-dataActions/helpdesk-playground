@@ -1,18 +1,17 @@
-import { useMemo, useCallback, useState } from "react";
-import { getBreadcrumbs, getDecision, getSubDecisions } from "../utils/general.util";
+import { useMemo, useCallback, useState, useEffect } from "react";
+import { getDecision, getSubDecisions } from "../utils/general.util";
 import { useDecisionTree } from "../hooks/useDecisionTree";
 import { useExplanationInsights } from "../hooks/useExplanationInsights";
-import { DecisionTreeView } from "../components/DecisionTreeView";
-import { DecisionBoards } from "../components/DecisionBoards";
+import { useRecentDecisions } from "../hooks/useRecentDecisions";
+import { usePinnedDecisions } from "../hooks/usePinnedDecisions";
 import { MetricView } from "../components/MetricView";
 import { SubDecisionCards } from "../components/SubDecisionCards";
 import { ExplanationInsightsFeed } from "../components/ExplanationInsightsFeed";
-import { Loading } from "../common/functional/Loading";
-import { Error } from "../common/functional/Error";
-import { PanelLayout } from "../common/layouts/PanelLayout";
-import { Tabs } from "../common/functional/Tabs";
+import { Loading, Error, PanelLayout } from "da-apps-sdk";
+import { DecisionTreeBreadcrumbs } from "../components/DecisionTreeBreadcrumbs";
 import { TimeFilters } from "./BoardPage";
 import { metricViewConfig } from "../constants/decision.constant";
+import { GoPin } from "react-icons/go";
 
 /**
  * DecisionDetailPage component with comprehensive error handling and prop validation
@@ -29,18 +28,30 @@ export const DecisionDetailPage = ({ workspaceId, appId, decisionId, tenantId, o
   const [timeRange, setTimeRange] = useState(30); // Default to quarterly (90 days)
   const [selectedTab, setSelectedTab] = useState("monitoring");
 
-  const { breadcrumbs, decision, metricConfig, subDecisions } = useMemo(() => {
+  // Track recent decisions
+  const { loading: recentDecisionsLoading, addRecentDecision } = useRecentDecisions(workspaceId, appId);
+
+  // Track pinned decisions
+  const { isPinned, pinDecision, unpinDecision } = usePinnedDecisions(workspaceId, appId);
+
+  const { decision, metricConfig, subDecisions } = useMemo(() => {
     try {
-      const breadcrumbs = getBreadcrumbs(decisionTree, decisionId);
       const decision = getDecision(decisionTree, decisionId);
       const metricConfig = metricViewConfig[decisionId] || null;
       const subDecisions = getSubDecisions(decisionTree, decisionId);
-      return { breadcrumbs, decision, metricConfig, subDecisions };
+      return { decision, metricConfig, subDecisions };
     } catch (error) {
       console.error("Error processing decision data:", error);
-      return { breadcrumbs: [], decision: null, metricConfig: null, subDecisions: [] };
+      return { decision: null, metricConfig: null, subDecisions: [] };
     }
   }, [decisionTree, decisionId]);
+
+  // Add decision to recent decisions when it loads successfully
+  useEffect(() => {
+    if (decision && decision.name && decisionId && !recentDecisionsLoading) {
+      addRecentDecision(decisionId, decision.name, decision.description);
+    }
+  }, [decision, decisionId, addRecentDecision, recentDecisionsLoading]);
 
   // Fetch explanation insights for the current decision
   const {
@@ -50,26 +61,34 @@ export const DecisionDetailPage = ({ workspaceId, appId, decisionId, tenantId, o
     refetch: refetchInsights,
   } = useExplanationInsights(decisionId, workspaceId, tenantId);
 
-  const handleBreadcrumbNavigate = useCallback(
-    (href) => {
+  // Handle pin toggle
+  const handlePinToggle = useCallback(() => {
+    try {
+      if (!decision) return;
+
+      const currentlyPinned = isPinned(decisionId);
+      if (currentlyPinned) {
+        unpinDecision(decisionId);
+      } else {
+        pinDecision(decisionId, decision.name, decision.description);
+      }
+    } catch (error) {
+      console.error("Pin toggle error:", error);
+    }
+  }, [decision, decisionId, isPinned, pinDecision, unpinDecision]);
+
+  const handleNavigate = useCallback(
+    (path) => {
       try {
         if (onNavigate && typeof onNavigate === "function") {
-          onNavigate(href);
+          onNavigate(path);
         }
       } catch (error) {
-        console.error("Breadcrumb navigation error:", error);
+        console.error("Navigation error:", error);
       }
     },
     [onNavigate]
   );
-
-  const handleTabChange = useCallback((tabValue) => {
-    try {
-      setSelectedTab(tabValue);
-    } catch (error) {
-      console.error("Tab change error:", error);
-    }
-  }, []);
 
   if (loading) {
     return (
@@ -87,7 +106,7 @@ export const DecisionDetailPage = ({ workspaceId, appId, decisionId, tenantId, o
     );
   }
 
-  if (!decision || !breadcrumbs) {
+  if (!decision) {
     return (
       <div className={className}>
         <Loading loaderText="Loading decision details..." />
@@ -95,59 +114,56 @@ export const DecisionDetailPage = ({ workspaceId, appId, decisionId, tenantId, o
     );
   }
 
-  const tabs = [
-    {
-      id: "monitoring",
-      label: "Monitoring",
-      value: "monitoring",
-      component: (
-        <MetricView
-          onNavigate={onNavigate}
-          metricViewConfig={metricConfig}
-          workspaceId={workspaceId}
-          tenantId={tenantId}
-          timeRange={timeRange}
-          className="mt-4 p-1"
-        />
-      ),
-    },
-    {
-      id: "reviewing",
-      label: "Reviewing",
-      value: "reviewing",
-      component: (
-        <div className="mt-4 p-1">
-          <DecisionBoards
-            appId={appId}
-            workspaceId={workspaceId}
-            decisionId={decisionId ?? decisionTree?.data?.id}
-            onNavigate={onNavigate}
-          />
-        </div>
-      ),
-    },
-  ];
+  // Create pin button component
+  const PinButton = () => {
+    const currentlyPinned = isPinned(decisionId);
+
+    return (
+      <button
+        onClick={handlePinToggle}
+        className="p-1 rounded-full hover:bg-gray-100 transition-colors"
+        title={currentlyPinned ? "Unpin decision" : "Pin decision"}
+      >
+        <GoPin size={16} className={currentlyPinned ? "text-blue-500" : "text-gray-400 hover:text-blue-500"} />
+      </button>
+    );
+  };
 
   return (
     <PanelLayout
       title={decision?.name}
       description={decision?.description}
-      breadcrumbs={[{ name: "Home", href: "/insights" }, ...breadcrumbs, { name: decision?.name }]}
-      onNavigate={handleBreadcrumbNavigate}
-      className={className}
-      customButton={
-        selectedTab === "monitoring" ? <TimeFilters timeRange={timeRange} setTimeRange={setTimeRange} /> : null
+      customButton={<PinButton />}
+      breadcrumbs={
+        <DecisionTreeBreadcrumbs
+          decisionTree={decisionTree}
+          currentDecisionId={decisionId}
+          onNavigate={handleNavigate}
+        />
       }
+      className={className}
     >
       <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-6">
-        <Tabs tabs={tabs} onTabChange={handleTabChange} />
-        <div className="lg:w-[300px]">
-          <div className="bg-blue-50 border border-blue-200 p-1.5 rounded-md">
-            <DecisionTreeView decisionTree={decisionTree} selectedDecisionId={decisionId} onNavigate={onNavigate} />
+        <div className="mt-4">
+          <div className="flex items-start justify-between items-center gap-x-4 mb-3">
+            <div className="flex-1">
+              <h2 className="font-semibold text-gray-800">Overview</h2>
+              <p className="text-sm text-gray-500">Explore the key metrics and insights for this decision</p>
+            </div>
+            <TimeFilters timeRange={timeRange} setTimeRange={setTimeRange} />
           </div>
-
-          <div className="mt-4">
-            <div className="border border-blue-200 rounded-lg p-4 h-64 bg-blue-50">
+          <MetricView
+            onNavigate={onNavigate}
+            metricViewConfig={metricConfig}
+            workspaceId={workspaceId}
+            tenantId={tenantId}
+            timeRange={timeRange}
+            className="mt-4"
+          />
+        </div>
+        <div className="lg:w-[300px]">
+          <div className="mt-5">
+            <div className="border border-blue-200 rounded-lg p-4 h-72 bg-blue-50">
               <ExplanationInsightsFeed
                 insights={insights}
                 loading={insightsLoading}

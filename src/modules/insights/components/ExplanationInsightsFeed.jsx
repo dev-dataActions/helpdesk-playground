@@ -1,8 +1,7 @@
 import { useMemo } from "react";
 import { FiTrendingUp, FiUsers, FiAward, FiInfo } from "react-icons/fi";
-import { Error } from "../common/functional/Error";
+import { Loader, Error } from "da-apps-sdk";
 import { PiChartBarThin } from "react-icons/pi";
-import { Loader } from "../common/base/Loader";
 
 /**
  * Individual insight item component

@@ -1,7 +1,7 @@
 import { GoToCard } from "./GoToCard";
 import { useDecisionBoards } from "../hooks/useDecisionBoards";
 import { usePinnedBoards } from "../hooks/usePinnedBoards";
-import { Error } from "../common/functional/Error";
+import { Error } from "da-apps-sdk";
 
 /**
  * DecisionBoards component with comprehensive error handling and prop validation

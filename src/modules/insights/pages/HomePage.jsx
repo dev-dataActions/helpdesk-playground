@@ -1,16 +1,12 @@
 import { useCallback, useState } from "react";
 import { useDecisionTree } from "../hooks/useDecisionTree";
-import { DecisionTreeView } from "../components/DecisionTreeView";
 import { DecisionCard } from "../components/DecisionCard";
-import { Loading } from "../common/functional/Loading";
-import { Error } from "../common/functional/Error";
-import { PanelLayout } from "../common/layouts/PanelLayout";
-import { Tabs } from "../common/functional/Tabs";
-import { RecentBoards } from "../components/RecentBoards";
-import { PinnedBoards } from "../components/PinnedBoards";
+import { RecentDecisions } from "../components/RecentDecisions";
+import { PinnedDecisions } from "../components/PinnedDecisions";
+import { PanelLayout, Loading, Error } from "da-apps-sdk";
 import { useTenantId } from "../hooks/useTenantId";
 import { useRoleId } from "../hooks/useRoleId";
-import { TimeFilters } from "./BoardPage";
+import { RxSlash } from "react-icons/rx";
 
 /**
  * HomePage component with comprehensive error handling and prop validation
@@ -66,12 +62,23 @@ export const HomePage = ({
 
   return (
     <PanelLayout
-      title="My Altitude"
-      description="Monitor your key metrics and explore decision insights"
-      breadcrumbs={[{ name: "Home" }]}
-      customButton={<TimeFilters timeRange={timeRange} setTimeRange={setTimeRange} />}
+      title="Home"
+      description="Welcome to insights portal, the place to explore your decisions and metrics"
+      breadcrumbs={
+        <div className="flex items-center space-x-1.5 text-sm">
+          <button
+            onClick={() => onNavigate && handleNavigate("/insights")}
+            className="text-xxs focus:outline-none text-gray-900 hover:underline"
+          >
+            Home
+          </button>
+          <RxSlash className="w-4 h-4 text-gray-400" />
+        </div>
+      }
     >
-      <div className="mt-2">
+      <div className="mt-4">
+        <h2 className="font-semibold text-gray-900 capitalize">My Decision</h2>
+        <p className="text-sm text-gray-500 mb-2.5">Jump right into your decision scope and explore insights</p>
         <DecisionCard
           roleId={roleId}
           workspaceId={workspaceId}
@@ -80,32 +87,22 @@ export const HomePage = ({
           onNavigate={handleNavigate}
           className="mb-6"
           timeRange={timeRange}
+          setTimeRange={setTimeRange}
         />
       </div>
-      <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-6 mt-4">
-        {/* Boards Tabs - Takes full width except 300px */}
-
-        <Tabs
-          tabs={[
-            {
-              id: "recent",
-              label: "Recent Boards",
-              value: "recent",
-              component: <RecentBoards workspaceId={workspaceId} appId={appId} onNavigate={handleNavigate} />,
-            },
-            {
-              id: "pinned",
-              label: "Pinned Boards",
-              value: "pinned",
-              component: <PinnedBoards workspaceId={workspaceId} appId={appId} onNavigate={handleNavigate} />,
-            },
-          ]}
-        />
-
-        {/* Decision Tree - Fixed 300px width */}
-        <div className="lg:w-[300px]">
-          <div className="bg-blue-50 border border-blue-200 p-1.5 rounded-md">
-            <DecisionTreeView decisionTree={decisionTree} selectedDecisionId="" onNavigate={handleNavigate} />
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <h2 className="font-semibold text-gray-900 capitalize">Recent Decisions</h2>
+          <p className="text-sm text-gray-500 mb-2.5">View your most recent decisions and explore their insights</p>
+          <div className="w-full h-72 border border-gray-300 rounded-lg overflow-hidden">
+            <RecentDecisions workspaceId={workspaceId} appId={appId} onNavigate={handleNavigate} />
+          </div>
+        </div>
+        <div>
+          <h2 className="font-semibold text-gray-900 capitalize">Pinned Decisions</h2>
+          <p className="text-sm text-gray-500 mb-2.5">View your pinned decisions and explore their insights</p>
+          <div className="w-full h-72 border border-gray-300 rounded-lg overflow-hidden">
+            <PinnedDecisions workspaceId={workspaceId} appId={appId} onNavigate={handleNavigate} />
           </div>
         </div>
       </div>

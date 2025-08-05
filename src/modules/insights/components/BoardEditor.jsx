@@ -1,7 +1,7 @@
 import { memo, useCallback, useMemo } from "react";
 import { ChartTypes, Insight } from "da-insight-sdk";
 import { MarkupEditor } from "./MarkupEditor";
-import { fetchData, fetchDimensionValues } from "../common/services/insights.svc";
+import { fetchData, fetchDimensionValues } from "../../container/services/insights.svc";
 
 const HEIGHT_CLASSES = {
   small: "h-40",

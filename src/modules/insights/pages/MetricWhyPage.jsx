@@ -1,10 +1,9 @@
 import { ChartTypes, Insight } from "da-insight-sdk";
-import { Loading } from "../common/functional/Loading";
+import { PanelLayout, Loading } from "da-apps-sdk";
 import { useMetricInsights } from "../hooks/useMetricInsights";
 import { useCallback, useMemo, useState } from "react";
-import { PanelLayout } from "../common/layouts/PanelLayout";
 import { TIME_GRAIN_OFFSET, TimeFilters } from "./BoardPage";
-import { fetchData, fetchDimensionValues } from "../common/services/insights.svc";
+import { fetchData, fetchDimensionValues } from "../../container/services/insights.svc";
 
 const InsightPreview = ({ insight, timeRange, workspaceId, tenantId }) => {
   const insightOptions = useMemo(

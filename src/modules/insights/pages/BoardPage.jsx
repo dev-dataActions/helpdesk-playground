@@ -1,13 +1,9 @@
 import { useBoard } from "../hooks/useBoard";
-import { Loading } from "../common/functional/Loading";
-import { Error } from "../common/functional/Error";
+import { Dropdown, Loader, PanelLayout, Loading, Error } from "da-apps-sdk";
 import { BoardEditor } from "../components/BoardEditor";
-import { Dropdown } from "../common/base/Dropdown";
 import { useMemo, useState, useEffect } from "react";
-import { PanelLayout } from "../common/layouts/PanelLayout";
-import { fetchDimensionValues } from "../common/services/insights.svc";
+import { fetchDimensionValues } from "../../container/services/insights.svc";
 import { useRecentBoards } from "../hooks/useRecentBoards";
-import { Loader } from "../common/base/Loader";
 
 /**
  * Time grain offset constants
@@ -57,7 +53,7 @@ export const TimeFilters = ({ timeRange, setTimeRange }) => {
   };
 
   return (
-    <div className="w-60">
+    <div className="w-64">
       <Dropdown
         inlineLabel="Time range"
         options={timeRangeOptions}
