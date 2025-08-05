@@ -105,6 +105,19 @@ export const metricViewConfig = {
     ],
     INPUT: [{ metricKey: "num_fields_planted", metricLabel: "Num. Fields Planted" }],
   },
+
+  feature_mdwoc4h1: {
+    OUTPUT: [
+      { metricKey: "fieldbook_fill_rate", metricLabel: "Fieldbook Fill Rate" },
+    ],
+    DRIVER: [
+      { metricKey: "avg_delay_in_observations", metricLabel: "Avg. Delay in Observations" },
+      { metricKey: "avg_delay_in_agronomy_protocol", metricLabel: "Avg. Delay in Agronomy Protocol" }
+    ],
+    INPUT: [
+      { "metricKey": "num_agronomy_protocol_steps_completed", "metricLabel": "Num. Agronomy Protocols Completed" }
+    ], 
+  }
 };
 
 export const explanationInsightsConfig = {
@@ -208,7 +221,7 @@ export const explanationInsightsConfig = {
         totime: "2025-07-31",
         metric_name: "num_trials_created",
         timegrain: "month",
-        filters: [],
+        filters: [{key: "user_region", value: "NA"}],
       },
       insight_type: "trend",
       workspace_id: "workspace_99398cfd-dfd4-4195-8702-82dcfdd4efac",
@@ -220,8 +233,8 @@ export const explanationInsightsConfig = {
         totime: "2025-07-31",
         metric_name: "num_trials_created",
         timegrain: "month",
-        dimensions: ["crop_name"],
-        filters: [],
+        dimensions: ["trial_location"],
+        filters: [{key: "user_region", value: "NA"}],
       },
       insight_type: "contributor",
       workspace_id: "workspace_99398cfd-dfd4-4195-8702-82dcfdd4efac",
@@ -233,8 +246,8 @@ export const explanationInsightsConfig = {
         totime: "2025-07-31",
         metric_name: "num_trials_created",
         timegrain: "month",
-        dimensions: ["user_region"],
-        filters: [],
+        dimensions: ["trial_type"],
+        filters: [{key: "user_region", value: "NA"}],
       },
       insight_type: "contributor",
       workspace_id: "workspace_99398cfd-dfd4-4195-8702-82dcfdd4efac",
@@ -248,7 +261,7 @@ export const explanationInsightsConfig = {
         totime: "2025-07-31",
         metric_name: "num_trials_created",
         timegrain: "month",
-        filters: [],
+        filters: [{key: "trial_location", value: "Iowa"}],
       },
       insight_type: "trend",
       workspace_id: "workspace_99398cfd-dfd4-4195-8702-82dcfdd4efac",
@@ -260,8 +273,8 @@ export const explanationInsightsConfig = {
         totime: "2025-07-31",
         metric_name: "num_trials_created",
         timegrain: "month",
-        dimensions: ["trial_location"],
-        filters: [],
+        dimensions: ["objective"],
+        filters: [{key: "trial_location", value: "Iowa"}],
       },
       insight_type: "contributor",
       workspace_id: "workspace_99398cfd-dfd4-4195-8702-82dcfdd4efac",
@@ -273,8 +286,8 @@ export const explanationInsightsConfig = {
         totime: "2025-07-31",
         metric_name: "num_trials_created",
         timegrain: "month",
-        dimensions: ["zone"],
-        filters: [],
+        dimensions: ["trial_name"],
+        filters: [{key: "trial_location", value: "Iowa"}],
       },
       insight_type: "contributor",
       workspace_id: "workspace_99398cfd-dfd4-4195-8702-82dcfdd4efac",
@@ -286,7 +299,7 @@ export const explanationInsightsConfig = {
       payload: {
         fromtime: "2025-02-01",
         totime: "2025-07-31",
-        metric_name: "no_of_fields_harvested",
+        metric_name: "num_fields_harvested",
         timegrain: "month",
         filters: [],
       },
@@ -298,9 +311,9 @@ export const explanationInsightsConfig = {
       payload: {
         fromtime: "2025-02-01",
         totime: "2025-07-31",
-        metric_name: "no_of_fields_harvested",
+        metric_name: "num_fields_harvested",
         timegrain: "month",
-        dimensions: ["crop_name"],
+        dimensions: ["zone"],
         filters: [],
       },
       insight_type: "contributor",
@@ -311,10 +324,139 @@ export const explanationInsightsConfig = {
       payload: {
         fromtime: "2025-02-01",
         totime: "2025-07-31",
-        metric_name: "no_of_fields_harvested",
+        metric_name: "num_fields_harvested",
         timegrain: "month",
-        dimensions: ["trial_location"],
+        dimensions: ["field_no"],
         filters: [],
+      },
+      insight_type: "contributor",
+      workspace_id: "workspace_99398cfd-dfd4-4195-8702-82dcfdd4efac",
+      tenant_id: null,
+    },
+  ],
+
+  feature_mdwoc4h1:[
+    {
+      payload: {
+        fromtime: "2025-02-01",
+        totime: "2025-07-31",
+        metric_name: "num_agronomy_protocol_steps_completed",
+        timegrain: "month",
+        filters: [],
+      },
+      insight_type: "trend",
+      workspace_id: "workspace_99398cfd-dfd4-4195-8702-82dcfdd4efac",
+      tenant_id: null,
+    },
+    {
+      payload: {
+        fromtime: "2025-02-01",
+        totime: "2025-07-31",
+        metric_name: "num_agronomy_protocol_steps_completed",
+        timegrain: "month",
+        dimensions: ["other_observation_delay_reason"],
+        filters: [],
+      },
+      insight_type: "contributor",
+      workspace_id: "workspace_99398cfd-dfd4-4195-8702-82dcfdd4efac",
+      tenant_id: null,
+    },
+    {
+      payload: {
+        fromtime: "2025-02-01",
+        totime: "2025-07-31",
+        metric_name: "num_agronomy_protocol_steps_completed",
+        timegrain: "month",
+        dimensions: ["field_no"],
+        filters: [],
+      },
+      insight_type: "contributor",
+      workspace_id: "workspace_99398cfd-dfd4-4195-8702-82dcfdd4efac",
+      tenant_id: null,
+    },
+  ],
+
+  feature_mdu6mn7h : [
+    {
+      payload: {
+        fromtime: "2025-02-01",
+        totime: "2025-07-31",
+        metric_name: "cov_of_value",
+        timegrain: "month",
+        filters: [
+          {key: "trait_name", value: "Flowering Time"}],
+      },
+      insight_type: "trend",
+      workspace_id: "workspace_99398cfd-dfd4-4195-8702-82dcfdd4efac",
+      tenant_id: null,
+    },
+    {
+      payload: {
+        fromtime: "2025-02-01",
+        totime: "2025-07-31",
+        metric_name: "cov_of_value",
+        timegrain: "month",
+        dimensions: ["zone"],
+        filters: [
+          {key: "trait_name", value: "Flowering Time"}],
+      },
+      insight_type: "contributor",
+      workspace_id: "workspace_99398cfd-dfd4-4195-8702-82dcfdd4efac",
+      tenant_id: null,
+    },
+    {
+      payload: {
+        fromtime: "2025-02-01",
+        totime: "2025-07-31",
+        metric_name: "cov_of_value",
+        timegrain: "month",
+        dimensions: ["field_no"],
+        filters: [
+          {key: "trait_name", value: "Flowering Time"}],
+      },
+      insight_type: "contributor",
+      workspace_id: "workspace_99398cfd-dfd4-4195-8702-82dcfdd4efac",
+      tenant_id: null,
+    },
+  ],
+
+  feature_mdu6ner8 : [
+    {
+      payload: {
+        fromtime: "2025-02-01",
+        totime: "2025-07-31",
+        metric_name: "cov_of_value",
+        timegrain: "month",
+        filters: [
+          {key: "trait_name", value: "Flowering Time"}],
+      },
+      insight_type: "trend",
+      workspace_id: "workspace_99398cfd-dfd4-4195-8702-82dcfdd4efac",
+      tenant_id: null,
+    },
+    {
+      payload: {
+        fromtime: "2025-02-01",
+        totime: "2025-07-31",
+        metric_name: "cov_of_value",
+        timegrain: "month",
+        dimensions: ["zone"],
+        filters: [
+          {key: "trait_name", value: "Flowering Time"}],
+      },
+      insight_type: "contributor",
+      workspace_id: "workspace_99398cfd-dfd4-4195-8702-82dcfdd4efac",
+      tenant_id: null,
+    },
+    {
+      payload: {
+        fromtime: "2025-02-01",
+        totime: "2025-07-31",
+        metric_name: "cov_of_value",
+        timegrain: "month",
+        dimensions: ["field_no"],
+        filters: [
+          {key: "trait_name", value: "Flowering Time"}],
       },
       insight_type: "contributor",
       workspace_id: "workspace_99398cfd-dfd4-4195-8702-82dcfdd4efac",
