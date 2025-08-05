@@ -1,11 +1,15 @@
 import { useCallback } from "react";
-import { useRecentDecisions } from "../hooks/useRecentDecisions";
 import { usePinnedDecisions } from "../hooks/usePinnedDecisions";
 import { Loading, Error } from "da-apps-sdk";
 import { GoLinkExternal, GoPin } from "react-icons/go";
 
-const RecentDecisionCard = ({ decision, handleClick }) => {
+const PinnedDecisionCard = ({ decision, handleClick, isPinned, onPinToggle }) => {
   const { decisionName, decisionDescription, decisionId } = decision;
+
+  const handlePinClick = (e) => {
+    e.stopPropagation();
+    onPinToggle(decisionId, decisionId, isPinned);
+  };
 
   return (
     <div
@@ -19,21 +23,27 @@ const RecentDecisionCard = ({ decision, handleClick }) => {
         <h3 className="text-sm">{decisionName}</h3>
         <p className="text-xs text-gray-500">{decisionDescription}</p>
       </div>
+      <button
+        className="p-1 rounded-full hover:bg-gray-200 transition-colors"
+        onClick={handlePinClick}
+        title={isPinned ? "Unpin decision" : "Pin decision"}
+      >
+        <GoPin size={16} className={isPinned ? "text-blue-500" : "text-gray-400 hover:text-blue-500"} />
+      </button>
     </div>
   );
 };
 
 /**
- * RecentDecisions component with comprehensive error handling and prop validation
+ * PinnedDecisions component with comprehensive error handling and prop validation
  * @param {Object} props - Component props
  * @param {string} props.workspaceId - Workspace ID
  * @param {string} props.appId - App ID
  * @param {Function} props.onNavigate - Navigation handler function
  * @param {string} props.className - Additional CSS classes
  */
-export const RecentDecisions = ({ workspaceId, appId, onNavigate = null, className = "" }) => {
-  const { recentDecisions, loading, error } = useRecentDecisions(workspaceId, appId);
-  const { isPinned, pinDecision, unpinDecision } = usePinnedDecisions(workspaceId, appId);
+export const PinnedDecisions = ({ workspaceId, appId, onNavigate = null, className = "" }) => {
+  const { pinnedDecisions, loading, error, isPinned, unpinDecision } = usePinnedDecisions(workspaceId, appId);
 
   const handleDecisionClick = useCallback(
     (decision) => {
@@ -49,27 +59,22 @@ export const RecentDecisions = ({ workspaceId, appId, onNavigate = null, classNa
   );
 
   const handlePinToggle = useCallback(
-    (decisionId, currentlyPinned) => {
+    (boardId, decisionId, currentlyPinned) => {
       try {
-        const decision = recentDecisions?.find((d) => d.decisionId === decisionId);
-        if (!decision) return;
-
         if (currentlyPinned) {
           unpinDecision(decisionId);
-        } else {
-          pinDecision(decisionId, decision.decisionName, decision.decisionDescription);
         }
       } catch (error) {
         console.error("Pin toggle error:", error);
       }
     },
-    [recentDecisions, pinDecision, unpinDecision]
+    [unpinDecision]
   );
 
   if (loading) {
     return (
       <div className={`${className} min-h-40`}>
-        <Loading loaderText="Loading recent decisions..." />
+        <Loading loaderText="Loading pinned decisions..." />
       </div>
     );
   }
@@ -85,19 +90,22 @@ export const RecentDecisions = ({ workspaceId, appId, onNavigate = null, classNa
   return (
     <div className={`h-full min-h-64`}>
       <div className="flex flex-col h-full overflow-y-auto divide-y divide-gray-200">
-        {!recentDecisions || recentDecisions.length === 0 ? (
+        {!pinnedDecisions || pinnedDecisions.length === 0 ? (
           <div className="text-center py-24">
-            <p className="text-sm text-gray-600">No recent decisions</p>
-            <p className="text-xs text-gray-500">Your recently opened decisions will appear here</p>
+            <p className="text-sm text-gray-600">No pins available yet</p>
+            <p className="text-xs text-gray-500">Pin your favorite decisions to see them here</p>
           </div>
         ) : (
-          recentDecisions.map((decision) => {
+          pinnedDecisions.map((decision) => {
             const isDecisionPinned = isPinned(decision.decisionId);
+
             return (
-              <RecentDecisionCard
+              <PinnedDecisionCard
                 key={decision.decisionId}
                 decision={decision}
                 handleClick={() => handleDecisionClick(decision)}
+                isPinned={isDecisionPinned}
+                onPinToggle={handlePinToggle}
               />
             );
           })

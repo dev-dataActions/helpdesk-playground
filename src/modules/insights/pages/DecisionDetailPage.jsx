@@ -3,6 +3,7 @@ import { getDecision, getSubDecisions } from "../utils/general.util";
 import { useDecisionTree } from "../hooks/useDecisionTree";
 import { useExplanationInsights } from "../hooks/useExplanationInsights";
 import { useRecentDecisions } from "../hooks/useRecentDecisions";
+import { usePinnedDecisions } from "../hooks/usePinnedDecisions";
 import { MetricView } from "../components/MetricView";
 import { SubDecisionCards } from "../components/SubDecisionCards";
 import { ExplanationInsightsFeed } from "../components/ExplanationInsightsFeed";
@@ -10,6 +11,7 @@ import { Loading, Error, PanelLayout } from "da-apps-sdk";
 import { DecisionTreeBreadcrumbs } from "../components/DecisionTreeBreadcrumbs";
 import { TimeFilters } from "./BoardPage";
 import { metricViewConfig } from "../constants/decision.constant";
+import { GoPin } from "react-icons/go";
 
 /**
  * DecisionDetailPage component with comprehensive error handling and prop validation
@@ -28,6 +30,9 @@ export const DecisionDetailPage = ({ workspaceId, appId, decisionId, tenantId, o
 
   // Track recent decisions
   const { loading: recentDecisionsLoading, addRecentDecision } = useRecentDecisions(workspaceId, appId);
+
+  // Track pinned decisions
+  const { isPinned, pinDecision, unpinDecision } = usePinnedDecisions(workspaceId, appId);
 
   const { decision, metricConfig, subDecisions } = useMemo(() => {
     try {
@@ -55,6 +60,22 @@ export const DecisionDetailPage = ({ workspaceId, appId, decisionId, tenantId, o
     error: insightsError,
     refetch: refetchInsights,
   } = useExplanationInsights(decisionId, workspaceId, tenantId);
+
+  // Handle pin toggle
+  const handlePinToggle = useCallback(() => {
+    try {
+      if (!decision) return;
+
+      const currentlyPinned = isPinned(decisionId);
+      if (currentlyPinned) {
+        unpinDecision(decisionId);
+      } else {
+        pinDecision(decisionId, decision.name, decision.description);
+      }
+    } catch (error) {
+      console.error("Pin toggle error:", error);
+    }
+  }, [decision, decisionId, isPinned, pinDecision, unpinDecision]);
 
   const handleNavigate = useCallback(
     (path) => {
@@ -93,10 +114,26 @@ export const DecisionDetailPage = ({ workspaceId, appId, decisionId, tenantId, o
     );
   }
 
+  // Create pin button component
+  const PinButton = () => {
+    const currentlyPinned = isPinned(decisionId);
+
+    return (
+      <button
+        onClick={handlePinToggle}
+        className="p-1 rounded-full hover:bg-gray-100 transition-colors"
+        title={currentlyPinned ? "Unpin decision" : "Pin decision"}
+      >
+        <GoPin size={16} className={currentlyPinned ? "text-blue-500" : "text-gray-400 hover:text-blue-500"} />
+      </button>
+    );
+  };
+
   return (
     <PanelLayout
       title={decision?.name}
       description={decision?.description}
+      customButton={<PinButton />}
       breadcrumbs={
         <DecisionTreeBreadcrumbs
           decisionTree={decisionTree}

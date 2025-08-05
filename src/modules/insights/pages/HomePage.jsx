@@ -2,6 +2,7 @@ import { useCallback, useState } from "react";
 import { useDecisionTree } from "../hooks/useDecisionTree";
 import { DecisionCard } from "../components/DecisionCard";
 import { RecentDecisions } from "../components/RecentDecisions";
+import { PinnedDecisions } from "../components/PinnedDecisions";
 import { PanelLayout, Loading, Error } from "da-apps-sdk";
 import { useTenantId } from "../hooks/useTenantId";
 import { useRoleId } from "../hooks/useRoleId";
@@ -100,8 +101,8 @@ export const HomePage = ({
         <div>
           <h2 className="font-semibold text-gray-900 capitalize">Pinned Decisions</h2>
           <p className="text-sm text-gray-500 mb-2.5">View your pinned decisions and explore their insights</p>
-          <div className="w-full h-72 flex items-center justify-center border border-gray-300 rounded-lg">
-            <div className="text-sm text-gray-500">Coming soon...</div>
+          <div className="w-full h-72 border border-gray-300 rounded-lg overflow-hidden">
+            <PinnedDecisions workspaceId={workspaceId} appId={appId} onNavigate={handleNavigate} />
           </div>
         </div>
       </div>
