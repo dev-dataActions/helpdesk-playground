@@ -102,7 +102,7 @@ const MetricCard = ({ metric, workspaceId, tenantId, onNavigate, timeRange }) =>
         },
       ],
       options: {
-        className: "h-60",
+        className: "h-48",
       },
     }),
     [metric]
@@ -190,7 +190,9 @@ export const DecisionCard = ({
       <div className="flex items-start justify-between items-center gap-x-4 mb-3">
         <div className="flex-1">
           <div className="flex items-center gap-1 cursor-pointer group" onClick={handleDecisionClick}>
-            <h2 className="text-gray-800 group-hover:text-gray-900 transition-all duration-200">{decision?.name}</h2>
+            <h2 className="text-gray-700 group-hover:text-gray-800 transition-all duration-200 font-medium">
+              {decision?.name}
+            </h2>
             <FiArrowRight
               className="text-gray-500 group-hover:text-gray-900 group-hover:translate-x-1 transition-all duration-200"
               size={16}

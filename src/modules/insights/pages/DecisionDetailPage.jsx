@@ -131,8 +131,12 @@ export const DecisionDetailPage = ({ workspaceId, appId, decisionId, tenantId, o
   return (
     <PanelLayout
       title={decision?.name}
-      description={decision?.description}
-      customButton={<PinButton />}
+      customButton={
+        <div className="flex items-center gap-x-2">
+          <TimeFilters timeRange={timeRange} setTimeRange={setTimeRange} />
+          <PinButton />
+        </div>
+      }
       breadcrumbs={
         <DecisionTreeBreadcrumbs
           decisionTree={decisionTree}
@@ -140,48 +144,25 @@ export const DecisionDetailPage = ({ workspaceId, appId, decisionId, tenantId, o
           onNavigate={handleNavigate}
         />
       }
-      className={className}
+      className={"max-w-4xl mx-auto !py-6"}
     >
-      <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-6">
-        <div className="mt-4">
-          <div className="flex items-start justify-between items-center gap-x-4 mb-3">
-            <div className="flex-1">
-              <h2 className="font-semibold text-gray-800">Overview</h2>
-              <p className="text-sm text-gray-500">Explore the key metrics and insights for this decision</p>
-            </div>
-            <TimeFilters timeRange={timeRange} setTimeRange={setTimeRange} />
-          </div>
-          <MetricView
-            onNavigate={onNavigate}
-            metricViewConfig={metricConfig}
+      <div className="grid grid-cols-1 gap-6">
+        <MetricView
+          onNavigate={onNavigate}
+          metricViewConfig={metricConfig}
+          workspaceId={workspaceId}
+          tenantId={tenantId}
+          timeRange={timeRange}
+          className="mt-4"
+        />
+        <div className="mt-4 border-t border-gray-200 pt-4">
+          <SubDecisionCards
+            subDecisions={subDecisions}
+            metricViewConfig={metricViewConfig}
             workspaceId={workspaceId}
             tenantId={tenantId}
-            timeRange={timeRange}
-            className="mt-4"
+            onNavigate={onNavigate}
           />
-        </div>
-        <div className="lg:w-[300px]">
-          <div className="mt-5">
-            <div className="border border-blue-200 rounded-lg p-4 h-72 bg-blue-50">
-              <ExplanationInsightsFeed
-                insights={insights}
-                loading={insightsLoading}
-                error={insightsError}
-                onRefetch={refetchInsights}
-                className="h-full"
-              />
-            </div>
-          </div>
-
-          <div className="mt-4">
-            <SubDecisionCards
-              subDecisions={subDecisions}
-              metricViewConfig={metricViewConfig}
-              workspaceId={workspaceId}
-              tenantId={tenantId}
-              onNavigate={onNavigate}
-            />
-          </div>
         </div>
       </div>
     </PanelLayout>

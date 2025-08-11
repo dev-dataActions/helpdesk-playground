@@ -75,7 +75,7 @@ export const HomePage = ({
           <RxSlash className="w-4 h-4 text-gray-400" />
         </div>
       }
-      className="max-w-5xl mx-auto"
+      className="max-w-4xl mx-auto"
     >
       <div className="mt-4">
         <h2 className="font-medium text-gray-700 capitalize mb-1.5">My Decision</h2>
@@ -95,14 +95,14 @@ export const HomePage = ({
         <div>
           <h2 className="font-medium text-gray-700 capitalize mb-1.5">Recent Decisions</h2>
           {/* <p className="text-sm text-gray-500 mb-2.5">View your most recent decisions and explore their insights</p> */}
-          <div className="w-full h-72 border border-gray-200 rounded-lg overflow-hidden">
+          <div className="w-full h-72 border border-gray-200 bg-white rounded-lg overflow-hidden">
             <RecentDecisions workspaceId={workspaceId} appId={appId} onNavigate={handleNavigate} />
           </div>
         </div>
         <div>
           <h2 className="font-medium text-gray-700 capitalize mb-1.5">Pinned Decisions</h2>
           {/* <p className="text-sm text-gray-500 mb-2.5">View your pinned decisions and explore their insights</p> */}
-          <div className="w-full h-72 border border-gray-200 rounded-lg overflow-hidden">
+          <div className="w-full h-72 border border-gray-200 bg-white rounded-lg overflow-hidden">
             <PinnedDecisions workspaceId={workspaceId} appId={appId} onNavigate={handleNavigate} />
           </div>
         </div>
