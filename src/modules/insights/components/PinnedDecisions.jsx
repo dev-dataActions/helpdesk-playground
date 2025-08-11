@@ -13,16 +13,13 @@ const PinnedDecisionCard = ({ decision, handleClick, isPinned, onPinToggle }) =>
 
   return (
     <div
-      className="flex items-start gap-x-3 p-4 cursor-pointer hover:bg-gray-100 transition-colors relative"
+      className="flex items-center gap-x-3 px-4 py-3 cursor-pointer hover:bg-gray-100 transition-colors relative"
       onClick={handleClick}
     >
-      <div className="p-2.5 rounded-full bg-blue-100 text-blue-500 flex items-center justify-center">
+      <div className="p-2 rounded-full bg-blue-100 text-blue-500 flex items-center justify-center">
         <GoLinkExternal size={16} />
       </div>
-      <div className="flex-1">
-        <h3 className="text-sm">{decisionName}</h3>
-        <p className="text-xs text-gray-500">{decisionDescription}</p>
-      </div>
+      <h3 className="text-sm">{decisionName}</h3>
       <button
         className="p-1 rounded-full hover:bg-gray-200 transition-colors"
         onClick={handlePinClick}

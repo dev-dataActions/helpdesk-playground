@@ -75,10 +75,11 @@ export const HomePage = ({
           <RxSlash className="w-4 h-4 text-gray-400" />
         </div>
       }
+      className="max-w-5xl mx-auto"
     >
       <div className="mt-4">
-        <h2 className="font-semibold text-gray-900 capitalize">My Decision</h2>
-        <p className="text-sm text-gray-500 mb-2.5">Jump right into your decision scope and explore insights</p>
+        <h2 className="font-medium text-gray-700 capitalize mb-1.5">My Decision</h2>
+        {/* <p className="text-sm text-gray-500 mb-2.5">Jump right into your decision scope and explore insights</p> */}
         <DecisionCard
           roleId={roleId}
           workspaceId={workspaceId}
@@ -92,16 +93,16 @@ export const HomePage = ({
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
-          <h2 className="font-semibold text-gray-900 capitalize">Recent Decisions</h2>
-          <p className="text-sm text-gray-500 mb-2.5">View your most recent decisions and explore their insights</p>
-          <div className="w-full h-72 border border-gray-300 rounded-lg overflow-hidden">
+          <h2 className="font-medium text-gray-700 capitalize mb-1.5">Recent Decisions</h2>
+          {/* <p className="text-sm text-gray-500 mb-2.5">View your most recent decisions and explore their insights</p> */}
+          <div className="w-full h-72 border border-gray-200 rounded-lg overflow-hidden">
             <RecentDecisions workspaceId={workspaceId} appId={appId} onNavigate={handleNavigate} />
           </div>
         </div>
         <div>
-          <h2 className="font-semibold text-gray-900 capitalize">Pinned Decisions</h2>
-          <p className="text-sm text-gray-500 mb-2.5">View your pinned decisions and explore their insights</p>
-          <div className="w-full h-72 border border-gray-300 rounded-lg overflow-hidden">
+          <h2 className="font-medium text-gray-700 capitalize mb-1.5">Pinned Decisions</h2>
+          {/* <p className="text-sm text-gray-500 mb-2.5">View your pinned decisions and explore their insights</p> */}
+          <div className="w-full h-72 border border-gray-200 rounded-lg overflow-hidden">
             <PinnedDecisions workspaceId={workspaceId} appId={appId} onNavigate={handleNavigate} />
           </div>
         </div>

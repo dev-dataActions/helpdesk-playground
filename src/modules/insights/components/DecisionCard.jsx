@@ -185,7 +185,7 @@ export const DecisionCard = ({
   }
 
   return (
-    <div className={`bg-white border border-gray-300 rounded-lg shadow-sm p-4 ${className}`}>
+    <div className={`bg-white border border-gray-200 rounded-lg shadow-sm p-4 ${className}`}>
       {/* Header with title, description, and time filters */}
       <div className="flex items-start justify-between items-center gap-x-4 mb-3">
         <div className="flex-1">
@@ -201,7 +201,7 @@ export const DecisionCard = ({
         <TimeFilters timeRange={timeRange} setTimeRange={setTimeRange} />
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-4">
+      <div className="grid grid-cols-1 gap-4">
         {outputMetrics.length > 0 ? (
           <div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -223,19 +223,6 @@ export const DecisionCard = ({
             <p className="text-sm">No output metrics available for this role</p>
           </div>
         )}
-
-        {/* Explanation Insights Section - Fixed 300px */}
-        <div className="lg:w-[300px]">
-          <div className="border border-blue-200 rounded-lg p-4 h-60 bg-blue-50">
-            <ExplanationInsightsFeed
-              insights={insights}
-              loading={insightsLoading}
-              error={insightsError}
-              onRefetch={refetchInsights}
-              className="h-full"
-            />
-          </div>
-        </div>
       </div>
     </div>
   );
