@@ -5,8 +5,6 @@ import { fetchData, fetchDimensionValues } from "../../container/services/insigh
 import { getDecisionIdByRoleId } from "../utils/role.util";
 import { getDecision } from "../utils/general.util";
 import { metricViewConfig } from "../constants/decision.constant";
-import { useExplanationInsights } from "../hooks/useExplanationInsights";
-import { ExplanationInsightsFeed } from "./ExplanationInsightsFeed";
 import { TimeFilters } from "../pages/BoardPage";
 
 /**
@@ -62,7 +60,7 @@ const InsightPreview = ({ insight, workspaceId, tenantId, onNavigate, timeRange 
       //   },
       // },
     ],
-    [insight?.metric_name, onNavigate]
+    [insight?.metric_name, insight?.title, onNavigate]
   );
 
   return (
@@ -154,13 +152,6 @@ export const DecisionCard = ({
     }
     return metricViewConfig[decisionId]?.OUTPUT || [];
   }, [decisionId]);
-
-  const {
-    insights,
-    loading: insightsLoading,
-    error: insightsError,
-    refetch: refetchInsights,
-  } = useExplanationInsights(decisionId, workspaceId, tenantId);
 
   const handleDecisionClick = () => {
     try {

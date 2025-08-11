@@ -4,7 +4,7 @@ import { Loading, Error } from "da-apps-sdk";
 import { GoLinkExternal, GoPin } from "react-icons/go";
 
 const PinnedDecisionCard = ({ decision, handleClick, isPinned, onPinToggle }) => {
-  const { decisionName, decisionDescription, decisionId } = decision;
+  const { decisionName, decisionId } = decision;
 
   const handlePinClick = (e) => {
     e.stopPropagation();

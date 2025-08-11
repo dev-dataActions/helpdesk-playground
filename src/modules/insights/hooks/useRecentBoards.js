@@ -39,29 +39,32 @@ export const useRecentBoards = (workspaceId, appId) => {
   }, []);
 
   // Add a board to recent boards
-  const addRecentBoard = useCallback((boardId, boardName, boardDescription, decisionId) => {
-    try {
-      if (!boardId || !decisionId) return;
+  const addRecentBoard = useCallback(
+    (boardId, boardName, boardDescription, decisionId) => {
+      try {
+        if (!boardId || !decisionId) return;
 
-      const now = Date.now();
-      const newBoard = {
-        boardId,
-        decisionId,
-        boardName: boardName || "Untitled Board",
-        boardDescription: boardDescription || "",
-        lastOpenedAt: now,
-      };
+        const now = Date.now();
+        const newBoard = {
+          boardId,
+          decisionId,
+          boardName: boardName || "Untitled Board",
+          boardDescription: boardDescription || "",
+          lastOpenedAt: now,
+        };
 
-      setRecentBoards((currentBoards) => {
-        const filtered = currentBoards.filter((board) => board.boardId !== boardId);
-        const updated = [newBoard, ...filtered].sort((a, b) => b.lastOpenedAt - a.lastOpenedAt).slice(0, 5);
-        saveRecentBoards(updated);
-        return updated;
-      });
-    } catch (error) {
-      console.error("Error adding recent board:", error);
-    }
-  }, []);
+        setRecentBoards((currentBoards) => {
+          const filtered = currentBoards.filter((board) => board.boardId !== boardId);
+          const updated = [newBoard, ...filtered].sort((a, b) => b.lastOpenedAt - a.lastOpenedAt).slice(0, 5);
+          saveRecentBoards(updated);
+          return updated;
+        });
+      } catch (error) {
+        console.error("Error adding recent board:", error);
+      }
+    },
+    [saveRecentBoards]
+  );
 
   // Fetch all boards and filter out deleted ones
   const fetchAndFilterBoards = useCallback(async () => {

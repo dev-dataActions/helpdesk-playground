@@ -55,7 +55,7 @@ const InsightPreview = ({ insight, workspaceId, tenantId, onNavigate, timeRange 
       //   },
       // },
     ],
-    [insight?.metric_name, onNavigate]
+    [insight?.metric_name, insight?.title, onNavigate]
   );
 
   return (
@@ -96,7 +96,7 @@ const MetricCard = ({ metric, workspaceId, tenantId, onNavigate, timeRange, clas
       ],
       ...(className && { options: { className: className } }),
     }),
-    [metric]
+    [metric, className]
   );
 
   return (

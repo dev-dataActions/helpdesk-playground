@@ -12,7 +12,7 @@ const InsightPreview = ({ insight, timeRange, workspaceId, tenantId }) => {
       showExplanation: insight?.type !== ChartTypes.BIGNUMBER,
       ...(insight?.options ?? {}),
     }),
-    [insight?.options]
+    [insight?.options, insight?.type]
   );
 
   const dataResolver = useCallback((payload) => fetchData(payload, workspaceId, tenantId), [workspaceId, tenantId]);

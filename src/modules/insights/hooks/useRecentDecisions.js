@@ -40,28 +40,31 @@ export const useRecentDecisions = (workspaceId, appId) => {
   }, []);
 
   // Add a decision to recent decisions
-  const addRecentDecision = useCallback((decisionId, decisionName, decisionDescription) => {
-    try {
-      if (!decisionId) return;
+  const addRecentDecision = useCallback(
+    (decisionId, decisionName, decisionDescription) => {
+      try {
+        if (!decisionId) return;
 
-      const now = Date.now();
-      const newDecision = {
-        decisionId,
-        decisionName: decisionName || "Untitled Decision",
-        decisionDescription: decisionDescription || "",
-        lastOpenedAt: now,
-      };
+        const now = Date.now();
+        const newDecision = {
+          decisionId,
+          decisionName: decisionName || "Untitled Decision",
+          decisionDescription: decisionDescription || "",
+          lastOpenedAt: now,
+        };
 
-      setRecentDecisions((currentDecisions) => {
-        const filtered = currentDecisions.filter((decision) => decision.decisionId !== decisionId);
-        const updated = [newDecision, ...filtered].sort((a, b) => b.lastOpenedAt - a.lastOpenedAt).slice(0, 5);
-        saveRecentDecisions(updated);
-        return updated;
-      });
-    } catch (error) {
-      console.error("Error adding recent decision:", error);
-    }
-  }, []);
+        setRecentDecisions((currentDecisions) => {
+          const filtered = currentDecisions.filter((decision) => decision.decisionId !== decisionId);
+          const updated = [newDecision, ...filtered].sort((a, b) => b.lastOpenedAt - a.lastOpenedAt).slice(0, 5);
+          saveRecentDecisions(updated);
+          return updated;
+        });
+      } catch (error) {
+        console.error("Error adding recent decision:", error);
+      }
+    },
+    [saveRecentDecisions]
+  );
 
   // Fetch decision tree and filter out deleted decisions
   const fetchAndFilterDecisions = useCallback(async () => {

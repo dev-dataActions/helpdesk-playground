@@ -1,12 +1,10 @@
 import { useMemo, useCallback, useState, useEffect } from "react";
 import { getDecision, getSubDecisions } from "../utils/general.util";
 import { useDecisionTree } from "../hooks/useDecisionTree";
-import { useExplanationInsights } from "../hooks/useExplanationInsights";
 import { useRecentDecisions } from "../hooks/useRecentDecisions";
 import { usePinnedDecisions } from "../hooks/usePinnedDecisions";
 import { MetricView } from "../components/MetricView";
 import { SubDecisionCards } from "../components/SubDecisionCards";
-import { ExplanationInsightsFeed } from "../components/ExplanationInsightsFeed";
 import { Loading, Error, PanelLayout } from "da-apps-sdk";
 import { DecisionTreeBreadcrumbs } from "../components/DecisionTreeBreadcrumbs";
 import { TimeFilters } from "./BoardPage";
@@ -51,14 +49,6 @@ export const DecisionDetailPage = ({ workspaceId, appId, decisionId, tenantId, o
       addRecentDecision(decisionId, decision.name, decision.description);
     }
   }, [decision, decisionId, addRecentDecision, recentDecisionsLoading]);
-
-  // Fetch explanation insights for the current decision
-  const {
-    insights,
-    loading: insightsLoading,
-    error: insightsError,
-    refetch: refetchInsights,
-  } = useExplanationInsights(decisionId, workspaceId, tenantId);
 
   // Handle pin toggle
   const handlePinToggle = useCallback(() => {

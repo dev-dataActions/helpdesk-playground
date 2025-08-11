@@ -4,7 +4,7 @@ import { Loading, Error } from "da-apps-sdk";
 import { GoLinkExternal } from "react-icons/go";
 
 const RecentDecisionCard = ({ decision, handleClick }) => {
-  const { decisionName, decisionDescription } = decision;
+  const { decisionName } = decision;
 
   return (
     <div
