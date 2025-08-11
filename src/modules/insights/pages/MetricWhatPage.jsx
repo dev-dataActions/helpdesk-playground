@@ -9,7 +9,7 @@ const InsightPreview = ({ insight, timeRange, workspaceId, tenantId }) => {
   const insightOptions = useMemo(
     () => ({
       className: "h-64",
-      showExplanation: insight?.type !== ChartTypes.BIGNUMBER,
+      showExplanation: false,
       ...(insight?.options ?? {}),
     }),
     [insight?.options, insight?.type]
