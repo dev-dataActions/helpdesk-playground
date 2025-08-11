@@ -83,6 +83,7 @@ export const HomePage = ({
         <DecisionCard
           roleId={roleId}
           workspaceId={workspaceId}
+          appId={appId}
           tenantId={finalTenantId}
           decisionTree={decisionTree}
           onNavigate={handleNavigate}

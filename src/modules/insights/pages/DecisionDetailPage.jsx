@@ -3,12 +3,13 @@ import { getDecision, getSubDecisions } from "../utils/general.util";
 import { useDecisionTree } from "../hooks/useDecisionTree";
 import { useRecentDecisions } from "../hooks/useRecentDecisions";
 import { usePinnedDecisions } from "../hooks/usePinnedDecisions";
+import { useMetricViewConfig } from "../hooks/useMetricViewConfig";
+import { useSubDecisionsMetrics } from "../hooks/useSubDecisionsMetrics";
 import { MetricView } from "../components/MetricView";
 import { SubDecisionCards } from "../components/SubDecisionCards";
 import { Loading, Error, PanelLayout } from "da-apps-sdk";
 import { DecisionTreeBreadcrumbs } from "../components/DecisionTreeBreadcrumbs";
 import { TimeFilters } from "./BoardPage";
-import { metricViewConfig } from "../constants/decision.constant";
 import { GoPin } from "react-icons/go";
 
 /**
@@ -31,17 +32,30 @@ export const DecisionDetailPage = ({ workspaceId, appId, decisionId, tenantId, o
   // Track pinned decisions
   const { isPinned, pinDecision, unpinDecision } = usePinnedDecisions(workspaceId, appId);
 
-  const { decision, metricConfig, subDecisions } = useMemo(() => {
+  // Fetch metric view configuration from API
+  const {
+    metricConfig,
+    loading: metricConfigLoading,
+    error: metricConfigError,
+  } = useMetricViewConfig(workspaceId, appId, decisionId);
+
+  const { decision, subDecisions } = useMemo(() => {
     try {
       const decision = getDecision(decisionTree, decisionId);
-      const metricConfig = metricViewConfig[decisionId] || null;
       const subDecisions = getSubDecisions(decisionTree, decisionId);
-      return { decision, metricConfig, subDecisions };
+      return { decision, subDecisions };
     } catch (error) {
       console.error("Error processing decision data:", error);
-      return { decision: null, metricConfig: null, subDecisions: [] };
+      return { decision: null, subDecisions: [] };
     }
   }, [decisionTree, decisionId]);
+
+  // Fetch metric configurations for all sub-decisions
+  const {
+    subDecisionsMetrics,
+    loading: subDecisionsMetricsLoading,
+    error: subDecisionsMetricsError,
+  } = useSubDecisionsMetrics(workspaceId, appId, subDecisions);
 
   // Add decision to recent decisions when it loads successfully
   useEffect(() => {
@@ -79,18 +93,18 @@ export const DecisionDetailPage = ({ workspaceId, appId, decisionId, tenantId, o
     [onNavigate]
   );
 
-  if (loading) {
+  if (loading || metricConfigLoading || subDecisionsMetricsLoading) {
     return (
       <div className={className}>
-        <Loading loaderText="Loading decision tree..." />
+        <Loading loaderText="Loading decision tree and metrics..." />
       </div>
     );
   }
 
-  if (error) {
+  if (error || metricConfigError || subDecisionsMetricsError) {
     return (
       <div className={className}>
-        <Error errorText={error} fullScreen={false} />
+        <Error errorText={error || metricConfigError || subDecisionsMetricsError} fullScreen={false} />
       </div>
     );
   }
@@ -148,7 +162,7 @@ export const DecisionDetailPage = ({ workspaceId, appId, decisionId, tenantId, o
         <div className="mt-4 border-t border-gray-200 pt-4">
           <SubDecisionCards
             subDecisions={subDecisions}
-            metricViewConfig={metricViewConfig}
+            metricViewConfig={subDecisionsMetrics}
             workspaceId={workspaceId}
             tenantId={tenantId}
             onNavigate={onNavigate}

@@ -4,7 +4,7 @@ import { FiArrowRight } from "react-icons/fi";
 import { fetchData, fetchDimensionValues } from "../../container/services/insights.svc";
 import { getDecisionIdByRoleId } from "../utils/role.util";
 import { getDecision } from "../utils/general.util";
-import { metricViewConfig } from "../constants/decision.constant";
+import { useMetricViewConfig } from "../hooks/useMetricViewConfig";
 import { TimeFilters } from "../pages/BoardPage";
 
 /**
@@ -132,6 +132,7 @@ const MetricCard = ({ metric, workspaceId, tenantId, onNavigate, timeRange }) =>
 export const DecisionCard = ({
   roleId,
   workspaceId,
+  appId,
   tenantId,
   decisionTree,
   onNavigate,
@@ -146,12 +147,15 @@ export const DecisionCard = ({
     return getDecision(decisionTree, decisionId);
   }, [decisionId, decisionTree]);
 
+  // Fetch metric view configuration from API
+  const { metricConfig } = useMetricViewConfig(workspaceId, appId, decisionId);
+
   const outputMetrics = useMemo(() => {
-    if (!decisionId || !metricViewConfig[decisionId]?.OUTPUT) {
+    if (!decisionId || !metricConfig?.OUTPUT) {
       return [];
     }
-    return metricViewConfig[decisionId]?.OUTPUT || [];
-  }, [decisionId]);
+    return metricConfig?.OUTPUT || [];
+  }, [decisionId, metricConfig]);
 
   const handleDecisionClick = () => {
     try {
