@@ -134,7 +134,7 @@ export const DecisionDetailPage = ({ workspaceId, appId, decisionId, tenantId, o
           onNavigate={handleNavigate}
         />
       }
-      className={"max-w-4xl mx-auto !py-6"}
+      className={"max-w-5xl mx-auto !py-6"}
     >
       <div className="grid grid-cols-1 gap-6">
         <MetricView

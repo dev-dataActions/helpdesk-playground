@@ -75,7 +75,7 @@ export const HomePage = ({
           <RxSlash className="w-4 h-4 text-gray-400" />
         </div>
       }
-      className="max-w-4xl mx-auto"
+      className="max-w-5xl mx-auto"
     >
       <div className="mt-4">
         <h2 className="font-medium text-gray-700 capitalize mb-1.5">My Decision</h2>
