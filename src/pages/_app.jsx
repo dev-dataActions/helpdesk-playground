@@ -9,8 +9,6 @@ import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
 function AppContent({ Component, pageProps }) {
-  const router = useRouter();
-
   return (
     <SidebarContextProvider>
       <SidebarLayout>
