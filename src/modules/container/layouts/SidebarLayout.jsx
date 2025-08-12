@@ -9,7 +9,6 @@ import { SiTemporal } from "react-icons/si";
 import { IoChevronBackOutline } from "react-icons/io5";
 import { useSidebarContext } from "../contexts/SidebarContext";
 import { useAuth } from "../contexts/AuthContext";
-import { IoLogOutOutline } from "react-icons/io5";
 
 const UserDetails = ({ workspaceId }) => {
   const { tenantId, setTenantId } = useTenantId();
@@ -62,9 +61,9 @@ export const SidebarLayout = ({ children }) => {
     [pathname]
   );
 
-  const handleLogout = () => {
-    logout();
-  };
+  // const handleLogout = () => {
+  //   logout();
+  // };
 
   return (
     <div>
@@ -90,7 +89,7 @@ export const SidebarLayout = ({ children }) => {
           </button>
 
           {/* Logout button */}
-          <button
+          {/* <button
             onClick={handleLogout}
             className="flex items-center gap-2 px-3 py-2 border border-gray-200 hover:bg-gray-50 rounded-md transition-all duration-200 backdrop-blur-sm group z-50"
           >
@@ -98,7 +97,7 @@ export const SidebarLayout = ({ children }) => {
             <span className="text-gray-600 text-xs group-hover:text-gray-800 transition-colors duration-200">
               Logout
             </span>
-          </button>
+          </button> */}
         </div>
       </div>
 
