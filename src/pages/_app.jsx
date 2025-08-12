@@ -4,7 +4,6 @@ import "da-apps-sdk/styles";
 import { SidebarLayout } from "../modules/container/layouts/SidebarLayout";
 import { SidebarContextProvider } from "../modules/container/contexts/SidebarContext";
 import { AuthProvider } from "../modules/container/contexts/AuthContext";
-import { ProtectedRoute } from "../modules/container/components/ProtectedRoute";
 import { useRouter } from "next/router";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
@@ -12,21 +11,14 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 function AppContent({ Component, pageProps }) {
   const router = useRouter();
 
-  // Don't protect the login page
-  if (router.pathname === "/login") {
-    return <Component {...pageProps} />;
-  }
-
   return (
-    <ProtectedRoute>
-      <SidebarContextProvider>
-        <SidebarLayout>
-          <Component {...pageProps} />
-          <Analytics />
-          <SpeedInsights />
-        </SidebarLayout>
-      </SidebarContextProvider>
-    </ProtectedRoute>
+    <SidebarContextProvider>
+      <SidebarLayout>
+        <Component {...pageProps} />
+        <Analytics />
+        <SpeedInsights />
+      </SidebarLayout>
+    </SidebarContextProvider>
   );
 }
 
