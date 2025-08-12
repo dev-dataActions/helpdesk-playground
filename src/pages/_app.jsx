@@ -4,7 +4,6 @@ import "da-apps-sdk/styles";
 import { SidebarLayout } from "../modules/container/layouts/SidebarLayout";
 import { SidebarContextProvider } from "../modules/container/contexts/SidebarContext";
 import { AuthProvider } from "../modules/container/contexts/AuthContext";
-import { useRouter } from "next/router";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
