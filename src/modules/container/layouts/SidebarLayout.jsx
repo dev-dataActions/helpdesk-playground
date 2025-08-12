@@ -8,7 +8,7 @@ import { useTenantId } from "../../insights/hooks/useTenantId";
 import { SiTemporal } from "react-icons/si";
 import { IoChevronBackOutline } from "react-icons/io5";
 import { useSidebarContext } from "../contexts/SidebarContext";
-import { useAuth } from "../contexts/AuthContext";
+// import { useAuth } from "../contexts/AuthContext";
 
 const UserDetails = ({ workspaceId }) => {
   const { tenantId, setTenantId } = useTenantId();
@@ -29,7 +29,7 @@ export const SidebarLayout = ({ children }) => {
   const workspaceId = process.env.NEXT_PUBLIC_WORKSPACE_ID;
   const pathname = usePathname();
   const { isCollapsed, toggleSidebar } = useSidebarContext();
-  const { logout } = useAuth();
+  // const { logout } = useAuth();
 
   const navItems = useMemo(
     () => [
