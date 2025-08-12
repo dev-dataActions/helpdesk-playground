@@ -1,5 +1,6 @@
 // Base components
 export { BoardEditor } from "./BoardEditor";
+export { BoardFilters } from "./BoardFilters";
 export { DecisionBoards } from "./DecisionBoards";
 export { DecisionCard } from "./DecisionCard";
 export { DecisionSummary } from "./DecisionSummary";

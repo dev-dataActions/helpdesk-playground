@@ -56,6 +56,7 @@ const InsightPreview = memo(({ insight, timeRange, workspaceId, tenantId, onNavi
     () => ({ showExplanation: insight?.type !== ChartTypes.BIGNUMBER, ...insight?.options }),
     [insight]
   );
+
   const metricLabel = useMemo(
     () => insight?.metrics.find((m) => m.metricKey === insight?.metric_name)?.metricLabel,
     [insight]
@@ -88,7 +89,7 @@ const InsightPreview = memo(({ insight, timeRange, workspaceId, tenantId, onNavi
         },
       },
     ],
-    [insight?.metric_name, onNavigate]
+    [insight?.metric_name, metricLabel, onNavigate]
   );
 
   const dataResolver = useCallback((payload) => fetchData(payload, workspaceId, tenantId), [workspaceId, tenantId]);
