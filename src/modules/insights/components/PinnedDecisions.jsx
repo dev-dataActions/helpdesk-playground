@@ -1,51 +1,20 @@
 import { useCallback } from "react";
 import { usePinnedDecisions } from "../hooks/usePinnedDecisions";
-import { Loading, Error } from "da-apps-sdk";
+import { Loading, Error, cn } from "da-apps-sdk";
 import { GoLinkExternal, GoPin } from "react-icons/go";
-import {
-  HiOutlineGlobe,
-  HiOutlineLocationMarker,
-  HiOutlineDocumentText,
-  HiOutlineArrowRight,
-  HiOutlineBadgeCheck,
-} from "react-icons/hi";
+import { HiOutlineArrowRight } from "react-icons/hi";
 
-// Helper function to get icon and badge based on decision name
-const getDecisionMeta = (decisionName) => {
-  const name = decisionName?.toLowerCase() || "";
-
-  if (name.includes("product") || name.includes("advanced")) {
+// Helper function to get badge based on decision name
+const getDecisionBadge = (decisionName) => {
+  const roleMatch = decisionName?.match(/^\(([^)]+)\)/)?.[1];
+  if (roleMatch) {
     return {
-      icon: HiOutlineGlobe,
-      badge: "Overview",
-      badgeColor: "bg-purple-100 text-purple-700 border-purple-200",
-    };
-  }
-  if (name.includes("season") || name.includes("complete")) {
-    return {
-      icon: HiOutlineBadgeCheck,
-      badge: "DGO",
+      badge: roleMatch,
       badgeColor: "bg-blue-100 text-blue-700 border-blue-200",
     };
   }
-  if (name.includes("region") || name.includes("location")) {
-    return {
-      icon: HiOutlineLocationMarker,
-      badge: "ROL",
-      badgeColor: "bg-orange-100 text-orange-700 border-orange-200",
-    };
-  }
-  if (name.includes("field") || name.includes("staff") || name.includes("book")) {
-    return {
-      icon: HiOutlineDocumentText,
-      badge: "Field Staff",
-      badgeColor: "bg-green-100 text-green-700 border-green-200",
-    };
-  }
 
-  // Default
   return {
-    icon: GoLinkExternal,
     badge: "General",
     badgeColor: "bg-gray-100 text-gray-700 border-gray-200",
   };
@@ -53,6 +22,10 @@ const getDecisionMeta = (decisionName) => {
 
 const PinnedDecisionCard = ({ decision, handleClick, isPinned, onPinToggle }) => {
   const { decisionName, decisionId } = decision;
+  const { badge, badgeColor } = getDecisionBadge(decisionName);
+
+  // Remove parentheses text from the displayed name
+  const cleanDecisionName = decisionName?.replace(/^\([^)]+\)\s*/, "") || decisionName;
 
   const handlePinClick = (e) => {
     e.stopPropagation();
@@ -61,13 +34,17 @@ const PinnedDecisionCard = ({ decision, handleClick, isPinned, onPinToggle }) =>
 
   return (
     <div
-      className="flex items-center gap-x-3 px-4 py-3 cursor-pointer hover:bg-gray-100 transition-colors relative"
+      className="flex items-center gap-x-3 px-4 py-3 cursor-pointer hover:bg-gray-100 transition-colors relative bg-white rounded-lg border border-gray-200 shadow-sm"
       onClick={handleClick}
     >
       <div className="p-2 rounded-full bg-blue-100 text-blue-500 flex items-center justify-center">
         <GoLinkExternal size={16} />
       </div>
-      <h3 className="text-sm">{decisionName}</h3>
+      <div className="flex-1 flex items-center gap-3">
+        <h3 className="text-sm text-gray-900">{cleanDecisionName}</h3>
+        <span className={`inline-block px-2 py-1 text-xs font-medium rounded-full border ${badgeColor}`}>{badge}</span>
+      </div>
+      <HiOutlineArrowRight size={16} className="text-gray-400" />
       <button
         className="p-1 rounded-full hover:bg-gray-200 transition-colors"
         onClick={handlePinClick}
@@ -135,7 +112,7 @@ export const PinnedDecisions = ({ workspaceId, appId, onNavigate = null, classNa
   return (
     <div>
       {!pinnedDecisions || pinnedDecisions.length === 0 ? (
-        <div className="text-center py-8">
+        <div className="text-center py-8 border border-gray-200 rounded-lg bg-white">
           <div className="w-12 h-12 bg-gray-100 rounded-xl flex items-center justify-center mx-auto mb-3">
             <GoPin className="w-6 h-6 text-gray-400" />
           </div>
@@ -143,7 +120,7 @@ export const PinnedDecisions = ({ workspaceId, appId, onNavigate = null, classNa
           <p className="text-xs text-gray-500">Pin your favorite decisions to see them here</p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           {pinnedDecisions.map((decision) => {
             const isDecisionPinned = isPinned(decision.decisionId);
 

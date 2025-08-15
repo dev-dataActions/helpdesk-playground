@@ -1,51 +1,33 @@
+import { useCallback } from "react";
 import { useRouter } from "next/router";
-import { DecisionDetailPage } from "../../modules/insights/pages/DecisionDetailPage";
-import { ScreenLayout } from "da-apps-sdk";
 import { useTenantId } from "../../modules/insights/hooks/useTenantId";
+import { ScreenLayout } from "da-apps-sdk";
 import { HomePage } from "../../modules/insights/pages/HomePage";
+import { DecisionDetailPage } from "../../modules/insights/pages/DecisionDetailPage";
 
-export default function DecisionDetailPageContainer() {
+export default function InsightsPageContainer() {
   const router = useRouter();
   const { tenantId } = useTenantId();
+  const handleNavigate = useCallback((path) => router.push(path), [router]);
 
-  const handleRoleChange = () => {
-    try {
-      router.push("/insights");
-    } catch (error) {
-      console.error("Navigation error on role change:", error);
-    }
-  };
-
-  const handleNavigate = (path) => {
-    try {
-      router.push(path);
-    } catch (error) {
-      console.error("Navigation error:", error);
-    }
-  };
-
-  if (router?.query?.decisionId) {
-    return (
-      <ScreenLayout breadcrumbs={[{ name: "Insights" }]}>
+  return (
+    <ScreenLayout breadcrumbs={[{ name: "Insights" }]} noPadding>
+      {router?.query?.decisionId ? (
         <DecisionDetailPage
           tenantId={tenantId}
           workspaceId={process.env.NEXT_PUBLIC_WORKSPACE_ID}
           appId={process.env.NEXT_PUBLIC_CFA_APP_ID}
+          onNavigate={handleNavigate}
           decisionId={router?.query?.decisionId}
+        />
+      ) : (
+        <HomePage
+          tenantId={tenantId}
+          workspaceId={process.env.NEXT_PUBLIC_WORKSPACE_ID}
+          appId={process.env.NEXT_PUBLIC_CFA_APP_ID}
           onNavigate={handleNavigate}
         />
-      </ScreenLayout>
-    );
-  }
-
-  return (
-    <ScreenLayout breadcrumbs={[{ name: "Insights" }]} noPadding>
-      <HomePage
-        tenantId={tenantId}
-        workspaceId={process.env.NEXT_PUBLIC_WORKSPACE_ID}
-        appId={process.env.NEXT_PUBLIC_CFA_APP_ID}
-        onNavigate={handleNavigate}
-      />
+      )}
     </ScreenLayout>
   );
 }
