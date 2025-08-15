@@ -53,33 +53,17 @@ const getDecisionMeta = (decisionName) => {
 };
 
 const RecentDecisionCard = ({ decision, handleClick }) => {
-  const { decisionName, decisionDescription } = decision;
-  const { icon: IconComponent, badge, badgeColor } = getDecisionMeta(decisionName);
+  const { decisionName } = decision;
 
   return (
     <div
-      className="group bg-white border border-gray-200 rounded-xl p-3 cursor-pointer hover:shadow-sm hover:border-gray-300 transition-all duration-200 relative"
+      className="flex items-center gap-x-3 px-4 py-3 cursor-pointer hover:bg-gray-100 transition-colors relative"
       onClick={handleClick}
     >
-      <div className="flex items-center gap-2">
-        {/* Icon */}
-        <div className="w-8 h-8 bg-gray-100 rounded-lg flex items-center justify-center flex-shrink-0">
-          <IconComponent className="w-4 h-4 text-gray-600" />
-        </div>
-
-        {/* Content with Badge */}
-        <div className="flex-1 min-w-0 flex items-center gap-2">
-          <h3 className="font-medium text-gray-900 text-sm truncate">{decisionName}</h3>
-          <span
-            className={`inline-flex items-center px-1 py-0.5 rounded-full text-xs font-medium border ${badgeColor} flex-shrink-0`}
-          >
-            {badge}
-          </span>
-        </div>
-
-        {/* Arrow */}
-        <HiOutlineArrowRight className="w-4 h-4 text-gray-400 group-hover:text-gray-600 group-hover:translate-x-0.5 transition-all duration-200 flex-shrink-0" />
+      <div className="p-2 rounded-full bg-blue-100 text-blue-500 flex items-center justify-center">
+        <GoLinkExternal size={16} />
       </div>
+      <h3 className="text-sm">{decisionName}</h3>
     </div>
   );
 };

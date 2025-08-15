@@ -55,7 +55,7 @@ const InsightPreview = ({ insight, workspaceId, tenantId, onNavigate, timeRange 
       //   },
       // },
     ],
-    [insight?.metric_name, onNavigate]
+    [insight?.metric_name, insight?.title, onNavigate]
   );
 
   return (
@@ -96,7 +96,7 @@ const MetricCard = ({ metric, workspaceId, tenantId, onNavigate, timeRange, clas
       ],
       ...(className && { options: { className: className } }),
     }),
-    [metric]
+    [metric, className]
   );
 
   return (
@@ -159,11 +159,7 @@ export const MetricView = ({ metricViewConfig, workspaceId, tenantId, className 
         if (driverMetrics.length === 0 && inputMetrics.length === 0) return null;
 
         return (
-          <div
-            className={`grid grid-cols-1 lg:grid-cols-2 ${
-              driverMetrics.length > 0 && inputMetrics.length > 0 ? "lg:divide-x lg:divide-gray-200" : ""
-            } mt-2`}
-          >
+          <div className={`grid grid-cols-1 lg:grid-cols-2 mt-2`}>
             {/* Input Metrics - Right Column */}
             {inputMetrics.length > 0 && (
               <div className="space-y-1.5 pr-3">
@@ -177,7 +173,7 @@ export const MetricView = ({ metricViewConfig, workspaceId, tenantId, className 
                         tenantId={tenantId}
                         onNavigate={onNavigate}
                         timeRange={timeRange}
-                        className="h-36"
+                        className="h-48"
                       />
                     </div>
                   ))}
@@ -198,7 +194,7 @@ export const MetricView = ({ metricViewConfig, workspaceId, tenantId, className 
                         tenantId={tenantId}
                         onNavigate={onNavigate}
                         timeRange={timeRange}
-                        className="h-36"
+                        className="h-48"
                       />
                     </div>
                   ))}

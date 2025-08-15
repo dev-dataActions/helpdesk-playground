@@ -4,9 +4,7 @@ import { FiArrowRight } from "react-icons/fi";
 import { fetchData, fetchDimensionValues } from "../../container/services/insights.svc";
 import { getDecisionIdByRoleId } from "../utils/role.util";
 import { getDecision } from "../utils/general.util";
-import { metricViewConfig } from "../constants/decision.constant";
-import { useExplanationInsights } from "../hooks/useExplanationInsights";
-import { ExplanationInsightsFeed } from "./ExplanationInsightsFeed";
+import { useMetricViewConfig } from "../hooks/useMetricViewConfig";
 import { TimeFilters } from "../pages/BoardPage";
 
 /**
@@ -62,7 +60,7 @@ const InsightPreview = ({ insight, workspaceId, tenantId, onNavigate, timeRange 
       //   },
       // },
     ],
-    [insight?.metric_name, onNavigate]
+    [insight?.metric_name, insight?.title, onNavigate]
   );
 
   return (
@@ -102,7 +100,7 @@ const MetricCard = ({ metric, workspaceId, tenantId, onNavigate, timeRange }) =>
         },
       ],
       options: {
-        className: "h-60",
+        className: "h-48",
       },
     }),
     [metric]
@@ -134,6 +132,7 @@ const MetricCard = ({ metric, workspaceId, tenantId, onNavigate, timeRange }) =>
 export const DecisionCard = ({
   roleId,
   workspaceId,
+  appId,
   tenantId,
   decisionTree,
   onNavigate,
@@ -148,19 +147,15 @@ export const DecisionCard = ({
     return getDecision(decisionTree, decisionId);
   }, [decisionId, decisionTree]);
 
+  // Fetch metric view configuration from API
+  const { metricConfig } = useMetricViewConfig(workspaceId, appId, decisionId);
+
   const outputMetrics = useMemo(() => {
-    if (!decisionId || !metricViewConfig[decisionId]?.OUTPUT) {
+    if (!decisionId || !metricConfig?.OUTPUT) {
       return [];
     }
-    return metricViewConfig[decisionId]?.OUTPUT || [];
-  }, [decisionId]);
-
-  const {
-    insights,
-    loading: insightsLoading,
-    error: insightsError,
-    refetch: refetchInsights,
-  } = useExplanationInsights(decisionId, workspaceId, tenantId);
+    return metricConfig?.OUTPUT || [];
+  }, [decisionId, metricConfig]);
 
   const handleDecisionClick = () => {
     try {
@@ -185,12 +180,14 @@ export const DecisionCard = ({
   }
 
   return (
-    <div className={`bg-white border border-gray-300 rounded-lg shadow-sm p-4 ${className}`}>
+    <div className={`bg-white border border-gray-200 rounded-lg shadow-sm p-4 ${className}`}>
       {/* Header with title, description, and time filters */}
       <div className="flex items-start justify-between items-center gap-x-4 mb-3">
         <div className="flex-1">
           <div className="flex items-center gap-1 cursor-pointer group" onClick={handleDecisionClick}>
-            <h2 className="text-gray-800 group-hover:text-gray-900 transition-all duration-200">{decision?.name}</h2>
+            <h2 className="text-gray-700 group-hover:text-gray-800 transition-all duration-200 font-medium">
+              {decision?.name}
+            </h2>
             <FiArrowRight
               className="text-gray-500 group-hover:text-gray-900 group-hover:translate-x-1 transition-all duration-200"
               size={16}
@@ -201,7 +198,7 @@ export const DecisionCard = ({
         <TimeFilters timeRange={timeRange} setTimeRange={setTimeRange} />
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-4">
+      <div className="grid grid-cols-1 gap-4">
         {outputMetrics.length > 0 ? (
           <div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -223,19 +220,6 @@ export const DecisionCard = ({
             <p className="text-sm">No output metrics available for this role</p>
           </div>
         )}
-
-        {/* Explanation Insights Section - Fixed 300px */}
-        <div className="lg:w-[300px]">
-          <div className="border border-blue-200 rounded-lg p-4 h-60 bg-blue-50">
-            <ExplanationInsightsFeed
-              insights={insights}
-              loading={insightsLoading}
-              error={insightsError}
-              onRefetch={refetchInsights}
-              className="h-full"
-            />
-          </div>
-        </div>
       </div>
     </div>
   );

@@ -1,16 +1,15 @@
 import { useMemo, useCallback, useState, useEffect } from "react";
 import { getDecision, getSubDecisions } from "../utils/general.util";
 import { useDecisionTree } from "../hooks/useDecisionTree";
-import { useExplanationInsights } from "../hooks/useExplanationInsights";
 import { useRecentDecisions } from "../hooks/useRecentDecisions";
 import { usePinnedDecisions } from "../hooks/usePinnedDecisions";
+import { useMetricViewConfig } from "../hooks/useMetricViewConfig";
+import { useSubDecisionsMetrics } from "../hooks/useSubDecisionsMetrics";
 import { MetricView } from "../components/MetricView";
 import { SubDecisionCards } from "../components/SubDecisionCards";
-import { ExplanationInsightsFeed } from "../components/ExplanationInsightsFeed";
 import { Loading, Error, PanelLayout } from "da-apps-sdk";
 import { DecisionTreeBreadcrumbs } from "../components/DecisionTreeBreadcrumbs";
 import { TimeFilters } from "./BoardPage";
-import { metricViewConfig } from "../constants/decision.constant";
 import { GoPin } from "react-icons/go";
 
 /**
@@ -33,17 +32,30 @@ export const DecisionDetailPage = ({ workspaceId, appId, decisionId, tenantId, o
   // Track pinned decisions
   const { isPinned, pinDecision, unpinDecision } = usePinnedDecisions(workspaceId, appId);
 
-  const { decision, metricConfig, subDecisions } = useMemo(() => {
+  // Fetch metric view configuration from API
+  const {
+    metricConfig,
+    loading: metricConfigLoading,
+    error: metricConfigError,
+  } = useMetricViewConfig(workspaceId, appId, decisionId);
+
+  const { decision, subDecisions } = useMemo(() => {
     try {
       const decision = getDecision(decisionTree, decisionId);
-      const metricConfig = metricViewConfig[decisionId] || null;
       const subDecisions = getSubDecisions(decisionTree, decisionId);
-      return { decision, metricConfig, subDecisions };
+      return { decision, subDecisions };
     } catch (error) {
       console.error("Error processing decision data:", error);
-      return { decision: null, metricConfig: null, subDecisions: [] };
+      return { decision: null, subDecisions: [] };
     }
   }, [decisionTree, decisionId]);
+
+  // Fetch metric configurations for all sub-decisions
+  const {
+    subDecisionsMetrics,
+    loading: subDecisionsMetricsLoading,
+    error: subDecisionsMetricsError,
+  } = useSubDecisionsMetrics(workspaceId, appId, subDecisions);
 
   // Add decision to recent decisions when it loads successfully
   useEffect(() => {
@@ -51,14 +63,6 @@ export const DecisionDetailPage = ({ workspaceId, appId, decisionId, tenantId, o
       addRecentDecision(decisionId, decision.name, decision.description);
     }
   }, [decision, decisionId, addRecentDecision, recentDecisionsLoading]);
-
-  // Fetch explanation insights for the current decision
-  const {
-    insights,
-    loading: insightsLoading,
-    error: insightsError,
-    refetch: refetchInsights,
-  } = useExplanationInsights(decisionId, workspaceId, tenantId);
 
   // Handle pin toggle
   const handlePinToggle = useCallback(() => {
@@ -89,18 +93,18 @@ export const DecisionDetailPage = ({ workspaceId, appId, decisionId, tenantId, o
     [onNavigate]
   );
 
-  if (loading) {
+  if (loading || metricConfigLoading || subDecisionsMetricsLoading) {
     return (
       <div className={className}>
-        <Loading loaderText="Loading decision tree..." />
+        <Loading loaderText="Loading decision tree and metrics..." />
       </div>
     );
   }
 
-  if (error) {
+  if (error || metricConfigError || subDecisionsMetricsError) {
     return (
       <div className={className}>
-        <Error errorText={error} fullScreen={false} />
+        <Error errorText={error || metricConfigError || subDecisionsMetricsError} fullScreen={false} />
       </div>
     );
   }
@@ -131,8 +135,12 @@ export const DecisionDetailPage = ({ workspaceId, appId, decisionId, tenantId, o
   return (
     <PanelLayout
       title={decision?.name}
-      description={decision?.description}
-      customButton={<PinButton />}
+      customButton={
+        <div className="flex items-center gap-x-2">
+          <TimeFilters timeRange={timeRange} setTimeRange={setTimeRange} />
+          <PinButton />
+        </div>
+      }
       breadcrumbs={
         <DecisionTreeBreadcrumbs
           decisionTree={decisionTree}
@@ -140,48 +148,25 @@ export const DecisionDetailPage = ({ workspaceId, appId, decisionId, tenantId, o
           onNavigate={handleNavigate}
         />
       }
-      className={className}
+      className={"max-w-5xl mx-auto !py-6"}
     >
-      <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-6">
-        <div className="mt-4">
-          <div className="flex items-start justify-between items-center gap-x-4 mb-3">
-            <div className="flex-1">
-              <h2 className="font-semibold text-gray-800">Overview</h2>
-              <p className="text-sm text-gray-500">Explore the key metrics and insights for this decision</p>
-            </div>
-            <TimeFilters timeRange={timeRange} setTimeRange={setTimeRange} />
-          </div>
-          <MetricView
-            onNavigate={onNavigate}
-            metricViewConfig={metricConfig}
+      <div className="grid grid-cols-1 gap-6">
+        <MetricView
+          onNavigate={onNavigate}
+          metricViewConfig={metricConfig}
+          workspaceId={workspaceId}
+          tenantId={tenantId}
+          timeRange={timeRange}
+          className="mt-4"
+        />
+        <div className="mt-4 border-t border-gray-200 pt-4">
+          <SubDecisionCards
+            subDecisions={subDecisions}
+            metricViewConfig={subDecisionsMetrics}
             workspaceId={workspaceId}
             tenantId={tenantId}
-            timeRange={timeRange}
-            className="mt-4"
+            onNavigate={onNavigate}
           />
-        </div>
-        <div className="lg:w-[300px]">
-          <div className="mt-5">
-            <div className="border border-blue-200 rounded-lg p-4 h-72 bg-blue-50">
-              <ExplanationInsightsFeed
-                insights={insights}
-                loading={insightsLoading}
-                error={insightsError}
-                onRefetch={refetchInsights}
-                className="h-full"
-              />
-            </div>
-          </div>
-
-          <div className="mt-4">
-            <SubDecisionCards
-              subDecisions={subDecisions}
-              metricViewConfig={metricViewConfig}
-              workspaceId={workspaceId}
-              tenantId={tenantId}
-              onNavigate={onNavigate}
-            />
-          </div>
         </div>
       </div>
     </PanelLayout>

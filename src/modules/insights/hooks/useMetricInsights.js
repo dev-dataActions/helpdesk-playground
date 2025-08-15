@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { ChartTypes } from "da-insight-sdk";
 import { formatDate } from "date-fns";
 import { getInsightsByMetricIdAndWorkspaceId } from "../services/metrics.svc";
@@ -20,7 +20,7 @@ export const useMetricInsights = (workspaceId, metricId) => {
       .filter((x) => x.type !== ChartTypes.BIGNUMBER);
   };
 
-  const fetchInsights = () => {
+  const fetchInsights = useCallback(() => {
     if (!workspaceId || !metricId) return;
 
     setLoading(true);
@@ -28,11 +28,11 @@ export const useMetricInsights = (workspaceId, metricId) => {
       .then((data) => setInsights(transformData(data)))
       .catch((err) => setError(err))
       .finally(() => setLoading(false));
-  };
+  }, [workspaceId, metricId]);
 
   useEffect(() => {
     fetchInsights();
-  }, [workspaceId, metricId]);
+  }, [workspaceId, metricId, fetchInsights]);
 
   return { insights, loading, error, refresh: fetchInsights };
 };

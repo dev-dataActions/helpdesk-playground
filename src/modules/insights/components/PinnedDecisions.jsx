@@ -53,7 +53,6 @@ const getDecisionMeta = (decisionName) => {
 
 const PinnedDecisionCard = ({ decision, handleClick, isPinned, onPinToggle }) => {
   const { decisionName, decisionId } = decision;
-  const { icon: IconComponent, badge, badgeColor } = getDecisionMeta(decisionName);
 
   const handlePinClick = (e) => {
     e.stopPropagation();
@@ -62,37 +61,20 @@ const PinnedDecisionCard = ({ decision, handleClick, isPinned, onPinToggle }) =>
 
   return (
     <div
-      className="group bg-white border border-gray-200 rounded-xl p-3 cursor-pointer hover:shadow-sm hover:border-gray-300 transition-all duration-200 relative"
+      className="flex items-center gap-x-3 px-4 py-3 cursor-pointer hover:bg-gray-100 transition-colors relative"
       onClick={handleClick}
     >
-      <div className="flex items-center gap-2">
-        {/* Icon */}
-        <div className="w-8 h-8 bg-gray-100 rounded-lg flex items-center justify-center flex-shrink-0">
-          <IconComponent className="w-4 h-4 text-gray-600" />
-        </div>
-
-        {/* Content with Badge */}
-        <div className="flex-1 min-w-0 flex items-center gap-2">
-          <h3 className="text-gray-900 text-sm truncate">{decisionName?.replace(/\([^)]*\)/g, "").trim()}</h3>
-          <span
-            className={`inline-flex items-center px-1.5 py-0.5 rounded-full text-[11px] font-medium border ${badgeColor} flex-shrink-0`}
-          >
-            {badge}
-          </span>
-        </div>
-
-        {/* Pin button - appears on hover */}
-        <button
-          className="opacity-0 group-hover:opacity-100 p-1 rounded hover:bg-gray-100 transition-all duration-200 flex-shrink-0"
-          onClick={handlePinClick}
-          title={isPinned ? "Unpin decision" : "Pin decision"}
-        >
-          <GoPin size={14} className={isPinned ? "text-blue-500" : "text-gray-400 hover:text-blue-500"} />
-        </button>
-
-        {/* Arrow */}
-        <HiOutlineArrowRight className="w-4 h-4 text-gray-400 group-hover:text-gray-600 group-hover:translate-x-0.5 transition-all duration-200 flex-shrink-0" />
+      <div className="p-2 rounded-full bg-blue-100 text-blue-500 flex items-center justify-center">
+        <GoLinkExternal size={16} />
       </div>
+      <h3 className="text-sm">{decisionName}</h3>
+      <button
+        className="p-1 rounded-full hover:bg-gray-200 transition-colors"
+        onClick={handlePinClick}
+        title={isPinned ? "Unpin decision" : "Pin decision"}
+      >
+        <GoPin size={16} className={isPinned ? "text-blue-500" : "text-gray-400 hover:text-blue-500"} />
+      </button>
     </div>
   );
 };

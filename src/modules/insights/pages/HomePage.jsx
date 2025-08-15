@@ -54,30 +54,15 @@ export const HomePage = ({
             />
           </div>
         </div>
+      </div>
 
-        {/* Favorite Metrics Section */}
-        <div className="mb-8 max-w-3xl mx-auto">
-          <div className="flex items-center gap-1.5 mb-3">
-            <HiOutlineChartBar className="w-4 h-4 text-gray-600" />
-            <h2 className="text-sm font-semibold text-gray-600">Pinned metrics</h2>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <h2 className="font-medium text-gray-700 capitalize mb-1.5">Pinned Decisions</h2>
+          {/* <p className="text-sm text-gray-500 mb-2.5">View your pinned decisions and explore their insights</p> */}
+          <div className="w-full h-72 border border-gray-200 bg-white rounded-lg overflow-hidden">
+            <PinnedDecisions workspaceId={workspaceId} appId={appId} onNavigate={handleNavigate} />
           </div>
-
-          <div className="bg-white/60 backdrop-blur-sm border border-gray-200 rounded-2xl p-8 text-center">
-            <div className="w-10 h-10 bg-emerald-100 rounded-lg flex items-center justify-center mx-auto mb-2">
-              <span className="text-emerald-600 font-semibold text-sm">$</span>
-            </div>
-            <p className="text-gray-500 text-sm">Add your favorite metrics to see insights here</p>
-          </div>
-        </div>
-
-        {/* Pinned Decisions Section */}
-        <div className="mb-8 max-w-3xl mx-auto">
-          <div className="flex items-center gap-1.5 mb-3">
-            <HiOutlineLightningBolt className="w-4 h-4 text-gray-600" />
-            <h2 className="text-sm font-semibold text-gray-600">Pinned decisions</h2>
-          </div>
-
-          <PinnedDecisions workspaceId={workspaceId} appId={appId} onNavigate={handleNavigate} />
         </div>
       </div>
     </div>

@@ -16,17 +16,20 @@ export default function BoardPageContainer() {
     } catch (error) {
       console.error("Navigation error on role change:", error);
     }
-  }, []);
+  }, [router]);
 
   const { roleId, setRoleId } = useRoleId(handleRoleChange);
 
-  const handleNavigate = useCallback((path) => {
-    try {
-      router.push(path);
-    } catch (error) {
-      console.error("Navigation error:", error);
-    }
-  }, []);
+  const handleNavigate = useCallback(
+    (path) => {
+      try {
+        router.push(path);
+      } catch (error) {
+        console.error("Navigation error:", error);
+      }
+    },
+    [router]
+  );
 
   const handleBack = useCallback(() => {
     try {
@@ -34,7 +37,7 @@ export default function BoardPageContainer() {
     } catch (error) {
       console.error("Back navigation error:", error);
     }
-  }, []);
+  }, [router]);
 
   const roleDropdown = <RoleDropdown roleId={roleId} setRoleId={setRoleId} />;
 
