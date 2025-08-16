@@ -1,8 +1,7 @@
 import { useBoard } from "../hooks/useBoard";
 import { Dropdown, Loader, PanelLayout, Loading, Error } from "da-apps-sdk";
-import { BoardEditor } from "../components/BoardEditor";
-import { useMemo, useState, useEffect } from "react";
-import { fetchDimensionValues } from "../../container/services/insights.svc";
+import { BoardEditor, BoardFilters } from "../components";
+import { useMemo, useState } from "react";
 
 /**
  * Time grain offset constants
@@ -59,46 +58,6 @@ export const TimeFilters = ({ timeRange, setTimeRange }) => {
         selectedOption={selectedTimeRangeOption}
         setSelectedOption={handleTimeRangeChange}
       />
-    </div>
-  );
-};
-
-const BoardFilters = ({ filters, activeFilters, setActiveFilters, workspaceId }) => {
-  const [dimensionValues, setDimensionValues] = useState({});
-
-  // Fetch dimension values for each filter
-  useEffect(() => {
-    if (!filters || !workspaceId) return;
-    (async function () {
-      const results = {};
-      for (const filter of filters) {
-        const values = await fetchDimensionValues(filter.dimension, workspaceId, undefined);
-        results[filter.dimension] = Array.isArray(values) ? values : [];
-      }
-      setDimensionValues(results);
-      setActiveFilters((prev) => {
-        const next = {};
-        for (const filter of filters) if (!next[filter.dimension]) next[filter.dimension] = filter.value;
-        return JSON.stringify(next) !== JSON.stringify(prev) ? next : prev;
-      });
-    })();
-  }, [filters, workspaceId]);
-
-  if (!filters || filters.length === 0) return null;
-  return (
-    <div className="flex flex-wrap gap-4 mb-4 bg-gray-50 p-3 rounded-md border border-gray-200">
-      {filters.map((filter) => (
-        <div className="w-64" key={filter?.dimension}>
-          <Dropdown
-            placeHolder={"All"}
-            inlineLabel={filter?.dimension}
-            options={dimensionValues?.[filter?.dimension]?.map((v) => ({ label: v, value: v }))}
-            selectedOption={activeFilters?.[filter?.dimension]}
-            setSelectedOption={(val) => setActiveFilters((prev) => ({ ...prev, [filter.dimension]: val }))}
-            allowNone={true}
-          />
-        </div>
-      ))}
     </div>
   );
 };
