@@ -15,11 +15,7 @@ export const BoardFilters = ({ filters, activeFilters, setActiveFilters, workspa
 
   // Memoize the filter update function to prevent infinite loops
   const handleFilterChange = useCallback(
-    (dimension, value) => {
-      if (setActiveFilters) {
-        setActiveFilters((prev) => ({ ...prev, [dimension]: value }));
-      }
-    },
+    (dimension, value) => setActiveFilters?.((prev) => ({ ...prev, [dimension]: value })),
     [setActiveFilters]
   );
 
@@ -42,24 +38,6 @@ export const BoardFilters = ({ filters, activeFilters, setActiveFilters, workspa
       }
     })();
   }, [filters, workspaceId]); // Removed setActiveFilters and activeFilters from dependencies
-
-  // Initialize active filters only once when component mounts
-  useEffect(() => {
-    if (
-      filters &&
-      filters.length > 0 &&
-      setActiveFilters &&
-      (!activeFilters || Object.keys(activeFilters).length === 0)
-    ) {
-      const initialFilters = {};
-      for (const filter of filters) {
-        if (filter?.dimension && filter?.value) {
-          initialFilters[filter.dimension] = filter.value;
-        }
-      }
-      setActiveFilters(initialFilters);
-    }
-  }, [filters, setActiveFilters, activeFilters]); // Added activeFilters back
 
   if (!filters || filters.length === 0) return null;
 

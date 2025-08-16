@@ -53,43 +53,13 @@ function computeInsightFilters(insight, activeFilters) {
  */
 const InsightPreview = memo(({ insight, timeRange, workspaceId, tenantId, onNavigate, activeFilters }) => {
   const insightOptions = useMemo(
-    () => ({ showExplanation: insight?.type !== ChartTypes.BIGNUMBER, ...insight?.options }),
+    () => ({
+      showExplanation: insight?.type !== ChartTypes.BIGNUMBER,
+      className: "h-64",
+      showExplanation: false,
+      ...insight?.options,
+    }),
     [insight]
-  );
-
-  const metricLabel = useMemo(
-    () => insight?.metrics.find((m) => m.metricKey === insight?.metric_name)?.metricLabel,
-    [insight]
-  );
-
-  const actions = useMemo(
-    () => [
-      {
-        name: "Analysis View",
-        onClick: () => {
-          try {
-            if (onNavigate && typeof onNavigate === "function") {
-              onNavigate(`/insights/metric/${insight?.metric_name}/what?metricLabel=${metricLabel}`);
-            }
-          } catch (error) {
-            console.error("Navigation error:", error);
-          }
-        },
-      },
-      {
-        name: "Insights View",
-        onClick: () => {
-          try {
-            if (onNavigate && typeof onNavigate === "function") {
-              onNavigate(`/insights/metric/${insight?.metric_name}/why?metricLabel=${metricLabel}`);
-            }
-          } catch (error) {
-            console.error("Navigation error:", error);
-          }
-        },
-      },
-    ],
-    [insight?.metric_name, metricLabel, onNavigate]
   );
 
   const dataResolver = useCallback((payload) => fetchData(payload, workspaceId, tenantId), [workspaceId, tenantId]);
@@ -112,13 +82,11 @@ const InsightPreview = memo(({ insight, timeRange, workspaceId, tenantId, onNavi
       timeGrain={insight?.timeGrain}
       filters={computedFilters}
       options={insightOptions}
-      actions={actions}
       dataResolver={dataResolver}
       dimensionValuesResolver={dimensionValuesResolver}
     />
   );
 });
-InsightPreview.displayName = "InsightPreview";
 
 /**
  * BoardEditor component with comprehensive error handling and prop validation

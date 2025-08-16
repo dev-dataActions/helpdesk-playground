@@ -30,7 +30,7 @@ const MetricCard = ({ metric, workspaceId, tenantId, onNavigate, timeRange, clas
     () => [
       {
         name: "Drilldown",
-        onClick: () => onNavigate?.(`/insights/metric/${metric?.metricKey}/what?metricLabel=${metric?.metricLabel}`),
+        onClick: () => onNavigate?.(`/insights/drilldown/${metric?.metricKey}?metricLabel=${metric?.metricLabel}`),
       },
     ],
     [metric?.metricKey, metric?.metricLabel, onNavigate]

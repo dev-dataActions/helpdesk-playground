@@ -1,9 +1,9 @@
 import { useRouter } from "next/router";
 import { useTenantId } from "../../../../modules/insights/hooks/useTenantId";
 import { ScreenLayout } from "da-apps-sdk";
-import { MetricWhyPage } from "../../../../modules/insights/pages/MetricWhyPage";
+import { MetricDrilldownPage } from "../../../../modules/insights/pages/MetricDrilldownPage";
 
-export default function MetricsWhyPageContainer() {
+export default function MetricsWhatPageContainer() {
   const router = useRouter();
   const { tenantId } = useTenantId();
 
@@ -25,11 +25,11 @@ export default function MetricsWhyPageContainer() {
 
   return (
     <ScreenLayout breadcrumbs={[{ name: "Insights" }]}>
-      <MetricWhyPage
+      <MetricDrilldownPage
         tenantId={tenantId}
         workspaceId={process.env.NEXT_PUBLIC_WORKSPACE_ID}
-        metricId={router?.query?.metricId}
         metricLabel={router?.query?.metricLabel}
+        metricId={router?.query?.metricId}
         onNavigate={handleNavigate}
         onBack={handleBack}
       />
