@@ -147,6 +147,8 @@ export const DecisionDetailPage = ({ workspaceId, appId, decisionId, tenantId, o
           workspaceId={workspaceId}
           tenantId={tenantId}
           className="mt-4"
+          decisionId={decisionId}
+          decisionName={decision?.name}
         />
         <MetricChangeAnalysis workspaceId={workspaceId} appId={appId} decisionId={decisionId} onNavigate={onNavigate} />
         <div className="border-t border-gray-200 pt-4">

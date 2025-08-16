@@ -7,8 +7,11 @@ import { BsCheck2Circle } from "react-icons/bs";
 import { TimeFilters } from "../pages/BoardPage";
 import { CiSettings } from "react-icons/ci";
 import { GoZap } from "react-icons/go";
+import { usePinnedMetrics } from "../hooks/usePinnedMetrics";
 
-const MetricCard = ({ metric, workspaceId, tenantId, onNavigate, timeRange, className }) => {
+const MetricCard = ({ metric, workspaceId, tenantId, onNavigate, timeRange, className, decisionId, decisionName }) => {
+  const { isPinned, pinMetric, unpinMetric } = usePinnedMetrics(workspaceId, process.env.NEXT_PUBLIC_CFA_APP_ID);
+
   const insight = useMemo(
     () => ({
       type: ChartTypes.BIGNUMBERWITHTREND,
@@ -26,14 +29,30 @@ const MetricCard = ({ metric, workspaceId, tenantId, onNavigate, timeRange, clas
     [workspaceId, tenantId]
   );
 
+  const handlePinToggle = useCallback(() => {
+    try {
+      if (isPinned(metric?.metricKey)) {
+        unpinMetric(metric?.metricKey);
+      } else {
+        pinMetric(metric?.metricKey, metric?.metricLabel, decisionId, decisionName);
+      }
+    } catch (error) {
+      console.error("Error toggling metric pin:", error);
+    }
+  }, [metric?.metricKey, metric?.metricLabel, decisionId, decisionName, isPinned, pinMetric, unpinMetric]);
+
   const actions = useMemo(
     () => [
       {
         name: "Drilldown",
         onClick: () => onNavigate?.(`/insights/drilldown/${metric?.metricKey}?metricLabel=${metric?.metricLabel}`),
       },
+      {
+        name: isPinned(metric?.metricKey) ? "Unpin from home" : "Pin to home",
+        onClick: handlePinToggle,
+      },
     ],
-    [metric?.metricKey, metric?.metricLabel, onNavigate]
+    [metric?.metricKey, metric?.metricLabel, onNavigate, handlePinToggle, isPinned]
   );
 
   return (
@@ -56,7 +75,15 @@ const MetricCard = ({ metric, workspaceId, tenantId, onNavigate, timeRange, clas
   );
 };
 
-export const MetricView = ({ metricViewConfig, workspaceId, tenantId, className = "", onNavigate }) => {
+export const MetricView = ({
+  metricViewConfig,
+  workspaceId,
+  tenantId,
+  className = "",
+  onNavigate,
+  decisionId,
+  decisionName,
+}) => {
   const [timeRange, setTimeRange] = useState(30);
   const [isExpanded, setIsExpanded] = useState(false);
 
@@ -107,6 +134,8 @@ export const MetricView = ({ metricViewConfig, workspaceId, tenantId, className 
                 onNavigate={onNavigate}
                 timeRange={timeRange}
                 className="h-40"
+                decisionId={decisionId}
+                decisionName={decisionName}
               />
             ))}
           </div>
@@ -136,6 +165,8 @@ export const MetricView = ({ metricViewConfig, workspaceId, tenantId, className 
                       onNavigate={onNavigate}
                       timeRange={timeRange}
                       className="h-48"
+                      decisionId={decisionId}
+                      decisionName={decisionName}
                     />
                   ))}
                 </div>
@@ -159,6 +190,8 @@ export const MetricView = ({ metricViewConfig, workspaceId, tenantId, className 
                       onNavigate={onNavigate}
                       timeRange={timeRange}
                       className="h-48"
+                      decisionId={decisionId}
+                      decisionName={decisionName}
                     />
                   ))}
                 </div>

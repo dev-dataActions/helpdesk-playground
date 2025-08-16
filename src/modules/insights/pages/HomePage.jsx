@@ -33,6 +33,7 @@ const DecisionSearch = ({ workspaceId, appId, handleNavigate }) => {
         onFocus={() => setIsSearchActive(true)}
         onChange={handleSearchChange}
         disabled={loading || error}
+        autoComplete="off"
       />
 
       {/* Search Results Panel */}
@@ -90,18 +91,13 @@ export const HomePage = ({
         <div className="space-y-8">
           {/* Pinned Metrics Section */}
           <div>
-            <div className="flex items-center gap-2 mb-4">
-              <div className="w-1 h-6 bg-blue-500 rounded-full"></div>
-              <h2 className="text-lg font-semibold text-gray-900">Pinned Metrics</h2>
-            </div>
-
-            <PinnedMetrics />
+            <PinnedMetrics workspaceId={workspaceId} appId={appId} onNavigate={handleNavigate} />
           </div>
 
           {/* Pinned Decisions Section */}
           <div>
             <div className="flex items-center gap-2 mb-4">
-              <div className="w-1 h-6 bg-blue-500 rounded-full"></div>
+              <div className="w-1 h-6 bg-purple-500 rounded-full"></div>
               <h2 className="text-lg font-semibold text-gray-900">Pinned Decisions</h2>
             </div>
 

@@ -33,10 +33,11 @@ export const DecisionTreeBreadcrumbs = ({ decisionTree, currentDecisionId, onNav
     return pathParts.join(" / ");
   }, [breadcrumbs]);
 
-  // Get back navigation target (second last decision in path)
+  // Get back navigation target (second last decision in path or home)
   const backTarget = useMemo(() => {
-    if (!breadcrumbs || breadcrumbs.length < 2) return null;
-    return breadcrumbs[breadcrumbs.length - 2];
+    if (!breadcrumbs || breadcrumbs.length === 0) return { path: "/insights", name: "Home" };
+    if (breadcrumbs.length === 1) return { path: "/insights", name: "Home" };
+    return { path: breadcrumbs[breadcrumbs.length - 2].path, name: breadcrumbs[breadcrumbs.length - 2].name };
   }, [breadcrumbs]);
 
   // Update search value when breadcrumbs change

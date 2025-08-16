@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 import { useRouter } from "next/router";
 import { useTenantId } from "../../modules/insights/hooks/useTenantId";
-import { Loading, ScreenLayout } from "da-apps-sdk";
+import { ScreenLayout } from "da-apps-sdk";
 import { HomePage } from "../../modules/insights/pages/HomePage";
 import { DecisionDetailPage } from "../../modules/insights/pages/DecisionDetailPage";
 
