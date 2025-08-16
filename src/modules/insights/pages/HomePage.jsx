@@ -64,7 +64,7 @@ export const HomePage = ({
 
   return (
     <div>
-      <div className="max-w-5xl mx-auto px-6 py-20">
+      <div className="max-w-5xl mx-auto px-6 py-16">
         {/* Hero Section */}
         <div className="text-center mb-12 max-w-5xl mx-auto">
           {/* AI Badge */}

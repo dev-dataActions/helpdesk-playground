@@ -11,6 +11,7 @@ import { Loading, Error, PanelLayout } from "da-apps-sdk";
 import { DecisionTreeBreadcrumbs } from "../components/DecisionTreeBreadcrumbs";
 import { TimeFilters } from "./BoardPage";
 import { GoPin } from "react-icons/go";
+import { LuSparkles } from "react-icons/lu";
 
 /**
  * DecisionDetailPage component with comprehensive error handling and prop validation
@@ -24,7 +25,6 @@ import { GoPin } from "react-icons/go";
  */
 export const DecisionDetailPage = ({ workspaceId, appId, decisionId, tenantId, onNavigate = null, className = "" }) => {
   const { decisionTree, loading, error } = useDecisionTree(workspaceId, appId);
-  const [timeRange, setTimeRange] = useState(30); // Default to quarterly (90 days)
 
   // Track recent decisions
   const { loading: recentDecisionsLoading, addRecentDecision } = useRecentDecisions(workspaceId, appId);
@@ -134,13 +134,15 @@ export const DecisionDetailPage = ({ workspaceId, appId, decisionId, tenantId, o
 
   return (
     <PanelLayout
-      title={decision?.name}
-      customButton={
-        <div className="flex items-center gap-x-2">
-          <TimeFilters timeRange={timeRange} setTimeRange={setTimeRange} />
-          <PinButton />
-        </div>
+      title={
+        <p className="flex items-center gap-x-3">
+          <span className="p-2 bg-gradient-to-br from-blue-500/20 via-purple-500/20 to-pink-500/20 rounded-xl border border-purple-300/30 shadow-lg shadow-purple-500/20">
+            <LuSparkles className="w-6 h-6 text-purple-600" />
+          </span>
+          {decision?.name}
+        </p>
       }
+      customButton={<PinButton />}
       breadcrumbs={
         <DecisionTreeBreadcrumbs
           decisionTree={decisionTree}
@@ -148,18 +150,17 @@ export const DecisionDetailPage = ({ workspaceId, appId, decisionId, tenantId, o
           onNavigate={handleNavigate}
         />
       }
-      className={"max-w-5xl mx-auto !py-6"}
+      className={"max-w-4xl mx-auto !py-6"}
     >
-      <div className="grid grid-cols-1 gap-6">
+      <div className="grid grid-cols-1 gap-6 border-t border-gray-200 pt-4 mt-2">
         <MetricView
           onNavigate={onNavigate}
           metricViewConfig={metricConfig}
           workspaceId={workspaceId}
           tenantId={tenantId}
-          timeRange={timeRange}
           className="mt-4"
         />
-        <div className="mt-4 border-t border-gray-200 pt-4">
+        <div className="border-t border-gray-200 pt-4">
           <SubDecisionCards
             subDecisions={subDecisions}
             metricViewConfig={subDecisionsMetrics}
