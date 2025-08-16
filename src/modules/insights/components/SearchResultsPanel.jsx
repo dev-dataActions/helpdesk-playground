@@ -196,7 +196,11 @@ export const SearchResultsPanel = ({ searchTerm, onClose, decisionTree = [], onN
     event?.stopPropagation();
     setCollapsedNodes((prev) => {
       const newSet = new Set(prev);
-      newSet.has(nodeId) ? newSet.delete(nodeId) : newSet.add(nodeId);
+      if (newSet.has(nodeId)) {
+        newSet.delete(nodeId);
+      } else {
+        newSet.add(nodeId);
+      }
       return newSet;
     });
   }, []);
@@ -211,7 +215,11 @@ export const SearchResultsPanel = ({ searchTerm, onClose, decisionTree = [], onN
 
   // Event handlers
   useEffect(() => {
-    const handleEscape = (event) => event.key === "Escape" && onClose?.();
+    const handleEscape = (event) => {
+      if (event.key === "Escape") {
+        onClose?.();
+      }
+    };
     const handleClickOutside = (event) => {
       const isSearchInput = event.target.closest("#decision-search-input");
       const isSearchPanel = event.target.closest(".search-results-panel");

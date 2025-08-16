@@ -10,7 +10,7 @@ import { GoZap } from "react-icons/go";
 import { usePinnedMetrics } from "../hooks/usePinnedMetrics";
 
 const MetricCard = ({ metric, workspaceId, tenantId, onNavigate, timeRange, className, decisionId, decisionName }) => {
-  const { isPinned, pinMetric, unpinMetric } = usePinnedMetrics(workspaceId, process.env.NEXT_PUBLIC_CFA_APP_ID);
+  const { isPinned, pinMetric, unpinMetric } = usePinnedMetrics();
 
   const insight = useMemo(
     () => ({

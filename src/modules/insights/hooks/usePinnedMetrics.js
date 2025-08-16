@@ -4,14 +4,12 @@ const PINNED_METRICS_KEY = "pinnedMetrics";
 
 /**
  * Custom hook to manage pinned metrics with localStorage persistence
- * @param {string} workspaceId - Workspace ID
- * @param {string} appId - App ID
  * @returns {Object} Object containing pinnedMetrics, loading, error, pinMetric, unpinMetric, and isPinned functions
  */
-export const usePinnedMetrics = (workspaceId, appId) => {
+export const usePinnedMetrics = () => {
   const [pinnedMetrics, setPinnedMetrics] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [loading] = useState(false);
+  const [error] = useState(null);
 
   // Load pinned metrics from localStorage
   const loadPinnedMetrics = useCallback(() => {

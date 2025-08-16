@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import { PanelLayout, Loading, Error } from "da-apps-sdk";
 import { useMetricDrilldown } from "../hooks/useMetricDrilldown";
 import { TIME_GRAIN_OFFSET, TimeFilters } from "./BoardPage";

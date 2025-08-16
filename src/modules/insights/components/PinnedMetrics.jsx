@@ -66,13 +66,12 @@ const PinnedMetricCard = ({ metric, onNavigate, onUnpin, workspaceId, tenantId, 
  * PinnedMetrics component with comprehensive error handling and prop validation
  * @param {Object} props - Component props
  * @param {string} props.workspaceId - Workspace ID
- * @param {string} props.appId - App ID
  * @param {Function} props.onNavigate - Navigation handler function
  * @param {string} props.className - Additional CSS classes
  */
-export const PinnedMetrics = ({ workspaceId, appId, onNavigate = null, className = "" }) => {
+export const PinnedMetrics = ({ workspaceId, onNavigate = null, className = "" }) => {
   const [timeRange, setTimeRange] = useState(30);
-  const { pinnedMetrics, loading, error, unpinMetric } = usePinnedMetrics(workspaceId, appId);
+  const { pinnedMetrics, loading, error, unpinMetric } = usePinnedMetrics();
 
   const handleUnpin = useCallback(
     (metricKey) => {

@@ -1,6 +1,6 @@
 import { useCallback } from "react";
 import { usePinnedDecisions } from "../hooks/usePinnedDecisions";
-import { Loading, Error, cn } from "da-apps-sdk";
+import { Loading, Error } from "da-apps-sdk";
 import { GoLinkExternal, GoPin } from "react-icons/go";
 import { HiOutlineArrowRight } from "react-icons/hi";
 

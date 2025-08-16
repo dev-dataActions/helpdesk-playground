@@ -59,7 +59,7 @@ export const BoardFilters = ({ filters, activeFilters, setActiveFilters, workspa
       }
       setActiveFilters(initialFilters);
     }
-  }, [filters]);
+  }, [filters, setActiveFilters]);
 
   if (!filters || filters.length === 0) return null;
 

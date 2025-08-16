@@ -61,7 +61,7 @@ export const HomePage = ({
   appId = process.env.NEXT_PUBLIC_CFA_APP_ID,
   onNavigate = null,
 }) => {
-  const handleNavigate = useCallback((path) => onNavigate?.(path)[onNavigate]);
+  const handleNavigate = useCallback((path) => onNavigate?.(path), [onNavigate]);
 
   return (
     <div>
@@ -91,7 +91,7 @@ export const HomePage = ({
         <div className="space-y-8">
           {/* Pinned Metrics Section */}
           <div>
-            <PinnedMetrics workspaceId={workspaceId} appId={appId} onNavigate={handleNavigate} />
+            <PinnedMetrics workspaceId={workspaceId} onNavigate={handleNavigate} />
           </div>
 
           {/* Pinned Decisions Section */}

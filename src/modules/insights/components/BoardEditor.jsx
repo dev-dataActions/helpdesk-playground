@@ -51,7 +51,7 @@ function computeInsightFilters(insight, activeFilters) {
  * @param {Function} props.onNavigate - Navigation handler
  * @param {string} props.tenantId - Tenant ID
  */
-const InsightPreview = memo(({ insight, timeRange, workspaceId, tenantId, onNavigate, activeFilters }) => {
+const InsightPreview = memo(function InsightPreview({ insight, timeRange, workspaceId, tenantId, activeFilters }) {
   const insightOptions = useMemo(
     () => ({
       showExplanation: insight?.type !== ChartTypes.BIGNUMBER,
