@@ -4,7 +4,7 @@ import { useDecisionTree } from "../hooks/useDecisionTree";
 import { usePinnedDecisions } from "../hooks/usePinnedDecisions";
 import { useMetricViewConfig } from "../hooks/useMetricViewConfig";
 import { useSubDecisionsMetrics } from "../hooks/useSubDecisionsMetrics";
-import { MetricView } from "../components/MetricView";
+import { MetricView, MetricChangeAnalysis } from "../components";
 import { SubDecisionCards } from "../components/SubDecisionCards";
 import { Loading, Error, PanelLayout } from "da-apps-sdk";
 import { DecisionTreeBreadcrumbs } from "../components/DecisionTreeBreadcrumbs";
@@ -138,7 +138,7 @@ export const DecisionDetailPage = ({ workspaceId, appId, decisionId, tenantId, o
           onNavigate={handleNavigate}
         />
       }
-      className={"max-w-4xl mx-auto !py-6"}
+      className={"max-w-4xl mx-auto !py-6 !px-4"}
     >
       <div className="grid grid-cols-1 gap-6 border-t border-gray-200 pt-4 mt-2">
         <MetricView
@@ -148,6 +148,7 @@ export const DecisionDetailPage = ({ workspaceId, appId, decisionId, tenantId, o
           tenantId={tenantId}
           className="mt-4"
         />
+        <MetricChangeAnalysis workspaceId={workspaceId} appId={appId} decisionId={decisionId} onNavigate={onNavigate} />
         <div className="border-t border-gray-200 pt-4">
           <SubDecisionCards
             subDecisions={subDecisions}

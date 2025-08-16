@@ -146,7 +146,7 @@ export const SubDecisionCards = ({
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {subDecisions.map((subDecision, index) => (
           <SubDecisionCard
             key={subDecision?.id || index}

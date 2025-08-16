@@ -80,17 +80,17 @@ export const MetricView = ({ metricViewConfig, workspaceId, tenantId, className 
           </div>
           <h2 className="font-medium text-foreground">Metric View</h2>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-4">
+          <TimeFilters timeRange={timeRange} setTimeRange={setTimeRange} />
           {hasCollapsibleMetrics && (
             <button
               onClick={() => setIsExpanded(!isExpanded)}
-              className="flex items-center gap-2 px-4 py-2 text-blue-600 hover:text-blue-700 transition-colors duration-200"
+              className="flex items-center gap-2 py-2 text-blue-600 hover:text-blue-700 transition-colors duration-200"
             >
               <span className="text-sm">{isExpanded ? "Collapse" : "Expand"}</span>
               {isExpanded ? <FiChevronUp className="w-4 h-4" /> : <FiChevronDown className="w-4 h-4" />}
             </button>
           )}
-          <TimeFilters timeRange={timeRange} setTimeRange={setTimeRange} />
         </div>
       </div>
 
