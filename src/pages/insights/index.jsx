@@ -10,13 +10,11 @@ export default function InsightsPageContainer() {
   const { tenantId } = useTenantId();
   const handleNavigate = useCallback((path) => router.push(path), [router]);
 
-  if (!router?.isReady) {
-    return <Loading loaderText="Loading data..." />;
-  }
+  console.log(router?.query?.decisionId);
 
-  return (
-    <ScreenLayout breadcrumbs={[{ name: "Insights" }]} noPadding>
-      {router?.query?.decisionId ? (
+  if (router?.query?.decisionId) {
+    return (
+      <ScreenLayout breadcrumbs={[{ name: "Insights" }]} noPadding>
         <DecisionDetailPage
           tenantId={tenantId}
           workspaceId={process.env.NEXT_PUBLIC_WORKSPACE_ID}
@@ -24,14 +22,18 @@ export default function InsightsPageContainer() {
           onNavigate={handleNavigate}
           decisionId={router?.query?.decisionId}
         />
-      ) : (
-        <HomePage
-          tenantId={tenantId}
-          workspaceId={process.env.NEXT_PUBLIC_WORKSPACE_ID}
-          appId={process.env.NEXT_PUBLIC_CFA_APP_ID}
-          onNavigate={handleNavigate}
-        />
-      )}
+      </ScreenLayout>
+    );
+  }
+
+  return (
+    <ScreenLayout breadcrumbs={[{ name: "Insights" }]} noPadding>
+      <HomePage
+        tenantId={tenantId}
+        workspaceId={process.env.NEXT_PUBLIC_WORKSPACE_ID}
+        appId={process.env.NEXT_PUBLIC_CFA_APP_ID}
+        onNavigate={handleNavigate}
+      />
     </ScreenLayout>
   );
 }
