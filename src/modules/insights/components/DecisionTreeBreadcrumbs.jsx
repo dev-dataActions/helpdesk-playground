@@ -124,6 +124,7 @@ export const DecisionTreeBreadcrumbs = ({ decisionTree, currentDecisionId, onNav
             onFocus={() => setIsSearchActive(true)}
             className="w-full pl-10 pr-4 py-2 text-xs bg-gray-50 border border-gray-200 rounded-lg font-mono text-gray-600"
             placeholder="Search decisions..."
+            autoComplete="off"
           />
 
           {/* Search Results Panel */}

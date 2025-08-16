@@ -4,7 +4,14 @@ import { RxTarget } from "react-icons/rx";
 import { FiSearch } from "react-icons/fi";
 
 // Recursive component to render decision nodes
-const DecisionNode = ({ node, onNodeSelect, onToggleCollapse, collapsedNodes, countTotalNodes }) => {
+const DecisionNode = ({
+  node,
+  onNodeSelect,
+  onToggleCollapse,
+  collapsedNodes,
+  countTotalNodes,
+  isSearchMode = false,
+}) => {
   const isCollapsed = collapsedNodes.has(node.id);
   const hasChildren = node.children?.length > 0;
 
@@ -15,36 +22,47 @@ const DecisionNode = ({ node, onNodeSelect, onToggleCollapse, collapsedNodes, co
         onClick={() => onNodeSelect(node)}
       >
         <div className="flex items-center gap-3 flex-1 min-w-0">
-          <div className="flex items-center gap-2" style={{ marginLeft: `${node.level * 28}px` }}>
-            {node.level > 0 && (
-              <div className="flex items-center gap-1">
-                <div className="w-6 h-px bg-gradient-to-r from-blue-200 to-blue-300"></div>
-                <div className="w-2 h-2 rounded-full bg-blue-400 shadow-sm"></div>
-              </div>
-            )}
-            <div
-              className={`flex-shrink-0 ${
-                hasChildren ? "cursor-pointer hover:bg-blue-100 p-1 rounded transition-colors hover:scale-110" : ""
-              }`}
-              onClick={hasChildren ? (e) => onToggleCollapse(node.id, e) : undefined}
-              title={hasChildren ? (isCollapsed ? "Expand" : "Collapse") : undefined}
-            >
-              {hasChildren ? (
-                isCollapsed ? (
-                  <HiOutlineChevronRight size={16} className="text-blue-600" />
-                ) : (
-                  <HiOutlineChevronDown size={16} className="text-blue-600" />
-                )
-              ) : (
-                <RxTarget size={16} className="ml-1 text-blue-500" />
+          {!isSearchMode ? (
+            <div className="flex items-center gap-2" style={{ marginLeft: `${node.level * 28}px` }}>
+              {node.level > 0 && (
+                <div className="flex items-center gap-1">
+                  <div className="w-6 h-px bg-gradient-to-r from-blue-200 to-blue-300"></div>
+                  <div className="w-2 h-2 rounded-full bg-blue-400 shadow-sm"></div>
+                </div>
               )}
+              <div
+                className={`flex-shrink-0 ${
+                  hasChildren ? "cursor-pointer hover:bg-blue-100 p-1 rounded transition-colors hover:scale-110" : ""
+                }`}
+                onClick={hasChildren ? (e) => onToggleCollapse(node.id, e) : undefined}
+                title={hasChildren ? (isCollapsed ? "Expand" : "Collapse") : undefined}
+              >
+                {hasChildren ? (
+                  isCollapsed ? (
+                    <HiOutlineChevronRight size={16} className="text-blue-600" />
+                  ) : (
+                    <HiOutlineChevronDown size={16} className="text-blue-600" />
+                  )
+                ) : (
+                  <RxTarget size={16} className="ml-1 text-blue-500" />
+                )}
+              </div>
             </div>
-          </div>
+          ) : (
+            <div className="flex items-center gap-2">
+              <RxTarget size={16} className="text-blue-500" />
+            </div>
+          )}
 
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-2">
               <div className="font-medium truncate text-foreground">{node.name}</div>
-              {hasChildren && isCollapsed && (
+              {isSearchMode && (
+                <span className="text-xs bg-blue-50 text-blue-600 px-2 py-0.5 rounded-full">
+                  Level {node.level + 1}
+                </span>
+              )}
+              {hasChildren && isCollapsed && !isSearchMode && (
                 <span className="text-xs bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full">
                   {countTotalNodes([node]) - 1} hidden
                 </span>
@@ -58,9 +76,11 @@ const DecisionNode = ({ node, onNodeSelect, onToggleCollapse, collapsedNodes, co
           </div>
         </div>
 
-        <div className="flex-shrink-0 opacity-60">
-          <HiOutlineChevronLeft size={16} className="text-gray-400 transform rotate-180" />
-        </div>
+        {!isSearchMode && (
+          <div className="flex-shrink-0 opacity-60">
+            <HiOutlineChevronLeft size={16} className="text-gray-400 transform rotate-180" />
+          </div>
+        )}
       </div>
 
       {hasChildren && !isCollapsed && (
@@ -73,6 +93,7 @@ const DecisionNode = ({ node, onNodeSelect, onToggleCollapse, collapsedNodes, co
               onToggleCollapse={onToggleCollapse}
               collapsedNodes={collapsedNodes}
               countTotalNodes={countTotalNodes}
+              isSearchMode={isSearchMode}
             />
           ))}
         </div>
@@ -135,30 +156,48 @@ export const SearchResultsPanel = ({ searchTerm, onClose, decisionTree = [], onN
   );
 
   // Main data processing
-  const { filteredNodes, totalNodeCount, visibleNodeCount } = useMemo(() => {
+  const { filteredNodes, totalNodeCount, visibleNodeCount, isSearchMode } = useMemo(() => {
     const treeData = getTreeData(decisionTree);
-    if (!treeData) return { filteredNodes: [], totalNodeCount: 0, visibleNodeCount: 0 };
+    if (!treeData) return { filteredNodes: [], totalNodeCount: 0, visibleNodeCount: 0, isSearchMode: false };
 
     const all = processTree(treeData);
     const totalCount = countNodes(all);
     const visibleCount = countVisibleNodes(all);
 
-    // Simple filtering - if any node in branch matches, include the branch
-    const filterBranch = (nodes) => {
-      if (!nodes) return false;
+    if (!searchTerm.trim()) {
+      // Show full tree when no search
+      return { filteredNodes: all, totalNodeCount: totalCount, visibleNodeCount: visibleCount, isSearchMode: false };
+    }
+
+    // Flatten tree and filter matching nodes for search
+    const flattenAndFilter = (nodes, level = 0) => {
+      if (!nodes) return [];
       const nodeArray = Array.isArray(nodes) ? nodes : [nodes];
-      return nodeArray.some((node) => {
-        if (!node) return false;
-        const matches =
-          node.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          node.description.toLowerCase().includes(searchTerm.toLowerCase());
-        return matches || (node.children?.length > 0 && filterBranch(node.children));
-      });
+
+      return nodeArray.reduce((acc, node) => {
+        if (!node) return acc;
+
+        const matches = node.name.toLowerCase().includes(searchTerm.toLowerCase());
+
+        if (matches) {
+          acc.push({ ...node, level, isSearchResult: true, children: [] });
+        }
+
+        if (node.children?.length > 0) {
+          acc.push(...flattenAndFilter(node.children, level + 1));
+        }
+
+        return acc;
+      }, []);
     };
 
-    const filtered = searchTerm.trim() ? all.filter((node) => filterBranch([node])) : all;
-
-    return { filteredNodes: filtered, totalNodeCount: totalCount, visibleNodeCount: visibleCount };
+    const flattenedResults = flattenAndFilter(all);
+    return {
+      filteredNodes: flattenedResults,
+      totalNodeCount: totalCount,
+      visibleNodeCount: flattenedResults.length,
+      isSearchMode: true,
+    };
   }, [decisionTree, searchTerm, getTreeData, processTree, countNodes, countVisibleNodes]);
 
   // Tree controls
@@ -244,25 +283,29 @@ export const SearchResultsPanel = ({ searchTerm, onClose, decisionTree = [], onN
       {/* Header */}
       <div className="flex items-center justify-between px-4 py-2 border-b border-gray-200 bg-gray-50/50">
         <div className="flex items-center gap-3">
-          <span className="text-xs font-medium text-gray-600">Tree Controls</span>
+          <span className="text-xs font-medium text-gray-600">{isSearchMode ? "Search Results" : "Tree Controls"}</span>
           <span className="text-xs text-gray-500">
-            {filteredNodes.length} of {visibleNodeCount} visible ({totalNodeCount} total)
+            {isSearchMode
+              ? `${filteredNodes.length} matching nodes found`
+              : `${filteredNodes.length} of ${visibleNodeCount} visible (${totalNodeCount} total)`}
           </span>
         </div>
-        <div className="flex items-center gap-2">
-          <button
-            onClick={expandAll}
-            className="text-xs px-2 py-1 bg-blue-100 text-blue-700 rounded hover:bg-blue-200 transition-colors"
-          >
-            Expand All
-          </button>
-          <button
-            onClick={collapseAll}
-            className="text-xs px-2 py-1 bg-gray-100 text-gray-700 rounded hover:bg-gray-200 transition-colors"
-          >
-            Collapse All
-          </button>
-        </div>
+        {!isSearchMode && (
+          <div className="flex items-center gap-2">
+            <button
+              onClick={expandAll}
+              className="text-xs px-2 py-1 bg-blue-100 text-blue-700 rounded hover:bg-blue-200 transition-colors"
+            >
+              Expand All
+            </button>
+            <button
+              onClick={collapseAll}
+              className="text-xs px-2 py-1 bg-gray-100 text-gray-700 rounded hover:bg-gray-200 transition-colors"
+            >
+              Collapse All
+            </button>
+          </div>
+        )}
       </div>
 
       {/* Content */}
@@ -276,6 +319,7 @@ export const SearchResultsPanel = ({ searchTerm, onClose, decisionTree = [], onN
               onToggleCollapse={toggleNodeCollapse}
               collapsedNodes={collapsedNodes}
               countTotalNodes={countNodes}
+              isSearchMode={isSearchMode}
             />
           ))}
         </div>
@@ -284,8 +328,14 @@ export const SearchResultsPanel = ({ searchTerm, onClose, decisionTree = [], onN
           <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-3">
             <FiSearch size={20} className="text-gray-400" />
           </div>
-          <h3 className="text-sm font-medium text-gray-600 mb-1">No decision nodes found</h3>
-          <p className="text-xs text-gray-500">Try adjusting your search terms or browse the hierarchy</p>
+          <h3 className="text-sm font-medium text-gray-600 mb-1">
+            {isSearchMode ? "No matching nodes found" : "No decision nodes found"}
+          </h3>
+          <p className="text-xs text-gray-500">
+            {isSearchMode
+              ? "Try adjusting your search terms"
+              : "Try adjusting your search terms or browse the hierarchy"}
+          </p>
         </div>
       )}
     </div>
