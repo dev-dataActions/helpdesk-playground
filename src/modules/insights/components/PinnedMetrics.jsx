@@ -104,7 +104,7 @@ export const PinnedMetrics = ({ workspaceId, onNavigate = null, className = "" }
     <div>
       {!pinnedMetrics || pinnedMetrics.length === 0 ? (
         <div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 mb-4">
             <div className="w-1 h-6 bg-blue-500 rounded-full"></div>
             <h2 className="text-lg font-semibold text-gray-900">Pinned Metrics</h2>
           </div>
