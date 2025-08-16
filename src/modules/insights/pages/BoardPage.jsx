@@ -3,7 +3,6 @@ import { Dropdown, Loader, PanelLayout, Loading, Error } from "da-apps-sdk";
 import { BoardEditor } from "../components/BoardEditor";
 import { useMemo, useState, useEffect } from "react";
 import { fetchDimensionValues } from "../../container/services/insights.svc";
-import { useRecentBoards } from "../hooks/useRecentBoards";
 
 /**
  * Time grain offset constants
@@ -129,16 +128,6 @@ const BoardPage = ({
   const { board, loading, error } = useBoard(workspaceId, appId, decisionId, boardId);
   const [timeRange, setTimeRange] = useState(TIME_GRAIN_OFFSET.QUARTERLY);
   const [activeFilters, setActiveFilters] = useState(null);
-
-  // Track recent boards
-  const { loading: recentBoardsLoading, addRecentBoard } = useRecentBoards(workspaceId, appId);
-
-  // Add board to recent boards when it loads successfully
-  useEffect(() => {
-    if (board && board.title && boardId && decisionId && !recentBoardsLoading) {
-      addRecentBoard(boardId, board.title, board.description, decisionId);
-    }
-  }, [board, boardId, decisionId, addRecentBoard, recentBoardsLoading]);
 
   if (loading) {
     return (

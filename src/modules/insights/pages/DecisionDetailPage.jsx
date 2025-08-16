@@ -1,7 +1,6 @@
-import { useMemo, useCallback, useState, useEffect } from "react";
+import { useMemo, useCallback } from "react";
 import { getDecision, getSubDecisions } from "../utils/general.util";
 import { useDecisionTree } from "../hooks/useDecisionTree";
-import { useRecentDecisions } from "../hooks/useRecentDecisions";
 import { usePinnedDecisions } from "../hooks/usePinnedDecisions";
 import { useMetricViewConfig } from "../hooks/useMetricViewConfig";
 import { useSubDecisionsMetrics } from "../hooks/useSubDecisionsMetrics";
@@ -9,7 +8,6 @@ import { MetricView } from "../components/MetricView";
 import { SubDecisionCards } from "../components/SubDecisionCards";
 import { Loading, Error, PanelLayout } from "da-apps-sdk";
 import { DecisionTreeBreadcrumbs } from "../components/DecisionTreeBreadcrumbs";
-import { TimeFilters } from "./BoardPage";
 import { GoPin } from "react-icons/go";
 import { LuSparkles } from "react-icons/lu";
 
@@ -25,9 +23,6 @@ import { LuSparkles } from "react-icons/lu";
  */
 export const DecisionDetailPage = ({ workspaceId, appId, decisionId, tenantId, onNavigate = null, className = "" }) => {
   const { decisionTree, loading, error } = useDecisionTree(workspaceId, appId);
-
-  // Track recent decisions
-  const { loading: recentDecisionsLoading, addRecentDecision } = useRecentDecisions(workspaceId, appId);
 
   // Track pinned decisions
   const { isPinned, pinDecision, unpinDecision } = usePinnedDecisions(workspaceId, appId);
@@ -56,13 +51,6 @@ export const DecisionDetailPage = ({ workspaceId, appId, decisionId, tenantId, o
     loading: subDecisionsMetricsLoading,
     error: subDecisionsMetricsError,
   } = useSubDecisionsMetrics(workspaceId, appId, subDecisions);
-
-  // Add decision to recent decisions when it loads successfully
-  useEffect(() => {
-    if (decision && decision.name && decisionId && !recentDecisionsLoading) {
-      addRecentDecision(decisionId, decision.name, decision.description);
-    }
-  }, [decision, decisionId, addRecentDecision, recentDecisionsLoading]);
 
   // Handle pin toggle
   const handlePinToggle = useCallback(() => {
