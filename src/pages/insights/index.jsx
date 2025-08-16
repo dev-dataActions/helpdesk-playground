@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 import { useRouter } from "next/router";
 import { useTenantId } from "../../modules/insights/hooks/useTenantId";
-import { ScreenLayout } from "da-apps-sdk";
+import { Loading, ScreenLayout } from "da-apps-sdk";
 import { HomePage } from "../../modules/insights/pages/HomePage";
 import { DecisionDetailPage } from "../../modules/insights/pages/DecisionDetailPage";
 
@@ -9,6 +9,10 @@ export default function InsightsPageContainer() {
   const router = useRouter();
   const { tenantId } = useTenantId();
   const handleNavigate = useCallback((path) => router.push(path), [router]);
+
+  if (!router?.isReady) {
+    return <Loading loaderText="Loading data..." />;
+  }
 
   return (
     <ScreenLayout breadcrumbs={[{ name: "Insights" }]} noPadding>

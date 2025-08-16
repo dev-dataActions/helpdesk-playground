@@ -3,22 +3,10 @@ import { useCallback } from "react";
 import BoardPage from "../../../modules/insights/pages/BoardPage";
 import { ScreenLayout } from "da-apps-sdk";
 import { useTenantId } from "../../../modules/insights/hooks/useTenantId";
-import { useRoleId } from "../../../modules/insights/hooks/useRoleId";
-import { RoleDropdown } from "../../../modules/insights/components/RoleDropdown";
 
 export default function BoardPageContainer() {
   const router = useRouter();
   const { tenantId } = useTenantId();
-
-  const handleRoleChange = useCallback(() => {
-    try {
-      router.push("/insights");
-    } catch (error) {
-      console.error("Navigation error on role change:", error);
-    }
-  }, [router]);
-
-  const { roleId, setRoleId } = useRoleId(handleRoleChange);
 
   const handleNavigate = useCallback(
     (path) => {
@@ -39,10 +27,8 @@ export default function BoardPageContainer() {
     }
   }, [router]);
 
-  const roleDropdown = <RoleDropdown roleId={roleId} setRoleId={setRoleId} />;
-
   return (
-    <ScreenLayout breadcrumbs={[{ name: "Insights" }]} actions={roleDropdown}>
+    <ScreenLayout breadcrumbs={[{ name: "Insights" }]}>
       <BoardPage
         tenantId={tenantId}
         workspaceId={process.env.NEXT_PUBLIC_WORKSPACE_ID}

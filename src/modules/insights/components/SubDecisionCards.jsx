@@ -1,12 +1,13 @@
 import { useMemo } from "react";
 import { ChartTypes, Insight } from "da-insight-sdk";
 import { fetchData, fetchDimensionValues } from "../../container/services/insights.svc";
+import { HiOutlineLocationMarker, HiOutlineArrowRight } from "react-icons/hi";
+import { GoChevronRight } from "react-icons/go";
 
 /**
  * MetricCard component for individual metric display
  * @param {Object} props - Component props
  * @param {Object} props.metric - Metric configuration
- * @param {string} props.category - Metric category (OUTPUT, DRIVER, INPUT)
  * @param {string} props.workspaceId - Workspace ID
  * @param {string} props.tenantId - Tenant ID
  */
@@ -37,13 +38,9 @@ const MetricCard = ({ metric, workspaceId, tenantId }) => {
   );
 
   return (
-    <div className="bg-white border border-gray-200 rounded-md px-3 py-2">
-      <div className="w-full flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <p className={"text-xs max-w-32 truncate"} title={metric.metricLabel}>
-            {metric.metricLabel}
-          </p>
-        </div>
+    <div className="flex items-center justify-between py-0.5">
+      <span className="text-xs text-gray-600">{metric.metricLabel}</span>
+      <div className="flex items-center gap-2">
         <div className="w-auto">
           <Insight
             type={insightConfig.type}
@@ -69,8 +66,6 @@ const MetricCard = ({ metric, workspaceId, tenantId }) => {
  * @param {Function} props.onNavigate - Navigation handler function
  */
 const SubDecisionCard = ({ subDecision, metricConfig, workspaceId, tenantId, onNavigate }) => {
-  const categories = ["OUTPUT", "DRIVER", "INPUT"];
-
   const handleCardClick = () => {
     try {
       if (onNavigate && typeof onNavigate === "function" && subDecision?.id) {
@@ -81,39 +76,37 @@ const SubDecisionCard = ({ subDecision, metricConfig, workspaceId, tenantId, onN
     }
   };
 
+  // Only show OUTPUT metrics as signals
+  const outputMetrics = metricConfig?.OUTPUT || [];
+
   return (
     <div
-      className="bg-blue-50 border border-blue-200 p-3 rounded-md cursor-pointer hover:shadow-md transition-shadow duration-200 max-h-40 overflow-y-auto group"
+      className="bg-white border border-gray-200 p-4 rounded-md cursor-pointer hover:shadow-md transition-shadow duration-200 group"
       onClick={handleCardClick}
     >
-      <h3 className="text-xs text-gray-800 mb-2 group-hover:text-blue-800 group-hover:underline">
-        {subDecision?.name || "Unnamed Decision"}
-      </h3>
+      {/* Header with location icon and title */}
+      <div className="flex items-center gap-3 mb-3">
+        <div className="bg-blue-100 p-2 rounded-md">
+          <HiOutlineLocationMarker className="w-4 h-4 text-orange-500" />
+        </div>
+        <div className="flex-1">
+          <h3 className="text-sm font-medium text-gray-800 group-hover:text-blue-800 transition-colors duration-200">
+            {subDecision?.name || "Unnamed Decision"}
+          </h3>
+        </div>
+        <HiOutlineArrowRight className="w-4 h-4 text-gray-400 group-hover:text-gray-600 transition-colors duration-200" />
+      </div>
 
-      {metricConfig ? (
-        <div className="space-y-1.5">
-          {categories.map((category) => {
-            const metrics = metricConfig[category] || [];
-            if (metrics.length === 0) return null;
-
-            return (
-              <div key={category} className="grid grid-cols-1 gap-1.5">
-                {metrics.map((metric, index) => (
-                  <MetricCard
-                    key={`${category}-${index}`}
-                    metric={metric}
-                    category={category}
-                    workspaceId={workspaceId}
-                    tenantId={tenantId}
-                  />
-                ))}
-              </div>
-            );
-          })}
+      {/* Metrics section */}
+      {outputMetrics.length > 0 ? (
+        <div className="space-y-1">
+          {outputMetrics.map((metric, index) => (
+            <MetricCard key={`output-${index}`} metric={metric} workspaceId={workspaceId} tenantId={tenantId} />
+          ))}
         </div>
       ) : (
-        <div className="text-center text-gray-500 py-2">
-          <p className="text-xs">No metrics configured for this decision</p>
+        <div className="flex flex-col items-center justify-center">
+          <p className="text-xs text-gray-600">No output metrics available</p>
         </div>
       )}
     </div>
@@ -144,8 +137,13 @@ export const SubDecisionCards = ({
 
   return (
     <div className={className}>
-      <div className="mb-3">
-        <h2 className="text-sm text-gray-800">Jump into sub-decisions</h2>
+      <div className="flex items-center gap-2 mb-3">
+        <div className="p-2 bg-blue-50 rounded-lg">
+          <GoChevronRight className="w-5 h-5 text-blue-600" />
+        </div>
+        <div>
+          <h2 className="text-base font-medium text-foreground">Jump into sub-decisions</h2>
+        </div>
       </div>
 
       <div className="grid grid-cols-2 gap-6">
