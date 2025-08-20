@@ -56,7 +56,6 @@ const InsightPreview = memo(function InsightPreview({ insight, timeRange, worksp
     () => ({
       showExplanation: insight?.type !== ChartTypes.BIGNUMBER,
       className: "h-64",
-      showExplanation: false,
       ...insight?.options,
     }),
     [insight]
