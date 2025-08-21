@@ -1,6 +1,5 @@
 import { useCallback, useMemo, useState } from "react";
 import { AiOutlineBarChart } from "react-icons/ai";
-import { FiChevronDown, FiChevronUp } from "react-icons/fi";
 import { ChartTypes, Insight, TimeGrain } from "da-insight-sdk";
 import { fetchData, fetchDimensionValues } from "../../container/services/insights.svc";
 import { BsCheck2Circle } from "react-icons/bs";
@@ -85,7 +84,6 @@ export const MetricView = ({
   decisionName,
 }) => {
   const [timeRange, setTimeRange] = useState(30);
-  const [isExpanded, setIsExpanded] = useState(false);
 
   if (!metricViewConfig) {
     return (
@@ -96,7 +94,6 @@ export const MetricView = ({
   const outputMetrics = metricViewConfig["OUTPUT"] || [];
   const driverMetrics = metricViewConfig["DRIVER"] || [];
   const inputMetrics = metricViewConfig["INPUT"] || [];
-  const hasCollapsibleMetrics = driverMetrics.length > 0 || inputMetrics.length > 0;
 
   return (
     <div>
@@ -107,18 +104,7 @@ export const MetricView = ({
           </div>
           <h2 className="font-medium text-foreground">Metric View</h2>
         </div>
-        <div className="flex items-center gap-4">
-          <TimeFilters timeRange={timeRange} setTimeRange={setTimeRange} />
-          {hasCollapsibleMetrics && (
-            <button
-              onClick={() => setIsExpanded(!isExpanded)}
-              className="flex items-center gap-2 py-2 text-blue-600 hover:text-blue-700 transition-colors duration-200"
-            >
-              <span className="text-sm">{isExpanded ? "Collapse" : "Expand"}</span>
-              {isExpanded ? <FiChevronUp className="w-4 h-4" /> : <FiChevronDown className="w-4 h-4" />}
-            </button>
-          )}
-        </div>
+        <TimeFilters timeRange={timeRange} setTimeRange={setTimeRange} />
       </div>
 
       <div className={`flex flex-col gap-6 ${className}`}>
@@ -140,65 +126,57 @@ export const MetricView = ({
             ))}
           </div>
         )}
-
-        {/* Collapsible Driver & Input Metrics */}
-        {hasCollapsibleMetrics && (
-          <div
-            className={`grid grid-cols-1 lg:grid-cols-2 mt-2 overflow-hidden transition-all duration-500 ease-in-out ${
-              isExpanded ? "max-h-[2000px] opacity-100" : "max-h-0 opacity-0 hidden"
-            }`}
-          >
-            {/* Input Metrics */}
-            {inputMetrics.length > 0 && (
-              <div className="space-y-1.5 pr-3">
-                <div className="flex items-center gap-1.5 mb-3">
-                  <CiSettings className="w-5 h-5 text-blue-600" />
-                  <h3 className="text-sm text-gray-800 capitalize">Input Metrics</h3>
-                </div>
-                <div className="flex flex-col gap-4">
-                  {inputMetrics.map((metric, index) => (
-                    <MetricCard
-                      key={`INPUT-${index}`}
-                      metric={metric}
-                      workspaceId={workspaceId}
-                      tenantId={tenantId}
-                      onNavigate={onNavigate}
-                      timeRange={timeRange}
-                      className="h-48"
-                      decisionId={decisionId}
-                      decisionName={decisionName}
-                    />
-                  ))}
-                </div>
+        <div className={`grid grid-cols-1 lg:grid-cols-2 mt-2 overflow-hidden transition-all duration-500 ease-in-out`}>
+          {/* Input Metrics */}
+          {inputMetrics.length > 0 && (
+            <div className="space-y-1.5 pr-3">
+              <div className="flex items-center gap-1.5 mb-3">
+                <CiSettings className="w-5 h-5 text-blue-600" />
+                <h3 className="text-sm text-gray-800 capitalize">Input Metrics</h3>
               </div>
-            )}
-
-            {/* Driver Metrics */}
-            {driverMetrics.length > 0 && (
-              <div className="space-y-1.5 pl-3">
-                <div className="flex items-center gap-1.5 mb-3">
-                  <GoZap className="w-5 h-5 text-purple-600" />
-                  <h3 className="text-sm text-gray-800 capitalize">Driver Metrics</h3>
-                </div>
-                <div className="flex flex-col gap-4">
-                  {driverMetrics.map((metric, index) => (
-                    <MetricCard
-                      key={`DRIVER-${index}`}
-                      metric={metric}
-                      workspaceId={workspaceId}
-                      tenantId={tenantId}
-                      onNavigate={onNavigate}
-                      timeRange={timeRange}
-                      className="h-48"
-                      decisionId={decisionId}
-                      decisionName={decisionName}
-                    />
-                  ))}
-                </div>
+              <div className="flex flex-col gap-4">
+                {inputMetrics.map((metric, index) => (
+                  <MetricCard
+                    key={`INPUT-${index}`}
+                    metric={metric}
+                    workspaceId={workspaceId}
+                    tenantId={tenantId}
+                    onNavigate={onNavigate}
+                    timeRange={timeRange}
+                    className="h-48"
+                    decisionId={decisionId}
+                    decisionName={decisionName}
+                  />
+                ))}
               </div>
-            )}
-          </div>
-        )}
+            </div>
+          )}
+
+          {/* Driver Metrics */}
+          {driverMetrics.length > 0 && (
+            <div className="space-y-1.5 pl-3">
+              <div className="flex items-center gap-1.5 mb-3">
+                <GoZap className="w-5 h-5 text-purple-600" />
+                <h3 className="text-sm text-gray-800 capitalize">Driver Metrics</h3>
+              </div>
+              <div className="flex flex-col gap-4">
+                {driverMetrics.map((metric, index) => (
+                  <MetricCard
+                    key={`DRIVER-${index}`}
+                    metric={metric}
+                    workspaceId={workspaceId}
+                    tenantId={tenantId}
+                    onNavigate={onNavigate}
+                    timeRange={timeRange}
+                    className="h-48"
+                    decisionId={decisionId}
+                    decisionName={decisionName}
+                  />
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

@@ -3,6 +3,7 @@ import { getDecisionPath, transformToBreadcrumbs } from "../utils/decisionTree.u
 import { SearchResultsPanel } from "./SearchResultsPanel";
 import { HiOutlineSearch } from "react-icons/hi";
 import { HiOutlineArrowLeft } from "react-icons/hi";
+import { usePathname } from "next/navigation";
 
 /**
  * DecisionTreeBreadcrumbs component transformed to Chrome URL search bar style
@@ -15,6 +16,7 @@ import { HiOutlineArrowLeft } from "react-icons/hi";
 export const DecisionTreeBreadcrumbs = ({ decisionTree, currentDecisionId, onNavigate, className = "" }) => {
   const [isSearchActive, setIsSearchActive] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
+  const pathname = usePathname();
   const inputRef = useRef(null);
 
   // Transform decision tree to breadcrumb format
@@ -30,6 +32,9 @@ export const DecisionTreeBreadcrumbs = ({ decisionTree, currentDecisionId, onNav
     if (!breadcrumbs || breadcrumbs.length === 0) return "Home";
 
     const pathParts = ["Home", ...breadcrumbs.map((b) => b.name)];
+    if (pathname?.includes("/metricView")) pathParts.push(["Metric View"]);
+    if (pathname?.includes("/causalView")) pathParts.push(["Causal View"]);
+
     return pathParts.join(" / ");
   }, [breadcrumbs]);
 

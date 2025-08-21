@@ -10,8 +10,6 @@ export default function InsightsPageContainer() {
   const { tenantId } = useTenantId();
   const handleNavigate = useCallback((path) => router.push(path), [router]);
 
-  console.log(router?.query?.decisionId);
-
   if (router?.query?.decisionId) {
     return (
       <ScreenLayout breadcrumbs={[{ name: "Insights" }]} noPadding>
