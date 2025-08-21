@@ -71,7 +71,7 @@ export const SubDecisionCards = ({
           <GoChevronRight className="w-5 h-5 text-blue-600" />
         </div>
         <div>
-          <h2 className="text-base font-medium text-foreground">Jump into sub-decisions</h2>
+          <h2 className="text-lg font-medium text-foreground">Jump into sub-decisions</h2>
         </div>
       </div>
 

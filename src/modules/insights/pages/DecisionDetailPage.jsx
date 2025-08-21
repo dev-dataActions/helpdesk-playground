@@ -7,6 +7,7 @@ import { Loading, Error, PanelLayout } from "da-apps-sdk";
 import { DecisionTreeBreadcrumbs } from "../components/DecisionTreeBreadcrumbs";
 import { GoPin } from "react-icons/go";
 import { LuSparkles } from "react-icons/lu";
+import { DecisionOverview } from "../components/DecisionOverview";
 
 /**
  * DecisionDetailPage component with comprehensive error handling and prop validation
@@ -116,8 +117,10 @@ export const DecisionDetailPage = ({ workspaceId, appId, decisionId, tenantId, o
       }
       className={"max-w-4xl mx-auto !py-6 !px-4"}
     >
-      <div className="grid grid-cols-1 gap-6 border-t border-gray-200 pt-4 mt-2">
-        <div>Hello from the overview section</div>
+      <div className="grid grid-cols-1 gap-6 mt-2">
+        <div className="border-t border-gray-200 pt-4">
+          <DecisionOverview workspaceId={workspaceId} appId={appId} decisionId={decisionId} tenantId={tenantId} />
+        </div>
         <div className="border-t border-gray-200 pt-4">
           <SubDecisionCards
             subDecisions={subDecisions}

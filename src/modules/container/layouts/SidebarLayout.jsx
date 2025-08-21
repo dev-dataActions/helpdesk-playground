@@ -61,14 +61,10 @@ export const SidebarLayout = ({ children }) => {
     [pathname]
   );
 
-  // const handleLogout = () => {
-  //   logout();
-  // };
-
   return (
     <div>
       <div
-        className={`h-screen w-64 fixed top-0 left-0 bg-[#ffffff] border-r z-20 transition-transform duration-500 ease-in-out ${
+        className={`min-h-screen w-64 fixed top-0 left-0 bg-[#ffffff] border-r z-20 transition-transform duration-500 ease-in-out ${
           isCollapsed ? "-translate-x-full" : "translate-x-0"
         }`}
       >
@@ -87,17 +83,6 @@ export const SidebarLayout = ({ children }) => {
               className={`text-gray-600 transition-transform duration-300 ${isCollapsed ? "rotate-180" : ""}`}
             />
           </button>
-
-          {/* Logout button */}
-          {/* <button
-            onClick={handleLogout}
-            className="flex items-center gap-2 px-3 py-2 border border-gray-200 hover:bg-gray-50 rounded-md transition-all duration-200 backdrop-blur-sm group z-50"
-          >
-            <IoLogOutOutline size={16} className="text-black transition-transform duration-200" />
-            <span className="text-gray-600 text-xs group-hover:text-gray-800 transition-colors duration-200">
-              Logout
-            </span>
-          </button> */}
         </div>
       </div>
 
