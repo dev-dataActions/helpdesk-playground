@@ -111,7 +111,7 @@ export const DecisionTreeBreadcrumbs = ({ decisionTree, currentDecisionId, onNav
             backTarget
               ? "text-gray-600 hover:text-gray-900 hover:bg-gray-100 cursor-pointer"
               : "text-gray-300 cursor-not-allowed"
-          }`}
+          } border border-gray-200 bg-gray-50`}
           title={backTarget ? `Go back to ${backTarget.name}` : "No previous decision"}
         >
           <HiOutlineArrowLeft size={16} />

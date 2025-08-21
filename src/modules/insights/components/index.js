@@ -3,7 +3,7 @@ export { BoardEditor } from "./BoardEditor";
 export { BoardFilters } from "./BoardFilters";
 export { MarkupEditor } from "./MarkupEditor";
 export { MetricView } from "./MetricView";
-export { MetricChangeAnalysis } from "./MetricChangeAnalysis";
+export { CausalStories } from "./CausalStories";
 export { PinnedDecisions } from "./PinnedDecisions";
 export { PinnedMetrics } from "./PinnedMetrics";
 export { SearchResultsPanel } from "./SearchResultsPanel";

@@ -2,9 +2,6 @@ import { useMemo, useCallback } from "react";
 import { getDecision, getSubDecisions } from "../utils/general.util";
 import { useDecisionTree } from "../hooks/useDecisionTree";
 import { usePinnedDecisions } from "../hooks/usePinnedDecisions";
-import { useMetricViewConfig } from "../hooks/useMetricViewConfig";
-import { useSubDecisionsMetrics } from "../hooks/useSubDecisionsMetrics";
-import { MetricView, MetricChangeAnalysis } from "../components";
 import { SubDecisionCards } from "../components/SubDecisionCards";
 import { Loading, Error, PanelLayout } from "da-apps-sdk";
 import { DecisionTreeBreadcrumbs } from "../components/DecisionTreeBreadcrumbs";
@@ -23,34 +20,13 @@ import { LuSparkles } from "react-icons/lu";
  */
 export const DecisionDetailPage = ({ workspaceId, appId, decisionId, tenantId, onNavigate = null, className = "" }) => {
   const { decisionTree, loading, error } = useDecisionTree(workspaceId, appId);
-
-  // Track pinned decisions
   const { isPinned, pinDecision, unpinDecision } = usePinnedDecisions(workspaceId, appId);
 
-  // Fetch metric view configuration from API
-  const {
-    metricConfig,
-    loading: metricConfigLoading,
-    error: metricConfigError,
-  } = useMetricViewConfig(workspaceId, appId, decisionId);
-
   const { decision, subDecisions } = useMemo(() => {
-    try {
-      const decision = getDecision(decisionTree, decisionId);
-      const subDecisions = getSubDecisions(decisionTree, decisionId);
-      return { decision, subDecisions };
-    } catch (error) {
-      console.error("Error processing decision data:", error);
-      return { decision: null, subDecisions: [] };
-    }
+    const decision = getDecision(decisionTree, decisionId);
+    const subDecisions = getSubDecisions(decisionTree, decisionId);
+    return { decision, subDecisions };
   }, [decisionTree, decisionId]);
-
-  // Fetch metric configurations for all sub-decisions
-  const {
-    subDecisionsMetrics,
-    loading: subDecisionsMetricsLoading,
-    error: subDecisionsMetricsError,
-  } = useSubDecisionsMetrics(workspaceId, appId, subDecisions);
 
   // Handle pin toggle
   const handlePinToggle = useCallback(() => {
@@ -81,7 +57,7 @@ export const DecisionDetailPage = ({ workspaceId, appId, decisionId, tenantId, o
     [onNavigate]
   );
 
-  if (loading || metricConfigLoading || subDecisionsMetricsLoading) {
+  if (loading) {
     return (
       <div className={className}>
         <Loading loaderText="Loading decision tree and metrics..." />
@@ -89,10 +65,10 @@ export const DecisionDetailPage = ({ workspaceId, appId, decisionId, tenantId, o
     );
   }
 
-  if (error || metricConfigError || subDecisionsMetricsError) {
+  if (error) {
     return (
       <div className={className}>
-        <Error errorText={error || metricConfigError || subDecisionsMetricsError} fullScreen={false} />
+        <Error errorText={error} fullScreen={false} />
       </div>
     );
   }
@@ -141,20 +117,10 @@ export const DecisionDetailPage = ({ workspaceId, appId, decisionId, tenantId, o
       className={"max-w-4xl mx-auto !py-6 !px-4"}
     >
       <div className="grid grid-cols-1 gap-6 border-t border-gray-200 pt-4 mt-2">
-        <MetricView
-          onNavigate={onNavigate}
-          metricViewConfig={metricConfig}
-          workspaceId={workspaceId}
-          tenantId={tenantId}
-          className="mt-4"
-          decisionId={decisionId}
-          decisionName={decision?.name}
-        />
-        <MetricChangeAnalysis workspaceId={workspaceId} appId={appId} decisionId={decisionId} onNavigate={onNavigate} />
+        <div>Hello from the overview section</div>
         <div className="border-t border-gray-200 pt-4">
           <SubDecisionCards
             subDecisions={subDecisions}
-            metricViewConfig={subDecisionsMetrics}
             workspaceId={workspaceId}
             tenantId={tenantId}
             onNavigate={onNavigate}
