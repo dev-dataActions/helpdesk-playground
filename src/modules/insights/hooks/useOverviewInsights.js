@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { getAppDecisionOverview } from "../services/decision.svc";
 
 export const useOverviewInsights = (workspaceId, appId, decisionId) => {
@@ -6,7 +6,7 @@ export const useOverviewInsights = (workspaceId, appId, decisionId) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     if (!workspaceId || !appId || !decisionId) return;
 
     setIsLoading(true);
@@ -21,11 +21,11 @@ export const useOverviewInsights = (workspaceId, appId, decisionId) => {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [workspaceId, appId, decisionId]);
 
   useEffect(() => {
     fetchData();
-  }, [workspaceId, appId, decisionId]);
+  }, [fetchData]);
 
   const insights = data?.[0]?.data?.insights || [];
   const goalInsights = insights.filter((insight) => insight.overviewCategory === "goal-metrics");

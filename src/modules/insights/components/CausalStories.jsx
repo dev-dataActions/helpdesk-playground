@@ -8,9 +8,8 @@ import { GoToCard } from "./GoToCard";
  * @param {string} props.workspaceId - Workspace ID
  * @param {string} props.appId - App ID
  * @param {string} props.decisionId - Decision ID
- * @param {Function} props.onNavigate - Navigation handler function
  */
-export const CausalStories = ({ workspaceId, appId, decisionId, onNavigate }) => {
+export const CausalStories = ({ workspaceId, appId, decisionId }) => {
   const { boards, loading, error } = useDecisionBoards(workspaceId, appId, decisionId);
 
   // Don't render if no boards or loading/error

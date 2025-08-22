@@ -1,7 +1,7 @@
 import { useCallback, useState } from "react";
 import { TbTargetArrow } from "react-icons/tb";
 import { HiOutlineChartBar } from "react-icons/hi";
-import { ChartTypes, Insight, TimeGrain } from "da-insight-sdk";
+import { Insight } from "da-insight-sdk";
 import { fetchData, fetchDimensionValues } from "../../container/services/insights.svc";
 import { GoZap } from "react-icons/go";
 import { useOverviewInsights } from "../hooks/useOverviewInsights";
