@@ -84,3 +84,36 @@ export const getAppInsightsByDecisionIdAndWorkspaceId = async (appId, decisionId
     return null;
   }
 };
+
+/**
+ * Fetches app decision overview insights
+ * @param {string} workspaceId - The workspace ID
+ * @param {string} appId - The app ID
+ * @param {string} decisionId - The decision ID
+ * @returns {Promise<Object|null>} Overview data object or null on error
+ */
+export async function getAppDecisionOverview(workspaceId, appId, decisionId) {
+  // Validate environment variables
+  if (!process.env.NEXT_PUBLIC_BACKEND_URL) {
+    console.error(ERROR_MESSAGES.MISSING_BACKEND_URL);
+    return null;
+  }
+
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/v3/app-decision-overview?workspace_id=${workspaceId}&app_id=${appId}&decision_id=${decisionId}`,
+      { headers: { "X-API-Key": process.env.NEXT_PUBLIC_APP_BACKEND_API_KEY } }
+    );
+
+    if (!response.ok) {
+      console.error(`API request failed with status: ${response.status}`);
+      return null;
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error fetching decision overview:", error);
+    return null;
+  }
+}

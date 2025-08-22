@@ -1,9 +1,12 @@
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { TbTargetArrow } from "react-icons/tb";
 import { HiOutlineChartBar } from "react-icons/hi";
 import { ChartTypes, Insight, TimeGrain } from "da-insight-sdk";
 import { fetchData, fetchDimensionValues } from "../../container/services/insights.svc";
 import { GoZap } from "react-icons/go";
+import { useOverviewInsights } from "../hooks/useOverviewInsights";
+import { Loader } from "da-apps-sdk";
+import { TimeFilters } from "../pages/BoardPage";
 
 const EmptyState = ({ icon: Icon, title, description, className = "" }) => (
   <div className={`text-center py-8 px-4 border border-gray-200 rounded-xl bg-gray-50/50 ${className}`}>
@@ -15,7 +18,7 @@ const EmptyState = ({ icon: Icon, title, description, className = "" }) => (
   </div>
 );
 
-const OverviewSubSection = ({ title, icon, goToLink, insights, workspaceId, tenantId }) => {
+const OverviewSubSection = ({ title, icon, goToLink, insights, workspaceId, tenantId, timeRange }) => {
   const dataResolver = useCallback((payload) => fetchData(payload, workspaceId, tenantId), [workspaceId, tenantId]);
 
   const dimensionValuesResolver = useCallback(
@@ -42,7 +45,7 @@ const OverviewSubSection = ({ title, icon, goToLink, insights, workspaceId, tena
               title={insight.title}
               description={insight.description}
               metrics={insight.metrics}
-              timeRange={30}
+              timeRange={timeRange}
               timeGrain={insight.timeGrain}
               filters={insight.filters}
               options={{
@@ -75,101 +78,37 @@ const OverviewSubSection = ({ title, icon, goToLink, insights, workspaceId, tena
  * @param {string} props.tenantId - Tenant ID
  */
 export const DecisionOverview = ({ workspaceId, appId, decisionId, tenantId }) => {
-  const goalInsights = [
-    {
-      title: "No of Trials Completed - Crop",
-      description: "No of Trials Completed",
-      type: ChartTypes.BIGNUMBER,
-      metrics: [
-        {
-          metricKey: "num_trials_created",
-          metricLabel: "No of Trials Completed",
-        },
-      ],
-      options: {
-        className: "h-40",
-      },
-      timeGrain: TimeGrain.DAILY,
-      labels: ["Trial Genie", "No of Trials Completed"],
-    },
-    {
-      title: "No of Trials Completed - Crop",
-      description: "No of Trials Completed",
-      type: ChartTypes.BIGNUMBER,
-      metrics: [
-        {
-          metricKey: "num_trials_created",
-          metricLabel: "No of Trials Completed",
-        },
-      ],
-      options: {
-        className: "h-40",
-      },
-      timeGrain: TimeGrain.DAILY,
-      labels: ["Trial Genie", "No of Trials Completed"],
-    },
-  ];
+  const [timeRange, setTimeRange] = useState(30);
+  const {
+    goalInsights,
+    causalInsights,
+    isLoading: isLoadingOverview,
+  } = useOverviewInsights(workspaceId, appId, decisionId);
 
-  const causalInsights = [
-    {
-      title: "No of Trials Completed - Crop",
-      description: "No of Trials Completed",
-      type: ChartTypes.RANKING,
-      metrics: [
-        {
-          chartType: "BAR",
-          metricKey: "num_trials_created",
-          metricLabel: "No of Trials Completed",
-        },
-      ],
-      filters: {
-        num_trials_created: {
-          showDimensionContributionIn: "crop_name",
-        },
-      },
-      options: {
-        className: "h-60",
-      },
-      timeGrain: TimeGrain.DAILY,
-      labels: ["Trial Genie", "No of Trials Completed"],
-    },
-    {
-      title: "No of Trials Completed - Crop",
-      description: "No of Trials Completed",
-      type: ChartTypes.RANKING,
-      metrics: [
-        {
-          chartType: "BAR",
-          metricKey: "num_trials_created",
-          metricLabel: "No of Trials Completed",
-        },
-      ],
-      filters: {
-        num_trials_created: {
-          showDimensionContributionIn: "crop_name",
-        },
-      },
-      options: {
-        className: "h-60",
-      },
-      timeGrain: TimeGrain.DAILY,
-      labels: ["Trial Genie", "No of Trials Completed"],
-    },
-  ];
+  if (isLoadingOverview) {
+    return (
+      <div className="py-5">
+        <Loader loaderText={"Loading decision overview..."} className="text-sm" />
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">
       {/* Main Overview Header */}
-      <div className="flex items-center gap-3 mb-6">
-        <div className="p-2.5 bg-gradient-to-br from-green-50 to-emerald-50 border border-green-200 rounded-xl shadow-sm">
-          <TbTargetArrow className="w-5 h-5 text-green-600" />
+      <div className="flex items-center justify-between mb-6">
+        <div className="flex items-center gap-3">
+          <div className="p-2.5 bg-gradient-to-br from-green-50 to-emerald-50 border border-green-200 rounded-xl shadow-sm">
+            <TbTargetArrow className="w-5 h-5 text-green-600" />
+          </div>
+          <div>
+            <h2 className="text-lg font-semibold text-gray-900">Decision Overview</h2>
+            <p className="text-sm text-gray-500">
+              Get a glimpse of the decision progress and drilldown into causal factors.
+            </p>
+          </div>
         </div>
-        <div>
-          <h2 className="text-lg font-semibold text-gray-900">Decision Overview</h2>
-          <p className="text-sm text-gray-500">
-            Get a glimpse of the decision progress and drilldown into causal factors.
-          </p>
-        </div>
+        <TimeFilters timeRange={timeRange} setTimeRange={setTimeRange} />
       </div>
 
       <div className="space-y-4">
@@ -188,6 +127,7 @@ export const DecisionOverview = ({ workspaceId, appId, decisionId, tenantId }) =
           insights={goalInsights}
           workspaceId={workspaceId}
           tenantId={tenantId}
+          timeRange={timeRange}
         />
 
         {/* Causal Insights Section */}
@@ -205,6 +145,7 @@ export const DecisionOverview = ({ workspaceId, appId, decisionId, tenantId }) =
           insights={causalInsights}
           workspaceId={workspaceId}
           tenantId={tenantId}
+          timeRange={timeRange}
         />
       </div>
     </div>
