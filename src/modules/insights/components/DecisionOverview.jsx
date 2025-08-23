@@ -18,7 +18,16 @@ const EmptyState = ({ icon: Icon, title, description, className = "" }) => (
   </div>
 );
 
-const OverviewSubSection = ({ title, icon, goToLink, insights, workspaceId, tenantId, timeRange }) => {
+const OverviewSubSection = ({
+  title,
+  icon,
+  goToLink,
+  insights,
+  workspaceId,
+  tenantId,
+  timeRange,
+  isGoalInsights = false,
+}) => {
   const dataResolver = useCallback((payload) => fetchData(payload, workspaceId, tenantId), [workspaceId, tenantId]);
 
   const dimensionValuesResolver = useCallback(
@@ -49,7 +58,7 @@ const OverviewSubSection = ({ title, icon, goToLink, insights, workspaceId, tena
               timeGrain={insight.timeGrain}
               filters={insight.filters}
               options={{
-                className: "h-60",
+                className: isGoalInsights ? "h-40" : "h-60",
                 showExplanation: false,
                 ...(insight.options ?? {}),
               }}
@@ -128,6 +137,7 @@ export const DecisionOverview = ({ workspaceId, appId, decisionId, tenantId }) =
           workspaceId={workspaceId}
           tenantId={tenantId}
           timeRange={timeRange}
+          isGoalInsights={true}
         />
 
         {/* Causal Insights Section */}
