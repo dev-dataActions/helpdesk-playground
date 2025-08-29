@@ -1,6 +1,7 @@
 // Base components
 export { BoardEditor } from "./BoardEditor";
 export { BoardFilters } from "./BoardFilters";
+export { DimensionFilters as DecisionFilters } from "./DimensionFilters";
 export { MarkupEditor } from "./MarkupEditor";
 export { MetricView } from "./MetricView";
 export { CausalStories } from "./CausalStories";

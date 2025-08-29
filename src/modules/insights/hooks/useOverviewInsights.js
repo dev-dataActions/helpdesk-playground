@@ -27,9 +27,10 @@ export const useOverviewInsights = (workspaceId, appId, decisionId) => {
     fetchData();
   }, [fetchData]);
 
+  const filters = data?.[0]?.data?.filters;
   const insights = data?.[0]?.data?.insights || [];
   const goalInsights = insights.filter((insight) => insight.overviewCategory === "goal-metrics");
   const causalInsights = insights.filter((insight) => insight.overviewCategory === "causal-insights");
 
-  return { goalInsights, causalInsights, isLoading, error, refetch: fetchData };
+  return { filters, goalInsights, causalInsights, isLoading, error, refetch: fetchData };
 };

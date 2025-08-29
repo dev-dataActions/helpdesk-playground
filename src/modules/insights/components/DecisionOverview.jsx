@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { TbTargetArrow } from "react-icons/tb";
 import { HiOutlineChartBar } from "react-icons/hi";
 import { Insight } from "da-insight-sdk";
@@ -7,6 +7,8 @@ import { GoZap } from "react-icons/go";
 import { useOverviewInsights } from "../hooks/useOverviewInsights";
 import { Loader } from "da-apps-sdk";
 import { TimeFilters } from "../pages/BoardPage";
+import { computeInsightFilters } from "../utils/filter.util";
+import { DimensionFilters } from "./DimensionFilters";
 
 const EmptyState = ({ icon: Icon, title, description, className = "" }) => (
   <div className={`text-center py-8 px-4 border border-gray-200 rounded-xl bg-gray-50/50 ${className}`}>
@@ -27,6 +29,7 @@ const OverviewSubSection = ({
   tenantId,
   timeRange,
   isGoalInsights = false,
+  activeFilters = {},
 }) => {
   const dataResolver = useCallback((payload) => fetchData(payload, workspaceId, tenantId), [workspaceId, tenantId]);
 
@@ -47,25 +50,30 @@ const OverviewSubSection = ({
 
       {insights.length > 0 ? (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-          {insights.map((insight, index) => (
-            <Insight
-              key={index}
-              type={insight.type}
-              title={insight.title}
-              description={insight.description}
-              metrics={insight.metrics}
-              timeRange={timeRange}
-              timeGrain={insight.timeGrain}
-              filters={insight.filters}
-              options={{
-                className: isGoalInsights ? "h-40" : "h-60",
-                showExplanation: false,
-                ...(insight.options ?? {}),
-              }}
-              dataResolver={dataResolver}
-              dimensionValuesResolver={dimensionValuesResolver}
-            />
-          ))}
+          {insights.map((insight, index) => {
+            // Compute the correct filters for this insight
+            const computedFilters = computeInsightFilters(insight, activeFilters);
+
+            return (
+              <Insight
+                key={index}
+                type={insight.type}
+                title={insight.title}
+                description={insight.description}
+                metrics={insight.metrics}
+                timeRange={timeRange}
+                timeGrain={insight.timeGrain}
+                filters={computedFilters}
+                options={{
+                  className: isGoalInsights ? "h-40" : "h-60",
+                  showExplanation: false,
+                  ...(insight.options ?? {}),
+                }}
+                dataResolver={dataResolver}
+                dimensionValuesResolver={dimensionValuesResolver}
+              />
+            );
+          })}
         </div>
       ) : (
         <EmptyState
@@ -87,14 +95,25 @@ const OverviewSubSection = ({
  * @param {string} props.tenantId - Tenant ID
  */
 export const DecisionOverview = ({ workspaceId, appId, decisionId, tenantId }) => {
-  const [timeRange, setTimeRange] = useState(30);
   const {
+    filters,
     goalInsights,
     causalInsights,
     isLoading: isLoadingOverview,
   } = useOverviewInsights(workspaceId, appId, decisionId);
 
-  if (isLoadingOverview) {
+  const [timeRange, setTimeRange] = useState(30);
+  const [activeFilters, setActiveFilters] = useState(null);
+
+  useEffect(() => {
+    if (filters?.length > 0) {
+      const initialFilters = {};
+      for (const filter of filters) initialFilters[filter.dimension] = filter.value;
+      setActiveFilters(initialFilters);
+    }
+  }, [filters]);
+
+  if (isLoadingOverview || activeFilters === null) {
     return (
       <div className="py-5">
         <Loader loaderText={"Loading decision overview..."} className="text-sm" />
@@ -120,6 +139,13 @@ export const DecisionOverview = ({ workspaceId, appId, decisionId, tenantId }) =
         <TimeFilters timeRange={timeRange} setTimeRange={setTimeRange} />
       </div>
 
+      <DimensionFilters
+        tenantId={tenantId}
+        workspaceId={workspaceId}
+        filters={activeFilters}
+        onFilterChange={setActiveFilters}
+      />
+
       <div className="space-y-4">
         {/* Goal Metrics Section */}
         <OverviewSubSection
@@ -138,6 +164,7 @@ export const DecisionOverview = ({ workspaceId, appId, decisionId, tenantId }) =
           tenantId={tenantId}
           timeRange={timeRange}
           isGoalInsights={true}
+          activeFilters={activeFilters}
         />
 
         {/* Causal Insights Section */}
@@ -156,6 +183,7 @@ export const DecisionOverview = ({ workspaceId, appId, decisionId, tenantId }) =
           workspaceId={workspaceId}
           tenantId={tenantId}
           timeRange={timeRange}
+          activeFilters={activeFilters}
         />
       </div>
     </div>
