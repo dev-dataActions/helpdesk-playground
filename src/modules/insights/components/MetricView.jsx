@@ -1,9 +1,7 @@
 import { useCallback, useMemo, useState, useEffect } from "react";
-import { AiOutlineBarChart } from "react-icons/ai";
 import { ChartTypes, Insight, TimeGrain } from "da-insight-sdk";
 import { fetchData, fetchDimensionValues } from "../../container/services/insights.svc";
 import { BsCheck2Circle } from "react-icons/bs";
-import { TimeFilters } from "../pages/BoardPage";
 import { CiSettings } from "react-icons/ci";
 import { GoZap } from "react-icons/go";
 import { usePinnedMetrics } from "../hooks/usePinnedMetrics";
@@ -95,8 +93,8 @@ export const MetricView = ({
   onNavigate,
   decisionId,
   decisionName,
+  timeRange,
 }) => {
-  const [timeRange, setTimeRange] = useState(30);
   const [activeFilters, setActiveFilters] = useState(null);
 
   // Initialize active filters when filters prop changes
@@ -120,16 +118,6 @@ export const MetricView = ({
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-3">
-        <div className="flex items-center gap-2">
-          <div className="p-1.5 bg-emerald-50 rounded-lg">
-            <AiOutlineBarChart className="w-5 h-5 text-emerald-600" />
-          </div>
-          <h2 className="font-medium text-foreground">Metric View</h2>
-        </div>
-        <TimeFilters timeRange={timeRange} setTimeRange={setTimeRange} />
-      </div>
-
       {/* Dimension Filters */}
       {activeFilters && Object.keys(activeFilters).length > 0 && (
         <DimensionFilters
