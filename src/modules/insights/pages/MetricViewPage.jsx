@@ -12,6 +12,7 @@ export const MetricViewPage = ({ workspaceId, appId, decisionId, tenantId, onNav
 
   const {
     metricConfig,
+    filters,
     loading: loadingMetrics,
     error: metricsError,
   } = useMetricViewConfig(workspaceId, appId, decisionId);
@@ -47,6 +48,7 @@ export const MetricViewPage = ({ workspaceId, appId, decisionId, tenantId, onNav
         <MetricView
           onNavigate={(path) => onNavigate?.(path)}
           metricViewConfig={metricConfig}
+          filters={filters}
           workspaceId={workspaceId}
           tenantId={tenantId}
           className="mt-4"

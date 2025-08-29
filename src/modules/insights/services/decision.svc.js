@@ -117,3 +117,47 @@ export async function getAppDecisionOverview(workspaceId, appId, decisionId) {
     return null;
   }
 }
+
+/**
+ * Fetches app decision metric view data
+ * @param {string} workspaceId - The workspace ID
+ * @param {string} appId - The app ID
+ * @param {string} decisionId - The decision ID
+ * @returns {Promise<Object|null>} Metric view data object or null on error
+ */
+export async function getAppDecisionMetricView(workspaceId, appId, decisionId) {
+  // Validate environment variables
+  if (!process.env.NEXT_PUBLIC_BACKEND_URL) {
+    console.error("NEXT_PUBLIC_BACKEND_URL is not defined");
+    return null;
+  }
+
+  if (!process.env.NEXT_PUBLIC_APP_BACKEND_API_KEY) {
+    console.error("NEXT_PUBLIC_APP_BACKEND_API_KEY is not defined");
+    return null;
+  }
+
+  // Validate input parameters
+  if (!workspaceId || !appId || !decisionId) {
+    console.error("Missing required parameters: workspaceId, appId, and decisionId are required");
+    return null;
+  }
+
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/v3/app-decision-metricview?workspace_id=${workspaceId}&app_id=${appId}&decision_id=${decisionId}`,
+      { headers: { "X-API-Key": process.env.NEXT_PUBLIC_APP_BACKEND_API_KEY } }
+    );
+
+    if (!response.ok) {
+      console.error(`API request failed with status: ${response.status}`);
+      return null;
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error fetching decision metric view:", error);
+    return null;
+  }
+}

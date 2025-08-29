@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useMemo, useState, useEffect } from "react";
 import { AiOutlineBarChart } from "react-icons/ai";
 import { ChartTypes, Insight, TimeGrain } from "da-insight-sdk";
 import { fetchData, fetchDimensionValues } from "../../container/services/insights.svc";
@@ -7,8 +7,19 @@ import { TimeFilters } from "../pages/BoardPage";
 import { CiSettings } from "react-icons/ci";
 import { GoZap } from "react-icons/go";
 import { usePinnedMetrics } from "../hooks/usePinnedMetrics";
+import { DimensionFilters } from "./DimensionFilters";
 
-const MetricCard = ({ metric, workspaceId, tenantId, onNavigate, timeRange, className, decisionId, decisionName }) => {
+const MetricCard = ({
+  metric,
+  workspaceId,
+  tenantId,
+  onNavigate,
+  timeRange,
+  className,
+  decisionId,
+  decisionName,
+  activeFilters,
+}) => {
   const { isPinned, pinMetric, unpinMetric } = usePinnedMetrics();
 
   const insight = useMemo(
@@ -59,7 +70,7 @@ const MetricCard = ({ metric, workspaceId, tenantId, onNavigate, timeRange, clas
       type={insight.type}
       title={
         <p className="flex items-center gap-x-2">
-          <BsCheck2Circle className="w-4 h-4 text-green-500" />
+          <BsCheck2Circle className="w-4 h-5 text-green-500" />
           {insight.title}
         </p>
       }
@@ -67,6 +78,7 @@ const MetricCard = ({ metric, workspaceId, tenantId, onNavigate, timeRange, clas
       metrics={insight.metrics}
       timeRange={timeRange}
       timeGrain={TimeGrain.WEEKLY}
+      filters={activeFilters}
       options={insight.options}
       dataResolver={dataResolver}
       dimensionValuesResolver={dimensionValuesResolver}
@@ -76,6 +88,7 @@ const MetricCard = ({ metric, workspaceId, tenantId, onNavigate, timeRange, clas
 
 export const MetricView = ({
   metricViewConfig,
+  filters,
   workspaceId,
   tenantId,
   className = "",
@@ -84,6 +97,16 @@ export const MetricView = ({
   decisionName,
 }) => {
   const [timeRange, setTimeRange] = useState(30);
+  const [activeFilters, setActiveFilters] = useState(null);
+
+  // Initialize active filters when filters prop changes
+  useEffect(() => {
+    if (filters && Object.keys(filters).length > 0) {
+      setActiveFilters(filters);
+    } else {
+      setActiveFilters({});
+    }
+  }, [filters]);
 
   if (!metricViewConfig) {
     return (
@@ -97,7 +120,7 @@ export const MetricView = ({
 
   return (
     <div>
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-2">
           <div className="p-1.5 bg-emerald-50 rounded-lg">
             <AiOutlineBarChart className="w-5 h-5 text-emerald-600" />
@@ -106,6 +129,16 @@ export const MetricView = ({
         </div>
         <TimeFilters timeRange={timeRange} setTimeRange={setTimeRange} />
       </div>
+
+      {/* Dimension Filters */}
+      {activeFilters && Object.keys(activeFilters).length > 0 && (
+        <DimensionFilters
+          tenantId={tenantId}
+          workspaceId={workspaceId}
+          filters={activeFilters}
+          onFilterChange={setActiveFilters}
+        />
+      )}
 
       <div className={`flex flex-col gap-6 ${className}`}>
         {/* Output Metrics */}
@@ -122,6 +155,7 @@ export const MetricView = ({
                 className="h-40"
                 decisionId={decisionId}
                 decisionName={decisionName}
+                activeFilters={activeFilters}
               />
             ))}
           </div>
@@ -146,6 +180,7 @@ export const MetricView = ({
                     className="h-48"
                     decisionId={decisionId}
                     decisionName={decisionName}
+                    activeFilters={activeFilters}
                   />
                 ))}
               </div>
@@ -171,6 +206,7 @@ export const MetricView = ({
                     className="h-48"
                     decisionId={decisionId}
                     decisionName={decisionName}
+                    activeFilters={activeFilters}
                   />
                 ))}
               </div>

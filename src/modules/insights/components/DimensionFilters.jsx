@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useMemo } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { Dropdown } from "da-apps-sdk";
 import { fetchDimensionValues } from "../../container/services/insights.svc";
 
@@ -35,12 +35,12 @@ export const DimensionFilters = ({ filters, workspaceId, tenantId, onFilterChang
     })();
   }, [filters, workspaceId, tenantId]);
 
-  if (!filters || !allDimensionsLoaded) return null;
+  if (!filters) return null;
 
   return (
     <div className="flex flex-wrap gap-4 mb-4 bg-gray-50 p-3 rounded-md border border-gray-200">
       {Object.keys(filters)?.map((dimension) => (
-        <div className="w-60" key={dimension}>
+        <div className="w-56" key={dimension}>
           <Dropdown
             placeHolder={"All"}
             inlineLabel={formatDimensionLabel(dimension)}
@@ -48,6 +48,7 @@ export const DimensionFilters = ({ filters, workspaceId, tenantId, onFilterChang
             selectedOption={filters?.[dimension]}
             setSelectedOption={(value) => onFilterChange((prev) => ({ ...prev, [dimension]: value }))}
             allowNone={true}
+            loading={!allDimensionsLoaded}
           />
         </div>
       ))}

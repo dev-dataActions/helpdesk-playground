@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { getAppInsightsByDecisionIdAndWorkspaceId } from "../services/decision.svc";
+import { getAppDecisionMetricView } from "../services/decision.svc";
 
 /**
  * Custom hook to fetch metric configurations for multiple sub-decisions
@@ -30,13 +30,13 @@ export const useSubDecisionsMetrics = (workspaceId, appId, subDecisions) => {
           if (!subDecision?.id) return null;
 
           try {
-            const data = await getAppInsightsByDecisionIdAndWorkspaceId(appId, subDecision.id, workspaceId);
-            if (!data || !Array.isArray(data)) {
+            const data = await getAppDecisionMetricView(workspaceId, appId, subDecision.id);
+            if (!data || !data.data || !Array.isArray(data.data.metrics)) {
               return { decisionId: subDecision.id, metrics: null };
             }
 
             // Transform the API response to the expected format
-            const transformedMetrics = transformApiResponse(data);
+            const transformedMetrics = transformMetricsResponse(data.data.metrics);
             return { decisionId: subDecision.id, metrics: transformedMetrics };
           } catch (err) {
             console.error(`Error fetching metrics for sub-decision ${subDecision.id}:`, err);
@@ -68,30 +68,40 @@ export const useSubDecisionsMetrics = (workspaceId, appId, subDecisions) => {
   }, [workspaceId, appId, subDecisions]);
 
   /**
-   * Transform API response to the expected metricViewConfig format
-   * @param {Array} apiData - Raw API response data
+   * Transform metrics array to the expected metricViewConfig format
+   * @param {Array} metrics - Array of metric objects from API
    * @returns {Object} Transformed configuration object
    */
-  const transformApiResponse = (apiData) => {
+  const transformMetricsResponse = (metrics) => {
+    if (!Array.isArray(metrics)) {
+      console.warn("Metrics data is not an array:", metrics);
+      return { OUTPUT: [], DRIVER: [], INPUT: [] };
+    }
+
     const config = {
       OUTPUT: [],
       DRIVER: [],
       INPUT: [],
     };
 
-    apiData.forEach((item) => {
+    metrics.forEach((metric) => {
+      if (!metric.metric_name || !metric.metric_label || !metric.category) {
+        console.warn("Invalid metric data:", metric);
+        return;
+      }
+
       const metricItem = {
-        metricKey: item.metric_name,
-        metricLabel: item.metric_label,
+        metricKey: metric.metric_name,
+        metricLabel: metric.metric_label,
       };
 
       // Map category to the expected format (OUTPUT, DRIVER, INPUT)
-      const category = item.category?.toUpperCase();
+      const category = metric.category?.toUpperCase();
       if (config[category]) {
         config[category].push(metricItem);
       } else {
         // If category doesn't match expected ones, log warning and skip
-        console.warn(`Unknown metric category: ${item.category} for metric: ${item.metric_name}`);
+        console.warn(`Unknown metric category: ${metric.category} for metric: ${metric.metric_name}`);
       }
     });
 
