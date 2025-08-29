@@ -38,12 +38,34 @@ export const DecisionTreeBreadcrumbs = ({ decisionTree, currentDecisionId, onNav
     return pathParts.join(" / ");
   }, [breadcrumbs]);
 
-  // Get back navigation target (second last decision in path or home)
+  // Get back navigation target (handles child views like Metric View, Causal View)
   const backTarget = useMemo(() => {
     if (!breadcrumbs || breadcrumbs.length === 0) return { path: "/insights", name: "Home" };
+
+    // Check if we're in a child view by looking for any route that's not the main insights route
+    // This makes it generic for any future child views
+    const isInChildView =
+      pathname &&
+      (pathname.includes("/metricView") || pathname.includes("/causalView") || pathname.includes("/drilldown"));
+
+    if (isInChildView) {
+      // If in child view, go back to the parent decision overview
+      if (breadcrumbs.length > 0) {
+        const parentDecision = breadcrumbs[breadcrumbs.length - 1];
+        return {
+          path: `/insights?decisionId=${parentDecision.id}`,
+          name: parentDecision.name,
+        };
+      }
+    }
+
+    // Default behavior: go to previous decision in path or home
     if (breadcrumbs.length === 1) return { path: "/insights", name: "Home" };
-    return { path: breadcrumbs[breadcrumbs.length - 2].path, name: breadcrumbs[breadcrumbs.length - 2].name };
-  }, [breadcrumbs]);
+    return {
+      path: breadcrumbs[breadcrumbs.length - 2].path,
+      name: breadcrumbs[breadcrumbs.length - 2].name,
+    };
+  }, [breadcrumbs, pathname]);
 
   // Update search value when breadcrumbs change
   useEffect(() => {

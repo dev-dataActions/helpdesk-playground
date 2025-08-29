@@ -20,12 +20,15 @@ export const CausalViewPage = ({ workspaceId, appId, decisionId, onNavigate }) =
   return (
     <PanelLayout
       title={
-        <p className="flex items-center gap-x-3">
-          <span className="p-2 bg-gradient-to-br from-blue-500/20 via-purple-500/20 to-pink-500/20 rounded-xl border border-purple-300/30 shadow-lg shadow-purple-500/20">
+        <div className="flex items-center gap-x-3">
+          <div className="p-3 bg-gradient-to-br from-blue-500/20 via-purple-500/20 to-pink-500/20 rounded-xl border border-purple-300/30 shadow-md shadow-purple-500/20">
             <LuSparkles className="w-6 h-6 text-purple-600" />
-          </span>
-          {decision?.name}
-        </p>
+          </div>
+          <div>
+            <p className="text-xs font-normal text-gray-400 mb-0.5">{decision?.name}</p>
+            <p>Causal View</p>
+          </div>
+        </div>
       }
       breadcrumbs={
         <DecisionTreeBreadcrumbs
@@ -36,7 +39,7 @@ export const CausalViewPage = ({ workspaceId, appId, decisionId, onNavigate }) =
       }
       className={"max-w-4xl mx-auto !py-6 !px-4"}
     >
-      <div className="border-t border-gray-200 pt-4 mt-2">
+      <div className="border-t border-gray-200 pt-4">
         <CausalStories workspaceId={workspaceId} appId={appId} decisionId={decisionId} onNavigate={onNavigate} />
       </div>
     </PanelLayout>

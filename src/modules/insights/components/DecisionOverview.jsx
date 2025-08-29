@@ -106,11 +106,9 @@ export const DecisionOverview = ({ workspaceId, appId, decisionId, tenantId }) =
   const [activeFilters, setActiveFilters] = useState(null);
 
   useEffect(() => {
-    if (filters?.length > 0) {
-      const initialFilters = {};
-      for (const filter of filters) initialFilters[filter.dimension] = filter.value;
-      setActiveFilters(initialFilters);
-    }
+    const initialFilters = {};
+    for (const filter of filters ?? []) initialFilters[filter.dimension] = filter.value;
+    setActiveFilters(initialFilters);
   }, [filters]);
 
   if (isLoadingOverview || activeFilters === null) {
@@ -139,12 +137,14 @@ export const DecisionOverview = ({ workspaceId, appId, decisionId, tenantId }) =
         <TimeFilters timeRange={timeRange} setTimeRange={setTimeRange} />
       </div>
 
-      <DimensionFilters
-        tenantId={tenantId}
-        workspaceId={workspaceId}
-        filters={activeFilters}
-        onFilterChange={setActiveFilters}
-      />
+      {filters?.length > 0 && (
+        <DimensionFilters
+          tenantId={tenantId}
+          workspaceId={workspaceId}
+          filters={activeFilters}
+          onFilterChange={setActiveFilters}
+        />
+      )}
 
       <div className="space-y-4">
         {/* Goal Metrics Section */}

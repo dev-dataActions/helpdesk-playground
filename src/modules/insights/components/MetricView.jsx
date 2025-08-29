@@ -6,6 +6,7 @@ import { CiSettings } from "react-icons/ci";
 import { GoZap } from "react-icons/go";
 import { usePinnedMetrics } from "../hooks/usePinnedMetrics";
 import { DimensionFilters } from "./DimensionFilters";
+import { AiOutlineBarChart } from "react-icons/ai";
 
 const MetricCard = ({
   metric,
@@ -108,7 +109,18 @@ export const MetricView = ({
 
   if (!metricViewConfig) {
     return (
-      <div className={`text-sm text-center text-gray-500 py-8 ${className}`}>Metric view is not configured yet.</div>
+      <div className={`${className}`}>
+        <div className="rounded-xl bg-gradient-to-br from-emerald-50/50 to-white border border-emerald-100 shadow-sm transition-all duration-300 p-8 text-center">
+          <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-emerald-50 flex items-center justify-center border border-emerald-200">
+            <AiOutlineBarChart className="w-8 h-8 text-emerald-500" />
+          </div>
+          <h3 className="text-gray-700 mb-2">Metric View Not Configured</h3>
+          <p className="text-xs text-gray-500 max-w-md mx-auto">
+            No metrics have been configured for this decision yet. Configure metrics to start tracking your decision
+            outcomes.
+          </p>
+        </div>
+      </div>
     );
   }
 
