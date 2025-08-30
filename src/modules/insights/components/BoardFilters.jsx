@@ -45,16 +45,13 @@ export const BoardFilters = ({ filters, activeFilters, setActiveFilters, workspa
 
   // Initialize active filters only once when component mounts
   useEffect(() => {
-    if (
-      filters &&
-      filters.length > 0 &&
-      setActiveFilters &&
-      (!activeFilters || Object.keys(activeFilters).length === 0)
-    ) {
+    if (setActiveFilters && (!activeFilters || Object.keys(activeFilters).length === 0)) {
       const initialFilters = {};
-      for (const filter of filters) {
-        if (filter?.dimension && filter?.value) {
-          initialFilters[filter.dimension] = filter.value;
+      if (filters && filters.length > 0) {
+        for (const filter of filters) {
+          if (filter?.dimension && filter?.value) {
+            initialFilters[filter.dimension] = filter.value;
+          }
         }
       }
       setActiveFilters(initialFilters);

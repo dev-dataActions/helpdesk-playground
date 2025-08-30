@@ -1,7 +1,13 @@
 import { GoChevronRight, GoLinkExternal } from "react-icons/go";
 import { IoTrashOutline } from "react-icons/io5";
 
-export const GoToCard = ({ name = "Title", description = "Description", goToText = "Go to", href = "#", onDelete }) => {
+export const GoToCard = ({
+  name = "Title",
+  description = "No description",
+  goToText = "Go to",
+  href = "#",
+  onDelete,
+}) => {
   return (
     <div className="w-full h-full bg-white rounded-xl flex flex-col justify-between relative group border border-gray-200 transition-all duration-200">
       {onDelete && (
@@ -23,7 +29,7 @@ export const GoToCard = ({ name = "Title", description = "Description", goToText
         </div>
         <div className="flex-1 min-w-0">
           <h3 className="text-sm font-medium text-gray-900 truncate">{name}</h3>
-          <p className="text-xs text-gray-600 leading-relaxed">{description}</p>
+          {description && <p className="text-xs text-gray-600 leading-relaxed">{description}</p>}
         </div>
       </div>
       <div className="flex items-center justify-end px-4 py-2 border-t border-gray-100 bg-gray-50/50 rounded-b-xl">

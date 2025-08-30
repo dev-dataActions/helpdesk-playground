@@ -76,7 +76,7 @@ export const CausalStories = ({ workspaceId, appId, decisionId }) => {
           <div key={board.board_id}>
             <GoToCard
               name={board.name}
-              description={board.description}
+              description={board.description !== "Click to enter description" ? board.description : undefined}
               goToText="Go to board"
               href={`/insights/${board.board_id}?decisionId=${decisionId}`}
             />

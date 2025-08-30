@@ -115,7 +115,6 @@ const BoardPage = ({
   return (
     <PanelLayout
       title={board?.title}
-      description={board?.description}
       className={`min-w-[800px] px-4 py-4 md:!px-28 md:!py-8`}
       customButton={<TimeFilters timeRange={timeRange} setTimeRange={setTimeRange} />}
       showBackButton={true}
