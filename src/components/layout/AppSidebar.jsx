@@ -62,14 +62,14 @@ export function AppSidebar() {
   const getNavCls = ({ isActive }) => (isActive ? "nav-item nav-item-active" : "nav-item nav-item-inactive");
 
   return (
-    <Sidebar className={`${collapsed ? "w-16" : "w-64"} border-r border-sidebar-border bg-sidebar`} collapsible="icon">
+    <Sidebar
+      className={`${collapsed ? "w-16" : "w-64"} border-r border-sidebar-border bg-sidebar h-screen`}
+      collapsible="icon"
+    >
       <SidebarContent className="p-4">
         {/* Logo */}
-        <div className="flex items-center gap-3 px-3 py-4 mb-6">
-          <div className="w-8 h-8 bg-gradient-primary rounded-lg flex items-center justify-center">
-            <MessageSquare className="w-5 h-5 text-white" />
-          </div>
-          {!collapsed && <span className="text-lg font-semibold text-sidebar-foreground">Helpdesk</span>}
+        <div className="flex items-center gap-3 px-3 py-2 mb-6">
+          {!collapsed && <span className="inline-block text-lg font-semibold text-sidebar-foreground">Helpdesk</span>}
         </div>
 
         {/* Main Navigation */}

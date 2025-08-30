@@ -16,7 +16,7 @@ export const HelpdeskLayout = ({ children }) => {
         <SidebarProvider>
           <div className="min-h-screen flex w-full bg-background">
             <AppSidebar />
-            <div className="flex-1 flex flex-col">
+            <div className="flex-1 flex flex-col h-screen overflow-auto">
               <main className="flex-1 overflow-auto">{children}</main>
             </div>
           </div>
