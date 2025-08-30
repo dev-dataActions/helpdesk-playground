@@ -1,4 +1,4 @@
-import { Users, Clock, MessageSquare, CheckCircle, Phone, Bot, Circle } from "lucide-react";
+import { Users, Clock, MessageSquare, CheckCircle, Bot, Circle } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card";
 import { Badge } from "../components/ui/badge";
 

@@ -1,9 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { Send, Paperclip, BookOpen, Clock } from "lucide-react";
 import { Button } from "../ui/button";
-import { Input } from "../ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
-import { Badge } from "../ui/badge";
 import { Textarea } from "../ui/textarea";
 
 // Mock initial messages for demo

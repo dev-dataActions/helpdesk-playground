@@ -4,7 +4,7 @@ import { Card } from "../components/ui/card";
 import { Badge } from "../components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../components/ui/select";
 import { Textarea } from "../components/ui/textarea";
-import { Star, Calendar, MessageSquare, User, Tag, CheckCircle } from "lucide-react";
+import { Star, Calendar, MessageSquare, Tag, CheckCircle } from "lucide-react";
 
 const agents = [
   { id: 1, name: "Sarah Chen", csat: 4.2, lastCoaching: "2024-01-15", flaggedConversations: 3 },

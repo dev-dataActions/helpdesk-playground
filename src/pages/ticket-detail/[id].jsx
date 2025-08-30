@@ -1,9 +1,9 @@
 import { useRouter } from "next/router";
 import { ArrowLeft, Clock, User, AlertTriangle } from "lucide-react";
-import { Button } from "../components/ui/button";
-import { Badge } from "../components/ui/badge";
-import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card";
-import { ChatThread } from "../components/chat/ChatThread";
+import { Button } from "../../components/ui/button";
+import { Badge } from "../../components/ui/badge";
+import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/card";
+import { ChatThread } from "../../components/chat/ChatThread";
 
 // Mock ticket data - in real app this would come from API/database
 const getTicketData = (id) => {
@@ -85,9 +85,9 @@ const priorityStyles = {
   urgent: "bg-red-100 text-red-700",
 };
 
-export default function TicketDetail() {
+export default function TicketDetail({ ticketId }) {
   const router = useRouter();
-  const { id } = router.query;
+  const id = ticketId;
 
   if (!id) {
     router.push("/conversations");
@@ -228,4 +228,16 @@ export default function TicketDetail() {
       </div>
     </div>
   );
+}
+
+export async function getServerSideProps(context) {
+  const { id } = context.params;
+
+  // In a real app, you would fetch ticket data here
+  // For now, we'll just return the id to the component
+  return {
+    props: {
+      ticketId: id,
+    },
+  };
 }

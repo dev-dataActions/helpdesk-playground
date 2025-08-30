@@ -1,9 +1,21 @@
 import { useState } from "react";
-import { Phone, PhoneCall, PhoneOff, Clock, Search, Filter, MoreHorizontal, User, Calendar, Mic, MicOff } from "lucide-react";
+import {
+  Phone,
+  PhoneCall,
+  PhoneOff,
+  Clock,
+  Search,
+  Filter,
+  MoreHorizontal,
+  User,
+  Calendar,
+  Mic,
+  MicOff,
+} from "lucide-react";
 import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
 import { Badge } from "../components/ui/badge";
-import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card";
+import { Card, CardContent } from "../components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../components/ui/select";
 import {
   DropdownMenu,
@@ -99,12 +111,13 @@ export default function Calls() {
   const [typeFilter, setTypeFilter] = useState("all");
 
   const filteredCalls = callsData.filter((call) => {
-    const matchesSearch = call.customer.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         call.subject.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         call.phone.includes(searchTerm);
+    const matchesSearch =
+      call.customer.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      call.subject.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      call.phone.includes(searchTerm);
     const matchesStatus = statusFilter === "all" || call.status === statusFilter;
     const matchesType = typeFilter === "all" || call.type === typeFilter;
-    
+
     return matchesSearch && matchesStatus && matchesType;
   });
 
@@ -117,16 +130,12 @@ export default function Calls() {
   };
 
   const handleCallSelect = (callId) => {
-    setSelectedCalls(prev => 
-      prev.includes(callId) 
-        ? prev.filter(id => id !== callId)
-        : [...prev, callId]
-    );
+    setSelectedCalls((prev) => (prev.includes(callId) ? prev.filter((id) => id !== callId) : [...prev, callId]));
   };
 
   const totalCalls = callsData.length;
-  const completedCalls = callsData.filter(call => call.status === "completed").length;
-  const missedCalls = callsData.filter(call => call.status === "missed").length;
+  const completedCalls = callsData.filter((call) => call.status === "completed").length;
+  const missedCalls = callsData.filter((call) => call.status === "missed").length;
   const avgDuration = "4:32";
 
   return (
@@ -172,7 +181,9 @@ export default function Calls() {
               <div className="space-y-2">
                 <p className="text-sm font-medium text-muted-foreground">Completed</p>
                 <p className="text-3xl font-bold text-foreground">{completedCalls}</p>
-                <p className="text-sm text-success">{Math.round((completedCalls/totalCalls)*100)}% completion rate</p>
+                <p className="text-sm text-success">
+                  {Math.round((completedCalls / totalCalls) * 100)}% completion rate
+                </p>
               </div>
               <div className="bg-success p-3 rounded-lg">
                 <PhoneCall className="w-6 h-6 text-success-foreground" />
@@ -187,7 +198,7 @@ export default function Calls() {
               <div className="space-y-2">
                 <p className="text-sm font-medium text-muted-foreground">Missed</p>
                 <p className="text-3xl font-bold text-foreground">{missedCalls}</p>
-                <p className="text-sm text-warning">{Math.round((missedCalls/totalCalls)*100)}% missed rate</p>
+                <p className="text-sm text-warning">{Math.round((missedCalls / totalCalls) * 100)}% missed rate</p>
               </div>
               <div className="bg-warning p-3 rounded-lg">
                 <PhoneOff className="w-6 h-6 text-warning-foreground" />

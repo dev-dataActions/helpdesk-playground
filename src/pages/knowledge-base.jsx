@@ -7,7 +7,7 @@ import { Textarea } from "../components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../components/ui/tabs";
 import { Switch } from "../components/ui/switch";
-import { Search, Folder, Eye, ThumbsUp, Link, Plus, Save, Globe, FileText, TrendingUp } from "lucide-react";
+import { Search, Eye, ThumbsUp, Link, Plus, Save, Globe, FileText, TrendingUp } from "lucide-react";
 
 const articles = [
   {
