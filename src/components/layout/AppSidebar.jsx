@@ -1,6 +1,19 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { BarChart3, MessageSquare, Ticket, Bot, Phone, Users, Inbox, Settings, Home, TrendingUp } from "lucide-react";
+import {
+  BarChart3,
+  MessageSquare,
+  Ticket,
+  Bot,
+  Phone,
+  Users,
+  Inbox,
+  Settings,
+  Home,
+  TrendingUp,
+  BookOpen,
+  GraduationCap,
+} from "lucide-react";
 
 import {
   Sidebar,
@@ -15,21 +28,19 @@ import {
 } from "../ui/sidebar";
 
 const mainItems = [
-  { title: "Dashboard", url: "/", icon: Home },
   { title: "Inbox", url: "/inbox", icon: Inbox },
   { title: "Tickets", url: "/tickets", icon: Ticket },
   { title: "Conversations", url: "/conversations", icon: MessageSquare },
 ];
 
 const aiItems = [
-  { title: "Fin AI", url: "/ai", icon: Bot },
+  { title: "Knowledge Base", url: "/knowledge-base", icon: BookOpen },
   { title: "Calls", url: "/calls", icon: Phone },
 ];
 
 const managementItems = [
   { title: "Team", url: "/team", icon: Users },
-  { title: "Reports", url: "/reports", icon: BarChart3 },
-  { title: "Dashboards", url: "/dashboards", icon: BarChart3 },
+  { title: "Training & Coaching", url: "/training-coaching", icon: GraduationCap },
   { title: "Value Prop", url: "/value-prop", icon: TrendingUp },
   { title: "Settings", url: "/settings", icon: Settings },
 ];

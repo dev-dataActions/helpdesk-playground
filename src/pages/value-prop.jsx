@@ -1,214 +1,142 @@
-import { useState } from "react";
-import { TrendingUp, Target, Award, Users, Clock, CheckCircle } from "lucide-react";
-import { Button } from "../components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../components/ui/card";
-import { Badge } from "../components/ui/badge";
-
-const valueProps = [
-  {
-    id: 1,
-    title: "24/7 Customer Support",
-    description: "Round-the-clock assistance for your customers",
-    impact: "high",
-    status: "active",
-    metrics: {
-      satisfaction: 95,
-      responseTime: "2 min",
-      resolutionRate: 87,
-    },
-  },
-  {
-    id: 2,
-    title: "AI-Powered Automation",
-    description: "Intelligent responses and ticket routing",
-    impact: "high",
-    status: "active",
-    metrics: {
-      satisfaction: 92,
-      responseTime: "30 sec",
-      resolutionRate: 78,
-    },
-  },
-  {
-    id: 3,
-    title: "Multi-Channel Support",
-    description: "Email, chat, phone, and social media integration",
-    impact: "medium",
-    status: "active",
-    metrics: {
-      satisfaction: 89,
-      responseTime: "5 min",
-      resolutionRate: 82,
-    },
-  },
-  {
-    id: 4,
-    title: "Advanced Analytics",
-    description: "Comprehensive insights and reporting",
-    impact: "medium",
-    status: "draft",
-    metrics: {
-      satisfaction: 0,
-      responseTime: "N/A",
-      resolutionRate: 0,
-    },
-  },
-];
+import Link from "next/link";
+import { ArrowRight, ArrowDown } from "lucide-react";
 
 export default function ValueProp() {
-  const [selectedImpact, setSelectedImpact] = useState("all");
-
-  const getImpactColor = (impact) => {
-    switch (impact) {
-      case "high":
-        return "bg-green-100 text-green-800";
-      case "medium":
-        return "bg-yellow-100 text-yellow-800";
-      case "low":
-        return "bg-gray-100 text-gray-800";
-      default:
-        return "bg-gray-100 text-gray-800";
-    }
-  };
-
-  const getStatusColor = (status) => {
-    switch (status) {
-      case "active":
-        return "bg-green-100 text-green-800";
-      case "draft":
-        return "bg-yellow-100 text-yellow-800";
-      case "archived":
-        return "bg-gray-100 text-gray-800";
-      default:
-        return "bg-gray-100 text-gray-800";
-    }
-  };
-
-  const filteredProps = valueProps.filter((prop) => selectedImpact === "all" || prop.impact === selectedImpact);
-
   return (
-    <div className="p-6 space-y-6">
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-bold text-gray-900">Value Propositions</h1>
-          <p className="text-gray-600">Track and optimize your key value drivers</p>
-        </div>
-        <Button className="bg-primary hover:bg-primary-hover">
-          <TrendingUp className="w-4 h-4 mr-2" />
-          Add Value Prop
-        </Button>
+    <div className="h-full w-full bg-slate-50">
+      <div className="mb-6 px-6 pt-6">
+        <h1 className="text-3xl font-bold text-foreground">SaaS Value Proposition</h1>
+        <p className="text-muted-foreground mt-2">
+          Static diagram showing our SaaS business model and value proposition
+        </p>
       </div>
 
-      {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Props</CardTitle>
-            <Target className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">4</div>
-            <p className="text-xs text-muted-foreground">3 active, 1 draft</p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">High Impact</CardTitle>
-            <Award className="h-4 w-4 text-green-600" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">2</div>
-            <p className="text-xs text-muted-foreground">50% high impact</p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Avg Satisfaction</CardTitle>
-            <Users className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">92%</div>
-            <p className="text-xs text-muted-foreground">+3% this month</p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Avg Response</CardTitle>
-            <Clock className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">2.5m</div>
-            <p className="text-xs text-muted-foreground">-15% faster</p>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* Filters */}
-      <div className="flex items-center space-x-4">
-        <div className="flex items-center space-x-2">
-          <span className="text-sm font-medium">Filter by impact:</span>
-          <div className="flex space-x-2">
-            {["all", "high", "medium", "low"].map((impact) => (
-              <Button
-                key={impact}
-                size="sm"
-                variant={selectedImpact === impact ? "default" : "outline"}
-                onClick={() => setSelectedImpact(impact)}
-                className="capitalize"
-              >
-                {impact}
-              </Button>
-            ))}
+      <div className="px-6 pb-6 space-y-8">
+        {/* Header */}
+        <div className="flex justify-center mb-8">
+          <div className="bg-gradient-to-r from-purple-600 to-purple-800 text-white px-8 py-4 rounded-lg text-xl font-bold text-center min-w-[400px]">
+            Helpdesk SaaS Model
           </div>
         </div>
-      </div>
 
-      {/* Value Props Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {filteredProps.map((prop) => (
-          <Card key={prop.id} className="hover:shadow-lg transition-shadow">
-            <CardHeader>
-              <div className="flex items-start justify-between">
-                <div className="space-y-1">
-                  <CardTitle className="text-lg">{prop.title}</CardTitle>
-                  <CardDescription>{prop.description}</CardDescription>
+        {/* Main Content Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {/* About the Product */}
+          <div className="bg-white p-6 rounded-lg shadow-lg border-2 border-purple-200">
+            <h3 className="font-bold text-lg mb-3 text-purple-800">About the Product</h3>
+            <p className="text-sm text-gray-700 leading-relaxed">
+              Helpdesk is a customer support company that provides solutions to enhance customer interactions for online
+              businesses.
+              <br />
+              <br />
+              It helps online businesses automate, improve customer satisfaction, and drive business growth through its
+              features like Real Time Chats, Ticket Management, Automated Support etc.
+            </p>
+
+            {/* Inline Workflow Loop */}
+            <div className="mt-6">
+              <h4 className="text-sm font-semibold text-gray-800 mb-4">Customer Support Workflow</h4>
+
+              <div className="flex flex-col items-center space-y-4">
+                {/* Workflow Steps */}
+                <div className="flex flex-col lg:flex-row items-center gap-4">
+                  <Link
+                    href="/conversations"
+                    className="bg-blue-50 p-2 rounded-xl shadow-sm border border-blue-200 min-w-[120px] text-center hover:bg-blue-100 transition-colors"
+                  >
+                    <div className="text-xs font-medium text-gray-800">Talk to CS Agent</div>
+                    <div className="text-xs text-gray-600">to Resolve Problem</div>
+                  </Link>
+
+                  <ArrowRight className="text-gray-300 w-4 h-4 hidden lg:block" />
+                  <ArrowDown className="text-gray-300 w-4 h-4 lg:hidden" />
+
+                  <Link
+                    href="/conversations"
+                    className="bg-blue-50 p-2 rounded-xl shadow-sm border border-blue-200 min-w-[120px] text-center hover:bg-blue-100 transition-colors"
+                  >
+                    <div className="text-xs font-medium text-gray-800">Agent resolves ticket</div>
+                    <div className="text-xs text-gray-600">with solution & feedback</div>
+                  </Link>
+
+                  <ArrowRight className="text-gray-300 w-4 h-4 hidden lg:block" />
+                  <ArrowDown className="text-gray-300 w-4 h-4 lg:hidden" />
+
+                  <Link
+                    href="/conversations"
+                    className="bg-blue-50 p-2 rounded-xl shadow-sm border border-blue-200 min-w-[120px] text-center hover:bg-blue-100 transition-colors"
+                  >
+                    <div className="text-xs font-medium text-gray-800">Raise new tickets</div>
+                    <div className="text-xs text-gray-600">(Customer)</div>
+                  </Link>
                 </div>
-                <div className="flex space-x-2">
-                  <Badge className={getImpactColor(prop.impact)}>{prop.impact}</Badge>
-                  <Badge className={getStatusColor(prop.status)}>{prop.status}</Badge>
+
+                {/* Loop indicator */}
+                <div className="flex flex-col items-center">
+                  <div className="text-xl text-gray-300">↑</div>
+                  <span className="text-xs text-gray-600 bg-gray-100 px-2 py-1 rounded">Continuous cycle</span>
                 </div>
               </div>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                <div className="grid grid-cols-3 gap-4">
-                  <div className="text-center">
-                    <div className="text-2xl font-bold text-green-600">{prop.metrics.satisfaction}%</div>
-                    <div className="text-xs text-gray-600">Satisfaction</div>
-                  </div>
-                  <div className="text-center">
-                    <div className="text-2xl font-bold text-blue-600">{prop.metrics.responseTime}</div>
-                    <div className="text-xs text-gray-600">Response Time</div>
-                  </div>
-                  <div className="text-center">
-                    <div className="text-2xl font-bold text-purple-600">{prop.metrics.resolutionRate}%</div>
-                    <div className="text-xs text-gray-600">Resolution Rate</div>
-                  </div>
+            </div>
+          </div>
+
+          {/* Product Value */}
+          <div className="space-y-4">
+            <div className="bg-white p-6 rounded-lg shadow-lg border-2 border-purple-200">
+              <h3 className="font-bold text-lg mb-3 text-purple-800">Product Value</h3>
+            </div>
+
+            <div className="bg-purple-200 p-3 rounded-lg shadow-md border-2 border-purple-300 text-center">
+              <p className="text-sm font-medium text-gray-800">
+                Revenue problems
+                <br />
+                while using product
+              </p>
+            </div>
+
+            <div className="bg-white p-4 rounded-lg shadow-lg border-2 border-purple-200">
+              <h3 className="font-bold text-center mb-3 text-purple-800">Customer Value</h3>
+              <div className="space-y-2">
+                <div className="bg-purple-100 p-2 rounded text-sm">
+                  Customers :<br />
+                  Online Businesses
                 </div>
-                <div className="flex items-center space-x-2">
-                  <Button size="sm" variant="outline" className="flex-1">
-                    <TrendingUp className="w-4 h-4 mr-2" />
-                    View Metrics
-                  </Button>
-                  <Button size="sm" variant="outline">
-                    <CheckCircle className="w-4 h-4" />
-                  </Button>
+                <div className="bg-blue-100 p-2 rounded text-sm text-center font-medium">HelpDesk</div>
+                <div className="bg-purple-100 p-2 rounded text-sm">
+                  Users :<br />
+                  Customers
                 </div>
               </div>
-            </CardContent>
-          </Card>
-        ))}
+            </div>
+
+            <div className="bg-white p-4 rounded-lg shadow-lg border-2 border-purple-200">
+              <h3 className="font-bold text-center mb-3 text-purple-800">Business Value</h3>
+              <div className="bg-purple-200 p-2 rounded text-sm text-center font-medium">
+                Happy
+                <br />
+                Customers
+              </div>
+            </div>
+          </div>
+
+          {/* Customer Segments */}
+          <div className="bg-white p-6 rounded-lg shadow-lg border-2 border-gray-200">
+            <p className="text-sm font-medium text-gray-800 mb-4">Users using the product.</p>
+            <div className="space-y-2">
+              <div className="bg-gray-100 p-2 rounded text-sm text-center">
+                Customer Support
+                <br />
+                Leader
+              </div>
+              <div className="bg-gray-100 p-2 rounded text-sm text-center">
+                Customer Support
+                <br />
+                Team Lead
+              </div>
+              <div className="bg-gray-100 p-2 rounded text-sm text-center">Customer Support Ops</div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
