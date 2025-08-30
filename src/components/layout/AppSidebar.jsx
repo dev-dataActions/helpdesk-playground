@@ -1,20 +1,6 @@
-import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import {
-  BarChart3,
-  MessageSquare,
-  Ticket,
-  Bot,
-  Phone,
-  Users,
-  Inbox,
-  Settings,
-  Bell,
-  Search,
-  Home,
-  TrendingUp,
-} from "lucide-react";
+import { BarChart3, MessageSquare, Ticket, Bot, Phone, Users, Inbox, Settings, Home, TrendingUp } from "lucide-react";
 
 import {
   Sidebar,
@@ -25,7 +11,6 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarTrigger,
   useSidebar,
 } from "../ui/sidebar";
 
@@ -68,8 +53,10 @@ export function AppSidebar() {
     >
       <SidebarContent className="p-4">
         {/* Logo */}
-        <div className="flex items-center gap-3 px-3 py-2 mb-6">
-          {!collapsed && <span className="inline-block text-lg font-semibold text-sidebar-foreground">Helpdesk</span>}
+        <div className="flex items-center gap-3 px-3 py-2 mb-2">
+          {!collapsed && (
+            <span className="inline-block text-lg text-center font-semibold text-sidebar-foreground">Helpdesk</span>
+          )}
         </div>
 
         {/* Main Navigation */}

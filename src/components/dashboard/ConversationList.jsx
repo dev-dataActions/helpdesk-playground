@@ -1,4 +1,4 @@
-import { Clock, MessageSquare, AlertTriangle } from "lucide-react";
+import { Clock, MessageSquare } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { Badge } from "../ui/badge";
 

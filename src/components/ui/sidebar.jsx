@@ -8,12 +8,12 @@ import { cn } from "../../lib/utils";
 import { Button } from "./button";
 import { Input } from "./input";
 import { Separator } from "./separator";
-import { Sheet, SheetContent } from "./sheet";
+// import { Sheet, SheetContent } from "./sheet";
 import { Skeleton } from "./skeleton";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "./tooltip";
 
-const SIDEBAR_COOKIE_NAME = "sidebar:state";
-const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7;
+// const SIDEBAR_COOKIE_NAME = "sidebar:state";
+// const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7;
 const SIDEBAR_WIDTH = "16rem";
 const SIDEBAR_WIDTH_MOBILE = "18rem";
 const SIDEBAR_WIDTH_ICON = "3rem";
@@ -33,7 +33,7 @@ function useSidebar() {
 const SidebarProvider = React.forwardRef(
   ({ defaultOpen = true, open: openProp, onOpenChange, className, children, ...props }, ref) => {
     const isMobile = useIsMobile();
-    const [openMobile, setOpenMobile] = React.useState(false);
+    const [openMobile] = React.useState(false);
 
     // This is the internal state of the sidebar.
     // We use openProp and onOpenChange to make it controlled from the outside.
@@ -51,8 +51,8 @@ const SidebarProvider = React.forwardRef(
 
     // Helper to toggle the sidebar.
     const toggleSidebar = React.useCallback(() => {
-      return isMobile ? setOpenMobile((open) => !open) : setOpen((open) => !open);
-    }, [isMobile, setOpen, setOpenMobile]);
+      return setOpen((open) => !open);
+    }, [setOpen]);
 
     // Adds a keyboard shortcut to toggle the sidebar.
     React.useEffect(() => {
@@ -86,7 +86,6 @@ const SidebarProvider = React.forwardRef(
           open,
           setOpen,
           openMobile,
-          setOpenMobile,
           isMobile,
           toggleSidebar,
         }}
@@ -110,7 +109,7 @@ const SidebarProvider = React.forwardRef(
 SidebarProvider.displayName = "SidebarProvider";
 
 const Sidebar = React.forwardRef(({ side = "left", variant = "sidebar", className, children, ...props }, ref) => {
-  const { isMobile, state, openMobile, setOpenMobile } = useSidebar();
+  const { isMobile, state, openMobile } = useSidebar();
 
   if (variant === "floating" || variant === "inset") {
     return (
@@ -531,8 +530,6 @@ SidebarMenuSubItem.displayName = "SidebarMenuSubItem";
 
 const SidebarMenuSubButton = React.forwardRef(
   ({ asChild = false, isActive = false, size = "md", isSubItem = false, className, ...props }, ref) => {
-    const Comp = asChild ? Slot : "a";
-
     return (
       <SidebarMenuButton
         asChild={asChild}

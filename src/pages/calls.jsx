@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Phone, PhoneCall, PhoneOff, Clock, User, Search, Filter } from "lucide-react";
+import { Phone, PhoneCall, PhoneOff, Clock, Search, Filter } from "lucide-react";
 import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
 import { Badge } from "../components/ui/badge";

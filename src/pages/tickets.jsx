@@ -1,4 +1,4 @@
-import { MessageSquare, Ticket, Clock, TrendingUp, Bot, Users } from "lucide-react";
+import { Ticket, Clock, TrendingUp, Bot } from "lucide-react";
 import { MetricCard } from "../components/dashboard/MetricCard";
 
 export default function Tickets() {
