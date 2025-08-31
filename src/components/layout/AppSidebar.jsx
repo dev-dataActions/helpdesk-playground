@@ -26,7 +26,7 @@ import {
 } from "../ui/sidebar";
 
 const mainItems = [
-  { title: "Inbox", url: "/inbox", icon: Inbox },
+  { title: "Inbox", url: "/tickets", icon: Inbox },
   { title: "Tickets", url: "/tickets", icon: Ticket },
   { title: "Conversations", url: "/conversations", icon: MessageSquare },
 ];
