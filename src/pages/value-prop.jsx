@@ -40,16 +40,6 @@ export default function ValueProp() {
               <div className="flex flex-col items-center space-y-4">
                 {/* Workflow Steps */}
                 <div className="flex flex-col lg:flex-row items-center gap-4">
-                  <Link
-                    href="/conversations"
-                    className="bg-blue-50 p-2 rounded-xl shadow-sm border border-blue-200 min-w-[120px] text-center hover:bg-blue-100 transition-colors"
-                  >
-                    <div className="text-xs font-medium text-gray-800">Talk to CS Agent</div>
-                    <div className="text-xs text-gray-600">to Resolve Problem</div>
-                  </Link>
-
-                  <ArrowRight className="text-gray-300 w-4 h-4 hidden lg:block" />
-                  <ArrowDown className="text-gray-300 w-4 h-4 lg:hidden" />
 
                   <Link
                     href="/conversations"
@@ -58,7 +48,17 @@ export default function ValueProp() {
                     <div className="text-xs font-medium text-gray-800">Agent resolves ticket</div>
                     <div className="text-xs text-gray-600">with solution & feedback</div>
                   </Link>
+        
+                  <ArrowRight className="text-gray-300 w-4 h-4 hidden lg:block" />
+                  <ArrowDown className="text-gray-300 w-4 h-4 lg:hidden" />
 
+                  <Link
+                    href="/conversations"
+                    className="bg-blue-50 p-2 rounded-xl shadow-sm border border-blue-200 min-w-[120px] text-center hover:bg-blue-100 transition-colors"
+                  >
+                    <div className="text-xs font-medium text-gray-800">Talk to CS Agent</div>
+                    <div className="text-xs text-gray-600">to Resolve Problem</div>
+                  </Link>
                   <ArrowRight className="text-gray-300 w-4 h-4 hidden lg:block" />
                   <ArrowDown className="text-gray-300 w-4 h-4 lg:hidden" />
 
