@@ -30,3 +30,22 @@ export function computeInsightFilters(insight, activeFilters) {
   });
   return filters;
 }
+
+/**
+ * Converts board filters array format to dimension filters object format
+ * @param {Array} boardFilters - Array of filter objects with {dimension, value} structure
+ * @returns {Object} Object with {dimension: value} structure
+ */
+export const convertBoardFiltersToDimensionFilters = (boardFilters) => {
+  if (!boardFilters || !Array.isArray(boardFilters)) {
+    return {};
+  }
+
+  const dimensionFilters = {};
+  for (const filter of boardFilters) {
+    if (filter?.dimension) {
+      dimensionFilters[filter.dimension] = filter.value;
+    }
+  }
+  return dimensionFilters;
+};

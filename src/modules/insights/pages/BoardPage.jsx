@@ -1,7 +1,8 @@
 import { useBoard } from "../hooks/useBoard";
 import { Dropdown, Loader, PanelLayout, Loading, Error } from "da-apps-sdk";
-import { BoardEditor, BoardFilters } from "../components";
-import { useMemo, useState } from "react";
+import { BoardEditor, DecisionFilters } from "../components";
+import { useMemo, useState, useEffect } from "react";
+import { convertBoardFiltersToDimensionFilters } from "../utils/filter.util";
 
 /**
  * Time grain offset constants
@@ -88,6 +89,23 @@ const BoardPage = ({
   const [timeRange, setTimeRange] = useState(TIME_GRAIN_OFFSET.QUARTERLY);
   const [activeFilters, setActiveFilters] = useState(null);
 
+  // Convert board filters to dimension filters format
+  const dimensionFilters = useMemo(() => {
+    return convertBoardFiltersToDimensionFilters(board?.filters);
+  }, [board?.filters]);
+
+  // Initialize active filters from board filters
+  const initialActiveFilters = useMemo(() => {
+    return convertBoardFiltersToDimensionFilters(board?.filters);
+  }, [board?.filters]);
+
+  // Set initial active filters when board loads
+  useEffect(() => {
+    if (board?.filters && !activeFilters) {
+      setActiveFilters(initialActiveFilters);
+    }
+  }, [board?.filters, activeFilters, initialActiveFilters]);
+
   if (loading) {
     return (
       <div className={className}>
@@ -121,11 +139,11 @@ const BoardPage = ({
       onBack={onBack}
     >
       {/* Render filter dropdowns below title/description */}
-      <BoardFilters
-        filters={board.filters}
+      <DecisionFilters
+        filters={dimensionFilters}
         workspaceId={workspaceId}
-        activeFilters={activeFilters}
-        setActiveFilters={setActiveFilters}
+        tenantId={tenantId}
+        onFilterChange={setActiveFilters}
       />
       {activeFilters != null ? (
         <BoardEditor
